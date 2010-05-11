@@ -21,20 +21,20 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptivePostRedirectGetResult"/> class.
         /// </summary>
-        /// <param name="url">The URL.</param>
-        /// <param name="jsonConverters">The json converters.</param>
-        public AdaptivePostRedirectGetResult(string url, IEnumerable<JavaScriptConverter> jsonConverters) : base(url)
+        /// <param name="url">The target URL.</param>
+        /// <exception cref="T:System.ArgumentNullException">The <paramref name="url"/> parameter is null.</exception>
+        public AdaptivePostRedirectGetResult(string url) : this(url, null)
         {
-            JsonConverters = (jsonConverters == null) ? new List<JavaScriptConverter>() : new List<JavaScriptConverter>(jsonConverters);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptivePostRedirectGetResult"/> class.
         /// </summary>
-        /// <param name="url">The target URL.</param>
-        /// <exception cref="T:System.ArgumentNullException">The <paramref name="url"/> parameter is null.</exception>
-        public AdaptivePostRedirectGetResult(string url) : this(url, null)
+        /// <param name="url">The URL.</param>
+        /// <param name="jsonConverters">The json converters.</param>
+        public AdaptivePostRedirectGetResult(string url, IEnumerable<JavaScriptConverter> jsonConverters) : base(url)
         {
+            JsonConverters = (jsonConverters == null) ? new List<JavaScriptConverter>() : new List<JavaScriptConverter>(jsonConverters);
         }
 
         /// <summary>

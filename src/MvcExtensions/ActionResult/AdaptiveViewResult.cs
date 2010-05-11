@@ -20,17 +20,17 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveViewResult"/> class.
         /// </summary>
-        /// <param name="jsonConverters">The json converters.</param>
-        public AdaptiveViewResult(IEnumerable<JavaScriptConverter> jsonConverters)
+        public AdaptiveViewResult() : this(null)
         {
-            JsonConverters = (jsonConverters == null) ? new List<JavaScriptConverter>() : new List<JavaScriptConverter>(jsonConverters);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveViewResult"/> class.
         /// </summary>
-        public AdaptiveViewResult() : this(null)
+        /// <param name="jsonConverters">The json converters.</param>
+        public AdaptiveViewResult(IEnumerable<JavaScriptConverter> jsonConverters)
         {
+            JsonConverters = (jsonConverters == null) ? new List<JavaScriptConverter>() : new List<JavaScriptConverter>(jsonConverters);
         }
 
         /// <summary>
