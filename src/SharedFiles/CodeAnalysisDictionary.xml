@@ -1,9 +1,10 @@
 ﻿<Dictionary>
     <Words>
         <Recognized>
+            <Word>Autofac</Word>
+            <Word>Json</Word>
             <Word>Mvc</Word>
             <Word>Ninject</Word>
-            <Word>Json</Word>
         </Recognized>
     </Words>
 </Dictionary>
