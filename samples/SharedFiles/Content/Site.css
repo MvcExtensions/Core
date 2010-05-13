@@ -289,6 +289,8 @@ div#title
     text-decoration: none;
 }
 
+/* Styles for validation helpers
+-----------------------------------------------------------*/
 .field-validation-error
 {
     color: #ff0000;
@@ -316,6 +318,8 @@ div#title
     display: none;
 }
 
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
 .display-label,
 .editor-label,
 .display-field,
