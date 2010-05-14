@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <packagePath>$(MSBuildProjectDirectory)\..\Drops</packagePath>
+        <artifactPath>$(MSBuildProjectDirectory)\..\Drops</artifactPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
 
         <solution>$(MSBuildProjectDirectory)\MvcExtensions.sln</solution>
@@ -58,13 +58,7 @@
     <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Build;FxCop;NCover;Deploy"/>
 
     <Target Name="Init">
-        <Time Format="yyyyMMddHHmmss">
-            <Output TaskParameter="FormattedTime" PropertyName="buildDate" />
-        </Time>
-        <PropertyGroup>
-            <artifactPath>$(MSBuildProjectDirectory)\Build\Artifacts\$(buildDate)</artifactPath>
-        </PropertyGroup>
-        <MakeDir Directories="$(artifactPath)"/>
+        <MakeDir Directories="$(artifactPath)" Condition="!Exists('$(artifactPath)')"/>
     </Target>
 
     <Target Name="Clean">
@@ -181,6 +175,7 @@
     <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCover"/>
     <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer"/>
     <Target Name="NCover">
+        <Exec Command="RegSvr32 &quot;$(nCoverPath)\CoverLib.dll&quot; /s" />
 
         <NCover
             ToolPath="$(nCoverPath)"
@@ -287,8 +282,6 @@
         <CreateItem Include="$(MSBuildProjectDirectory)\..\license.txt">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
-        <MakeDir Directories="$(packagePath)" Condition="!Exists('$(packagePath)')"/>
-        <Zip Files="@(zipFiles)" ZipFileName="$(packagePath)\$(coreFile)-$(buildDate).zip" Flatten="true" ZipLevel="9"/>
-        <CallTarget Targets="Clean"/>
+        <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).zip" Flatten="true" ZipLevel="9"/>
     </Target>
 </Project>
