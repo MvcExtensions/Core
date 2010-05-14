@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles"
 		SharedFiles\CodeAnalysisDictionary.xml = SharedFiles\CodeAnalysisDictionary.xml
 		SharedFiles\CommonAssemblyInfo.cs = SharedFiles\CommonAssemblyInfo.cs
 		..\license.txt = ..\license.txt
+		MvcExtensions-TeamCity.build = MvcExtensions-TeamCity.build
 		MvcExtensions.build = MvcExtensions.build
 	EndProjectSection
 EndProject
