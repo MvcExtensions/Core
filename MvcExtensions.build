@@ -175,7 +175,6 @@
     <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCover"/>
     <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer"/>
     <Target Name="NCover">
-        <Exec Command="RegSvr32 &quot;$(nCoverPath)\CoverLib.dll&quot; /s" />
 
         <NCover
             ToolPath="$(nCoverPath)"
