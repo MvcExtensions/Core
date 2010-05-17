@@ -82,7 +82,7 @@ namespace MvcExtensions
         protected abstract IBootstrapper CreateBootstrapper();
 
         /// <summary>
-        /// Executes when the request starts.
+        /// Executes when the application starts.
         /// </summary>
         protected virtual void OnStart()
         {
