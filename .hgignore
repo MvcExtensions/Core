@@ -1,0 +1,21 @@
+syntax: glob
+*.obj
+*.pdb
+*.user
+.ncb
+*.suo
+*.[Cc]ache
+*.log
+*.vspscc
+*.scc
+*.zip
+publish.xml
+[Dd]ebug*/
+[Bb]in
+obj/
+[Rr]elease*/
+_Re[Ss]harper*/
+Drops/
+Sample/Demo.Web.*/Views/
+Sample/Demo.Web.*/Scripts/
+Sample/Demo.Web.*/Content/
