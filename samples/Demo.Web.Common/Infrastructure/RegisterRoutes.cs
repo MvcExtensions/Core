@@ -1,3 +1,5 @@
+using System;
+
 namespace Demo.Web
 {
     using System.Web.Mvc;
@@ -7,12 +9,16 @@ namespace Demo.Web
 
     public class RegisterRoutes : RegisterRoutesBase
     {
-        protected override void Register(RouteCollection routes)
+        public RegisterRoutes(RouteCollection routes) : base(routes)
         {
-            routes.IgnoreRoute("favicon.ico");
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+        }
 
-            routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = string.Empty }, new[] { "Demo.Web" });
+        protected override void Register()
+        {
+            Routes.IgnoreRoute("favicon.ico");
+            Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+            Routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional } );
         }
     }
 }

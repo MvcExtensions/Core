@@ -20,5 +20,11 @@ namespace MvcExtensions
         {
             get;
         }
+
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns></returns>
+        TaskContinuation Execute();
     }
 }

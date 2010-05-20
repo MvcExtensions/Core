@@ -15,9 +15,13 @@ namespace MvcExtensions.Tests
 
     public class RegisterActionInvokerTests : IDisposable
     {
+        private readonly Mock<ContainerAdapter> adapter;
+
         public RegisterActionInvokerTests()
         {
             RegisterActionInvoker.Excluded = false;
+
+            adapter = new Mock<ContainerAdapter>();
         }
 
         public void Dispose()
@@ -28,11 +32,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_action_invoker()
         {
-            var adapter = new Mock<FakeAdapter>();
+            adapter.Setup(a => a.RegisterType(null, typeof(IActionInvoker), typeof(ExtendedControllerActionInvoker), LifetimeType.Transient)).Verifiable();
 
-            adapter.Setup(sr => sr.RegisterType(null, typeof(IActionInvoker), typeof(ExtendedControllerActionInvoker), LifetimeType.Transient)).Verifiable();
-
-            new RegisterActionInvoker().Execute(adapter.Object);
+            new RegisterActionInvoker(adapter.Object).Execute();
 
             adapter.Verify();
         }
@@ -42,11 +44,9 @@ namespace MvcExtensions.Tests
         {
             RegisterActionInvoker.Excluded = true;
 
-            var adapter = new Mock<FakeAdapter>();
+            new RegisterActionInvoker(adapter.Object).Execute();
 
-            new RegisterActionInvoker().Execute(adapter.Object);
-
-            adapter.Verify(sr => sr.RegisterType(null, typeof(IActionInvoker), typeof(ExtendedControllerActionInvoker), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(null, typeof(IActionInvoker), typeof(ExtendedControllerActionInvoker), LifetimeType.Transient), Times.Never());
         }
     }
 }

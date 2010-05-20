@@ -19,21 +19,21 @@ namespace MvcExtensions.Tests
 
     public class FilterRegistryTests
     {
-        private readonly Mock<FakeAdapter> adapter;
+        private readonly Mock<ContainerAdapter> adapter;
         private readonly FilterRegistryTestDouble registry;
 
         public FilterRegistryTests()
         {
-            adapter = new Mock<FakeAdapter>();
+            adapter = new Mock<ContainerAdapter>();
 
-            adapter.Setup(sl => sl.GetInstance<DummyFilter1>()).Returns(new DummyFilter1());
-            adapter.Setup(sl => sl.GetInstance<DummyFilter2>()).Returns(new DummyFilter2());
-            adapter.Setup(sl => sl.GetInstance<DummyFilter3>()).Returns(new DummyFilter3());
-            adapter.Setup(sl => sl.GetInstance<DummyFilter4>()).Returns(new DummyFilter4());
-            adapter.Setup(sl => sl.GetInstance(typeof(DummyFilter1))).Returns(new DummyFilter1());
-            adapter.Setup(sl => sl.GetInstance(typeof(DummyFilter2))).Returns(new DummyFilter2());
-            adapter.Setup(sl => sl.GetInstance(typeof(DummyFilter3))).Returns(new DummyFilter3());
-            adapter.Setup(sl => sl.GetInstance(typeof(DummyFilter4))).Returns(new DummyFilter4());
+            adapter.Setup(a => a.GetInstance<DummyFilter1>()).Returns(new DummyFilter1());
+            adapter.Setup(a => a.GetInstance<DummyFilter2>()).Returns(new DummyFilter2());
+            adapter.Setup(a => a.GetInstance<DummyFilter3>()).Returns(new DummyFilter3());
+            adapter.Setup(a => a.GetInstance<DummyFilter4>()).Returns(new DummyFilter4());
+            adapter.Setup(a => a.GetInstance(typeof(DummyFilter1))).Returns(new DummyFilter1());
+            adapter.Setup(a => a.GetInstance(typeof(DummyFilter2))).Returns(new DummyFilter2());
+            adapter.Setup(a => a.GetInstance(typeof(DummyFilter3))).Returns(new DummyFilter3());
+            adapter.Setup(a => a.GetInstance(typeof(DummyFilter4))).Returns(new DummyFilter4());
 
             registry = new FilterRegistryTestDouble(adapter.Object);
         }

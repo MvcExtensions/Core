@@ -13,14 +13,23 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="Controller"/>.
     /// </summary>
     public class RegisterControllers : BootstrapperTask
     {
         private static readonly IList<Type> ignoredTypes = new List<Type>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisterControllers"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        public RegisterControllers(ContainerAdapter container)
+        {
+            Invariant.IsNotNull(container, "container");
+
+            Container = container;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="RegisterControllers"/> should be excluded.
@@ -46,28 +55,32 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
             if (!Excluded)
             {
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
+                Func<Type, bool> filter = type => KnownTypes.ControllerType.IsAssignableFrom(type) &&
+                                                  type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                                  !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
+                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                if (serviceRegistrar != null)
-                {
-                    Func<Type, bool> filter = type => KnownTypes.ControllerType.IsAssignableFrom(type) &&
-                                                      type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                      !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
-                                                      !IgnoredTypes.Any(ignoredType => ignoredType == type);
-
-                    serviceLocator.GetInstance<IBuildManager>()
-                                  .ConcreteTypes
-                                  .Where(filter)
-                                  .Each(type => serviceRegistrar.RegisterAsTransient(type));
-                }
+                Container.GetInstance<IBuildManager>()
+                         .ConcreteTypes
+                         .Where(filter)
+                         .Each(type => Container.RegisterAsTransient(type));
             }
 
             return TaskContinuation.Continue;

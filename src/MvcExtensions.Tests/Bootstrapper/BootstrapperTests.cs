@@ -18,14 +18,14 @@ namespace MvcExtensions.Tests
 
     public class BootstrapperTests
     {
-        private readonly Mock<FakeAdapter> adapter;
+        private readonly Mock<ContainerAdapter> adapter;
         private readonly Mock<IBuildManager> buildManager;
         private readonly Bootstrapper bootstrapper;
 
         public BootstrapperTests()
         {
             buildManager = new Mock<IBuildManager>();
-            adapter = new Mock<FakeAdapter>();
+            adapter = new Mock<ContainerAdapter>();
 
             adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
             adapter.Setup(a => a.RegisterInstance(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<object>())).Returns(adapter.Object);
@@ -36,10 +36,10 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Execute_should_execute_bootstrapper_tasks()
         {
-            var task = new Mock<IBootstrapperTask>();
-            task.Setup(t => t.Execute(adapter.Object)).Verifiable();
+            var task = new Mock<BootstrapperTask>();
+            task.Setup(t => t.Execute()).Verifiable();
 
-            adapter.Setup(sl => sl.GetAllInstances<IBootstrapperTask>()).Returns(new[] { task.Object }).Verifiable();
+            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task.Object }).Verifiable();
 
             bootstrapper.Execute();
 
@@ -50,24 +50,21 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Dispose_should_dispose_bootstrapper_tasks()
         {
-            var task = new Mock<IBootstrapperTask>();
-            task.Setup(t => t.Dispose()).Verifiable();
+            var task = new DummyTask();
 
-            adapter.Setup(sl => sl.GetAllInstances<IBootstrapperTask>()).Returns(new[] { task.Object }).Verifiable();
+            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task }).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             bootstrapper.Dispose();
 
-            task.VerifyAll();
-            adapter.VerifyAll();
+            Assert.True(task.Disposed);
         }
 
         [Fact]
-        public void ServiceLocator_should_be_set()
+        public void Container_should_be_set()
         {
-            Assert.Same(adapter.Object, bootstrapper.ServiceLocator);
-            Assert.Same(adapter.Object, ServiceLocator.Current);
+            Assert.Same(adapter.Object, bootstrapper.Adapter);
         }
 
         [Fact]
@@ -75,7 +72,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(RouteCollection), RouteTable.Routes)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -85,7 +82,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(ControllerBuilder), ControllerBuilder.Current)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -95,7 +92,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(ModelBinderDictionary), ModelBinders.Binders)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -105,7 +102,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(ViewEngineCollection), ViewEngines.Engines)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -115,7 +112,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(IBuildManager), buildManager.Object)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -125,7 +122,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceRegistrar), adapter.Object)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -135,7 +132,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceLocator), adapter.Object)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -145,7 +142,17 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceInjector), adapter.Object)).Returns(adapter.Object).Verifiable();
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
+
+            adapter.Verify();
+        }
+
+        [Fact]
+        public void Should_register_adapter()
+        {
+            adapter.Setup(a => a.RegisterInstance(null, typeof(ContainerAdapter), adapter.Object)).Returns(adapter.Object).Verifiable();
+
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -155,7 +162,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterType(null, typeof(IFilterRegistry), typeof(FilterRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -165,7 +172,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterType(null, typeof(ValueProviderFactoryCollection), typeof(ValueProviderFactoryCollection), LifetimeType.Singleton)).Returns(adapter.Object);
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -173,11 +180,13 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_bootstrapper_tasks_as_singleton()
         {
-            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(TestBootstrapperTask) });
+            var task = new Mock<BootstrapperTask>().Object;
 
-            adapter.Setup(a => a.RegisterType(null, typeof(IBootstrapperTask), typeof(TestBootstrapperTask), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
+            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { task.GetType() });
 
-            Assert.NotNull(bootstrapper.ServiceLocator);
+            adapter.Setup(a => a.RegisterType(null, typeof(BootstrapperTask), task.GetType(), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
+
+            Assert.NotNull(bootstrapper.Adapter);
 
             adapter.Verify();
         }
@@ -185,43 +194,43 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_skip_tasks()
         {
-            var task1 = new Mock<IBootstrapperTask>();
-            var task2 = new Mock<IBootstrapperTask>();
+            var task1 = new Mock<BootstrapperTask>();
+            var task2 = new Mock<BootstrapperTask>();
 
-            task1.Setup(t => t.Execute(It.IsAny<IServiceLocator>())).Returns(TaskContinuation.Skip);
+            task1.Setup(t => t.Execute()).Returns(TaskContinuation.Skip);
 
-            adapter.Setup(sl => sl.GetAllInstances<IBootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
+            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
             bootstrapper.Execute();
 
-            task2.Verify(t => t.Execute(It.IsAny<IServiceLocator>()), Times.Never());
+            task2.Verify(t => t.Execute(), Times.Never());
         }
 
         [Fact]
         public void Should_be_able_to_break_tasks()
         {
-            var task1 = new Mock<IBootstrapperTask>();
-            var task2 = new Mock<IBootstrapperTask>();
+            var task1 = new Mock<BootstrapperTask>();
+            var task2 = new Mock<BootstrapperTask>();
 
-            task1.Setup(t => t.Execute(It.IsAny<IServiceLocator>())).Returns(TaskContinuation.Break);
+            task1.Setup(t => t.Execute()).Returns(TaskContinuation.Break);
 
-            adapter.Setup(sl => sl.GetAllInstances<IBootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
+            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
             bootstrapper.Execute();
 
-            task2.Verify(t => t.Execute(It.IsAny<IServiceLocator>()), Times.Never());
+            task2.Verify(t => t.Execute(), Times.Never());
         }
 
         private sealed class BootstrapperTestDouble : Bootstrapper
         {
-            private readonly Mock<FakeAdapter> adapter;
+            private readonly Mock<ContainerAdapter> adapter;
 
-            public BootstrapperTestDouble(Mock<FakeAdapter> adapter, IBuildManager buildManager) : base(buildManager)
+            public BootstrapperTestDouble(Mock<ContainerAdapter> adapter, IBuildManager buildManager) : base(buildManager)
             {
                 this.adapter = adapter;
             }
 
-            protected override IServiceLocator CreateServiceLocator()
+            protected override ContainerAdapter CreateAdapter()
             {
                 return adapter.Object;
             }
@@ -231,23 +240,19 @@ namespace MvcExtensions.Tests
             }
         }
 
-        private sealed class TestBootstrapperTask : IBootstrapperTask
+        private sealed class DummyTask : BootstrapperTask
         {
-            public int Order
-            {
-                get
-                {
-                    return int.MaxValue;
-                }
-            }
+            public bool Disposed { get; private set; }
 
-            public void Dispose()
-            {
-            }
-
-            public TaskContinuation Execute(IServiceLocator serviceLocator)
+            public override TaskContinuation Execute()
             {
                 return TaskContinuation.Continue;
+            }
+
+            protected override void DisposeCore()
+            {
+                base.DisposeCore();
+                Disposed = true;
             }
         }
     }

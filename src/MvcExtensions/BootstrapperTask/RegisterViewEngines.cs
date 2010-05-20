@@ -13,8 +13,6 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="IViewEngine"/>.
     /// </summary>
@@ -25,11 +23,14 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterViewEngines"/> class.
         /// </summary>
+        /// <param name="container">The container.</param>
         /// <param name="viewEngines">The view engines.</param>
-        public RegisterViewEngines(ViewEngineCollection viewEngines)
+        public RegisterViewEngines(ContainerAdapter container, ViewEngineCollection viewEngines)
         {
+            Invariant.IsNotNull(container, "container");
             Invariant.IsNotNull(viewEngines, "viewEngines");
 
+            Container = container;
             ViewEngines = viewEngines;
         }
 
@@ -57,6 +58,16 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the view engines.
         /// </summary>
         /// <value>The view engines.</value>
@@ -69,38 +80,34 @@ namespace MvcExtensions
         /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
-            if (!Excluded)
+            if (Excluded)
             {
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
-
-                if (serviceRegistrar != null)
-                {
-                    IEnumerable<Type> viewEngineTypes = ViewEngines.Select(ve => ve.GetType()).ToList();
-
-                    Func<Type, bool> filter = type => KnownTypes.ViewEngineType.IsAssignableFrom(type) &&
-                                                      type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                      !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
-                                                      !viewEngineTypes.Any(engineType => engineType == type);
-
-                    serviceLocator.GetInstance<IBuildManager>()
-                                  .ConcreteTypes
-                                  .Where(filter)
-                                  .Each(type => serviceRegistrar.RegisterAsSingleton(KnownTypes.ViewEngineType, type));
-
-                    serviceLocator.GetAllInstances<IViewEngine>()
-                                  .Each(engine =>
-                                            {
-                                                if (engine != null)
-                                                {
-                                                    ViewEngines.Add(engine);
-                                                }
-                                            });
-                }
+                return TaskContinuation.Continue;
             }
+
+            IEnumerable<Type> viewEngineTypes = ViewEngines.Select(ve => ve.GetType()).ToList();
+
+            Func<Type, bool> filter = type => KnownTypes.ViewEngineType.IsAssignableFrom(type) &&
+                                              type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                              !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
+                                              !viewEngineTypes.Any(engineType => engineType == type);
+
+            Container.GetInstance<IBuildManager>()
+                     .ConcreteTypes
+                     .Where(filter)
+                     .Each(type => Container.RegisterAsSingleton(KnownTypes.ViewEngineType, type));
+
+            Container.GetAllInstances<IViewEngine>()
+                     .Each(engine =>
+                            {
+                                if (engine != null)
+                                {
+                                    ViewEngines.Add(engine);
+                                }
+                            });
 
             return TaskContinuation.Continue;
         }

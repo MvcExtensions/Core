@@ -42,5 +42,11 @@ namespace MvcExtensions
             get;
             protected set;
         }
+
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns></returns>
+        public abstract TaskContinuation Execute();
     }
 }

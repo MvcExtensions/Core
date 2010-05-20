@@ -7,14 +7,12 @@
 
 namespace MvcExtensions
 {
-    using System;
     using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
 
     using Microsoft.Practices.ServiceLocation;
-    using OriginalLocator = Microsoft.Practices.ServiceLocation.ServiceLocator;
 
     /// <summary>
     /// Defines a base class which is used to execute application startup and cleanup tasks.
@@ -22,7 +20,7 @@ namespace MvcExtensions
     public abstract class Bootstrapper : Disposable, IBootstrapper
     {
         private readonly object syncLock = new object();
-        private IServiceLocator serviceLocator;
+        private ContainerAdapter container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bootstrapper"/> class.
@@ -36,27 +34,27 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        public IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        public ContainerAdapter Adapter
         {
             [DebuggerStepThrough]
             get
             {
-                if (serviceLocator == null)
+                if (container == null)
                 {
                     lock (syncLock)
                     {
-                        if (serviceLocator == null)
+                        if (container == null)
                         {
-                            serviceLocator = CreateAndSetCurrent();
+                            container = CreateAndSetCurrent();
                             LoadModules();
                         }
                     }
                 }
 
-                return serviceLocator;
+                return container;
             }
         }
 
@@ -71,13 +69,13 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Executes the <seealso cref="IBootstrapperTask"/>.
+        /// Executes the <seealso cref="BootstrapperTask"/>.
         /// </summary>
         public void Execute()
         {
             bool shouldSkip = false;
 
-            foreach (IBootstrapperTask task in ServiceLocator.GetAllInstances<IBootstrapperTask>().OrderBy(task => task.Order).ToList())
+            foreach (BootstrapperTask task in Adapter.GetAllInstances<BootstrapperTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -85,7 +83,7 @@ namespace MvcExtensions
                     continue;
                 }
 
-                TaskContinuation continuation = task.Execute(ServiceLocator);
+                TaskContinuation continuation = task.Execute();
 
                 if (continuation == TaskContinuation.Break)
                 {
@@ -97,10 +95,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Creates the service locator.
+        /// Creates the container adapter.
         /// </summary>
         /// <returns></returns>
-        protected abstract IServiceLocator CreateServiceLocator();
+        protected abstract ContainerAdapter CreateAdapter();
 
         /// <summary>
         /// Loads the container specific modules.
@@ -112,56 +110,45 @@ namespace MvcExtensions
         /// </summary>
         protected override void DisposeCore()
         {
-            if (serviceLocator != null)
+            if (container != null)
             {
-                serviceLocator.GetAllInstances<IBootstrapperTask>()
-                              .OrderByDescending(task => task.Order)
-                              .Each(task => task.Dispose());
+                container.GetAllInstances<BootstrapperTask>()
+                         .OrderByDescending(task => task.Order)
+                         .Each(task => task.Dispose());
 
-                IDisposable disposable = serviceLocator as IDisposable;
-
-                if (disposable != null)
-                {
-                    disposable.Dispose();
-                }
+                container.Dispose();
             }
         }
 
-        private static void Register(IServiceRegistrar serviceRegistrar, IServiceLocator serviceLocator, IBuildManager buildManager)
+        private static void Register(ContainerAdapter adapter, IBuildManager buildManager)
         {
-            serviceRegistrar.RegisterInstance<RouteCollection>(RouteTable.Routes)
-                            .RegisterInstance<ControllerBuilder>(ControllerBuilder.Current)
-                            .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
-                            .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
-                            .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
-                            .RegisterInstance<IBuildManager>(buildManager)
-                            .RegisterInstance<IServiceRegistrar>(serviceRegistrar)
-                            .RegisterInstance<IServiceLocator>(serviceLocator)
-                            .RegisterAsSingleton<IFilterRegistry, FilterRegistry>();
-
-            if (serviceLocator is IServiceInjector)
-            {
-                serviceRegistrar.RegisterInstance<IServiceInjector>(serviceLocator);
-            }
+            adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
+                   .RegisterInstance<ControllerBuilder>(ControllerBuilder.Current)
+                   .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
+                   .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
+                   .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
+                   .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
+                   .RegisterInstance<IBuildManager>(buildManager);
 
             buildManager.ConcreteTypes
                         .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))
-                        .Each(type => serviceRegistrar.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
+                        .Each(type => adapter.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
+
+            adapter.RegisterInstance<IServiceRegistrar>(adapter)
+                   .RegisterInstance<IServiceLocator>(adapter)
+                   .RegisterInstance<IServiceInjector>(adapter)
+                   .RegisterInstance<ContainerAdapter>(adapter);
         }
 
-        private IServiceLocator CreateAndSetCurrent()
+        private ContainerAdapter CreateAndSetCurrent()
         {
-            IServiceLocator locator = CreateServiceLocator();
-            IServiceRegistrar serviceRegistrar = locator as IServiceRegistrar;
+            ContainerAdapter adapter = CreateAdapter();
 
-            if (serviceRegistrar != null)
-            {
-                Register(serviceRegistrar, locator, BuildManager);
-            }
+            Register(adapter, BuildManager);
 
-            OriginalLocator.SetLocatorProvider(() => locator);
+            ServiceLocator.SetLocatorProvider(() => adapter);
 
-            return locator;
+            return adapter;
         }
     }
 }

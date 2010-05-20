@@ -12,23 +12,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class which is executed for each request. This is similar to <seealso cref="IHttpModule"/> with only begin and end support.
     /// </summary>
-    public abstract class PerRequestTask : OrderableTask, IPerRequestTask
+    public abstract class PerRequestTask : OrderableTask
     {
-        /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
-        /// </summary>
-        /// <param name="executionContext">The execution context.</param>
-        public TaskContinuation Execute(PerRequestExecutionContext executionContext)
-        {
-            Invariant.IsNotNull(executionContext, "executionContext");
-
-            return ExecuteCore(executionContext);
-        }
-
-        /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
-        /// </summary>
-        /// <param name="executionContext">The execution context.</param>
-        protected abstract TaskContinuation ExecuteCore(PerRequestExecutionContext executionContext);
     }
 }

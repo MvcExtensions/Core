@@ -12,8 +12,6 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a base class to manage application life cycle.
     /// </summary>
@@ -43,6 +41,19 @@ namespace MvcExtensions
                 }
 
                 return bootstrapper;
+            }
+        }
+
+        /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        public ContainerAdapter Container
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return Bootstrapper.Adapter;
             }
         }
 
@@ -89,19 +100,15 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Called when [begin request].
+        /// Called when request starts.
         /// </summary>
         protected virtual void OnBeginRequest(HttpContextBase context)
         {
             OnPerRequestTasksExecuting();
 
-            IServiceLocator serviceLocator = Bootstrapper.ServiceLocator;
-
-            PerRequestExecutionContext perRequestExecutionContext = new PerRequestExecutionContext(context, serviceLocator);
-
             bool shouldSkip = false;
 
-            foreach (IPerRequestTask task in serviceLocator.GetAllInstances<IPerRequestTask>().OrderBy(task => task.Order))
+            foreach (PerRequestTask task in Container.GetAllInstances<PerRequestTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -109,7 +116,7 @@ namespace MvcExtensions
                     continue;
                 }
 
-                TaskContinuation continuation = task.Execute(perRequestExecutionContext);
+                TaskContinuation continuation = task.Execute();
 
                 if (continuation == TaskContinuation.Break)
                 {
@@ -123,14 +130,14 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Executes before the registered <see cref="IPerRequestTask"/> executes.
+        /// Executes before the registered <see cref="PerRequestTask"/> executes.
         /// </summary>
         protected virtual void OnPerRequestTasksExecuting()
         {
         }
 
         /// <summary>
-        /// Executes after the registered <see cref="IPerRequestTask"/> executes.
+        /// Executes after the registered <see cref="PerRequestTask"/> executes.
         /// </summary>
         protected virtual void OnPerRequestTasksExecuted()
         {
@@ -143,23 +150,22 @@ namespace MvcExtensions
         {
             OnPerRequestTasksDisposing();
 
-            Bootstrapper.ServiceLocator
-                        .GetAllInstances<IPerRequestTask>()
-                        .OrderByDescending(task => task.Order)
-                        .Each(task => task.Dispose());
+            Container.GetAllInstances<PerRequestTask>()
+                     .OrderByDescending(task => task.Order)
+                     .Each(task => task.Dispose());
 
             OnPerRequestTasksDisposed();
         }
 
         /// <summary>
-        /// Executes before the registered <see cref="IPerRequestTask"/> disposes.
+        /// Executes before the registered <see cref="PerRequestTask"/> disposes.
         /// </summary>
         protected virtual void OnPerRequestTasksDisposing()
         {
         }
 
         /// <summary>
-        /// Executes after the registered <see cref="IPerRequestTask"/> disposes.
+        /// Executes after the registered <see cref="PerRequestTask"/> disposes.
         /// </summary>
         protected virtual void OnPerRequestTasksDisposed()
         {

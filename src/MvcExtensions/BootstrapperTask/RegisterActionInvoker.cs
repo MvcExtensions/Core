@@ -9,13 +9,22 @@ namespace MvcExtensions
 {
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="IActionInvoker"/>.
     /// </summary>
     public class RegisterActionInvoker : BootstrapperTask
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisterActionInvoker"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        public RegisterActionInvoker(ContainerAdapter container)
+        {
+            Invariant.IsNotNull(container, "container");
+
+            Container = container;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="RegisterActionInvoker"/> should be excluded.
         /// </summary>
@@ -27,20 +36,24 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
             if (!Excluded)
             {
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
-
-                if (serviceRegistrar != null)
-                {
-                    serviceRegistrar.RegisterAsTransient<IActionInvoker, ExtendedControllerActionInvoker>();
-                }
+                Container.RegisterAsTransient<IActionInvoker, ExtendedControllerActionInvoker>();
             }
 
             return TaskContinuation.Continue;

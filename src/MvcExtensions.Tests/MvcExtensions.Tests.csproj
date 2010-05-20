@@ -111,12 +111,12 @@
     <Compile Include="ExtensionMethod\ObjectExtensions.cs" />
     <Compile Include="ExtensionMethod\ViewDataDictionaryExtensionsTests.cs" />
     <Compile Include="Helper\QValueSorterTests.cs" />
+    <Compile Include="IoC\ContainerAdapterTests.cs" />
     <Compile Include="IoC\ServiceRegistrarExtensionsTests.cs" />
     <Compile Include="BootstrapperTask\RegisterModelMetadataTests.cs" />
     <Compile Include="BuildManager\BuildManagerWrapperTests.cs" />
     <Compile Include="ModelBinder\BindingTypeAttributeTests.cs" />
     <Compile Include="Bootstrapper\BootstrapperTests.cs" />
-    <Compile Include="BootstrapperTask\BootstrapperTaskTests.cs" />
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
     <Compile Include="Controller\ExtendedControllerActionInvokerTests.cs" />
@@ -153,13 +153,10 @@
     <Compile Include="Routing\PositiveLongConstraintTests.cs" />
     <Compile Include="Routing\RangeConstraintTests.cs" />
     <Compile Include="Routing\RegexConstraintTests.cs" />
-    <Compile Include="TestHelpers\FakeAdapter.cs" />
     <Compile Include="ActionFilter\FilterRegistryActionItemTests.cs" />
     <Compile Include="ActionFilter\FilterRegistryControllerItemTests.cs" />
     <Compile Include="ActionFilter\FilterRegistryTests.cs" />
     <Compile Include="Helper\InvariantTests.cs" />
-    <Compile Include="PerRequestTask\PerRequestExecutionContextTests.cs" />
-    <Compile Include="PerRequestTask\PerRequestTaskTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerFactoryTests.cs" />
     <Compile Include="BootstrapperTask\ConfigureFiltersBaseTests.cs" />

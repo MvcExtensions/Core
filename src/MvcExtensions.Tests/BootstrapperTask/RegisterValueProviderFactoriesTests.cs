@@ -17,10 +17,22 @@ namespace MvcExtensions.Tests
 
     public class RegisterValueProviderFactoriesTests : IDisposable
     {
+        private readonly Mock<ContainerAdapter> adapter;
+
         public RegisterValueProviderFactoriesTests()
         {
             RegisterValueProviderFactories.Excluded = false;
             RegisterValueProviderFactories.IgnoredTypes.Clear();
+
+            var buildManager = new Mock<IBuildManager>();
+            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyValueProviderFactory) });
+
+            var factories = new List<ValueProviderFactory>();
+
+            adapter = new Mock<ContainerAdapter>();
+            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => factories.Add((ValueProviderFactory)Activator.CreateInstance(t2)));
+            adapter.Setup(a => a.GetAllInstances<ValueProviderFactory>()).Returns(() => factories);
         }
 
         public void Dispose()
@@ -34,7 +46,7 @@ namespace MvcExtensions.Tests
         {
             var valueProviderFactories = new ValueProviderFactoryCollection();
 
-            new RegisterValueProviderFactories(valueProviderFactories).Execute(SetupAdapter().Object);
+            new RegisterValueProviderFactories(adapter.Object, valueProviderFactories).Execute();
 
             Assert.Equal(1, valueProviderFactories.Count);
         }
@@ -46,7 +58,7 @@ namespace MvcExtensions.Tests
 
             RegisterValueProviderFactories.Excluded = true;
 
-            new RegisterValueProviderFactories(valueProviderFactories).Execute(SetupAdapter().Object);
+            new RegisterValueProviderFactories(adapter.Object, valueProviderFactories).Execute();
 
             Assert.Empty(valueProviderFactories);
         }
@@ -54,11 +66,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_value_provider_factory_when_factory_exists_in_ignored_list()
         {
-            var adapter = SetupAdapter();
-
             RegisterValueProviderFactories.IgnoredTypes.Add(typeof(DummyValueProviderFactory));
 
-            new RegisterValueProviderFactories(new ValueProviderFactoryCollection()).Execute(adapter.Object);
+            new RegisterValueProviderFactories(adapter.Object, new ValueProviderFactoryCollection()).Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Singleton), Times.Never());
         }
@@ -68,26 +78,9 @@ namespace MvcExtensions.Tests
         {
             var factories = new ValueProviderFactoryCollection { new DummyValueProviderFactory() };
 
-            new RegisterValueProviderFactories(factories).Execute(SetupAdapter().Object);
+            new RegisterValueProviderFactories(adapter.Object, factories).Execute();
 
             Assert.Equal(1, factories.Count(f => f.GetType() == typeof(DummyValueProviderFactory)));
-        }
-
-        private static Mock<FakeAdapter> SetupAdapter()
-        {
-            var buildManager = new Mock<IBuildManager>();
-            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyValueProviderFactory) });
-
-            var adapter = new Mock<FakeAdapter>();
-
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
-
-            var factories = new List<ValueProviderFactory>();
-
-            adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => factories.Add((ValueProviderFactory)Activator.CreateInstance(t2)));
-            adapter.Setup(a => a.GetAllInstances<ValueProviderFactory>()).Returns(() => factories);
-
-            return adapter;
         }
 
         private sealed class DummyValueProviderFactory : ValueProviderFactory

@@ -8,24 +8,23 @@
 namespace MvcExtensions
 {
     using System;
-    using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
-    /// Represents an interface which is used to execute <seealso cref="IBootstrapperTask"/>.
+    /// Represents an interface which is used to execute <seealso cref="BootstrapperTask"/>.
     /// </summary>
     public interface IBootstrapper : IDisposable
     {
         /// <summary>
-        /// Gets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        ContainerAdapter Adapter
         {
             get;
         }
 
         /// <summary>
-        /// Executes the <seealso cref="IBootstrapperTask"/>.
+        /// Executes the <seealso cref="BootstrapperTask"/>.
         /// </summary>
         void Execute();
     }

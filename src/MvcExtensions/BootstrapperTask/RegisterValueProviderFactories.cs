@@ -13,8 +13,6 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="ValueProviderFactory"/>.
     /// </summary>
@@ -25,12 +23,15 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterValueProviderFactories"/> class.
         /// </summary>
-        /// <param name="factories">The factories.</param>
-        public RegisterValueProviderFactories(ValueProviderFactoryCollection factories)
+        /// <param name="container">The container.</param>
+        /// <param name="valueProviderFactories">The value provider factories.</param>
+        public RegisterValueProviderFactories(ContainerAdapter container, ValueProviderFactoryCollection valueProviderFactories)
         {
-            Invariant.IsNotNull(factories, "factories");
+            Invariant.IsNotNull(container, "container");
+            Invariant.IsNotNull(valueProviderFactories, "valueProviderFactories");
 
-            Factories = factories;
+            Container = container;
+            ValueProviderFactories = valueProviderFactories;
         }
 
         /// <summary>
@@ -57,10 +58,20 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets the factories.
+        /// Gets the container.
         /// </summary>
-        /// <value>The factories.</value>
-        protected ValueProviderFactoryCollection Factories
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the value provider factories.
+        /// </summary>
+        /// <value>The value provider factories.</value>
+        protected ValueProviderFactoryCollection ValueProviderFactories
         { 
             get;
             private set;
@@ -69,29 +80,23 @@ namespace MvcExtensions
         /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
             if (!Excluded)
             {
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
+                Func<Type, bool> filter = type => KnownTypes.ValueProviderFactoryType.IsAssignableFrom(type) &&
+                                                  type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
+                                                  !ValueProviderFactories.Any(factory => factory.GetType() == type);
 
-                if (serviceRegistrar != null)
-                {
-                    Func<Type, bool> filter = type => KnownTypes.ValueProviderFactoryType.IsAssignableFrom(type) &&
-                                                      type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                      !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
-                                                      !Factories.Any(factory => factory.GetType() == type);
+                Container.GetInstance<IBuildManager>()
+                         .ConcreteTypes
+                         .Where(filter)
+                         .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
 
-                    serviceLocator.GetInstance<IBuildManager>()
-                                  .ConcreteTypes
-                                  .Where(filter)
-                                  .Each(type => serviceRegistrar.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
-
-                    serviceLocator.GetAllInstances<ValueProviderFactory>()
-                                  .Each(factory => Factories.Add(factory));
-                }
+                Container.GetAllInstances<ValueProviderFactory>()
+                         .Each(factory => ValueProviderFactories.Add(factory));
             }
 
             return TaskContinuation.Continue;

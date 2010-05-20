@@ -15,9 +15,17 @@ namespace MvcExtensions.Tests
 
     public class RegisterControllerFactoryTests : IDisposable
     {
+        private readonly Mock<ContainerAdapter> adapter;
+        private readonly Mock<IControllerFactory> controllerFactory;
+
         public RegisterControllerFactoryTests()
         {
             RegisterControllerFactory.Excluded = false;
+
+            adapter = new Mock<ContainerAdapter>();
+            controllerFactory = new Mock<IControllerFactory>();
+
+            adapter.Setup(a => a.GetInstance<IControllerFactory>()).Returns(controllerFactory.Object);
         }
 
         public void Dispose()
@@ -28,14 +36,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_controller_factory()
         {
-            var adapter = new Mock<FakeAdapter>();
-            var controllerFactory = new Mock<IControllerFactory>();
-
-            adapter.Setup(sl => sl.GetInstance<IControllerFactory>()).Returns(controllerFactory.Object);
-
             var builder = new ControllerBuilder();
 
-            new RegisterControllerFactory(builder).Execute(adapter.Object);
+            new RegisterControllerFactory(adapter.Object, builder).Execute();
 
             Assert.Same(controllerFactory.Object, builder.GetControllerFactory());
         }
@@ -45,15 +48,9 @@ namespace MvcExtensions.Tests
         {
             RegisterControllerFactory.Excluded = true;
 
-            var controllerFactory = new Mock<IControllerFactory>();
-
-            var adapter = new Mock<FakeAdapter>();
-
-            adapter.Setup(sl => sl.GetInstance<IControllerFactory>()).Returns(controllerFactory.Object);
-
             var builder = new ControllerBuilder();
 
-            new RegisterControllerFactory(builder).Execute(adapter.Object);
+            new RegisterControllerFactory(adapter.Object, builder).Execute();
 
             Assert.NotSame(controllerFactory.Object, builder.GetControllerFactory());
         }

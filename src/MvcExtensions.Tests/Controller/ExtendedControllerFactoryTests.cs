@@ -21,14 +21,14 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_create_controller()
         {
-            var adapter = new Mock<FakeAdapter>();
+            var adapter = new Mock<ContainerAdapter>();
             var controllerFactory = new ExtendedControllerFactoryTestDouble(adapter.Object);
 
             var actionInvoker = new Mock<IActionInvoker>();
             var controller = new Mock<Controller>();
 
-            adapter.Setup(sl => sl.GetInstance(It.Is<Type>(type => typeof(Controller).IsAssignableFrom(type)))).Returns(controller.Object);
-            adapter.Setup(sl => sl.GetInstance<IActionInvoker>()).Returns(actionInvoker.Object);
+            adapter.Setup(a => a.GetInstance(It.Is<Type>(type => typeof(Controller).IsAssignableFrom(type)))).Returns(controller.Object);
+            adapter.Setup(a => a.GetInstance<IActionInvoker>()).Returns(actionInvoker.Object);
 
             controllerFactory.PublicGetControllerInstance(null, controller.Object.GetType());
 

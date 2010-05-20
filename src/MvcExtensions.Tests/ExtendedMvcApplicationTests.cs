@@ -13,8 +13,6 @@ namespace MvcExtensions.Tests
     using System.Reflection;
     using System.Web;
 
-    using Microsoft.Practices.ServiceLocation;
-
     using Moq;
     using Xunit;
 
@@ -24,14 +22,14 @@ namespace MvcExtensions.Tests
 
         private readonly ExtendedMvcApplicationTestDouble httpApplication;
         private readonly Mock<IBootstrapper> bootstrapper;
-        private readonly Mock<IServiceLocator> serviceLocator;
+        private readonly Mock<ContainerAdapter> container;
 
         public ExtendedMvcApplicationTests()
         {
-            serviceLocator = new Mock<IServiceLocator>();
+            container = new Mock<ContainerAdapter>();
 
             bootstrapper = new Mock<IBootstrapper>();
-            bootstrapper.Setup(bs => bs.ServiceLocator).Returns(serviceLocator.Object);
+            bootstrapper.Setup(bs => bs.Adapter).Returns(container.Object);
 
             httpApplication = new ExtendedMvcApplicationTestDouble(bootstrapper.Object);
         }
@@ -88,56 +86,51 @@ namespace MvcExtensions.Tests
         [Fact]
         public void OnBeginRequest_should_call_execute_of_per_request_task_in_ascending_order()
         {
-            var order = new Queue<int>();
+            var executionList = new Queue<PerRequestTask>();
 
-            var task1 = new Mock<IPerRequestTask>();
-            task1.Setup(t => t.Order).Returns(99);
-            task1.Setup(t => t.Execute(It.IsAny<PerRequestExecutionContext>())).Callback(() => order.Enqueue(1));
+            var task1 = new DummyTask(99, executionList);
+            var task2 = new DummyTask(100, executionList);
 
-            var task2 = new Mock<IPerRequestTask>();
-            task2.Setup(t => t.Order).Returns(100);
-            task2.Setup(t => t.Execute(It.IsAny<PerRequestExecutionContext>())).Callback(() => order.Enqueue(2));
-
-            serviceLocator.Setup(sl => sl.GetAllInstances<IPerRequestTask>()).Returns(new[] { task1.Object, task2.Object });
+            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1, task2 });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
-            Assert.Equal(1, order.Dequeue());
-            Assert.Equal(2, order.Dequeue());
+            Assert.Same(task1, executionList.Dequeue());
+            Assert.Same(task2, executionList.Dequeue());
         }
 
         [Fact]
         public void OnBeginRequest_should_skip_next_task_when_previous_task_returns_continuation_as_skip()
         {
-            var task1 = new Mock<IPerRequestTask>();
-            task1.Setup(t => t.Execute(It.IsAny<PerRequestExecutionContext>())).Returns(TaskContinuation.Skip);
+            var task1 = new Mock<PerRequestTask>();
+            task1.Setup(t => t.Execute()).Returns(TaskContinuation.Skip);
 
-            var task2 = new Mock<IPerRequestTask>();
-            var task3 = new Mock<IPerRequestTask>();
+            var task2 = new Mock<PerRequestTask>();
+            var task3 = new Mock<PerRequestTask>();
 
-            serviceLocator.Setup(sl => sl.GetAllInstances<IPerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
+            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
-            task2.Verify(t => t.Execute(It.IsAny<PerRequestExecutionContext>()), Times.Never());
-            task3.Verify(t => t.Execute(It.IsAny<PerRequestExecutionContext>()), Times.AtLeastOnce());
+            task2.Verify(t => t.Execute(), Times.Never());
+            task3.Verify(t => t.Execute(), Times.AtLeastOnce());
         }
 
         [Fact]
         public void OnBeginRequest_should_break_the_consequent_task_execution_when_previous_task_returns_continuation_as_break()
         {
-            var task1 = new Mock<IPerRequestTask>();
-            task1.Setup(t => t.Execute(It.IsAny<PerRequestExecutionContext>())).Returns(TaskContinuation.Break);
+            var task1 = new Mock<PerRequestTask>();
+            task1.Setup(t => t.Execute()).Returns(TaskContinuation.Break);
 
-            var task2 = new Mock<IPerRequestTask>();
-            var task3 = new Mock<IPerRequestTask>();
+            var task2 = new Mock<PerRequestTask>();
+            var task3 = new Mock<PerRequestTask>();
 
-            serviceLocator.Setup(sl => sl.GetAllInstances<IPerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
+            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
-            task2.Verify(t => t.Execute(It.IsAny<PerRequestExecutionContext>()), Times.Never());
-            task3.Verify(t => t.Execute(It.IsAny<PerRequestExecutionContext>()), Times.Never());
+            task2.Verify(t => t.Execute(), Times.Never());
+            task3.Verify(t => t.Execute(), Times.Never());
         }
 
         [Fact]
@@ -159,22 +152,17 @@ namespace MvcExtensions.Tests
         [Fact]
         public void OnEndRequest_should_call_dispose_of_per_request_task_in_descending_order()
         {
-            var order = new Queue<int>();
+            var executionList = new Queue<PerRequestTask>();
 
-            var task1 = new Mock<IPerRequestTask>();
-            task1.Setup(t => t.Order).Returns(99);
-            task1.Setup(t => t.Dispose()).Callback(() => order.Enqueue(1));
+            var task1 = new DummyTask(99, executionList);
+            var task2 = new DummyTask(100, executionList);
 
-            var task2 = new Mock<IPerRequestTask>();
-            task2.Setup(t => t.Order).Returns(100);
-            task2.Setup(t => t.Dispose()).Callback(() => order.Enqueue(2));
-
-            serviceLocator.Setup(sl => sl.GetAllInstances<IPerRequestTask>()).Returns(new[] { task1.Object, task2.Object });
+            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1, task2 });
 
             httpApplication.StartEndRequest(new Mock<HttpContextBase>().Object);
 
-            Assert.Equal(2, order.Dequeue());
-            Assert.Equal(1, order.Dequeue());
+            Assert.Equal(task2, executionList.Dequeue());
+            Assert.Equal(task1, executionList.Dequeue());
         }
 
         [Fact]
@@ -191,6 +179,28 @@ namespace MvcExtensions.Tests
             httpApplication.Application_End();
 
             Assert.True(httpApplication.OnEndCalled);
+        }
+
+        public class DummyTask : PerRequestTask
+        {
+            private readonly Queue<PerRequestTask> executionList;
+
+            public DummyTask(int order, Queue<PerRequestTask> executionList)
+            {
+                Order = order;
+                this.executionList = executionList;
+            }
+
+            public override TaskContinuation Execute()
+            {
+                executionList.Enqueue(this);
+                return TaskContinuation.Continue;
+            }
+
+            protected override void DisposeCore()
+            {
+                executionList.Enqueue(this);
+            }
         }
 
         private sealed class ExtendedMvcApplicationTestDouble : ExtendedMvcApplication

@@ -9,29 +9,46 @@ namespace MvcExtensions
 {
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class to configure <seealso cref="FilterAttribute"/> for <see cref="Controller"/> or action methods.
     /// </summary>
     public abstract class ConfigureFiltersBase : BootstrapperTask
     {
         /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
+        /// Initializes a new instance of the <see cref="ConfigureFiltersBase"/> class.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
-        /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        /// <param name="registry">The registry.</param>
+        protected ConfigureFiltersBase(IFilterRegistry registry)
         {
-            Configure(serviceLocator.GetInstance<IFilterRegistry>());
+            Invariant.IsNotNull(registry, "registry");
+
+            Registry = registry;
+        }
+
+        /// <summary>
+        /// Gets the filter registry.
+        /// </summary>
+        /// <value>The filter registry.</value>
+        protected IFilterRegistry Registry
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Executes the task.
+        /// </summary>
+        /// <returns></returns>
+        public override TaskContinuation Execute()
+        {
+            Configure();
 
             return TaskContinuation.Continue;
         }
 
         /// <summary>
-        /// Registers filters in the specified registry.
+        /// Registers filters.
         /// </summary>
-        /// <param name="registry">The registry.</param>
-        protected abstract void Configure(IFilterRegistry registry);
+        protected abstract void Configure();
     }
 }

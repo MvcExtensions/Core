@@ -14,10 +14,18 @@ namespace MvcExtensions.Tests
 
     public class RegisterPerRequestTasksTests : IDisposable
     {
+        private readonly Mock<ContainerAdapter> adapter;
+
         public RegisterPerRequestTasksTests()
         {
             RegisterPerRequestTasks.Excluded = false;
             RegisterPerRequestTasks.IgnoredTypes.Clear();
+
+            var buildManager = new Mock<IBuildManager>();
+            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyPerRequestTask) });
+
+            adapter = new Mock<ContainerAdapter>();
+            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
         }
 
         public void Dispose()
@@ -29,11 +37,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_tasks()
         {
-            var adapter = SetupAdapter();
+            adapter.Setup(a => a.RegisterType(null, typeof(PerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest)).Verifiable();
 
-            adapter.Setup(sr => sr.RegisterType(null, typeof(IPerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest)).Verifiable();
-
-            new RegisterPerRequestTasks().Execute(adapter.Object);
+            new RegisterPerRequestTasks(adapter.Object).Execute();
 
             adapter.Verify();
         }
@@ -41,42 +47,26 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_tasks_when_excluded()
         {
-            var adapter = SetupAdapter();
-
             RegisterPerRequestTasks.Excluded = true;
 
-            new RegisterPerRequestTasks().Execute(adapter.Object);
+            new RegisterPerRequestTasks(adapter.Object).Execute();
 
-            adapter.Verify(sr => sr.RegisterType(null, typeof(IPerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest), Times.Never());
+            adapter.Verify(a => a.RegisterType(null, typeof(PerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest), Times.Never());
         }
 
         [Fact]
         public void Should_not_register_tasks_when_task_exists_in_ignored_list()
         {
-            var adapter = SetupAdapter();
-
             RegisterPerRequestTasks.IgnoredTypes.Add(typeof(DummyPerRequestTask));
 
-            new RegisterPerRequestTasks().Execute(adapter.Object);
+            new RegisterPerRequestTasks(adapter.Object).Execute();
 
-            adapter.Verify(sr => sr.RegisterType(null, typeof(IPerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest), Times.Never());
-        }
-
-        private static Mock<FakeAdapter> SetupAdapter()
-        {
-            var buildManager = new Mock<IBuildManager>();
-            buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyPerRequestTask) });
-
-            var adapter = new Mock<FakeAdapter>();
-
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
-
-            return adapter;
+            adapter.Verify(a => a.RegisterType(null, typeof(PerRequestTask), typeof(DummyPerRequestTask), LifetimeType.PerRequest), Times.Never());
         }
 
         private sealed class DummyPerRequestTask : PerRequestTask
         {
-            protected override TaskContinuation ExecuteCore(PerRequestExecutionContext executionContext)
+            public override TaskContinuation Execute()
             {
                 return TaskContinuation.Break;
             }

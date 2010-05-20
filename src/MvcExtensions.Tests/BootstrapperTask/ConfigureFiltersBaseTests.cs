@@ -21,21 +21,22 @@ namespace MvcExtensions.Tests
         {
             var registry = new Mock<IFilterRegistry>();
 
-            var adapter = new Mock<FakeAdapter>();
-            adapter.Setup(sr => sr.GetInstance<IFilterRegistry>()).Returns(registry.Object);
-
             registry.Setup(r => r.Register<DummyController, FilterAttribute>(It.IsAny<IList<Func<FilterAttribute>>>())).Verifiable();
 
-            new ConfigureFiltersBaseTestDouble().Execute(adapter.Object);
+            new ConfigureFiltersBaseTestDouble(registry.Object).Execute();
 
             registry.Verify();
         }
 
         private class ConfigureFiltersBaseTestDouble : ConfigureFiltersBase
         {
-            protected override void Configure(IFilterRegistry registry)
+            public ConfigureFiltersBaseTestDouble(IFilterRegistry registry) : base(registry)
             {
-                registry.Register<DummyController, DummyFilter>();
+            }
+
+            protected override void Configure()
+            {
+                Registry.Register<DummyController, DummyFilter>();
             }
         }
 

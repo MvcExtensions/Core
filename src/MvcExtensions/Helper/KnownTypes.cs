@@ -14,9 +14,9 @@ namespace MvcExtensions
     {
         public static readonly Type BindingAttributeType = typeof(BindingTypeAttribute);
 
-        public static readonly Type BootstrapperTaskType = typeof(IBootstrapperTask);
+        public static readonly Type BootstrapperTaskType = typeof(BootstrapperTask);
 
-        public static readonly Type PerRequestTaskType = typeof(IPerRequestTask);
+        public static readonly Type PerRequestTaskType = typeof(PerRequestTask);
 
         public static readonly Type ModelBinderType = typeof(IModelBinder);
 

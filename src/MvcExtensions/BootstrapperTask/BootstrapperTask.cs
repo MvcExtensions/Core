@@ -7,32 +7,10 @@
 
 namespace MvcExtensions
 {
-    using System.Diagnostics;
-
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a base class which is executed when <see cref="ExtendedMvcApplication"/> starts and ends.
     /// </summary>
-    public abstract class BootstrapperTask : OrderableTask, IBootstrapperTask
+    public abstract class BootstrapperTask : OrderableTask
     {
-        /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
-        /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
-        /// <returns></returns>
-        [DebuggerStepThrough]
-        public TaskContinuation Execute(IServiceLocator serviceLocator)
-        {
-            Invariant.IsNotNull(serviceLocator, "serviceLocator");
-
-            return ExecuteCore(serviceLocator);
-        }
-
-        /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
-        /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
-        protected abstract TaskContinuation ExecuteCore(IServiceLocator serviceLocator);
     }
 }

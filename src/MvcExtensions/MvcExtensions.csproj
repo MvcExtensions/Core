@@ -109,6 +109,7 @@
     <Compile Include="ExtensionMethod\ObjectExtensions.cs" />
     <Compile Include="ExtensionMethod\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Helper\Culture.cs" />
+    <Compile Include="IoC\ContainerAdapter.cs" />
     <Compile Include="IoC\IServiceRegistrar.cs" />
     <Compile Include="IoC\LifetimeType.cs" />
     <Compile Include="Abstraction\OrderableTask.cs" />
@@ -125,8 +126,6 @@
     <Compile Include="Routing\RegexConstraint.cs" />
     <Compile Include="TypeCatalog\TypeCatalog.cs" />
     <Compile Include="TypeCatalog\TypeCatalogBuilder.cs" />
-    <Compile Include="PerRequestTask\IPerRequestTask.cs" />
-    <Compile Include="PerRequestTask\PerRequestExecutionContext.cs" />
     <Compile Include="PerRequestTask\PerRequestTask.cs" />
     <Compile Include="ActionFilter\FilterRegistryExtensions.cs" />
     <Compile Include="ActionFilter\FilterRegistry.cs" />
@@ -138,7 +137,6 @@
     <Compile Include="BootstrapperTask\ConfigureFiltersBase.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\IBootstrapper.cs" />
-    <Compile Include="BootstrapperTask\IBootstrapperTask.cs" />
     <Compile Include="BootstrapperTask\BootstrapperTask.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerFactory.cs" />
     <Compile Include="BootstrapperTask\RegisterModelBinders.cs" />

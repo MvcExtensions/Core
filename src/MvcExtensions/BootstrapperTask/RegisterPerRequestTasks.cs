@@ -12,14 +12,23 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
-    /// Defines a class which is used to register available <seealso cref="IPerRequestTask"/>.
+    /// Defines a class which is used to register available <seealso cref="PerRequestTask"/>.
     /// </summary>
     public class RegisterPerRequestTasks : BootstrapperTask
     {
         private static readonly IList<Type> ignoredTypes = new List<Type>();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisterPerRequestTasks"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        public RegisterPerRequestTasks(ContainerAdapter container)
+        {
+            Invariant.IsNotNull(container, "container");
+
+            Container = container;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="RegisterPerRequestTasks"/> should be excluded.
@@ -45,26 +54,30 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
             if (!Excluded)
             {
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
+                Func<Type, bool> filter = type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type) &&
+                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                if (serviceRegistrar != null)
-                {
-                    Func<Type, bool> filter = type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type) &&
-                                                      !IgnoredTypes.Any(ignoredType => ignoredType == type);
-
-                    serviceLocator.GetInstance<IBuildManager>()
-                                  .ConcreteTypes
-                                  .Where(filter)
-                                  .Each(type => serviceRegistrar.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));
-                }
+                Container.GetInstance<IBuildManager>()
+                         .ConcreteTypes
+                         .Where(filter)
+                         .Each(type => Container.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));
             }
 
             return TaskContinuation.Continue;

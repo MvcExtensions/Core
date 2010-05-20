@@ -12,13 +12,22 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="ModelMetadataProvider"/>.
     /// </summary>
     public class RegisterModelMetadata : BootstrapperTask
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RegisterModelMetadata"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        public RegisterModelMetadata(ContainerAdapter container)
+        {
+            Invariant.IsNotNull(container, "container");
+
+            Container = container;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="RegisterModelMetadata"/> should be excluded.
         /// </summary>
@@ -30,50 +39,53 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
         /// <returns></returns>
-        protected override TaskContinuation ExecuteCore(IServiceLocator serviceLocator)
+        public override TaskContinuation Execute()
         {
-            if (!Excluded)
+            if (Excluded)
             {
-                #if (!MVC1)
-
-                IServiceRegistrar serviceRegistrar = serviceLocator as IServiceRegistrar;
-
-                if (serviceRegistrar != null)
-                {
-                    serviceRegistrar.RegisterAsSingleton<CompositeModelMetadataProvider>()
-                                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
-
-                    IEnumerable<Type> concreteTypes = serviceLocator.GetInstance<IBuildManager>().ConcreteTypes;
-
-                    concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
-                                 .Each(type => serviceRegistrar.RegisterAsTransient(KnownTypes.ModelMetadataConfigurationType, type));
-
-                    concreteTypes.Where(type => KnownTypes.ExtendedModelMetadataProviderType.IsAssignableFrom(type))
-                                 .Each(type => serviceRegistrar.RegisterAsSingleton(KnownTypes.ExtendedModelMetadataProviderType, type));
-
-                    IEnumerable<IModelMetadataConfiguration> configurations = serviceLocator.GetAllInstances<IModelMetadataConfiguration>();
-
-                    IModelMetadataRegistry registry = serviceLocator.GetInstance<IModelMetadataRegistry>();
-
-                    configurations.Each(configuration => registry.Register(configuration.ModelType, configuration.Configurations));
-
-                    ModelMetadataProviders.Current = serviceLocator.GetInstance<CompositeModelMetadataProvider>();
-
-                    IList<ModelValidatorProvider> validatorProviders = new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
-                    validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
-                    CompositeModelValidatorProvider compositeModelValidatorProvider = new CompositeModelValidatorProvider(validatorProviders.ToArray());
-
-                    serviceRegistrar.RegisterInstance<ModelValidatorProvider>(compositeModelValidatorProvider);
-                    ModelValidatorProviders.Providers.Clear();
-                    ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
-                }
-
-                #endif
+                return TaskContinuation.Continue;
             }
+
+            Container.RegisterAsSingleton<CompositeModelMetadataProvider>()
+                     .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
+
+            IEnumerable<Type> concreteTypes = Container.GetInstance<IBuildManager>().ConcreteTypes;
+
+            concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
+                         .Each(type => Container.RegisterAsTransient(KnownTypes.ModelMetadataConfigurationType, type));
+
+            concreteTypes.Where(type => KnownTypes.ExtendedModelMetadataProviderType.IsAssignableFrom(type))
+                         .Each(type => Container.RegisterAsSingleton(KnownTypes.ExtendedModelMetadataProviderType, type));
+
+            IEnumerable<IModelMetadataConfiguration> configurations = Container.GetAllInstances<IModelMetadataConfiguration>();
+
+            IModelMetadataRegistry registry = Container.GetInstance<IModelMetadataRegistry>();
+
+            configurations.Each(configuration => registry.Register(configuration.ModelType, configuration.Configurations));
+
+            ModelMetadataProviders.Current = Container.GetInstance<CompositeModelMetadataProvider>();
+
+            IList<ModelValidatorProvider> validatorProviders = new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
+            validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
+            CompositeModelValidatorProvider compositeModelValidatorProvider = new CompositeModelValidatorProvider(validatorProviders.ToArray());
+
+            Container.RegisterInstance<ModelValidatorProvider>(compositeModelValidatorProvider);
+
+            ModelValidatorProviders.Providers.Clear();
+            ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
 
             return TaskContinuation.Continue;
         }

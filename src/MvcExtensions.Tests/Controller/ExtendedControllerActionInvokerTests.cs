@@ -18,13 +18,13 @@ namespace MvcExtensions.Tests
 
     public class ExtendedControllerActionInvokerTests
     {
-        private readonly Mock<FakeAdapter> adapter;
+        private readonly Mock<ContainerAdapter> adapter;
         private readonly Mock<IFilterRegistry> filterRegistry;
         private readonly ExtendedControllerActionInvokerTestDouble controllerActionInvoker;
 
         public ExtendedControllerActionInvokerTests()
         {
-            adapter = new Mock<FakeAdapter>();
+            adapter = new Mock<ContainerAdapter>();
             filterRegistry = new Mock<IFilterRegistry>();
 
             adapter.Setup(a => a.GetInstance<IFilterRegistry>()).Returns(filterRegistry.Object);
