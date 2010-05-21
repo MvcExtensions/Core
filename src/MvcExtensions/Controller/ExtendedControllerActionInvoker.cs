@@ -12,8 +12,6 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// The default <seealso cref="IActionInvoker"/> which supports the fluent filter registration and dependency injection.
     /// </summary>
@@ -22,19 +20,19 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedControllerActionInvoker"/> class.
         /// </summary>
-        /// <param name="locator">The locator.</param>
-        public ExtendedControllerActionInvoker(IServiceLocator locator)
+        /// <param name="container">The container.</param>
+        public ExtendedControllerActionInvoker(ContainerAdapter container)
         {
-            Invariant.IsNotNull(locator, "locator");
+            Invariant.IsNotNull(container, "container");
 
-            ServiceLocator = locator;
+            Container = container;
         }
 
         /// <summary>
-        /// Gets or sets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        protected IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
         {
             get;
             private set;
@@ -55,7 +53,7 @@ namespace MvcExtensions
 
             Inject(decoratedFilters);
 
-            FilterInfo registeredFilters = ServiceLocator.GetInstance<IFilterRegistry>().Matching(controllerContext, actionDescriptor);
+            FilterInfo registeredFilters = Container.GetInstance<IFilterRegistry>().Matching(controllerContext, actionDescriptor);
 
             FilterInfo mergedFilters = new FilterInfo();
 
@@ -126,27 +124,22 @@ namespace MvcExtensions
             return !KnownTypes.FilterAttributeType.IsAssignableFrom(filter.GetType());
         }
 
-        private static void Inject<TFilter>(IServiceInjector serviceInjector, ICollection<object> injectedFilters, IEnumerable<TFilter> filters) where TFilter : class
+        private void Inject(FilterInfo decoratedFilters)
+        {
+            ICollection<object> injectedFilters = new List<object>();
+
+            Inject(injectedFilters, decoratedFilters.AuthorizationFilters);
+            Inject(injectedFilters, decoratedFilters.ActionFilters);
+            Inject(injectedFilters, decoratedFilters.ResultFilters);
+            Inject(injectedFilters, decoratedFilters.ExceptionFilters);
+        }
+
+        private void Inject<TFilter>(ICollection<object> injectedFilters, IEnumerable<TFilter> filters) where TFilter : class
         {
             foreach (TFilter filter in filters.Where(filter => IsFilterAttriute(filter) && !injectedFilters.Contains(filter)))
             {
-                serviceInjector.Inject(filter);
+                Container.Inject(filter);
                 injectedFilters.Add(filter);
-            }
-        }
-
-        private void Inject(FilterInfo decoratedFilters)
-        {
-            IServiceInjector serviceInjector = ServiceLocator as IServiceInjector;
-
-            if (serviceInjector != null)
-            {
-                ICollection<object> injectedFilters = new List<object>();
-
-                Inject(serviceInjector, injectedFilters, decoratedFilters.AuthorizationFilters);
-                Inject(serviceInjector, injectedFilters, decoratedFilters.ActionFilters);
-                Inject(serviceInjector, injectedFilters, decoratedFilters.ResultFilters);
-                Inject(serviceInjector, injectedFilters, decoratedFilters.ExceptionFilters);
             }
         }
     }

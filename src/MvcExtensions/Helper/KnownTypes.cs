@@ -22,6 +22,10 @@ namespace MvcExtensions
 
         public static readonly Type ControllerType = typeof(Controller);
 
+        public static readonly Type ActionInvokerType = typeof(IActionInvoker);
+
+        public static readonly Type DefaultActionInvokerType = typeof(ExtendedControllerActionInvoker);
+
         public static readonly Type FilterAttributeType = typeof(FilterAttribute);
 
         public static readonly Type ViewEngineType = typeof(IViewEngine);

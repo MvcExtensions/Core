@@ -7,18 +7,24 @@
 
 namespace MvcExtensions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="IActionInvoker"/>.
     /// </summary>
-    public class RegisterActionInvoker : BootstrapperTask
+    public class RegisterActionInvokers : BootstrapperTask
     {
+        private static readonly IList<Type> ignoredTypes = new List<Type>();
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterActionInvoker"/> class.
+        /// Initializes a new instance of the <see cref="RegisterActionInvokers"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterActionInvoker(ContainerAdapter container)
+        public RegisterActionInvokers(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -26,13 +32,26 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterActionInvoker"/> should be excluded.
+        /// Gets or sets a value indicating whether this <see cref="RegisterActionInvokers"/> should be excluded.
         /// </summary>
         /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
         public static bool Excluded
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets the ignored controller types.
+        /// </summary>
+        /// <value>The ignored types.</value>
+        public static ICollection<Type> IgnoredTypes
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return ignoredTypes;
+            }
         }
 
         /// <summary>
@@ -53,7 +72,12 @@ namespace MvcExtensions
         {
             if (!Excluded)
             {
-                Container.RegisterAsTransient<IActionInvoker, ExtendedControllerActionInvoker>();
+                Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) && !IgnoredTypes.Any(ignoredType => ignoredType == type);
+
+                Container.GetInstance<IBuildManager>()
+                         .ConcreteTypes
+                         .Where(filter)
+                         .Each(type => Container.RegisterAsTransient(type));
             }
 
             return TaskContinuation.Continue;

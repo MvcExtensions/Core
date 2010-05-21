@@ -97,6 +97,24 @@ namespace MvcExtensions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid action invoker type. Type must implement &quot;IActionInvoker&quot;..
+        /// </summary>
+        internal static string InvalidActionInvokerTypeTypeMustImplementIActionInvoker {
+            get {
+                return ResourceManager.GetString("InvalidActionInvokerTypeTypeMustImplementIActionInvoker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid controller type. Type must be a inherited from &quot;Controller&quot;..
+        /// </summary>
+        internal static string InvalidControllerTypeTypeMustBeAInheritedFromController {
+            get {
+                return ResourceManager.GetString("InvalidControllerTypeTypeMustBeAInheritedFromController", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid email address format..
         /// </summary>
         internal static string InvalidEmailAddressFormat {

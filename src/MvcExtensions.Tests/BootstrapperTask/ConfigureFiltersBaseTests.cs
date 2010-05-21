@@ -21,7 +21,7 @@ namespace MvcExtensions.Tests
         {
             var registry = new Mock<IFilterRegistry>();
 
-            registry.Setup(r => r.Register<DummyController, FilterAttribute>(It.IsAny<IList<Func<FilterAttribute>>>())).Verifiable();
+            registry.Setup(r => r.Register<Dummy1Controller, FilterAttribute>(It.IsAny<IList<Func<FilterAttribute>>>())).Verifiable();
 
             new ConfigureFiltersBaseTestDouble(registry.Object).Execute();
 
@@ -36,12 +36,8 @@ namespace MvcExtensions.Tests
 
             protected override void Configure()
             {
-                Registry.Register<DummyController, DummyFilter>();
+                Registry.Register<Dummy1Controller, DummyFilter>();
             }
-        }
-
-        private sealed class DummyController : Controller
-        {
         }
 
         private sealed class DummyFilter : FilterAttribute

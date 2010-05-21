@@ -168,6 +168,16 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_register_action_invoker_registry_as_singleton()
+        {
+            adapter.Setup(a => a.RegisterType(null, typeof(IActionInvokerRegistry), typeof(ActionInvokerRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
+
+            Assert.NotNull(bootstrapper.Adapter);
+
+            adapter.Verify();
+        }
+
+        [Fact]
         public void Should_register_value_provider_factories_as_singleton()
         {
             adapter.Setup(a => a.RegisterType(null, typeof(ValueProviderFactoryCollection), typeof(ValueProviderFactoryCollection), LifetimeType.Singleton)).Returns(adapter.Object);

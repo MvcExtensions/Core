@@ -11,8 +11,6 @@ namespace MvcExtensions
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// The Default IoC backed <seealso cref="IControllerFactory"/>.
     /// </summary>
@@ -21,19 +19,32 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="ExtendedControllerFactory"/> class.
         /// </summary>
-        /// <param name="locator">The locator.</param>
-        public ExtendedControllerFactory(IServiceLocator locator)
+        /// <param name="container">The container.</param>
+        /// <param name="actionInvokerRegistry">The action invoker registry.</param>
+        public ExtendedControllerFactory(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry)
         {
-            Invariant.IsNotNull(locator, "locator");
+            Invariant.IsNotNull(container, "container");
+            Invariant.IsNotNull(actionInvokerRegistry, "actionInvokerRegistry");
 
-            ServiceLocator = locator;
+            ActionInvokerRegistry = actionInvokerRegistry;
+            Container = container;
         }
 
         /// <summary>
-        /// Gets or sets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        protected IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the action invoker registry.
+        /// </summary>
+        /// <value>The action invoker registry.</value>
+        protected IActionInvokerRegistry ActionInvokerRegistry
         {
             get;
             private set;
@@ -61,11 +72,15 @@ namespace MvcExtensions
 
             if (controllerType != null)
             {
-                controller = ServiceLocator.GetInstance(controllerType) as Controller;
+                controller = Container.GetInstance(controllerType) as Controller;
 
                 if (controller != null)
                 {
-                    controller.ActionInvoker = ServiceLocator.GetInstance<IActionInvoker>();
+                    Type actionInvokerType = ActionInvokerRegistry.IsRegistered(controllerType) ?
+                                             ActionInvokerRegistry.Matching(controllerType) :
+                                             KnownTypes.DefaultActionInvokerType;
+
+                    controller.ActionInvoker = (IActionInvoker)Container.GetInstance(actionInvokerType);
                 }
             }
 

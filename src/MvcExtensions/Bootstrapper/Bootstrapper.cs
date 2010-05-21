@@ -127,6 +127,7 @@ namespace MvcExtensions
                    .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
                    .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
                    .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
+                   .RegisterAsSingleton<IActionInvokerRegistry, ActionInvokerRegistry>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                    .RegisterInstance<IBuildManager>(buildManager);
 

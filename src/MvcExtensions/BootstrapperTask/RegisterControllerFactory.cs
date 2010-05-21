@@ -7,6 +7,8 @@
 
 namespace MvcExtensions
 {
+    using System;
+    using System.Diagnostics;
     using System.Web.Mvc;
 
     /// <summary>
@@ -14,6 +16,8 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterControllerFactory : BootstrapperTask
     {
+        private static Type controllerFactoryType = typeof(ExtendedControllerFactory);
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllerFactory"/> class.
         /// </summary>
@@ -36,6 +40,25 @@ namespace MvcExtensions
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets or sets the type of the controller factory.
+        /// </summary>
+        /// <value>The type of the controller factory.</value>
+        public static Type ControllerFactoryType
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return controllerFactoryType;
+            }
+
+            [DebuggerStepThrough]
+            set
+            {
+                controllerFactoryType = value;
+            }
         }
 
         /// <summary>
@@ -66,7 +89,8 @@ namespace MvcExtensions
         {
             if (!Excluded)
             {
-                Container.RegisterAsSingleton<IControllerFactory, ExtendedControllerFactory>();
+                Container.RegisterAsSingleton(typeof(IControllerFactory), ControllerFactoryType);
+
                 ControllerBuilder.SetControllerFactory(Container.GetInstance<IControllerFactory>());
             }
 

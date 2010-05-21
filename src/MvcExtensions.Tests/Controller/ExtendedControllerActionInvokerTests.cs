@@ -11,8 +11,6 @@ namespace MvcExtensions.Tests
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.Practices.ServiceLocation;
-
     using Moq;
     using Xunit;
 
@@ -94,7 +92,7 @@ namespace MvcExtensions.Tests
 
         private sealed class ExtendedControllerActionInvokerTestDouble : ExtendedControllerActionInvoker
         {
-            public ExtendedControllerActionInvokerTestDouble(IServiceLocator locator) : base(locator)
+            public ExtendedControllerActionInvokerTestDouble(ContainerAdapter container) : base(container)
             {
             }
 

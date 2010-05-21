@@ -34,6 +34,16 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_be_able_to_set_controller_factory()
+        {
+            RegisterControllerFactory.ControllerFactoryType = typeof(object);
+
+            Assert.Equal(typeof(object), RegisterControllerFactory.ControllerFactoryType);
+
+            RegisterControllerFactory.ControllerFactoryType = typeof(ExtendedControllerFactory);
+        }
+
+        [Fact]
         public void Should_be_able_to_register_controller_factory()
         {
             var builder = new ControllerBuilder();

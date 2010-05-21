@@ -47,7 +47,7 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Registers filters.
+        /// Configures the filters.
         /// </summary>
         protected abstract void Configure();
     }
