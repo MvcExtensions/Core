@@ -8,6 +8,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("MvcExtensions.Tests")]
-[assembly: AssemblyProduct("MvcExtensions.Tests")]
-[assembly: Guid("098012a4-3f04-409f-afe3-4aab6ea39ae9")]
+[assembly: AssemblyTitle("MvcExtensions.Scaffolding.EntityFramework.Tests")]
+[assembly: AssemblyProduct("MvcExtensions.Scaffolding.EntityFramework.Tests")]
+[assembly: Guid("ec7f19b1-6319-475a-8b69-9f8f1a29a288")]
