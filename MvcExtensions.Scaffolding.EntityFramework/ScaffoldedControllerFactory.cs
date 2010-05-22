@@ -73,8 +73,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
             foreach (EntitySet entitySet in container.BaseEntitySets.OfType<EntitySet>())
             {
-                // We will not scaffold if entity has only one key
-                if (entitySet.ElementType.KeyMembers.Count != 1)
+                // We will scaffold if entity has only one key
+                if (entitySet.ElementType.KeyMembers.Count == 1)
                 {
                     EntityType entityType = (EntityType)database.MetadataWorkspace.GetObjectSpaceType(entitySet.ElementType);
                     Type entityClrType = objectSpaceItems.GetClrType(entityType);
