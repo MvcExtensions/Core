@@ -8,7 +8,7 @@
 <% var properties = ModelMetadata.FromLambdaExpression(m => m[0], ViewData).Properties.Where(pm => ShouldShow(pm, ViewData)); %>
 <table>
     <tr>
-        <% foreach(var property in properties) { %>
+        <% foreach (var property in properties) { %>
             <th>
                 <%= property.GetDisplayName() %>
             </th>
@@ -16,12 +16,12 @@
     </tr>
     <% for(int i = 0; i < Model.Count; i++) {
         var counter = i;
-        var itemMD = ModelMetadata.FromLambdaExpression(m => m[counter], ViewData); %>
+        var itemMetadata = ModelMetadata.FromLambdaExpression(m => m[counter], ViewData); %>
         <tr>
-            <% foreach(var property in properties) { %>
+            <% foreach (var property in properties) { %>
             <td>
-                <% var tempProperty = property; %>
-                <% var propertyMetadata = itemMD.Properties.Single(m => m.PropertyName == tempProperty.PropertyName); %>
+                <% var localProperty = property; %>
+                <% var propertyMetadata = itemMetadata.Properties.Single(m => m.PropertyName == localProperty.PropertyName); %>
                 <%= Html.DisplayFor(m => propertyMetadata.Model) %>
             </td>
             <% } %>
