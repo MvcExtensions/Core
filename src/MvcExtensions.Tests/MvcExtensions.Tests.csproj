@@ -126,7 +126,6 @@
     <Compile Include="Controller\ExtendedControllerFactoryTests.cs" />
     <Compile Include="ExtendedMvcApplicationTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\CompositeModelMetadataProviderTests.cs" />
     <Compile Include="ModelMetadata\CompositeModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProviderTests.cs" />

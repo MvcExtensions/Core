@@ -72,6 +72,7 @@
     </Compile>
     <Compile Include="Infrastructure\RegisterRoutes.cs" />
     <Compile Include="Infrastructure\RegisterServices.cs" />
+    <Compile Include="Models\CategoryConfiguration.cs" />
     <Compile Include="Models\Northwind.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,7 +88,7 @@
     <Content Include="Views\Shared\Error.aspx" />
     <Content Include="Views\Shared\Index.aspx" />
     <Content Include="Views\Shared\LogOnUserControl.ascx" />
-    <Content Include="Views\Shared\DisplayTemplates\Table.ascx" />
+    <Content Include="Views\Shared\DisplayTemplates\List.ascx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

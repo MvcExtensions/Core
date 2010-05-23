@@ -59,24 +59,21 @@ namespace MvcExtensions
                 return TaskContinuation.Continue;
             }
 
-            Container.RegisterAsSingleton<CompositeModelMetadataProvider>()
-                     .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
+            Container.RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
+                     .RegisterAsSingleton<ModelMetadataProvider, ExtendedModelMetadataProvider>();
 
             IEnumerable<Type> concreteTypes = Container.GetInstance<IBuildManager>().ConcreteTypes;
 
             concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
                          .Each(type => Container.RegisterAsTransient(KnownTypes.ModelMetadataConfigurationType, type));
 
-            concreteTypes.Where(type => KnownTypes.ExtendedModelMetadataProviderType.IsAssignableFrom(type))
-                         .Each(type => Container.RegisterAsSingleton(KnownTypes.ExtendedModelMetadataProviderType, type));
-
             IEnumerable<IModelMetadataConfiguration> configurations = Container.GetAllInstances<IModelMetadataConfiguration>();
 
             IModelMetadataRegistry registry = Container.GetInstance<IModelMetadataRegistry>();
 
-            configurations.Each(configuration => registry.Register(configuration.ModelType, configuration.Configurations));
+            configurations.Each(configuration => registry.RegisterModelProperties(configuration.ModelType, configuration.Configurations));
 
-            ModelMetadataProviders.Current = Container.GetInstance<CompositeModelMetadataProvider>();
+            ModelMetadataProviders.Current = Container.GetInstance<ModelMetadataProvider>();
 
             IList<ModelValidatorProvider> validatorProviders = new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
             validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
