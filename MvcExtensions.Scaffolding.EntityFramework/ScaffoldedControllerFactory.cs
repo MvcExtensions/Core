@@ -42,7 +42,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
             if (entityMap.TryGetValue(controllerName, out entityInfo))
             {
-                return genericControllerType.MakeGenericType(entityInfo.EntityType, entityInfo.KeyType);
+                Type controllerType = genericControllerType.MakeGenericType(entityInfo.EntityType, entityInfo.KeyType);
+
+                return controllerType;
             }
 
             return base.GetControllerType(requestContext, controllerName);

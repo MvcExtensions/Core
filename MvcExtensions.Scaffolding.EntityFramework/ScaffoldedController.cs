@@ -31,7 +31,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
         public ActionResult Index()
         {
-            return View(Database.CreateObjectSet<TEntity>());
+            var entities = Database.CreateObjectSet<TEntity>();
+
+            return View(entities);
         }
 
         public ActionResult Details(TId id)
@@ -125,7 +127,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             var keyName = Database.MetadataWorkspace
                                   .GetItem<EntityType>(typeof(TEntity).Name, DataSpace.CSpace)
-                                  .KeyMembers[0].Name;
+                                  .KeyMembers.First().Name;
 
             var param = Expression.Parameter(typeof(TEntity), "x");
             var left = Expression.Property(param, keyName);
