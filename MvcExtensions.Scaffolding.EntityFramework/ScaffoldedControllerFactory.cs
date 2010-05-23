@@ -14,6 +14,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     using System.Linq;
     using System.Web.Routing;
 
+    /// <summary>
+    /// Defines a controller factory which creates scaffolded controller.
+    /// </summary>
     public class ScaffoldedControllerFactory : ExtendedControllerFactory
     {
         private static readonly Type genericControllerType = typeof(ScaffoldedController<,>);
@@ -21,6 +24,12 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         private static readonly object entityMapSyncLock = new object();
         private static IDictionary<string, EntityInfo> entityMap;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ScaffoldedControllerFactory"/> class.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <param name="actionInvokerRegistry">The action invoker registry.</param>
+        /// <param name="database">The database.</param>
         public ScaffoldedControllerFactory(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry, ObjectContext database) : base(container, actionInvokerRegistry)
         {
             Invariant.IsNotNull(database, "database");
@@ -28,12 +37,22 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             Database = database;
         }
 
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>The database.</value>
         protected ObjectContext Database
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Retrieves the controller type for the specified name and request context.
+        /// </summary>
+        /// <param name="requestContext">The context of the HTTP request, which includes the HTTP context and route data.</param>
+        /// <param name="controllerName">The name of the controller.</param>
+        /// <returns>The controller type.</returns>
         protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
             LoadEntityMap(Database);
@@ -73,19 +92,16 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             EntityContainer container = database.MetadataWorkspace.GetEntityContainer(database.DefaultContainerName, DataSpace.CSpace);
             ObjectItemCollection objectSpaceItems = (ObjectItemCollection)database.MetadataWorkspace.GetItemCollection(DataSpace.OSpace);
 
-            foreach (EntitySet entitySet in container.BaseEntitySets.OfType<EntitySet>())
+            // We will only scaffold if entity has only one key
+            foreach (EntitySet entitySet in container.BaseEntitySets.OfType<EntitySet>().Where(es => es.ElementType.KeyMembers.Count == 1))
             {
-                // We will scaffold if entity has only one key
-                if (entitySet.ElementType.KeyMembers.Count == 1)
-                {
-                    EntityType entityType = (EntityType)database.MetadataWorkspace.GetObjectSpaceType(entitySet.ElementType);
-                    Type entityClrType = objectSpaceItems.GetClrType(entityType);
-                    Type keyClrType = ((PrimitiveType)entitySet.ElementType.KeyMembers.First().TypeUsage.EdmType).ClrEquivalentType;
+                EntityType entityType = (EntityType)database.MetadataWorkspace.GetObjectSpaceType(entitySet.ElementType);
+                Type entityClrType = objectSpaceItems.GetClrType(entityType);
+                Type keyClrType = ((PrimitiveType)entitySet.ElementType.KeyMembers.First().TypeUsage.EdmType).ClrEquivalentType;
 
-                    EntityInfo info = new EntityInfo { EntityType = entityClrType, KeyType = keyClrType };
+                EntityInfo info = new EntityInfo { EntityType = entityClrType, KeyType = keyClrType };
 
-                    map.Add(entitySet.Name, info);
-                }
+                map.Add(entitySet.Name, info);
             }
 
             return map;
