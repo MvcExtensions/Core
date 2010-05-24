@@ -9,7 +9,6 @@ namespace MvcExtensions.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
     using Moq;
@@ -24,26 +23,23 @@ namespace MvcExtensions.Tests
 
         public RegisterModelMetadataTests()
         {
+            ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
+            ModelValidatorProviders.Providers.Clear();
+
             RegisterModelMetadata.Excluded = false;
             ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
 
-            var buildManager = new Mock<IBuildManager>();
-            buildManager.SetupGet(bm => bm.ConcreteTypes).Returns(new[] { new Mock<IModelMetadataConfiguration>().Object.GetType(), new Mock<IModelMetadataConfiguration>().Object.GetType(), new Mock<ExtendedModelMetadataProviderBase>().Object.GetType(), new Mock<ExtendedModelMetadataProviderBase>().Object.GetType() });
-
             registry = new Mock<IModelMetadataRegistry>();
-
             adapter = new Mock<ContainerAdapter>();
-            adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
-            adapter.Setup(a => a.GetInstance<IModelMetadataRegistry>()).Returns(registry.Object);
-            adapter.Setup(a => a.GetInstance<CompositeModelMetadataProvider>()).Returns(new CompositeModelMetadataProvider());
-            adapter.Setup(a => a.GetAllInstances<ModelValidatorProvider>()).Returns(new[] { new ExtendedModelValidatorProvider() });
 
             registration = new RegisterModelMetadata(adapter.Object);
         }
 
         public void Dispose()
         {
+            ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
+            ModelValidatorProviders.Providers.Clear();
+
             RegisterModelMetadata.Excluded = false;
         }
 
@@ -53,15 +49,24 @@ namespace MvcExtensions.Tests
             var configuration1 = new Mock<IModelMetadataConfiguration>();
             var configuration2 = new Mock<IModelMetadataConfiguration>();
 
+            var buildManager = new Mock<IBuildManager>();
+            buildManager.SetupGet(bm => bm.ConcreteTypes).Returns(new[] { new Mock<IModelMetadataConfiguration>().Object.GetType(), new Mock<IModelMetadataConfiguration>().Object.GetType() });
+
+            adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
+            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetInstance<IModelMetadataRegistry>()).Returns(registry.Object);
             adapter.Setup(a => a.GetAllInstances<IModelMetadataConfiguration>()).Returns(new[] { configuration1.Object, configuration2.Object });
-            registry.Setup(r => r.Register(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
+            adapter.Setup(a => a.GetAllInstances<ModelValidatorProvider>()).Returns(new[] { new ExtendedModelValidatorProvider() });
+            adapter.Setup(a => a.GetInstance<ModelMetadataProvider>()).Returns(new ExtendedModelMetadataProvider(registry.Object));
+
+            registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
 
             registration.Execute();
 
             registry.VerifyAll();
 
-            Assert.IsType<CompositeModelMetadataProvider>(ModelMetadataProviders.Current);
-            Assert.Contains(typeof(CompositeModelValidatorProvider), ModelValidatorProviders.Providers.Select(p => p.GetType()));
+            Assert.IsType<ExtendedModelMetadataProvider>(ModelMetadataProviders.Current);
+            Assert.IsType<CompositeModelValidatorProvider>(ModelValidatorProviders.Providers[0]);
         }
 
         [Fact]
@@ -71,7 +76,8 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            Assert.IsNotType<CompositeModelMetadataProvider>(ModelMetadataProviders.Current);
+            Assert.IsNotType<ExtendedModelMetadataProvider>(ModelMetadataProviders.Current);
+            Assert.Empty(ModelValidatorProviders.Providers);
         }
     }
 }

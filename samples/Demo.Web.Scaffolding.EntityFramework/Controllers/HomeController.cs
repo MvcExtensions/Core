@@ -7,7 +7,7 @@
     {
         public ActionResult Index()
         {
-            ViewData["Message"] = "Welcome to ASP.NET MVC Extensions!";
+            ViewData["Message"] = "Welcome to ASP.NET MVC Extensions Entity Framework Scaffolding!";
 
             return View();
         }

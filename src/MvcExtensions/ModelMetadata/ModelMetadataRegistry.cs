@@ -9,107 +9,122 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
 
     /// <summary>
     /// Defines a class to store all the metadata of the models.
     /// </summary>
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
-        private readonly IDictionary<Type, IDictionary<string, ModelMetadataItem>> configurations = new Dictionary<Type, IDictionary<string, ModelMetadataItem>>();
+        private readonly IDictionary<Type, ModelMetadataRegistryItem> mappings = new Dictionary<Type, ModelMetadataRegistryItem>();
 
         /// <summary>
-        /// Gets the configurations.
+        /// Registers the model type metadata.
         /// </summary>
-        /// <value>The configurations.</value>
-        protected virtual IDictionary<Type, IDictionary<string, ModelMetadataItem>> Configurations
+        /// <param name="modelType">Type of the model.</param>
+        /// <param name="metadataItem">The metadata.</param>
+        public virtual void RegisterModel(Type modelType, ModelMetadataItem metadataItem)
         {
-            [DebuggerStepThrough]
-            get
+            Invariant.IsNotNull(modelType, "modelType");
+            Invariant.IsNotNull(metadataItem, "metadataItem");
+
+            ModelMetadataRegistryItem item = GetOrCreate(modelType);
+
+            item.ClassMetadata = metadataItem;
+        }
+
+        /// <summary>
+        /// Registers the specified model type properties metadata.
+        /// </summary>
+        /// <param name="modelType">Type of the model.</param>
+        /// <param name="metadataItems">The metadata dictionary.</param>
+        public virtual void RegisterModelProperties(Type modelType, IDictionary<string, ModelMetadataItem> metadataItems)
+        {
+            Invariant.IsNotNull(modelType, "modelType");
+            Invariant.IsNotNull(metadataItems, "metadataItems");
+
+            ModelMetadataRegistryItem item = GetOrCreate(modelType);
+
+            item.PropertiesMetadata.Clear();
+
+            foreach (KeyValuePair<string, ModelMetadataItem> pair in metadataItems)
             {
-                return configurations;
+                item.PropertiesMetadata.Add(pair.Key, pair.Value);
             }
         }
 
         /// <summary>
-        /// Registers the specified model.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataDictionary">The metadata dictionary.</param>
-        public virtual void Register(Type modelType, IDictionary<string, ModelMetadataItem> metadataDictionary)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-            Invariant.IsNotNull(metadataDictionary, "metadataDictionary");
-
-            Configurations.Add(modelType, metadataDictionary);
-        }
-
-        /// <summary>
-        /// Determines whether the specified model type is registered.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type is registered; otherwise, <c>false</c>.
-        /// </returns>
-        public virtual bool IsRegistered(Type modelType)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-
-            return configurations.ContainsKey(modelType);
-        }
-
-        /// <summary>
-        /// Determines whether the specified model type with the property name is registered.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type with property name is registered; otherwise, <c>false</c>.
-        /// </returns>
-        public virtual bool IsRegistered(Type modelType, string propertyName)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-
-            IDictionary<string, ModelMetadataItem> properties;
-
-            return configurations.TryGetValue(modelType, out properties) && properties.ContainsKey(propertyName);
-        }
-
-        /// <summary>
-        /// Gets the Matching metadata of the given model.
+        /// Gets the model metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        public virtual IDictionary<string, ModelMetadataItem> Matching(Type modelType)
+        public ModelMetadataItem GetModelMetadata(Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            IDictionary<string, ModelMetadataItem> properties;
+            ModelMetadataRegistryItem item;
 
-            return configurations.TryGetValue(modelType, out properties) ? properties : null;
+            return mappings.TryGetValue(modelType, out item) ? item.ClassMetadata : null;
         }
 
         /// <summary>
-        /// Gets the Matching metadata of the given model property.
+        /// Gets the model property metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public virtual ModelMetadataItem Matching(Type modelType, string propertyName)
+        public virtual ModelMetadataItem GetModelPropertyMetadata(Type modelType, string propertyName)
         {
             Invariant.IsNotNull(modelType, "modelType");
-            Invariant.IsNotNull(propertyName, "propertyName");
 
-            IDictionary<string, ModelMetadataItem> properties;
+            ModelMetadataRegistryItem item;
 
-            if (!configurations.TryGetValue(modelType, out properties))
+            if (!mappings.TryGetValue(modelType, out item))
             {
                 return null;
             }
 
             ModelMetadataItem propertyMetadata;
 
-            return properties.TryGetValue(propertyName, out propertyMetadata) ? propertyMetadata : null;
+            return item.PropertiesMetadata.TryGetValue(propertyName, out propertyMetadata) ? propertyMetadata : null;
+        }
+
+        /// <summary>
+        /// Gets the model properties metadata.
+        /// </summary>
+        /// <param name="modelType">Type of the model.</param>
+        /// <returns></returns>
+        public virtual IDictionary<string, ModelMetadataItem> GetModelPropertiesMetadata(Type modelType)
+        {
+            Invariant.IsNotNull(modelType, "modelType");
+
+            ModelMetadataRegistryItem item;
+
+            return mappings.TryGetValue(modelType, out item) ? item.PropertiesMetadata : null;
+        }
+
+        private ModelMetadataRegistryItem GetOrCreate(Type modelType)
+        {
+            ModelMetadataRegistryItem item;
+
+            if (!mappings.TryGetValue(modelType, out item))
+            {
+                item = new ModelMetadataRegistryItem();
+                mappings.Add(modelType, item);
+            }
+
+            return item;
+        }
+
+        private sealed class ModelMetadataRegistryItem
+        {
+            public ModelMetadataRegistryItem()
+            {
+                PropertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+            }
+
+            public ModelMetadataItem ClassMetadata { get; set; }
+
+            public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
         }
     }
 }

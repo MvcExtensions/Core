@@ -195,8 +195,6 @@
     <Compile Include="ModelMetadata\ExtendedModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
     <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
-    <Compile Include="ModelMetadata\CompositeModelMetadataProvider.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelMetadataProviderBase.cs" />
     <Compile Include="ModelMetadata\ExtendedValidator.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
   </ItemGroup>

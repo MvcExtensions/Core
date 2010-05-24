@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a metadata provider which supports fluent registration.
     /// </summary>
-    public class ExtendedModelMetadataProvider : ExtendedModelMetadataProviderBase
+    public class ExtendedModelMetadataProvider : DataAnnotationsModelMetadataProvider
     {
         private readonly IModelMetadataRegistry registry;
 
@@ -43,21 +43,28 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(containerType, "containerType");
 
-            IDictionary<string, ModelMetadataItem> metadataDictionary = registry.Matching(containerType);
+            IDictionary<string, ModelMetadataItem> metadataItems = registry.GetModelPropertiesMetadata(containerType);
+
+            if ((metadataItems == null) || (metadataItems.Count == 0))
+            {
+                return base.GetMetadataForProperties(container, containerType);
+            }
+
+            IList<ModelMetadata> list = new List<ModelMetadata>();
 
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(containerType))
             {
-                ModelMetadataItem metadata = null;
-
-                if (metadataDictionary != null)
-                {
-                    metadataDictionary.TryGetValue(descriptor.Name, out metadata);
-                }
+                ModelMetadataItem metadata;
+                metadataItems.TryGetValue(descriptor.Name, out metadata);
 
                 PropertyDescriptor tempDescriptor = descriptor;
 
-                yield return CreateModelMetadata(containerType, tempDescriptor.Name, tempDescriptor.PropertyType, metadata, () => tempDescriptor.GetValue(container));
+                ModelMetadata modelMetadata = CreatePropertyMetadata(containerType, tempDescriptor.Name, tempDescriptor.PropertyType, metadata, () => tempDescriptor.GetValue(container));
+
+                list.Add(modelMetadata);
             }
+
+            return list;
         }
 
         /// <summary>
@@ -74,6 +81,13 @@ namespace MvcExtensions
             Invariant.IsNotNull(containerType, "containerType");
             Invariant.IsNotNull(propertyName, "propertyName");
 
+            ModelMetadataItem metadataItem = registry.GetModelPropertyMetadata(containerType, propertyName);
+
+            if (metadataItem == null)
+            {
+                return base.GetMetadataForProperty(modelAccessor, containerType, propertyName);
+            }
+
             PropertyDescriptor propertyDescriptor = TypeDescriptor.GetProperties(containerType)
                                                                   .Cast<PropertyDescriptor>()
                                                                   .FirstOrDefault(property => property.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
@@ -83,7 +97,7 @@ namespace MvcExtensions
                 throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound, containerType.FullName, propertyName));
             }
 
-            return CreateModelMetadata(containerType, propertyName, propertyDescriptor.PropertyType, registry.Matching(containerType, propertyName), modelAccessor);
+            return CreatePropertyMetadata(containerType, propertyName, propertyDescriptor.PropertyType, metadataItem, modelAccessor);
         }
 
         /// <summary>
@@ -94,103 +108,89 @@ namespace MvcExtensions
         /// <returns>The metadata.</returns>
         public override ModelMetadata GetMetadataForType(Func<object> modelAccessor, Type modelType)
         {
-            return new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, null);
+            ModelMetadataItem metadataItem = registry.GetModelMetadata(modelType);
+
+            if (metadataItem == null)
+            {
+                return base.GetMetadataForType(modelAccessor, modelType);
+            }
+
+            return CreateModelMetadata(modelType, modelAccessor, metadataItem);
         }
 
-        /// <summary>
-        /// Determines whether the specified model type is registered.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type is registered; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool IsRegistered(Type modelType)
+        private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
         {
-            return registry.IsRegistered(modelType);
-        }
+            metadata.ShowForDisplay = metadataItem.ShowForDisplay;
+            metadata.DisplayName = !string.IsNullOrEmpty(metadataItem.DisplayName) ? metadataItem.DisplayName : metadata.DisplayName;
+            metadata.ShortDisplayName = !string.IsNullOrEmpty(metadataItem.ShortDisplayName) ? metadataItem.ShortDisplayName : metadata.ShortDisplayName;
+            metadata.TemplateHint = !string.IsNullOrEmpty(metadataItem.TemplateName) ? metadataItem.TemplateName : metadata.TemplateHint;
+            metadata.Description = !string.IsNullOrEmpty(metadataItem.Description) ? metadataItem.Description : metadata.Description;
+            metadata.NullDisplayText = !string.IsNullOrEmpty(metadataItem.NullDisplayText) ? metadataItem.NullDisplayText : metadata.NullDisplayText;
+            metadata.Watermark = !string.IsNullOrEmpty(metadataItem.Watermark) ? metadataItem.Watermark : metadata.Watermark;
 
-        /// <summary>
-        /// Determines whether the specified model type with the property name is registered.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type with property name is registered; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool IsRegistered(Type modelType, string propertyName)
-        {
-            return registry.IsRegistered(modelType, propertyName);
-        }
-
-        /// <summary>
-        /// Creates the model metadata.
-        /// </summary>
-        /// <param name="containerType">Type of the container.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <param name="propertyType">Type of the property.</param>
-        /// <param name="propertyMetadata">The property meta data.</param>
-        /// <param name="modelAccessor">The model accessor.</param>
-        /// <returns></returns>
-        protected virtual ModelMetadata CreateModelMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
-        {
-            if (propertyMetadata == null)
+            if (metadataItem.HideSurroundingHtml.HasValue)
             {
-                return new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
+                metadata.HideSurroundingHtml = metadataItem.HideSurroundingHtml.Value;
             }
 
-            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata)
-                                              {
-                                                  ShowForDisplay = propertyMetadata.ShowForDisplay,
-                                              };
-
-            modelMetadata.DisplayName = !string.IsNullOrEmpty(propertyMetadata.DisplayName) ? propertyMetadata.DisplayName : modelMetadata.DisplayName;
-            modelMetadata.ShortDisplayName = !string.IsNullOrEmpty(propertyMetadata.ShortDisplayName) ? propertyMetadata.ShortDisplayName : modelMetadata.ShortDisplayName;
-            modelMetadata.TemplateHint = !string.IsNullOrEmpty(propertyMetadata.TemplateName) ? propertyMetadata.TemplateName : modelMetadata.TemplateHint;
-            modelMetadata.Description = !string.IsNullOrEmpty(propertyMetadata.Description) ? propertyMetadata.Description : modelMetadata.Description;
-            modelMetadata.NullDisplayText = !string.IsNullOrEmpty(propertyMetadata.NullDisplayText) ? propertyMetadata.NullDisplayText : modelMetadata.NullDisplayText;
-            modelMetadata.Watermark = !string.IsNullOrEmpty(propertyMetadata.Watermark) ? propertyMetadata.Watermark : modelMetadata.Watermark;
-
-            if (propertyMetadata.HideSurroundingHtml.HasValue)
+            if (metadataItem.IsReadOnly.HasValue)
             {
-                modelMetadata.HideSurroundingHtml = propertyMetadata.HideSurroundingHtml.Value;
+                metadata.IsReadOnly = metadataItem.IsReadOnly.Value;
             }
 
-            if (propertyMetadata.IsReadOnly.HasValue)
+            if (metadataItem.IsRequired.HasValue)
             {
-                modelMetadata.IsReadOnly = propertyMetadata.IsReadOnly.Value;
+                metadata.IsRequired = metadataItem.IsRequired.Value;
             }
 
-            if (propertyMetadata.IsRequired.HasValue)
+            if (metadataItem.ShowForEdit.HasValue)
             {
-                modelMetadata.IsRequired = propertyMetadata.IsRequired.Value;
-            }
-
-            if (propertyMetadata.ShowForEdit.HasValue)
-            {
-                modelMetadata.ShowForEdit = propertyMetadata.ShowForEdit.Value;
+                metadata.ShowForEdit = metadataItem.ShowForEdit.Value;
             }
             else
             {
-                modelMetadata.ShowForEdit = !modelMetadata.IsReadOnly;
+                metadata.ShowForEdit = !metadata.IsReadOnly;
             }
 
-            IModelMetadataFormattableItem formattableItem = propertyMetadata as IModelMetadataFormattableItem;
+            IModelMetadataFormattableItem formattableItem = metadataItem as IModelMetadataFormattableItem;
 
             if (formattableItem != null)
             {
-                modelMetadata.DisplayFormatString = formattableItem.DisplayFormat;
+                metadata.DisplayFormatString = formattableItem.DisplayFormat;
 
-                if (formattableItem.ApplyFormatInEditMode && modelMetadata.ShowForEdit)
+                if (formattableItem.ApplyFormatInEditMode && metadata.ShowForEdit)
                 {
-                    modelMetadata.EditFormatString = formattableItem.EditFormat;
+                    metadata.EditFormatString = formattableItem.EditFormat;
                 }
             }
 
-            StringMetadataItem stringMetadataItem = propertyMetadata as StringMetadataItem;
+            StringMetadataItem stringMetadataItem = metadataItem as StringMetadataItem;
 
             if (stringMetadataItem != null)
             {
-                modelMetadata.ConvertEmptyStringToNull = stringMetadataItem.ConvertEmptyStringToNull;
+                metadata.ConvertEmptyStringToNull = stringMetadataItem.ConvertEmptyStringToNull;
+            }
+        }
+
+        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
+
+            if (propertyMetadata != null)
+            {
+                Copy(propertyMetadata, modelMetadata);
+            }
+
+            return modelMetadata;
+        }
+
+        private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
+
+            if (metadataItem != null)
+            {
+                Copy(metadataItem, modelMetadata);
             }
 
             return modelMetadata;

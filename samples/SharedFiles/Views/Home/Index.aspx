@@ -12,6 +12,6 @@
         <li>PerWebRequest which excutes on request begin and ends.</li>
     </ul>
     <p>
-        To learn more about ASP.NET MVC Extensibility visit <a href="http://weblogs.asp.net/rashid" title="ASP.NET MVC Extensibility Blog">http://weblogs.asp.net/rashid</a>.
+        To learn more about ASP.NET MVC Extensions visit <a href="http://mvcextension.net">http://mvcextension.net</a>.
     </p>
 </asp:Content>

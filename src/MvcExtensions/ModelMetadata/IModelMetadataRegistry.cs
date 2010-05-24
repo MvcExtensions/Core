@@ -9,7 +9,6 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
 
     /// <summary>
     /// Represents an interface to store all the metadata of the models.
@@ -17,46 +16,39 @@ namespace MvcExtensions
     public interface IModelMetadataRegistry
     {
         /// <summary>
-        /// Registers the specified model.
+        /// Registers the model type metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataDictionary">The metadata dictionary.</param>
-        void Register(Type modelType, IDictionary<string, ModelMetadataItem> metadataDictionary);
+        /// <param name="metadataItem">The metadata.</param>
+        void RegisterModel(Type modelType, ModelMetadataItem metadataItem);
 
         /// <summary>
-        /// Determines whether the specified model type is registered.
+        /// Registers the specified model type properties metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type is registered; otherwise, <c>false</c>.
-        /// </returns>
-        bool IsRegistered(Type modelType);
+        /// <param name="metadataItems">The metadata dictionary.</param>
+        void RegisterModelProperties(Type modelType, IDictionary<string, ModelMetadataItem> metadataItems);
 
         /// <summary>
-        /// Determines whether the specified model type with the property name is registered.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="propertyName">Name of the property.</param>
-        /// <returns>
-        /// <c>true</c> if the specified model type with property name is registered; otherwise, <c>false</c>.
-        /// </returns>
-        bool IsRegistered(Type modelType, string propertyName);
-
-        /// <summary>
-        /// Gets the Matching metadata of the given model.
+        /// Gets the model metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        IDictionary<string, ModelMetadataItem> Matching(Type modelType);
+        ModelMetadataItem GetModelMetadata(Type modelType);
 
         /// <summary>
-        /// Gets the Matching metadata of the given model property.
+        /// Gets the model property metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        ModelMetadataItem Matching(Type modelType, string propertyName);
+        ModelMetadataItem GetModelPropertyMetadata(Type modelType, string propertyName);
+
+        /// <summary>
+        /// Gets the model properties metadata.
+        /// </summary>
+        /// <param name="modelType">Type of the model.</param>
+        /// <returns></returns>
+        IDictionary<string, ModelMetadataItem> GetModelPropertiesMetadata(Type modelType);
     }
 }
