@@ -27,15 +27,9 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItem, "metadataItem");
 
-            ModelMetadataRegistryItem item;
+            ModelMetadataRegistryItem item = GetOrCreate(modelType);
 
-            if (!mappings.TryGetValue(modelType, out item))
-            {
-                item = new ModelMetadataRegistryItem();
-                mappings.Add(modelType, item);
-            }
-
-            item.InstanceMetadata = metadataItem;
+            item.ClassMetadata = metadataItem;
         }
 
         /// <summary>
@@ -48,17 +42,11 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItems, "metadataItems");
 
-            ModelMetadataRegistryItem item;
-
-            if (!mappings.TryGetValue(modelType, out item))
-            {
-                item = new ModelMetadataRegistryItem();
-                mappings.Add(modelType, item);
-            }
+            ModelMetadataRegistryItem item = GetOrCreate(modelType);
 
             item.PropertiesMetadata.Clear();
 
-            foreach (KeyValuePair<string, ModelMetadataItem> pair  in metadataItems)
+            foreach (KeyValuePair<string, ModelMetadataItem> pair in metadataItems)
             {
                 item.PropertiesMetadata.Add(pair.Key, pair.Value);
             }
@@ -75,7 +63,7 @@ namespace MvcExtensions
 
             ModelMetadataRegistryItem item;
 
-            return mappings.TryGetValue(modelType, out item) ? item.InstanceMetadata : null;
+            return mappings.TryGetValue(modelType, out item) ? item.ClassMetadata : null;
         }
 
         /// <summary>
@@ -114,6 +102,19 @@ namespace MvcExtensions
             return mappings.TryGetValue(modelType, out item) ? item.PropertiesMetadata : null;
         }
 
+        private ModelMetadataRegistryItem GetOrCreate(Type modelType)
+        {
+            ModelMetadataRegistryItem item;
+
+            if (!mappings.TryGetValue(modelType, out item))
+            {
+                item = new ModelMetadataRegistryItem();
+                mappings.Add(modelType, item);
+            }
+
+            return item;
+        }
+
         private sealed class ModelMetadataRegistryItem
         {
             public ModelMetadataRegistryItem()
@@ -121,7 +122,7 @@ namespace MvcExtensions
                 PropertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
             }
 
-            public ModelMetadataItem InstanceMetadata { get; set; }
+            public ModelMetadataItem ClassMetadata { get; set; }
 
             public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
         }

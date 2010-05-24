@@ -83,7 +83,7 @@ namespace MvcExtensions
 
             ModelMetadataItem metadataItem = registry.GetModelPropertyMetadata(containerType, propertyName);
 
-            if (metadataItem != null)
+            if (metadataItem == null)
             {
                 return base.GetMetadataForProperty(modelAccessor, containerType, propertyName);
             }
@@ -116,30 +116,6 @@ namespace MvcExtensions
             }
 
             return CreateModelMetadata(modelType, modelAccessor, metadataItem);
-        }
-
-        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
-        {
-            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
-
-            if (propertyMetadata != null)
-            {
-                Copy(propertyMetadata, modelMetadata);
-            }
-
-            return modelMetadata;
-        }
-
-        private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
-        {
-            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
-
-            if (metadataItem != null)
-            {
-                Copy(metadataItem, modelMetadata);
-            }
-
-            return modelMetadata;
         }
 
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
@@ -194,6 +170,30 @@ namespace MvcExtensions
             {
                 metadata.ConvertEmptyStringToNull = stringMetadataItem.ConvertEmptyStringToNull;
             }
+        }
+
+        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
+
+            if (propertyMetadata != null)
+            {
+                Copy(propertyMetadata, modelMetadata);
+            }
+
+            return modelMetadata;
+        }
+
+        private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
+
+            if (metadataItem != null)
+            {
+                Copy(metadataItem, modelMetadata);
+            }
+
+            return modelMetadata;
         }
     }
 }

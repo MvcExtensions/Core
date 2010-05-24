@@ -16,7 +16,7 @@ namespace Demo.Web
             Routes.IgnoreRoute("favicon.ico");
             Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            Routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional } );
+            Routes.MapRoute("Default", "{controller}/{action}/{id}", new { controller = "Home", action = "Index", id = UrlParameter.Optional });
         }
     }
 }

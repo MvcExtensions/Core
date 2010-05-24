@@ -7,7 +7,6 @@
 
 namespace MvcExtensions.Tests
 {
-    using System;
     using System.Collections.Generic;
 
     using Moq;
@@ -15,74 +14,61 @@ namespace MvcExtensions.Tests
 
     public class ModelMetadataRegistryTests
     {
-        private readonly ModelMetadataRegistryTestDouble registry;
+        private readonly ModelMetadataRegistry registry;
 
         public ModelMetadataRegistryTests()
         {
-            registry = new ModelMetadataRegistryTestDouble();
+            registry = new ModelMetadataRegistry();
         }
 
         [Fact]
-        public void Configurations_should_be_empty_when_new_instance_is_created()
+        public void Should_be_able_to_register_model()
         {
-            Assert.Empty(registry.PublicConfigurations);
+            var modelMetadata = new Mock<ModelMetadataItem>();
+
+            registry.RegisterModel(typeof(object), modelMetadata.Object);
+
+            Assert.Same(modelMetadata.Object, registry.GetModelMetadata(typeof(object)));
         }
 
         [Fact]
-        public void Should_be_able_to_register()
+        public void Should_be_able_to_register_model_properties()
         {
-            registry.Register(typeof(object), new Dictionary<string, ModelMetadataItem>());
+            var properties = new Dictionary<string, ModelMetadataItem>
+                                 {
+                                     { "foo", new Mock<ModelMetadataItem>().Object },
+                                     { "bar", new Mock<ModelMetadataItem>().Object }
+                                 };
 
-            Assert.NotEmpty(registry.PublicConfigurations);
+            registry.RegisterModelProperties(typeof(object), properties);
+
+            var returndedProperties = registry.GetModelPropertiesMetadata(typeof(object));
+
+            Assert.True(returndedProperties.ContainsKey("foo"));
+            Assert.True(returndedProperties.ContainsKey("bar"));
         }
 
         [Fact]
-        public void Should_be_able_to_check_whether_model_type_is_registered()
+        public void Should_be_able_to_get_model_property()
         {
-            registry.Register(typeof(object), new Dictionary<string, ModelMetadataItem>());
+            var modelMetadata = new Mock<ModelMetadataItem>();
 
-            Assert.True(registry.IsRegistered(typeof(object)));
+            var properties = new Dictionary<string, ModelMetadataItem>
+                                 {
+                                     { "foo", modelMetadata.Object }
+                                 };
+
+            registry.RegisterModelProperties(typeof(object), properties);
+
+            var returnedeMetadata = registry.GetModelPropertyMetadata(typeof(object), "foo");
+
+            Assert.Same(modelMetadata.Object, returnedeMetadata);
         }
 
         [Fact]
-        public void Should_be_able_to_check_whether_property_of_model_type_is_registered()
+        public void GetModelPropertyMetadata_should_return_null_when_property_is_not_registered()
         {
-            registry.Register(typeof(object), new Dictionary<string, ModelMetadataItem> { { "foo", new Mock<ModelMetadataItem>().Object } });
-
-            Assert.True(registry.IsRegistered(typeof(object), "foo"));
-        }
-
-        [Fact]
-        public void Should_be_able_to_get_metadata_of_model_type()
-        {
-            registry.Register(typeof(object), new Dictionary<string, ModelMetadataItem>());
-
-            Assert.NotNull(registry.Matching(typeof(object)));
-        }
-
-        [Fact]
-        public void Should_be_able_to_get_metadata_of_model_type_property()
-        {
-            registry.Register(typeof(object), new Dictionary<string, ModelMetadataItem> { { "foo", new Mock<ModelMetadataItem>().Object } });
-
-            Assert.NotNull(registry.Matching(typeof(object), "foo"));
-        }
-
-        [Fact]
-        public void Should_return_null_when_property_of_model_type_does_not_exists()
-        {
-            Assert.Null(registry.Matching(typeof(object), "foo"));
-        }
-
-        private sealed class ModelMetadataRegistryTestDouble : ModelMetadataRegistry
-        {
-            public IDictionary<Type, IDictionary<string, ModelMetadataItem>> PublicConfigurations
-            {
-                get
-                {
-                    return Configurations;
-                }
-            }
+            Assert.Null(registry.GetModelPropertyMetadata(typeof(object), "foo"));
         }
     }
 }

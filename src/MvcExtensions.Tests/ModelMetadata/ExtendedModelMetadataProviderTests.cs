@@ -27,9 +27,9 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void GetMetadataForProperties_should_return_matching_metadata()
+        public void GetMetadataForProperties_should_return_properties_metadata_when_model_type_is_registered()
         {
-            registry.Setup(r => r.Matching(It.IsAny<Type>())).Returns(new Dictionary<string, ModelMetadataItem>());
+            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(new Dictionary<string, ModelMetadataItem> { { "Property1", new Mock<ModelMetadataItem>().Object } });
 
             var metadata = provider.GetMetadataForProperties(new DummyObject(), typeof(DummyObject));
 
@@ -37,9 +37,29 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void GetMetadataForProperty_should_return_mathing_metadata()
+        public void GetMetadataForProperties_should_return_properties_metadata_when_model_type_is_not_registered()
         {
-            registry.Setup(r => r.Matching(It.IsAny<Type>(), It.IsAny<string>())).Returns(new Mock<ModelMetadataItem>().Object);
+            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns((IDictionary<string, ModelMetadataItem>)null);
+
+            var metadata = provider.GetMetadataForProperties(new DummyObject(), typeof(DummyObject));
+
+            Assert.Equal(2, metadata.Count());
+        }
+
+        [Fact]
+        public void GetMetadataForProperty_should_return_property_metadata_when_model_type_and_property_is_registered()
+        {
+            registry.Setup(r => r.GetModelPropertyMetadata(It.IsAny<Type>(), It.IsAny<string>())).Returns(new Mock<ModelMetadataItem>().Object);
+
+            var metadata = provider.GetMetadataForProperty(() => new DummyObject(), typeof(DummyObject), "Property1");
+
+            Assert.NotNull(metadata);
+        }
+
+        [Fact]
+        public void GetMetadataForProperty_should_return_property_metadata_when_model_type_and_property_is_not_registered()
+        {
+            registry.Setup(r => r.GetModelPropertyMetadata(It.IsAny<Type>(), It.IsAny<string>())).Returns((ModelMetadataItem)null);
 
             var metadata = provider.GetMetadataForProperty(() => new DummyObject(), typeof(DummyObject), "Property1");
 
@@ -49,11 +69,21 @@ namespace MvcExtensions.Tests
         [Fact]
         public void GetMetadataForProperty_should_throw_exception_for_invalid_property()
         {
+            registry.Setup(r => r.GetModelPropertyMetadata(It.IsAny<Type>(), It.IsAny<string>())).Returns(new Mock<ModelMetadataItem>().Object);
+
             Assert.Throws<ArgumentException>(() => provider.GetMetadataForProperty(() => new DummyObject(), typeof(DummyObject), "Property3"));
         }
 
         [Fact]
-        public void GetMetadataForType_should_always_return_metadata()
+        public void GetMetadataForType_should_return_metadata_model_type_is_registered()
+        {
+            registry.Setup(r => r.GetModelMetadata(It.IsAny<Type>())).Returns(new Mock<ModelMetadataItem>().Object);
+
+            Assert.NotNull(provider.GetMetadataForType(() => new DummyObject(), typeof(DummyObject)));
+        }
+
+        [Fact]
+        public void GetMetadataForType_should_return_metadata_model_type_is_not_registered()
         {
             Assert.NotNull(provider.GetMetadataForType(() => new DummyObject(), typeof(DummyObject)));
         }
@@ -65,7 +95,7 @@ namespace MvcExtensions.Tests
         {
             var metadataItem = new StringMetadataItem { HideSurroundingHtml = hideSurroundingHtml, IsReadOnly = isReadOnly, IsRequired = isRequired, ShowForEdit = showForEdit, ApplyFormatInEditMode = applyFormatInEditMode };
 
-            registry.Setup(r => r.Matching(It.IsAny<Type>(), It.IsAny<string>())).Returns(metadataItem);
+            registry.Setup(r => r.GetModelPropertyMetadata(It.IsAny<Type>(), It.IsAny<string>())).Returns(metadataItem);
 
             var metadata = provider.GetMetadataForProperty(() => new DummyObject(), typeof(DummyObject), "Property1");
 
@@ -74,22 +104,6 @@ namespace MvcExtensions.Tests
             Assert.Equal(metadataItem.IsRequired, metadata.IsRequired);
             Assert.Equal(metadataItem.ShowForEdit, metadata.ShowForEdit);
             Assert.Equal(metadataItem.EditFormat, metadata.EditFormatString);
-        }
-
-        [Fact]
-        public void IsRegister_with_only_type_should_be_same_as_registry()
-        {
-            registry.Setup(r => r.IsRegistered(typeof(DummyObject))).Returns(true);
-
-            Assert.True(provider.IsRegistered(typeof(DummyObject)));
-        }
-
-        [Fact]
-        public void IsRegister_with_type_and_property_name_should_be_same_as_registry()
-        {
-            registry.Setup(r => r.IsRegistered(typeof(DummyObject), "Property1")).Returns(true);
-
-            Assert.True(provider.IsRegistered(typeof(DummyObject), "Property1"));
         }
 
         public class DummyObject
