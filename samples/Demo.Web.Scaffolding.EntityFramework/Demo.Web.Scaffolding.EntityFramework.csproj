@@ -72,7 +72,6 @@
     </Compile>
     <Compile Include="Infrastructure\RegisterRoutes.cs" />
     <Compile Include="Infrastructure\RegisterServices.cs" />
-    <Compile Include="Models\CategoryConfiguration.cs" />
     <Compile Include="Models\Northwind.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

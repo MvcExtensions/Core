@@ -13,7 +13,7 @@
         public RegisterServices()
         {
             For<ObjectContext>().HttpContextScoped().Use(() => new Northwind());
-            For<IEntityFrameworkMetadataProvider>().Singleton().Use<EntityFrameworkMetadataProvider>().OnCreation((c, p) => p.Initialize(c.GetInstance<ObjectContext>()));
+            For<IEntityFrameworkMetadataProvider>().Singleton().Use<EntityFrameworkMetadataProvider>();
             For(typeof(ScaffoldedController<,>)).Use(typeof(ScaffoldedController<,>));
         }
     }

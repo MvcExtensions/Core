@@ -28,7 +28,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
         [Fact]
         public void Should_return_scaffolded_controller_type_when_controller_name_matches_with_entityset_name()
         {
-            provider.Setup(p => p.GetEntitySetMapping(It.IsAny<string>())).Returns(new EntitySetMapping(typeof(Category), typeof(int)));
+            var metadata = new Mock<EntityMetadata>("categories", typeof(Category));
+
+            metadata.SetupGet(m => m.KeyType).Returns(typeof(int));
+
+            provider.Setup(p => p.GetMetadata(It.IsAny<string>())).Returns(metadata.Object);
 
             var type = factory.PublicGetControllerType(new RequestContext(), "categories");
 

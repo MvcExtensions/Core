@@ -18,8 +18,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
 
         public EntityFrameworkMetadataProviderTests()
         {
-            provider = new EntityFrameworkMetadataProvider();
-            provider.Initialize(new Northwind());
+            provider = new EntityFrameworkMetadataProvider(new Northwind());
         }
 
         [Theory]
@@ -29,16 +28,16 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
         [InlineData("suppliers", typeof(Supplier), typeof(int))]
         public void Should_be_able_to_map_entitysets(string entitySetName, Type entityType, Type keyType)
         {
-            var mapping = provider.GetEntitySetMapping(entitySetName);
+            var mapping = provider.GetMetadata(entitySetName);
 
             Assert.Same(entityType, mapping.EntityType);
             Assert.Same(keyType, mapping.KeyType);
         }
 
         [Fact]
-        public void Should_not_map_multikey_entities()
+        public void Should_not_map_multiplekey_entities()
         {
-            Assert.Null(provider.GetEntitySetMapping("Order Details"));
+            Assert.Null(provider.GetMetadata("Order Details"));
         }
     }
 }

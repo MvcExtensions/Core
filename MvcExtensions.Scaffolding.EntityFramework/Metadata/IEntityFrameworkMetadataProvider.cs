@@ -7,6 +7,7 @@
 
 namespace MvcExtensions.Scaffolding.EntityFramework
 {
+    using System;
     using System.Data.Objects;
 
     /// <summary>
@@ -15,16 +16,17 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     public interface IEntityFrameworkMetadataProvider
     {
         /// <summary>
-        /// Initializes the provider with given database.
-        /// </summary>
-        /// <param name="database">The database.</param>
-        void Initialize(ObjectContext database);
-
-        /// <summary>
-        /// Gets the entity set mapping.
+        /// Gets the entity metadata.
         /// </summary>
         /// <param name="entitySetName">Name of the entity set.</param>
         /// <returns></returns>
-        EntitySetMapping GetEntitySetMapping(string entitySetName);
+        EntityMetadata GetMetadata(string entitySetName);
+
+        /// <summary>
+        /// Gets the entity metadata.
+        /// </summary>
+        /// <param name="entityType">Type of the entity.</param>
+        /// <returns></returns>
+        EntityMetadata GetMetadata(Type entityType);
     }
 }

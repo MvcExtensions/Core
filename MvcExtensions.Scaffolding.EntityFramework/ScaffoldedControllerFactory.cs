@@ -48,11 +48,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns>The controller type.</returns>
         protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
-            EntitySetMapping mapping = MetadataProvider.GetEntitySetMapping(controllerName);
+            EntityMetadata metadata = MetadataProvider.GetMetadata(controllerName);
 
-            if (mapping != null)
+            if (metadata != null)
             {
-                Type controllerType = genericControllerType.MakeGenericType(mapping.EntityType, mapping.KeyType);
+                Type controllerType = genericControllerType.MakeGenericType(metadata.EntityType, metadata.KeyType);
 
                 return controllerType;
             }

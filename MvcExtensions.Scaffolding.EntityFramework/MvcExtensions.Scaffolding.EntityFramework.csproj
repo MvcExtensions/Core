@@ -59,8 +59,9 @@
     <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Metadata\EntityMetadata.cs" />
+    <Compile Include="Metadata\PropertyMetadata.cs" />
     <Compile Include="Metadata\EntityFrameworkMetadataProvider.cs" />
-    <Compile Include="Metadata\EntitySetMapping.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Metadata\IEntityFrameworkMetadataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -18,33 +18,53 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class EntityFrameworkMetadataProvider : IEntityFrameworkMetadataProvider
     {
-        private readonly IDictionary<string, EntitySetMapping> entitySetMappings = new Dictionary<string, EntitySetMapping>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, EntityMetadata> entitySetMappings = new Dictionary<string, EntityMetadata>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<Type, EntityMetadata> entityTypeMappings = new Dictionary<Type, EntityMetadata>();
 
         /// <summary>
-        /// Initializes the provider with given database.
+        /// Initializes a new instance of the <see cref="EntityFrameworkMetadataProvider"/> class.
         /// </summary>
         /// <param name="database">The database.</param>
-        public void Initialize(ObjectContext database)
+        public EntityFrameworkMetadataProvider(ObjectContext database)
         {
             Invariant.IsNotNull(database, "database");
 
-            LoadEntitySetMappings(database);
+            LoadMetadata(database);
         }
 
         /// <summary>
-        /// Gets the entity set mapping.
+        /// Gets the entity metadata.
         /// </summary>
         /// <param name="entitySetName">Name of the entity set.</param>
         /// <returns></returns>
-        public EntitySetMapping GetEntitySetMapping(string entitySetName)
+        public EntityMetadata GetMetadata(string entitySetName)
         {
-            EntitySetMapping mapping;
+            Invariant.IsNotNull(entitySetName, "entitySetName");
 
-            return entitySetMappings.TryGetValue(entitySetName, out mapping) ? mapping : null;
+            EntityMetadata metadata;
+
+            return entitySetMappings.TryGetValue(entitySetName, out metadata) ? metadata : null;
         }
 
-        private void LoadEntitySetMappings(ObjectContext database)
+        /// <summary>
+        /// Gets the entity metadata.
+        /// </summary>
+        /// <param name="entityType">Type of the entity.</param>
+        /// <returns></returns>
+        public EntityMetadata GetMetadata(Type entityType)
         {
+            Invariant.IsNotNull(entityType, "entityType");
+
+            EntityMetadata metadata;
+
+            return entityTypeMappings.TryGetValue(entityType, out metadata) ? metadata : null;
+        }
+
+        private void LoadMetadata(ObjectContext database)
+        {
+            entitySetMappings.Clear();
+            entityTypeMappings.Clear();
+
             database.MetadataWorkspace.LoadFromAssembly(database.GetType().Assembly);
 
             EntityContainer container = database.MetadataWorkspace.GetEntityContainer(database.DefaultContainerName, DataSpace.CSpace);
@@ -55,11 +75,33 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             {
                 EntityType entityType = (EntityType)database.MetadataWorkspace.GetObjectSpaceType(entitySet.ElementType);
                 Type entityClrType = objectSpaceItems.GetClrType(entityType);
-                Type keyClrType = ((PrimitiveType)entitySet.ElementType.KeyMembers.First().TypeUsage.EdmType).ClrEquivalentType;
 
-                EntitySetMapping mapping = new EntitySetMapping(entityClrType, keyClrType);
+                EntityMetadata entityMetadata = new EntityMetadata(entitySet.Name, entityClrType);
 
-                entitySetMappings.Add(entitySet.Name, mapping);
+                entitySetMappings.Add(entityMetadata.EntitySetName, entityMetadata);
+                entityTypeMappings.Add(entityMetadata.EntityType, entityMetadata);
+
+                foreach (EdmMember member in entityType.Members)
+                {
+                    Type propertyType = null;
+
+                    EdmType edmTypeProperty = member.TypeUsage.EdmType;
+
+                    PrimitiveType primitiveTypeProperty = edmTypeProperty as PrimitiveType;
+                    EntityType entityTypeProperty = edmTypeProperty as EntityType;
+
+                    if (primitiveTypeProperty != null)
+                    {
+                        propertyType = primitiveTypeProperty.ClrEquivalentType;
+                    }
+
+                    if (propertyType != null)
+                    {
+                        PropertyMetadata propertyMetadata = new PropertyMetadata { Name = member.Name, Type = propertyType, IsKey = entityType.KeyMembers.Contains(member) };
+
+                        entityMetadata.AddProperty(propertyMetadata);
+                    }
+                }
             }
         }
     }
