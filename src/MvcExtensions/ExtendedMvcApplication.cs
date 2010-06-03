@@ -48,7 +48,7 @@ namespace MvcExtensions
         /// Gets the container.
         /// </summary>
         /// <value>The container.</value>
-        public ContainerAdapter Container
+        public ContainerAdapter Adapter
         {
             [DebuggerStepThrough]
             get
@@ -108,7 +108,7 @@ namespace MvcExtensions
 
             bool shouldSkip = false;
 
-            foreach (PerRequestTask task in Container.GetAllInstances<PerRequestTask>().OrderBy(task => task.Order))
+            foreach (PerRequestTask task in GetCurrentAdapter().GetAllInstances<PerRequestTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -150,9 +150,9 @@ namespace MvcExtensions
         {
             OnPerRequestTasksDisposing();
 
-            Container.GetAllInstances<PerRequestTask>()
-                     .OrderByDescending(task => task.Order)
-                     .Each(task => task.Dispose());
+            GetCurrentAdapter().GetAllInstances<PerRequestTask>()
+                               .OrderByDescending(task => task.Order)
+                               .Each(task => task.Dispose());
 
             OnPerRequestTasksDisposed();
         }
@@ -176,6 +176,15 @@ namespace MvcExtensions
         /// </summary>
         protected virtual void OnEnd()
         {
+        }
+
+        /// <summary>
+        /// Gets the current adapter.
+        /// </summary>
+        /// <returns></returns>
+        protected virtual ContainerAdapter GetCurrentAdapter()
+        {
+            return Adapter;
         }
 
         private void HandleBeginRequest(object sender, EventArgs e)
