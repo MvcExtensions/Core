@@ -75,6 +75,7 @@ namespace MvcExtensions
         {
             if (!disposed && disposing)
             {
+                disposed = true;
                 DisposeCore();
             }
 
