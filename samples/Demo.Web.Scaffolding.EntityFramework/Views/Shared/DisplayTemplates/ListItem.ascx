@@ -8,7 +8,7 @@
 <tr>
     <% foreach (var property in ViewData.ModelMetadata.Properties.Where(pm => ShouldShow(pm, ViewData))) { %>
     <td>
-        <%= Html.Display(property.PropertyName) %>
+        <%: Html.Display(property.PropertyName) %>
     </td>
     <% } %>
 </tr>

@@ -69,6 +69,9 @@
     <Compile Include="RegisterScaffolding.cs" />
     <Compile Include="ScaffoldedController.cs" />
     <Compile Include="ScaffoldedControllerFactory.cs" />
+    <Compile Include="ViewModel\EntityConverter.cs" />
+    <Compile Include="ViewModel\IViewModelFactory.cs" />
+    <Compile Include="ViewModel\ViewModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />

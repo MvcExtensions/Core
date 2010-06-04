@@ -10,7 +10,7 @@
     <tr>
         <% foreach (var property in properties) { %>
             <th>
-                <%= property.GetDisplayName() %>
+                <%: property.GetDisplayName() %>
             </th>
         <% } %>
     </tr>
