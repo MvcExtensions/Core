@@ -11,6 +11,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     using System.Collections.Generic;
     using System.Data.Metadata.Edm;
     using System.Data.Objects;
+    using System.Data.EntityClient;
+    using System.Globalization;
     using System.Linq;
 
     /// <summary>
@@ -18,6 +20,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class EntityFrameworkMetadataProvider : IEntityFrameworkMetadataProvider
     {
+        private static readonly CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
         private readonly IDictionary<string, EntityMetadata> entitySetMappings = new Dictionary<string, EntityMetadata>(StringComparer.OrdinalIgnoreCase);
         private readonly IDictionary<Type, EntityMetadata> entityTypeMappings = new Dictionary<Type, EntityMetadata>();
 
@@ -83,23 +87,44 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                 foreach (EdmMember member in entityType.Members)
                 {
-                    Type propertyType = null;
+                    string memberName = member.Name;
+                    Type propertyType = entityClrType.GetProperties().Single(property => property.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase)).PropertyType;
+                    bool isKey = entityType.KeyMembers.Contains(member);
+                    bool isReference = member is NavigationProperty;
 
-                    EdmType edmTypeProperty = member.TypeUsage.EdmType;
+                    PropertyMetadata propertyMetadata = new PropertyMetadata { Name = member.Name, Type = propertyType, IsKey = isKey, IsReference = isReference };
 
-                    PrimitiveType primitiveTypeProperty = edmTypeProperty as PrimitiveType;
-                    EntityType entityTypeProperty = edmTypeProperty as EntityType;
+                    entityMetadata.AddProperty(propertyMetadata);
+                }
+            }
 
-                    if (primitiveTypeProperty != null)
+            foreach (EntityType entity in ((EntityConnection)database.Connection).GetMetadataWorkspace().GetItems(DataSpace.SSpace).OfType<EntityType>())
+            {
+                EntityMetadata entityMetadata;
+
+                if (entitySetMappings.TryGetValue(entity.Name, out entityMetadata))
+                {
+                    foreach (EdmProperty property in entity.Properties)
                     {
-                        propertyType = primitiveTypeProperty.ClrEquivalentType;
-                    }
+                        string propertyName = property.Name;
 
-                    if (propertyType != null)
-                    {
-                        PropertyMetadata propertyMetadata = new PropertyMetadata { Name = member.Name, Type = propertyType, IsKey = entityType.KeyMembers.Contains(member) };
+                        PropertyMetadata propertyMetadata = entityMetadata.Properties.Single(p => p.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
 
-                        entityMetadata.AddProperty(propertyMetadata);
+                        foreach (Facet facet in property.TypeUsage.Facets)
+                        {
+                            if (facet.Name.Equals("Nullable", StringComparison.OrdinalIgnoreCase))
+                            {
+                                propertyMetadata.IsNullable = Convert.ToBoolean(facet.Value, currentCulture);
+                            }
+                            else if (facet.Name.Equals("MaxLength", StringComparison.OrdinalIgnoreCase))
+                            {
+                                propertyMetadata.Length = Convert.ToInt64(facet.Value, currentCulture);
+                            }
+                            else if (facet.Name.Equals("StoreGeneratedPattern", StringComparison.OrdinalIgnoreCase) && facet.Value.ToString().Equals("Identity", StringComparison.OrdinalIgnoreCase))
+                            {
+                                propertyMetadata.IsGenerated = true;
+                            }
+                        }
                     }
                 }
             }

@@ -42,6 +42,14 @@
         public Type Type { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this instance is nullable.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if this instance is nullable; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsNullable { get; set; }
+
+        /// <summary>
         /// Gets or sets the length.
         /// </summary>
         /// <value>The length.</value>
