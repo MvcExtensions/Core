@@ -8,12 +8,13 @@
 namespace MvcExtensions.Scaffolding.EntityFramework
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Objects;
 
     /// <summary>
     /// Defines an interface which is used to hold metadata information of a given <seealso cref="ObjectContext"/>
     /// </summary>
-    public interface IEntityFrameworkMetadataProvider
+    public interface IEntityFrameworkMetadataProvider : IEnumerable<EntityMetadata>
     {
         /// <summary>
         /// Gets the entity metadata.

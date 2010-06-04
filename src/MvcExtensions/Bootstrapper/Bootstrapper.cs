@@ -129,6 +129,8 @@ namespace MvcExtensions
                    .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
                    .RegisterAsSingleton<IActionInvokerRegistry, ActionInvokerRegistry>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
+                   .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
+                   .RegisterAsSingleton<ModelMetadataProvider, ExtendedModelMetadataProvider>()
                    .RegisterInstance<IBuildManager>(buildManager);
 
             buildManager.ConcreteTypes

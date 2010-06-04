@@ -110,12 +110,7 @@ namespace MvcExtensions
         {
             ModelMetadataItem metadataItem = registry.GetModelMetadata(modelType);
 
-            if (metadataItem == null)
-            {
-                return base.GetMetadataForType(modelAccessor, modelType);
-            }
-
-            return CreateModelMetadata(modelType, modelAccessor, metadataItem);
+            return metadataItem == null ? base.GetMetadataForType(modelAccessor, modelType) : CreateModelMetadata(modelType, modelAccessor, metadataItem);
         }
 
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)

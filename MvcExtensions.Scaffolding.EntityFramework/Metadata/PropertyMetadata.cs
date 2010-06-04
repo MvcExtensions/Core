@@ -39,7 +39,7 @@
         /// Gets or sets the type.
         /// </summary>
         /// <value>The type.</value>
-        public Type Type { get; set; }
+        public Type PropertyType { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this instance is nullable.
@@ -53,6 +53,6 @@
         /// Gets or sets the length.
         /// </summary>
         /// <value>The length.</value>
-        public long Length { get; set; }
+        public int Length { get; set; }
     }
 }

@@ -23,7 +23,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.Format("{0:c}");
+            return instance.Format("{0:C}");
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.Format("{0:c}");
+            return instance.Format("{0:C}");
         }
 
         /// <summary>

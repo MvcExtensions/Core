@@ -59,9 +59,6 @@ namespace MvcExtensions
                 return TaskContinuation.Continue;
             }
 
-            Container.RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
-                     .RegisterAsSingleton<ModelMetadataProvider, ExtendedModelMetadataProvider>();
-
             IEnumerable<Type> concreteTypes = Container.GetInstance<IBuildManager>().ConcreteTypes;
 
             concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))

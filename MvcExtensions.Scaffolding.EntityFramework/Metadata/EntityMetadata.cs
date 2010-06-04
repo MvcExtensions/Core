@@ -67,7 +67,7 @@
                     keyProperty = properties.FirstOrDefault(p => p.IsKey);
                 }
 
-                return (keyProperty != null) ? keyProperty.Type : null;
+                return (keyProperty != null) ? keyProperty.PropertyType : null;
             }
         }
 

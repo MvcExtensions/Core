@@ -44,21 +44,23 @@ namespace MvcExtensions
             HttpResponseBase httpResponse = instance.Response;
 
             Action<string> compress = encoding =>
-                                                  {
-                                                      if (string.IsNullOrEmpty(httpResponse.RedirectLocation))
-                                                      {
-                                                          try
-                                                          {
-                                                              httpResponse.AppendHeader("Content-encoding", encoding);
-                                                              httpResponse.Filter = encoding.Equals("deflate") ?
-                                                                                    new DeflateStream(httpResponse.Filter, CompressionMode.Compress) :
-                                                                                    new GZipStream(httpResponse.Filter, CompressionMode.Compress) as Stream;
-                                                          }
-                                                          catch (HttpException)
-                                                          {
-                                                          }
-                                                      }
-                                                  };
+                                          {
+                                              if (!string.IsNullOrEmpty(httpResponse.RedirectLocation))
+                                              {
+                                                  return;
+                                              }
+
+                                              try
+                                              {
+                                                  httpResponse.AppendHeader("Content-encoding", encoding);
+                                                  httpResponse.Filter = encoding.Equals("deflate") ? 
+                                                                        new DeflateStream(httpResponse.Filter, CompressionMode.Compress) :
+                                                                        new GZipStream(httpResponse.Filter, CompressionMode.Compress) as Stream;
+                                              }
+                                              catch (HttpException)
+                                              {
+                                              }
+                                          };
 
             if (preferedAcceptEncoding.Equals("*", StringComparison.Ordinal) || preferedAcceptEncoding.Equals("gzip", StringComparison.OrdinalIgnoreCase))
             {
