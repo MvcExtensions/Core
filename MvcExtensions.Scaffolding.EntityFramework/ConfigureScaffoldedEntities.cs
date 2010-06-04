@@ -127,7 +127,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                     metadataItem.ShowForEdit = !propertyMetadata.IsGenerated;
 
-                    if (propertyMetadata.IsNullable)
+                    if (!propertyMetadata.IsNullable)
                     {
                         metadataItem.IsRequired = true;
                     }
