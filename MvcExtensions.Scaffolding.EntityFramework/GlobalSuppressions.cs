@@ -8,6 +8,13 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
+#region Copyright
+// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+// This source is subject to the Microsoft Public License. 
+// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
+// All other rights reserved.
+#endregion
+
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "MvcExtensions.Scaffolding.EntityFramework.ScaffoldedController`2.#Create(System.Web.Mvc.FormCollection)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "MvcExtensions.Scaffolding.EntityFramework.ScaffoldedController`2.#Delete(!1,System.Nullable`1<System.Boolean>)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Scope = "member", Target = "MvcExtensions.Scaffolding.EntityFramework.ScaffoldedController`2.#Edit(!1,System.Web.Mvc.FormCollection)")]

@@ -21,7 +21,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
         private static readonly Regex NameExpression = new Regex("([A-Z]+(?=$|[A-Z][a-z])|[A-Z]?[a-z]+)", RegexOptions.Compiled);
 
-        private static readonly Type[] booleanTypes = new[] {typeof(bool), typeof (bool?)};
+        private static readonly Type[] booleanTypes = new[] { typeof(bool), typeof(bool?) };
         private static readonly Type[] decimalTypes = new[] { typeof(decimal), typeof(decimal?) };
         private static readonly Type[] dateTypes = new[] { typeof(DateTime), typeof(DateTime?) };
         private static readonly Type[] otherValueTypes = new[] { typeof(byte), typeof(byte?), typeof(short), typeof(short?), typeof(int), typeof(int?), typeof(long), typeof(long?), typeof(float), typeof(float?), typeof(double), typeof(double?) };
@@ -94,11 +94,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                         ValueTypeMetadataItem valueTypeMetadataItem = new ValueTypeMetadataItem();
                         ValueTypeMetadataItemBuilder<DateTime> builder = new ValueTypeMetadataItemBuilder<DateTime>(valueTypeMetadataItem);
 
-                        if (propertyNameInUpperCase.EndsWith("DATE"))
+                        if (propertyNameInUpperCase.EndsWith("DATE", StringComparison.Ordinal))
                         {
                             builder.FormatAsDateOnly();
                         }
-                        else if (propertyNameInUpperCase.EndsWith("TIME"))
+                        else if (propertyNameInUpperCase.EndsWith("TIME", StringComparison.Ordinal))
                         {
                             builder.FormatAsTimeOnly();
                         }
