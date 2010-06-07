@@ -1,12 +1,13 @@
 ﻿<% @Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+<%@ Import Namespace="MvcExtensions.Scaffolding.EntityFramework" %>
 <script runat="server">
-  private static bool ShouldShow(ModelMetadata metadata, ViewDataDictionary viewData)
+  private bool ShouldShow(ModelMetadata metadata)
   {
-    return metadata.ShowForDisplay && !metadata.ModelType.Equals(typeof(System.Data.EntityState)) && !metadata.IsComplexType && !viewData.TemplateInfo.Visited(metadata);
+      return metadata.CanShow() && !ViewData.TemplateInfo.Visited(metadata);
   }
 </script>
 <tr>
-    <% foreach (var property in ViewData.ModelMetadata.Properties.Where(pm => ShouldShow(pm, ViewData))) { %>
+    <% foreach (var property in ViewData.ModelMetadata.Properties.Where(ShouldShow)) { %>
     <td>
         <%: Html.Display(property.PropertyName) %>
     </td>

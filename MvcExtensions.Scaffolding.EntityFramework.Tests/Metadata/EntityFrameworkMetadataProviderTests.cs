@@ -31,13 +31,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
             var mapping = provider.GetMetadata(entitySetName);
 
             Assert.Same(entityType, mapping.EntityType);
-            Assert.Same(keyType, mapping.KeyType);
-        }
-
-        [Fact]
-        public void Should_not_map_multiplekey_entities()
-        {
-            Assert.Null(provider.GetMetadata("Order Details"));
+            Assert.Same(keyType, mapping.GetKeyTypes()[0]);
         }
     }
 }

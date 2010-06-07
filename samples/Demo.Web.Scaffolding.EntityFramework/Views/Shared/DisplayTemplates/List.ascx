@@ -1,11 +1,12 @@
 ﻿<% @Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IList>" %>
+<%@ Import Namespace="MvcExtensions.Scaffolding.EntityFramework" %>
 <script runat="server">
-  private static bool ShouldShow(ModelMetadata metadata, ViewDataDictionary viewData)
+  private bool ShouldShow(ModelMetadata metadata)
   {
-    return metadata.ShowForDisplay && !metadata.ModelType.Equals(typeof(System.Data.EntityState)) && !metadata.IsComplexType && !viewData.TemplateInfo.Visited(metadata);
+      return metadata.CanShow() && !ViewData.TemplateInfo.Visited(metadata);
   }
 </script>
-<% var properties = ModelMetadata.FromLambdaExpression(m => m[0], ViewData).Properties.Where(pm => ShouldShow(pm, ViewData)); %>
+<% var properties = ModelMetadata.FromLambdaExpression(m => m[0], ViewData).Properties.Where(ShouldShow); %>
 <table>
     <tr>
         <% foreach (var property in properties) { %>

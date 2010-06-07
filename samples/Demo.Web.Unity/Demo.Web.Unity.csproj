@@ -101,7 +101,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1695</DevelopmentServerPort>
+          <DevelopmentServerPort>3611</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost/mvcextensibility</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

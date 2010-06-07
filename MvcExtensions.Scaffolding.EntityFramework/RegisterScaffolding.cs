@@ -39,6 +39,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         public override TaskContinuation Execute()
         {
             container.RegisterAsSingleton<IEntityFrameworkMetadataProvider, EntityFrameworkMetadataProvider>();
+            container.RegisterAsSingleton<IViewModelFactory, ViewModelFactory>();
             container.RegisterAsTransient(typeof(ScaffoldedController<,>));
 
             return TaskContinuation.Continue;

@@ -12,16 +12,22 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     using System.Collections.Generic;
     using System.Data.Metadata.Edm;
     using System.Data.Objects;
-    using System.Data.EntityClient;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// Defines a a class to store the metadata of a given <seealso cref="ObjectContext"/>.
     /// </summary>
     public class EntityFrameworkMetadataProvider : IEntityFrameworkMetadataProvider
     {
+        private const StringComparison DefaultStringComparison = StringComparison.OrdinalIgnoreCase;
+
+        private static readonly StringComparer defaultStringComparer = StringComparer.OrdinalIgnoreCase;
+
         private readonly IDictionary<string, EntityMetadata> entitySetMappings;
         private readonly IDictionary<Type, EntityMetadata> entityTypeMappings;
+
+        private readonly MethodInfo createQueryMethod;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityFrameworkMetadataProvider"/> class.
@@ -31,9 +37,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(database, "database");
 
+            createQueryMethod = database.GetType().GetMethod("CreateQuery");
+
             IEnumerable<EntityMetadata> entities = LoadMetadata(database);
 
-            entitySetMappings = entities.ToDictionary(e => e.EntitySetName, e => e, StringComparer.OrdinalIgnoreCase);
+            entitySetMappings = entities.ToDictionary(e => e.EntitySetName, e => e, defaultStringComparer);
             entityTypeMappings = entities.ToDictionary(e => e.EntityType, e => e);
         }
 
@@ -89,81 +97,256 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             return GetEnumerator();
         }
 
-        private static IEnumerable<EntityMetadata> LoadMetadata(ObjectContext database)
+        private static void LoadNullableMaxLengthGeneratedAndNavigation(ObjectContext database, EntityContainer container, IDictionary<string, EntityMetadata> entitySetMapping, IDictionary<string, EntityMetadata> entityTypeMapping)
+        {
+            foreach (EntityType entityType in database.MetadataWorkspace.GetItems(DataSpace.CSpace).OfType<EntityType>())
+            {
+                EntityMetadata entityMetadata = entityTypeMapping[entityType.Name];
+
+                LoadNullableMaxLengthAndGenerated(entityType, entityMetadata);
+                LoadNavigation(entityType, entityMetadata, container, entitySetMapping);
+            }
+        }
+
+        private static void LoadNullableMaxLengthAndGenerated(EntityType entityType, EntityMetadata entityMetadata)
+        {
+            foreach (EdmProperty property in entityType.Properties)
+            {
+                PropertyMetadata propertyMetadata = entityMetadata.FindProperty(property.Name);
+
+                propertyMetadata.IsNullable = property.Nullable;
+                Facet maxLength = property.TypeUsage.Facets.SingleOrDefault(f => f.Name.Equals("MaxLength", DefaultStringComparison));
+
+                if (maxLength != null)
+                {
+                    if (maxLength.IsUnbounded)
+                    {
+                        propertyMetadata.MaximumLength = int.MaxValue;
+                    }
+                    else if ((maxLength.Value != null) && (maxLength.Value is int))
+                    {
+                        propertyMetadata.MaximumLength = (int)maxLength.Value;
+                    }
+                }
+
+                MetadataProperty metadataProperty;
+
+                if (property.MetadataProperties.TryGetValue("http://schemas.microsoft.com/ado/2009/02/edm/annotation:StoreGeneratedPattern", false, out metadataProperty))
+                {
+                    string valueInString = metadataProperty.Value.ToString();
+
+                    if (valueInString.Equals("Identity", DefaultStringComparison) ||
+                        valueInString.Equals("Computed", DefaultStringComparison))
+                    {
+                        propertyMetadata.IsGenerated = true;
+                    }
+                }
+            }
+        }
+
+        private static void LoadNavigation(EntityType entityType, EntityMetadata entityMetadata, EntityContainer container, IDictionary<string, EntityMetadata> entitySetMapping)
+        {
+            foreach (NavigationProperty navigationProperty in entityType.NavigationProperties)
+            {
+                NavigationProperty property = navigationProperty;
+
+                AssociationSet associationSet = container.BaseEntitySets.OfType<AssociationSet>().Single(a => a.Name.Equals(property.RelationshipType.Name, DefaultStringComparison));
+                AssociationSetEnd associationSetEnd = associationSet.AssociationSetEnds.Single(a => a.CorrespondingAssociationEndMember.Name.Equals(property.ToEndMember.Name, DefaultStringComparison));
+
+                EntitySet entitySet = associationSetEnd.EntitySet;
+                NavigationType navigationType = ConvertNavigationType(associationSetEnd.CorrespondingAssociationEndMember.RelationshipMultiplicity);
+                Type entityClrType = entitySetMapping[entitySet.Name].EntityType;
+
+                PropertyMetadata propertyMetadata = entityMetadata.FindProperty(navigationProperty.Name);
+
+                propertyMetadata.Navigation = new NavigationMetadata(propertyMetadata, entityClrType, navigationType);
+            }
+        }
+
+        private static void LoadForeignKeys(EntityContainer container, IDictionary<string, EntityMetadata> entitySetMapping)
+        {
+            foreach (AssociationSet associationSet in container.BaseEntitySets.OfType<AssociationSet>())
+            {
+                foreach (ReferentialConstraint constraint in associationSet.ElementType.ReferentialConstraints)
+                {
+                    ReferentialConstraint localConstraint = constraint;
+
+                    EntitySet entitySet = associationSet.AssociationSetEnds.Single(ase => ase.CorrespondingAssociationEndMember.Name.Equals(localConstraint.ToRole.Name, DefaultStringComparison)).EntitySet;
+                    EntityMetadata entityMetadata = entitySetMapping[entitySet.Name];
+
+                    for (int i = 0; i < localConstraint.FromProperties.Count; i++)
+                    {
+                        PropertyMetadata propertyMetadata = entityMetadata.FindProperty(localConstraint.ToProperties[i].Name);
+
+                        propertyMetadata.IsForeignKey = true;
+                    }
+                }
+            }
+        }
+
+        private static void LoadNavigationProperty(IEnumerable<EntityMetadata> entities)
+        {
+            Type stringType = typeof(string);
+
+            IDictionary<Type, EntityMetadata> mapping = entities.ToDictionary(e => e.EntityType);
+
+            IEnumerable<NavigationMetadata> navigations = entities.SelectMany(e => e.Properties.Select(p => p.Navigation)).Where(n => n != null && n.NavigationType == NavigationType.One);
+
+            foreach (NavigationMetadata navigation in navigations)
+            {
+                EntityMetadata entityMetadata = mapping[navigation.EntityType];
+
+                PropertyMetadata propertyMetadata = entityMetadata.Properties
+                                                                  .Where(p => p.PropertyType.Equals(stringType) && !p.IsKey && !p.IsForeignKey)
+                                                                  .OrderBy(p => p, new PropertyMetadataComparer())
+                                                                  .FirstOrDefault() ??
+                                                    entityMetadata.Properties
+                                                                  .Where(p => !p.IsKey && !p.IsForeignKey && !p.IsGenerated)
+                                                                  .OrderByDescending(p => p.IsNullable)
+                                                                  .FirstOrDefault();
+
+                if (propertyMetadata != null)
+                {
+                    navigation.PropertyName = propertyMetadata.Name;
+                }
+            }
+        }
+
+        private static string QuoteEntitySqlIdentifier(string identifier)
+        {
+            return "[" + identifier.Replace("]", "]]") + "]";
+        }
+
+        private static NavigationType ConvertNavigationType(RelationshipMultiplicity type)
+        {
+            return (type == RelationshipMultiplicity.Many) ? NavigationType.Many : NavigationType.One;
+        }
+
+        /// <summary>
+        /// Loads the metadata.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <returns></returns>
+        private IEnumerable<EntityMetadata> LoadMetadata(ObjectContext database)
         {
             IList<EntityMetadata> entities = new List<EntityMetadata>();
+            IDictionary<string, EntityMetadata> entitySetMapping = new Dictionary<string, EntityMetadata>(defaultStringComparer);
+            IDictionary<string, EntityMetadata> entityTypeMapping = new Dictionary<string, EntityMetadata>(defaultStringComparer);
+            IDictionary<NavigationProperty, PropertyMetadata> propertyMetadataMapping = new Dictionary<NavigationProperty, PropertyMetadata>();
 
             database.MetadataWorkspace.LoadFromAssembly(database.GetType().Assembly);
 
-            LoadCore(database, entities);
-            LoadExtra(database, entities);
+            EntityContainer container = database.MetadataWorkspace.GetEntityContainer(database.DefaultContainerName, DataSpace.CSpace);
+
+            LoadCore(database, container, entities, entitySetMapping, entityTypeMapping, propertyMetadataMapping);
+            LoadNullableMaxLengthGeneratedAndNavigation(database, container, entitySetMapping, entityTypeMapping);
+            LoadForeignKeys(container, entitySetMapping);
+            LoadNavigationProperty(entities);
 
             return entities;
         }
 
-        private static void LoadCore(ObjectContext database, ICollection<EntityMetadata> entities)
+        private void LoadCore(ObjectContext database, EntityContainer container, ICollection<EntityMetadata> entities, IDictionary<string, EntityMetadata> entitySetMapping, IDictionary<string, EntityMetadata> entityTypeMapping, IDictionary<NavigationProperty, PropertyMetadata> propertyMetadataMapping)
         {
-            EntityContainer container = database.MetadataWorkspace.GetEntityContainer(database.DefaultContainerName, DataSpace.CSpace);
             ObjectItemCollection objectSpaceItems = (ObjectItemCollection)database.MetadataWorkspace.GetItemCollection(DataSpace.OSpace);
 
-            foreach (EntitySet entitySet in container.BaseEntitySets.OfType<EntitySet>().Where(es => es.ElementType.KeyMembers.Count == 1))
+            foreach (EntitySet entitySet in container.BaseEntitySets.OfType<EntitySet>())
             {
                 EntityType entityType = (EntityType)database.MetadataWorkspace.GetObjectSpaceType(entitySet.ElementType);
+
                 Type entityClrType = objectSpaceItems.GetClrType(entityType);
+
+                MethodInfo genericQueryMethod = createQueryMethod.MakeGenericMethod(new[] { entityClrType });
+                string queryString = QuoteEntitySqlIdentifier(entitySet.EntityContainer.Name) + "." + QuoteEntitySqlIdentifier(entitySet.Name);
+                object queryResult = genericQueryMethod.Invoke(database, new object[] { queryString, new ObjectParameter[0] });
+                queryResult.GetType().GetMethod("ToTraceString").Invoke(queryResult, null);
 
                 EntityMetadata entityMetadata = new EntityMetadata(entitySet.Name, entityClrType);
 
                 entities.Add(entityMetadata);
+                entitySetMapping.Add(entitySet.Name, entityMetadata);
+                entityTypeMapping.Add(entitySet.ElementType.Name, entityMetadata);
 
                 foreach (EdmMember member in entityType.Members)
                 {
                     string memberName = member.Name;
-                    Type propertyType = entityClrType.GetProperties().Single(property => property.Name.Equals(memberName, StringComparison.OrdinalIgnoreCase)).PropertyType;
-                    bool isKey = entityType.KeyMembers.Contains(member);
-                    bool isReference = member is NavigationProperty;
+                    Type propertyType = entityClrType.GetProperties().Single(p => p.Name.Equals(memberName, DefaultStringComparison)).PropertyType;
+                    bool isKey = entityType.KeyMembers.Any(km => km.Name.Equals(memberName, DefaultStringComparison));
 
-                    PropertyMetadata propertyMetadata = new PropertyMetadata { Name = member.Name, PropertyType = propertyType, IsKey = isKey, IsReference = isReference };
+                    NavigationProperty navigationProperty = member as NavigationProperty;
+
+                    PropertyMetadata propertyMetadata = new PropertyMetadata(entityMetadata, member.Name, propertyType, isKey);
+
+                    if (navigationProperty != null)
+                    {
+                        propertyMetadataMapping.Add(navigationProperty, propertyMetadata);
+                    }
 
                     entityMetadata.AddProperty(propertyMetadata);
                 }
             }
         }
 
-        private static void LoadExtra(ObjectContext database, IEnumerable<EntityMetadata> entities)
+        private sealed class PropertyMetadataComparer : IComparer<PropertyMetadata>
         {
-            foreach (EntityType entity in ((EntityConnection)database.Connection).GetMetadataWorkspace().GetItems(DataSpace.SSpace).OfType<EntityType>())
+            public int Compare(PropertyMetadata x, PropertyMetadata y)
             {
-                string entitySetName = entity.Name;
-
-                EntityMetadata entityMetadata = entities.SingleOrDefault(e => e.EntitySetName.Equals(entitySetName, StringComparison.OrdinalIgnoreCase));
-
-                if (entityMetadata == null)
+                if (x.IsNullable != y.IsNullable)
                 {
-                    continue;
+                    return x.IsNullable.CompareTo(y.IsNullable);
                 }
 
-                foreach (EdmProperty property in entity.Properties)
+                if (x.Name.Equals("Name", DefaultStringComparison) && y.Name.Equals("Name", DefaultStringComparison))
                 {
-                    string propertyName = property.Name;
-
-                    PropertyMetadata propertyMetadata = entityMetadata.Properties.Single(p => p.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
-
-                    foreach (Facet facet in property.TypeUsage.Facets)
-                    {
-                        if (facet.Name.Equals("Nullable", StringComparison.OrdinalIgnoreCase))
-                        {
-                            propertyMetadata.IsNullable = (bool)facet.Value;
-                        }
-                        else if (facet.Name.Equals("MaxLength", StringComparison.OrdinalIgnoreCase))
-                        {
-                            propertyMetadata.Length = (int)facet.Value;
-                        }
-                        else if (facet.Name.Equals("StoreGeneratedPattern", StringComparison.OrdinalIgnoreCase) && facet.Value.ToString().Equals("Identity", StringComparison.OrdinalIgnoreCase))
-                        {
-                            propertyMetadata.IsGenerated = true;
-                        }
-                    }
+                    return 0;
                 }
+
+                if (x.Name.Equals("Name", DefaultStringComparison))
+                {
+                    return -1;
+                }
+
+                if (y.Name.Equals("Name", DefaultStringComparison))
+                {
+                    return 1;
+                }
+
+                if (x.Name.Equals(x.Parent.EntityType.Name + "Name", DefaultStringComparison) && y.Name.Equals(y.Parent.EntityType.Name + "Name", DefaultStringComparison))
+                {
+                    return 0;
+                }
+
+                if (x.Name.Equals(x.Parent.EntityType.Name + "Name", DefaultStringComparison))
+                {
+                    return -1;
+                }
+
+                if (y.Name.Equals(y.Parent.EntityType.Name + "Name", DefaultStringComparison))
+                {
+                    return 1;
+                }
+
+                if (x.Name.EndsWith("Name", DefaultStringComparison) && y.Name.EndsWith("Name", DefaultStringComparison))
+                {
+                    return 0;
+                }
+
+                if (x.Name.EndsWith("Name", DefaultStringComparison))
+                {
+                    return -1;
+                }
+
+                if (y.Name.EndsWith("Name", DefaultStringComparison))
+                {
+                    return 1;
+                }
+
+                if (x.MaximumLength == y.MaximumLength)
+                {
+                    return x.Name.CompareTo(y.Name);
+                }
+
+                return x.MaximumLength.CompareTo(y.MaximumLength);
             }
         }
     }

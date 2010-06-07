@@ -15,10 +15,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// <summary>
     /// Defines a class which is used to hold the metadata of an entity.
     /// </summary>
+    [DebuggerDisplay("Name = {EntitySetName}, Type = {EntityType}")]
     public class EntityMetadata
     {
-        private readonly IList<PropertyMetadata> properties;
-        private PropertyMetadata keyProperty;
+        private readonly IDictionary<string, PropertyMetadata> properties;
+        private Type[] keyTypes;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityMetadata"/> class.
@@ -32,7 +33,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
             EntitySetName = entitySetName;
             EntityType = entityType;
-            properties = new List<PropertyMetadata>();
+            properties = new Dictionary<string, PropertyMetadata>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -56,25 +57,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             [DebuggerStepThrough]
             get
             {
-                return properties;
-            }
-        }
-
-        /// <summary>
-        /// Gets the key type.
-        /// </summary>
-        /// <value>The type of the key.</value>
-        public virtual Type KeyType
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                if (keyProperty == null)
-                {
-                    keyProperty = properties.FirstOrDefault(p => p.IsKey);
-                }
-
-                return (keyProperty != null) ? keyProperty.PropertyType : null;
+                return properties.Values;
             }
         }
 
@@ -86,7 +69,28 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(metadata, "metadata");
 
-            properties.Add(metadata);
+            properties.Add(metadata.Name, metadata);
+        }
+
+        /// <summary>
+        /// Finds the property.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
+        public virtual PropertyMetadata FindProperty(string name)
+        {
+            PropertyMetadata metadata;
+
+            return properties.TryGetValue(name, out metadata) ? metadata : null;
+        }
+
+        /// <summary>
+        /// Gets the key types.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Type[] GetKeyTypes()
+        {
+            return keyTypes ?? (keyTypes = properties.Values.Where(p => p.IsKey).Select(p => p.PropertyType).ToArray());
         }
     }
 }

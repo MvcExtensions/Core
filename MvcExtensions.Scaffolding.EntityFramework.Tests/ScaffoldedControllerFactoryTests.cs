@@ -30,7 +30,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
         {
             var metadata = new Mock<EntityMetadata>("categories", typeof(Category));
 
-            metadata.SetupGet(m => m.KeyType).Returns(typeof(int));
+            metadata.Setup(m => m.GetKeyTypes()).Returns(new[] { typeof(int) });
 
             provider.Setup(p => p.GetMetadata(It.IsAny<string>())).Returns(metadata.Object);
 

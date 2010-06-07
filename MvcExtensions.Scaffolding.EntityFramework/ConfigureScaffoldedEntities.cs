@@ -17,8 +17,6 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class ConfigureScaffoldedEntities : BootstrapperTask
     {
-        private const int LargeTextLength = 1073741823;
-
         private static readonly Regex NameExpression = new Regex("([A-Z]+(?=$|[A-Z][a-z])|[A-Z]?[a-z]+)", RegexOptions.Compiled);
 
         private static readonly Type[] booleanTypes = new[] { typeof(bool), typeof(bool?) };
@@ -80,12 +78,12 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                             builder.AsPassword();
                         }
 
-                        if (propertyMetadata.Length == LargeTextLength)
+                        if (propertyMetadata.MaximumLength == int.MaxValue)
                         {
                             builder.AsMultilineText();
                         }
 
-                        builder.MaximumLength(propertyMetadata.Length);
+                        builder.MaximumLength(propertyMetadata.MaximumLength);
 
                         metadataItem = stringMetadataItem;
                     }
@@ -126,6 +124,12 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                     }
 
                     metadataItem.ShowForEdit = !propertyMetadata.IsGenerated;
+
+                    if (propertyMetadata.IsForeignKey)
+                    {
+                        metadataItem.ShowForDisplay = false;
+                        metadataItem.ShowForEdit = false;
+                    }
 
                     if (!propertyMetadata.IsNullable)
                     {

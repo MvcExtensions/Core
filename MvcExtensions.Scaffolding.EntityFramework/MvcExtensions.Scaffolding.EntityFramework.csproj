@@ -65,6 +65,9 @@
     <Compile Include="Metadata\EntityFrameworkMetadataProvider.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Metadata\IEntityFrameworkMetadataProvider.cs" />
+    <Compile Include="Metadata\NavigationMetadata.cs" />
+    <Compile Include="Metadata\NavigationType.cs" />
+    <Compile Include="ModelMetadataExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterScaffolding.cs" />
     <Compile Include="ScaffoldedController.cs" />
@@ -74,7 +77,9 @@
     <Compile Include="ViewModel\ViewModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />
+    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml">
+      <Link>CodeAnalysisDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcExtensions\MvcExtensions.csproj">

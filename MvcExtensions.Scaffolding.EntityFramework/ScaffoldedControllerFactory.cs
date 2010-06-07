@@ -52,9 +52,15 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
             if (metadata != null)
             {
-                Type controllerType = genericControllerType.MakeGenericType(metadata.EntityType, metadata.KeyType);
+                Type[] keyTypes = metadata.GetKeyTypes();
 
-                return controllerType;
+                // Does  not support multiple key entity
+                if (keyTypes.Length == 1)
+                {
+                    Type controllerType = genericControllerType.MakeGenericType(metadata.EntityType, keyTypes[0]);
+
+                    return controllerType;
+                }
             }
 
             // Regular controller
