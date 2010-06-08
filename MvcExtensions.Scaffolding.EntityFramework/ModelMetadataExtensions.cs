@@ -29,7 +29,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.ShowForDisplay && !instance.IsComplexType && !instance.ModelType.Equals(entityStateType);
+            return instance.ShowForDisplay &&
+                   !instance.IsComplexType &&
+                   !instance.ModelType.Equals(entityStateType);
         }
     }
 }

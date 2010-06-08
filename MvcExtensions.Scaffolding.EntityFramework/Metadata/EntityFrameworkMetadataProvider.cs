@@ -190,7 +190,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
             IDictionary<Type, EntityMetadata> mapping = entities.ToDictionary(e => e.EntityType);
 
-            IEnumerable<NavigationMetadata> navigations = entities.SelectMany(e => e.Properties.Select(p => p.Navigation)).Where(n => n != null && n.NavigationType == NavigationType.One);
+            IEnumerable<NavigationMetadata> navigations = entities.SelectMany(e => e.Properties.Select(p => p.Navigation)).Where(n => n != null);
 
             foreach (NavigationMetadata navigation in navigations)
             {
@@ -343,7 +343,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                 if (x.MaximumLength == y.MaximumLength)
                 {
-                    return x.Name.CompareTo(y.Name);
+                    return string.Compare(x.Name, y.Name, DefaultStringComparison);
                 }
 
                 return x.MaximumLength.CompareTo(y.MaximumLength);

@@ -8,6 +8,7 @@
 namespace MvcExtensions.Scaffolding.EntityFramework
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
@@ -18,64 +19,51 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class ViewModelFactory : IViewModelFactory
     {
-        private const string Name = "ViewModels";
-        private const string AssemblyName = Name + "Assembly";
-        private const string ModuleName = Name + "Module";
+        private const string AssemblyName = "ViewModelsAssembly";
 
-        private const BindingFlags PropertyBindingFlags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.GetProperty;
         private const MethodAttributes PropertyMethodsAttributes = MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig;
 
         private static readonly Type typeType = typeof(Type);
         private static readonly Type objectType = typeof(object);
-
         private static readonly Type stringType = typeof(string);
-        private static readonly Type dateTimeType = typeof(DateTime);
-        private static readonly Type decimalType = typeof(decimal);
-        private static readonly Type[] extraSimpleTypes = new[] { stringType, dateTimeType, decimalType };
 
+        private static readonly Type viewModelInterfaceType = typeof(IViewModel);
         private static readonly Type typeConverterType = typeof(TypeConverterAttribute);
         private static readonly Type entityConverterType = typeof(EntityConverter);
+
+        private static readonly Type genericNavigationLookupType = typeof(NavigationLookup<,>);
+        private static readonly Type genericEnumerableType = typeof(IEnumerable<>);
 
         private static readonly AssemblyBuilder assemblyBuilder = CreateAssemblyBuilder();
         private static readonly ModuleBuilder moduleBuilder = CreateModuleBuilder();
 
-        /// <summary>
-        /// Creates the display model.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns></returns>
-        public Type CreateDisplayModel(Type modelType)
-        {
-            TypeBuilder typeBuilder = CreateTypeBuilder(modelType, "DisplayModel");
+        private static readonly IEnumerable<MethodInfo> converterToStringMethods = typeof(Convert).GetMethods().Where(m => m.Name.Equals("ToString") && m.GetParameters().Length == 1);
 
-            return typeBuilder.CreateType();
+        private readonly IEntityFrameworkMetadataProvider metadataProvider;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ViewModelFactory"/> class.
+        /// </summary>
+        /// <param name="metadataProvider">The metadata provider.</param>
+        public ViewModelFactory(IEntityFrameworkMetadataProvider metadataProvider)
+        {
+            Invariant.IsNotNull(metadataProvider, "metadataProvider");
+
+            this.metadataProvider = metadataProvider;
         }
 
         /// <summary>
-        /// Creates the edit model.
+        /// Creates the specified model type.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        public Type CreateEditModel(Type modelType)
+        public Type Create(Type modelType)
         {
-            TypeBuilder typeBuilder = CreateTypeBuilder(modelType, "EditModel");
+            Invariant.IsNotNull(modelType, "modelType");
 
-            return typeBuilder.CreateType();
-        }
+            Type viewModelType = BuildType(modelType, "ViewModel");
 
-        private static TypeBuilder CreateTypeBuilder(Type modelType, string suffix)
-        {
-            string typeName = CreateTypeName(modelType, suffix);
-
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout, objectType);
-
-            ApplyEntityConverterAttribute(typeBuilder);
-
-            typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
-
-            AddSimpleTypeProperties(typeBuilder, modelType);
-
-            return typeBuilder;
+            return viewModelType;
         }
 
         private static void ApplyEntityConverterAttribute(TypeBuilder typeBuilder)
@@ -88,43 +76,71 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             typeBuilder.SetCustomAttribute(attributeBuilder);
         }
 
-        private static void AddSimpleTypeProperties(TypeBuilder typeBuilder, IReflect modelType)
+        private static void AddSimplePropertiesAndToStringOverride(TypeBuilder typeBuilder, IEnumerable<PropertyMetadata> properties)
         {
-            foreach (PropertyInfo property in modelType.GetProperties(PropertyBindingFlags).Where(p => IsSimpleType(p.PropertyType)))
+            bool hasKeyAdded = false;
+
+            foreach (PropertyMetadata property in properties)
             {
-                FieldBuilder fieldBuilder = typeBuilder.DefineField("_" + property.Name, property.PropertyType, FieldAttributes.Private);
+                string propertyName = property.Name;
+                Type propertyType = property.PropertyType;
 
-                string getName = "get_" + property.Name;
+                if (hasKeyAdded || !property.IsKey)
+                {
+                    AddProperty(typeBuilder, propertyName, propertyType);
+                }
+                else
+                {
+                    FieldBuilder fieldBuilder = typeBuilder.DefineField("_" + property.Name, property.PropertyType, FieldAttributes.PrivateScope);
 
-                MethodBuilder getMethodBuilder = typeBuilder.DefineMethod(getName, PropertyMethodsAttributes, property.PropertyType, Type.EmptyTypes);
-                ILGenerator getMethodIL = getMethodBuilder.GetILGenerator();
+                    MethodInfo convertMethod = converterToStringMethods.First(m => m.GetParameters()[0].ParameterType.Equals(propertyType));
 
-                getMethodIL.Emit(OpCodes.Ldarg_0);
-                getMethodIL.Emit(OpCodes.Ldfld, fieldBuilder);
-                getMethodIL.Emit(OpCodes.Ret);
+                    MethodBuilder methodBuilder = typeBuilder.DefineMethod("ToString", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig, CallingConventions.Standard, stringType, Type.EmptyTypes);
+                    ILGenerator methodIL = methodBuilder.GetILGenerator();
 
-                string setName = "set_" + property.Name;
+                    methodIL.Emit(OpCodes.Ldarg_0);
+                    methodIL.Emit(OpCodes.Ldfld, fieldBuilder);
+                    methodIL.Emit(OpCodes.Call, convertMethod);
 
-                MethodBuilder setMethodBuilder = typeBuilder.DefineMethod(setName, PropertyMethodsAttributes, null, new[] { property.PropertyType });
-                ILGenerator setMethodIL = setMethodBuilder.GetILGenerator();
+                    methodIL.Emit(OpCodes.Ret);
 
-                setMethodIL.Emit(OpCodes.Ldarg_0);
-                setMethodIL.Emit(OpCodes.Ldarg_1);
-                setMethodIL.Emit(OpCodes.Stfld, fieldBuilder);
-                setMethodIL.Emit(OpCodes.Ret);
-
-                PropertyBuilder propertyBuilder = typeBuilder.DefineProperty(property.Name, PropertyAttributes.HasDefault, property.PropertyType, new[] { property.PropertyType });
-
-                propertyBuilder.SetGetMethod(getMethodBuilder);
-                propertyBuilder.SetSetMethod(setMethodBuilder);
+                    hasKeyAdded = true;
+                }
             }
         }
 
-        private static bool IsSimpleType(Type type)
+        private static void AddProperty(TypeBuilder typeBuilder, string propertyName, Type propertyType)
         {
-            Type actualType = Nullable.GetUnderlyingType(type) ?? type;
+            FieldBuilder fieldBuilder = typeBuilder.DefineField("_" + propertyName, propertyType, FieldAttributes.PrivateScope);
 
-            return actualType.IsPrimitive || extraSimpleTypes.Contains(actualType);
+            AddProperty(typeBuilder, fieldBuilder, propertyName, propertyType);
+        }
+
+        private static void AddProperty(TypeBuilder typeBuilder, FieldInfo fieldBuilder, string propertyName, Type propertyType)
+        {
+            string getName = "get_" + propertyName;
+
+            MethodBuilder getMethodBuilder = typeBuilder.DefineMethod(getName, PropertyMethodsAttributes, propertyType, Type.EmptyTypes);
+            ILGenerator getMethodIL = getMethodBuilder.GetILGenerator();
+
+            getMethodIL.Emit(OpCodes.Ldarg_0);
+            getMethodIL.Emit(OpCodes.Ldfld, fieldBuilder);
+            getMethodIL.Emit(OpCodes.Ret);
+
+            string setName = "set_" + propertyName;
+
+            MethodBuilder setMethodBuilder = typeBuilder.DefineMethod(setName, PropertyMethodsAttributes, null, new[] { propertyType });
+            ILGenerator setMethodIL = setMethodBuilder.GetILGenerator();
+
+            setMethodIL.Emit(OpCodes.Ldarg_0);
+            setMethodIL.Emit(OpCodes.Ldarg_1);
+            setMethodIL.Emit(OpCodes.Stfld, fieldBuilder);
+            setMethodIL.Emit(OpCodes.Ret);
+
+            PropertyBuilder propertyBuilder = typeBuilder.DefineProperty(propertyName, PropertyAttributes.HasDefault, propertyType, new[] { propertyType });
+
+            propertyBuilder.SetGetMethod(getMethodBuilder);
+            propertyBuilder.SetSetMethod(setMethodBuilder);
         }
 
         private static string CreateTypeName(Type modelType, string suffix)
@@ -134,7 +150,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
         private static ModuleBuilder CreateModuleBuilder()
         {
-            ModuleBuilder builder = assemblyBuilder.DefineDynamicModule(ModuleName);
+            ModuleBuilder builder = assemblyBuilder.DefineDynamicModule(assemblyBuilder.GetName().Name, AssemblyName + ".dll");
 
             return builder;
         }
@@ -149,6 +165,54 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             AssemblyBuilder builder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
 
             return builder;
+        }
+
+        private Type BuildType(Type modelType, string suffix)
+        {
+            string typeName = CreateTypeName(modelType, suffix);
+
+            TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout, objectType, new[] { viewModelInterfaceType });
+
+            ApplyEntityConverterAttribute(typeBuilder);
+
+            typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
+            typeBuilder.AddInterfaceImplementation(viewModelInterfaceType);
+
+            EntityMetadata entityMetadata = metadataProvider.GetMetadata(modelType);
+
+            IEnumerable<PropertyMetadata> simpleProperties = entityMetadata.Properties.Where(p => !p.IsForeignKey && (p.Navigation == null));
+            IEnumerable<PropertyMetadata> navigationProperties = entityMetadata.Properties.Where(p => !p.IsForeignKey && (p.Navigation != null));
+
+            AddSimplePropertiesAndToStringOverride(typeBuilder, simpleProperties);
+            AddNavigationProperties(typeBuilder, navigationProperties);
+
+            return typeBuilder.CreateType();
+        }
+
+        private void AddNavigationProperties(TypeBuilder typeBuilder, IEnumerable<PropertyMetadata> properties)
+        {
+            foreach (PropertyMetadata property in properties)
+            {
+                Type propertyType = GetNavigationPropertyType(property);
+
+                AddProperty(typeBuilder, property.Name, propertyType);
+            }
+        }
+
+        private Type GetNavigationPropertyType(PropertyMetadata property)
+        {
+            EntityMetadata navigateEntity = metadataProvider.GetMetadata(property.Navigation.EntityType);
+            Type textType = navigateEntity.FindProperty(property.Name).PropertyType;
+            Type valueType = navigateEntity.GetKeyTypes()[0];
+
+            Type propertyType = genericNavigationLookupType.MakeGenericType(textType, valueType);
+
+            if (property.Navigation.NavigationType == NavigationType.Many)
+            {
+                propertyType = genericEnumerableType.MakeGenericType(propertyType);
+            }
+
+            return propertyType;
         }
     }
 }

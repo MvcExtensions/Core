@@ -73,7 +73,9 @@
     <Compile Include="ScaffoldedController.cs" />
     <Compile Include="ScaffoldedControllerFactory.cs" />
     <Compile Include="ViewModel\EntityConverter.cs" />
+    <Compile Include="ViewModel\IViewModel.cs" />
     <Compile Include="ViewModel\IViewModelFactory.cs" />
+    <Compile Include="ViewModel\NavigationLookup.cs" />
     <Compile Include="ViewModel\ViewModelFactory.cs" />
   </ItemGroup>
   <ItemGroup>

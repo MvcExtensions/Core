@@ -10,22 +10,15 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     using System;
 
     /// <summary>
-    /// Defines an interface which is used to dynamically generate the DisplayModel and EditModel for a given <seealso cref="EntityMetadata"/>.
+    /// Defines an interface which is used to dynamically generate theViewModel for a given type.
     /// </summary>
     public interface IViewModelFactory
     {
         /// <summary>
-        /// Creates the display model.
+        /// Creates the specified model type.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        Type CreateDisplayModel(Type modelType);
-
-        /// <summary>
-        /// Creates the edit model.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns></returns>
-        Type CreateEditModel(Type modelType);
+        Type Create(Type modelType);
     }
 }
