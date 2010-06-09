@@ -55,7 +55,7 @@
         <windsorTest>$(windsorTestPath)\$(windsorTestFile).csproj</windsorTest>
     </PropertyGroup>
 
-    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Build;FxCop;NCover;Deploy"/>
+    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;NCover;Deploy"/>
 
     <Target Name="Init">
         <MakeDir Directories="$(artifactPath)" Condition="!Exists('$(artifactPath)')"/>
@@ -125,6 +125,15 @@
             CacheResults="false"
             OutputFile="$(artifactPath)\StyleCop.xml"
             MaxViolationCount="0"
+        />
+    </Target>
+
+    <Target Name="Simian">
+        <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\Simian\simian.xsl" DestinationFolder="$(artifactPath)"/>
+        <Exec
+            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(autofacPath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot;"
+            IgnoreExitCode="true"
+            WorkingDirectory="$(MSBuildProjectDirectory)"
         />
     </Target>
 
