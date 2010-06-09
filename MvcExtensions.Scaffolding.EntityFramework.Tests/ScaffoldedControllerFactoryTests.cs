@@ -16,27 +16,23 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
 
     public class ScaffoldedControllerFactoryTests
     {
-        private readonly Mock<IEntityFrameworkMetadataProvider> provider;
+        private readonly Mock<IControllerTypeRegistry> registry;
         private readonly ScaffoldedControllerFactoryTestDouble factory;
 
         public ScaffoldedControllerFactoryTests()
         {
-            provider = new Mock<IEntityFrameworkMetadataProvider>();
-            factory = new ScaffoldedControllerFactoryTestDouble(new Mock<ContainerAdapter>().Object, new Mock<IActionInvokerRegistry>().Object, provider.Object);
+            registry = new Mock<IControllerTypeRegistry>();
+            factory = new ScaffoldedControllerFactoryTestDouble(new Mock<ContainerAdapter>().Object, new Mock<IActionInvokerRegistry>().Object, registry.Object);
         }
 
         [Fact]
         public void Should_return_scaffolded_controller_type_when_controller_name_matches_with_entityset_name()
         {
-            var metadata = new Mock<EntityMetadata>("categories", typeof(Category));
-
-            metadata.Setup(m => m.GetKeyTypes()).Returns(new[] { typeof(int) });
-
-            provider.Setup(p => p.GetMetadata(It.IsAny<string>())).Returns(metadata.Object);
+            registry.Setup(r => r.GetControllerType("categories")).Returns(typeof(ScaffoldedController<Category, CategoryViewModel, int>));
 
             var type = factory.PublicGetControllerType(new RequestContext(), "categories");
 
-            Assert.Same(typeof(ScaffoldedController<Category, int>), type);
+            Assert.Same(typeof(ScaffoldedController<Category, CategoryViewModel, int>), type);
         }
 
         [Fact]
@@ -49,7 +45,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
 
         private sealed class ScaffoldedControllerFactoryTestDouble : ScaffoldedControllerFactory
         {
-            public ScaffoldedControllerFactoryTestDouble(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry, IEntityFrameworkMetadataProvider metadataProvider) : base(container, actionInvokerRegistry, metadataProvider)
+            public ScaffoldedControllerFactoryTestDouble(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry, IControllerTypeRegistry controllerTypeRegistry) : base(container, actionInvokerRegistry, controllerTypeRegistry)
             {
             }
 
@@ -59,7 +55,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework.Tests
             }
         }
 
-        private sealed class Category
+        private class Category
+        {
+        }
+
+        private class CategoryViewModel : IViewModel
         {
         }
     }

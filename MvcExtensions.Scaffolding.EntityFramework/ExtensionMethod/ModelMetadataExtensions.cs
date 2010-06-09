@@ -8,7 +8,6 @@
 namespace MvcExtensions.Scaffolding.EntityFramework
 {
     using System;
-    using System.Data;
     using System.Web.Mvc;
 
     /// <summary>
@@ -16,7 +15,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public static class ModelMetadataExtensions
     {
-        private static readonly Type entityStateType = typeof(EntityState);
+        private static readonly Type viewModelType = typeof(IViewModel);
 
         /// <summary>
         /// Determines whether this instance can be displayed.
@@ -29,9 +28,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.ShowForDisplay &&
-                   !instance.IsComplexType &&
-                   !instance.ModelType.Equals(entityStateType);
+            return instance.ShowForDisplay && (!instance.IsComplexType || instance.ModelType.Equals(viewModelType));
         }
     }
 }

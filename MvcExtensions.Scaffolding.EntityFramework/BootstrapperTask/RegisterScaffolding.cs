@@ -38,9 +38,13 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            container.RegisterAsSingleton<IEntityFrameworkMetadataProvider, EntityFrameworkMetadataProvider>();
-            container.RegisterAsSingleton<IViewModelFactory, ViewModelFactory>();
-            container.RegisterAsTransient(typeof(ScaffoldedController<,>));
+            container.RegisterAsSingleton<IEntityFrameworkMetadataProvider, EntityFrameworkMetadataProvider>()
+                     .RegisterAsSingleton<IViewModelTypeFactory, ViewModelTypeFactory>()
+                     .RegisterAsSingleton<IViewModelTypeRegistry, ViewModelTypeRegistry>()
+                     .RegisterAsSingleton<IControllerTypeRegistry, ControllerTypeRegistry>()
+                     .RegisterAsPerRequest<IUnitOfWork, UnitOfWork>()
+                     .RegisterAsPerRequest(typeof(IRepository<,>), typeof(Repository<,>))
+                     .RegisterAsTransient(typeof(ScaffoldedController<,,>));
 
             return TaskContinuation.Continue;
         }

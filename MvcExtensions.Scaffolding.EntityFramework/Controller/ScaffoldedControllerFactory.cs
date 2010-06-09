@@ -15,29 +15,26 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class ScaffoldedControllerFactory : ExtendedControllerFactory
     {
-        private static readonly Type genericControllerType = typeof(ScaffoldedController<,>);
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ScaffoldedControllerFactory"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="actionInvokerRegistry">The action invoker registry.</param>
-        /// <param name="metadataProvider">The metadata provider.</param>
-        public ScaffoldedControllerFactory(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry, IEntityFrameworkMetadataProvider metadataProvider) : base(container, actionInvokerRegistry)
+        /// <param name="controllerTypeRegistry">The controller type registry.</param>
+        public ScaffoldedControllerFactory(ContainerAdapter container, IActionInvokerRegistry actionInvokerRegistry, IControllerTypeRegistry controllerTypeRegistry) : base(container, actionInvokerRegistry)
         {
-            Invariant.IsNotNull(metadataProvider, "metadataProvider");
+            Invariant.IsNotNull(controllerTypeRegistry, "controllerTypeRegistry");
 
-            MetadataProvider = metadataProvider;
+            ControllerTypeRegistry = controllerTypeRegistry;
         }
 
         /// <summary>
-        /// Gets or sets the metadata provider.
+        /// Gets or sets the controller type registry.
         /// </summary>
-        /// <value>The metadata provider.</value>
-        protected IEntityFrameworkMetadataProvider MetadataProvider
+        /// <value>The controller type registry.</value>
+        protected IControllerTypeRegistry ControllerTypeRegistry
         {
-            get;
-            private set;
+            get; private set;
         }
 
         /// <summary>
@@ -48,23 +45,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns>The controller type.</returns>
         protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
-            EntityMetadata metadata = MetadataProvider.GetMetadata(controllerName);
+            Type controllerType = ControllerTypeRegistry.GetControllerType(controllerName);
 
-            if (metadata != null)
-            {
-                Type[] keyTypes = metadata.GetKeyTypes();
-
-                // Does  not support multiple key entity
-                if (keyTypes.Length == 1)
-                {
-                    Type controllerType = genericControllerType.MakeGenericType(metadata.EntityType, keyTypes[0]);
-
-                    return controllerType;
-                }
-            }
-
-            // Regular controller
-            return base.GetControllerType(requestContext, controllerName);
+            return controllerType ?? base.GetControllerType(requestContext, controllerName); // Regular controller
         }
     }
 }

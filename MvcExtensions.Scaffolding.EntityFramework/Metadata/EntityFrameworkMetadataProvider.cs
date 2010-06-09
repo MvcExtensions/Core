@@ -131,15 +131,17 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                 MetadataProperty metadataProperty;
 
-                if (property.MetadataProperties.TryGetValue("http://schemas.microsoft.com/ado/2009/02/edm/annotation:StoreGeneratedPattern", false, out metadataProperty))
+                if (!property.MetadataProperties.TryGetValue("http://schemas.microsoft.com/ado/2009/02/edm/annotation:StoreGeneratedPattern", false, out metadataProperty))
                 {
-                    string valueInString = metadataProperty.Value.ToString();
+                    continue;
+                }
 
-                    if (valueInString.Equals("Identity", DefaultStringComparison) ||
-                        valueInString.Equals("Computed", DefaultStringComparison))
-                    {
-                        propertyMetadata.IsGenerated = true;
-                    }
+                string valueInString = metadataProperty.Value.ToString();
+
+                if (valueInString.Equals("Identity", DefaultStringComparison) ||
+                    valueInString.Equals("Computed", DefaultStringComparison))
+                {
+                    propertyMetadata.IsGenerated = true;
                 }
             }
         }
@@ -341,12 +343,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                     return 1;
                 }
 
-                if (x.MaximumLength == y.MaximumLength)
-                {
-                    return string.Compare(x.Name, y.Name, DefaultStringComparison);
-                }
-
-                return x.MaximumLength.CompareTo(y.MaximumLength);
+                return x.MaximumLength == y.MaximumLength ?
+                       string.Compare(x.Name, y.Name, DefaultStringComparison) :
+                       x.MaximumLength.CompareTo(y.MaximumLength);
             }
         }
     }

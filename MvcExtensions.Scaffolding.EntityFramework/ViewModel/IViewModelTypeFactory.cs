@@ -12,13 +12,13 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// <summary>
     /// Defines an interface which is used to dynamically generate theViewModel for a given type.
     /// </summary>
-    public interface IViewModelFactory
+    public interface IViewModelTypeFactory
     {
         /// <summary>
         /// Creates the specified model type.
         /// </summary>
-        /// <param name="modelType">Type of the model.</param>
+        /// <param name="entityType">Type of the model.</param>
         /// <returns></returns>
-        Type Create(Type modelType);
+        Type Create(Type entityType);
     }
 }

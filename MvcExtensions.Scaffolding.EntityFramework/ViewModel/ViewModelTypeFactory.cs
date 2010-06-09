@@ -17,7 +17,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// <summary>
     /// Defines a class which is used to dynamically generate the DisplayModel and EditModel for a given <seealso cref="EntityMetadata"/>.
     /// </summary>
-    public class ViewModelFactory : IViewModelFactory
+    public class ViewModelTypeFactory : IViewModelTypeFactory
     {
         private const string AssemblyName = "ViewModelsAssembly";
 
@@ -42,10 +42,10 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         private readonly IEntityFrameworkMetadataProvider metadataProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModelFactory"/> class.
+        /// Initializes a new instance of the <see cref="ViewModelTypeFactory"/> class.
         /// </summary>
         /// <param name="metadataProvider">The metadata provider.</param>
-        public ViewModelFactory(IEntityFrameworkMetadataProvider metadataProvider)
+        public ViewModelTypeFactory(IEntityFrameworkMetadataProvider metadataProvider)
         {
             Invariant.IsNotNull(metadataProvider, "metadataProvider");
 
@@ -55,13 +55,13 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <summary>
         /// Creates the specified model type.
         /// </summary>
-        /// <param name="modelType">Type of the model.</param>
+        /// <param name="entityType">Type of the model.</param>
         /// <returns></returns>
-        public Type Create(Type modelType)
+        public Type Create(Type entityType)
         {
-            Invariant.IsNotNull(modelType, "modelType");
+            Invariant.IsNotNull(entityType, "entityType");
 
-            Type viewModelType = BuildType(modelType, "ViewModel");
+            Type viewModelType = BuildType(entityType, "ViewModel");
 
             return viewModelType;
         }
@@ -143,9 +143,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             propertyBuilder.SetSetMethod(setMethodBuilder);
         }
 
-        private static string CreateTypeName(Type modelType, string suffix)
+        private static string CreateTypeName(Type entityType, string suffix)
         {
-            return modelType.FullName.Replace(".", "$") + "$" + suffix;
+            return entityType.FullName.Replace(".", "$") + "$" + suffix;
         }
 
         private static ModuleBuilder CreateModuleBuilder()
@@ -159,7 +159,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             AssemblyName assemblyName = new AssemblyName(AssemblyName)
                                             {
-                                                Version = typeof(ViewModelFactory).Assembly.GetName().Version
+                                                Version = typeof(ViewModelTypeFactory).Assembly.GetName().Version
                                             };
 
             AssemblyBuilder builder = AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
@@ -167,9 +167,9 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             return builder;
         }
 
-        private Type BuildType(Type modelType, string suffix)
+        private Type BuildType(Type entityType, string suffix)
         {
-            string typeName = CreateTypeName(modelType, suffix);
+            string typeName = CreateTypeName(entityType, suffix);
 
             TypeBuilder typeBuilder = moduleBuilder.DefineType(typeName, TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.AutoClass | TypeAttributes.AnsiClass | TypeAttributes.BeforeFieldInit | TypeAttributes.AutoLayout, objectType, new[] { viewModelInterfaceType });
 
@@ -178,7 +178,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
             typeBuilder.DefineDefaultConstructor(MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
             typeBuilder.AddInterfaceImplementation(viewModelInterfaceType);
 
-            EntityMetadata entityMetadata = metadataProvider.GetMetadata(modelType);
+            EntityMetadata entityMetadata = metadataProvider.GetMetadata(entityType);
 
             IEnumerable<PropertyMetadata> simpleProperties = entityMetadata.Properties.Where(p => !p.IsForeignKey && (p.Navigation == null));
             IEnumerable<PropertyMetadata> navigationProperties = entityMetadata.Properties.Where(p => !p.IsForeignKey && (p.Navigation != null));
