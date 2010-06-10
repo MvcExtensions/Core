@@ -12,8 +12,6 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class RegisterScaffolding : BootstrapperTask
     {
-        private readonly ContainerAdapter container;
-
         static RegisterScaffolding()
         {
             RegisterControllerFactory.ControllerFactoryType = typeof(ScaffoldedControllerFactory);
@@ -27,9 +25,18 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(container, "container");
 
-            this.container = container;
-
+            Container = container;
             Order = DefaultOrder - 1;
+        }
+
+        /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -38,12 +45,13 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            container.RegisterAsSingleton<IEntityFrameworkMetadataProvider, EntityFrameworkMetadataProvider>()
+            Container.RegisterAsSingleton<IEntityFrameworkMetadataProvider, EntityFrameworkMetadataProvider>()
                      .RegisterAsSingleton<IViewModelTypeFactory, ViewModelTypeFactory>()
                      .RegisterAsSingleton<IViewModelTypeRegistry, ViewModelTypeRegistry>()
                      .RegisterAsSingleton<IControllerTypeRegistry, ControllerTypeRegistry>()
                      .RegisterAsPerRequest<IUnitOfWork, UnitOfWork>()
                      .RegisterAsPerRequest(typeof(IRepository<,>), typeof(Repository<,>))
+                     .RegisterAsPerRequest(typeof(IMapper<,>), typeof(Mapper<,>))
                      .RegisterAsTransient(typeof(ScaffoldedController<,,>));
 
             return TaskContinuation.Continue;

@@ -9,6 +9,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -17,6 +18,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     public class ConfigureScaffoldedEntities : BootstrapperTask
     {
+        private static readonly Type genericNavigationLookupType = typeof(NavigationLookup<,>);
+
         private static readonly Regex NameExpression = new Regex("([A-Z]+(?=$|[A-Z][a-z])|[A-Z]?[a-z]+)", RegexOptions.Compiled);
 
         private static readonly Type[] booleanTypes = new[] { typeof(bool), typeof(bool?) };
@@ -44,19 +47,27 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            IModelMetadataRegistry metadataRegistry = container.GetInstance<IModelMetadataRegistry>();
+            IViewModelTypeRegistry viewModelRegistry = container.GetInstance<IViewModelTypeRegistry>();
             IEntityFrameworkMetadataProvider metadataProvider = container.GetInstance<IEntityFrameworkMetadataProvider>();
+            IModelMetadataRegistry metadataRegistry = container.GetInstance<IModelMetadataRegistry>();
 
-            foreach (EntityMetadata entityMetadata in metadataProvider)
+            foreach (KeyValuePair<Type, Type> pair in viewModelRegistry.GetMapping())
             {
                 IDictionary<string, ModelMetadataItem> propertiesMetadata = new Dictionary<string, ModelMetadataItem>();
 
-                foreach (PropertyMetadata propertyMetadata in entityMetadata.Properties)
+                Type entityType = pair.Key;
+                Type viewModelType = pair.Key;
+
+                EntityMetadata entityMetadata = metadataProvider.GetMetadata(entityType);
+
+                foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(viewModelType))
                 {
-                    string propertyNameInUpperCase = propertyMetadata.Name.ToUpperInvariant();
+                    PropertyMetadata propertyMetadata = entityMetadata.FindProperty(property.Name);
                     ModelMetadataItem metadataItem;
 
-                    if (propertyMetadata.PropertyType == stringType)
+                    string propertyNameInUpperCase = property.Name.ToUpperInvariant();
+
+                    if (property.PropertyType == stringType)
                     {
                         StringMetadataItem stringMetadataItem = new StringMetadataItem();
                         StringMetadataItemBuilder builder = new StringMetadataItemBuilder(stringMetadataItem);
@@ -87,7 +98,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                         metadataItem = stringMetadataItem;
                     }
-                    else if (dateTypes.Contains(propertyMetadata.PropertyType))
+                    else if (dateTypes.Contains(property.PropertyType))
                     {
                         ValueTypeMetadataItem valueTypeMetadataItem = new ValueTypeMetadataItem();
                         ValueTypeMetadataItemBuilder<DateTime> builder = new ValueTypeMetadataItemBuilder<DateTime>(valueTypeMetadataItem);
@@ -103,20 +114,24 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                         metadataItem = valueTypeMetadataItem;
                     }
-                    else if (decimalTypes.Contains(propertyMetadata.PropertyType))
+                    else if (decimalTypes.Contains(property.PropertyType))
                     {
                         ValueTypeMetadataItem valueTypeMetadataItem = new ValueTypeMetadataItem();
                         new ValueTypeMetadataItemBuilder<decimal>(valueTypeMetadataItem).FormatAsCurrency();
 
                         metadataItem = valueTypeMetadataItem;
                     }
-                    else if (booleanTypes.Contains(propertyMetadata.PropertyType))
+                    else if (booleanTypes.Contains(property.PropertyType))
                     {
                         metadataItem = new BooleanMetadataItem();
                     }
-                    else if (otherValueTypes.Contains(propertyMetadata.PropertyType))
+                    else if (otherValueTypes.Contains(property.PropertyType))
                     {
                         metadataItem = new ValueTypeMetadataItem();
+                    }
+                    else if ((property.PropertyType.IsGenericType) && (genericNavigationLookupType.IsAssignableFrom(property.PropertyType.GetGenericTypeDefinition())))
+                    {
+                        metadataItem = new ObjectMetadataItem();
                     }
                     else
                     {
@@ -141,7 +156,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                     propertiesMetadata.Add(propertyMetadata.Name, metadataItem);
                 }
 
-                metadataRegistry.RegisterModelProperties(entityMetadata.EntityType, propertiesMetadata);
+                metadataRegistry.RegisterModelProperties(viewModelType, propertiesMetadata);
             }
 
             return TaskContinuation.Continue;

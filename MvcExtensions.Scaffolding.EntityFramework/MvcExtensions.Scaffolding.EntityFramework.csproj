@@ -72,6 +72,7 @@
     <Compile Include="Infrastructure\IUnitOfWork.cs" />
     <Compile Include="Infrastructure\Repository.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
+    <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Metadata\EntityMetadata.cs" />
     <Compile Include="Metadata\PropertyMetadata.cs" />
     <Compile Include="Metadata\EntityFrameworkMetadataProvider.cs" />

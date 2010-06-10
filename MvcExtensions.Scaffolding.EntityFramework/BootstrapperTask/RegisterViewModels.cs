@@ -24,36 +24,17 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         {
             Invariant.IsNotNull(serviceLocator, "serviceLocator");
 
-            MetadataProvider = serviceLocator.GetInstance<IEntityFrameworkMetadataProvider>();
-            ViewModelTypeFactory = serviceLocator.GetInstance<IViewModelTypeFactory>();
-            ViewModelTypeRegistry = serviceLocator.GetInstance<IViewModelTypeRegistry>();
+            ServiceLocator = serviceLocator;
         }
 
         /// <summary>
-        /// Gets or sets the metadata provider.
+        /// Gets the service locator.
         /// </summary>
-        /// <value>The metadata provider.</value>
-        protected IEntityFrameworkMetadataProvider MetadataProvider
+        /// <value>The service locator.</value>
+        protected IServiceLocator ServiceLocator
         {
-            get; private set;
-        }
-
-        /// <summary>
-        /// Gets or sets the view model type factory.
-        /// </summary>
-        /// <value>The view model type factory.</value>
-        protected IViewModelTypeFactory ViewModelTypeFactory
-        {
-            get; private set;
-        }
-
-        /// <summary>
-        /// Gets or sets the view model type registry.
-        /// </summary>
-        /// <value>The view model type registry.</value>
-        protected IViewModelTypeRegistry ViewModelTypeRegistry
-        {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -62,10 +43,15 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            foreach (EntityMetadata entityMetadata in MetadataProvider)
+            IEntityFrameworkMetadataProvider metadataProvider = ServiceLocator.GetInstance<IEntityFrameworkMetadataProvider>();
+            IViewModelTypeFactory viewModelTypeFactory = ServiceLocator.GetInstance<IViewModelTypeFactory>();
+            IViewModelTypeRegistry viewModelTypeRegistry = ServiceLocator.GetInstance<IViewModelTypeRegistry>();
+
+            foreach (EntityMetadata entityMetadata in metadataProvider)
             {
-                Type viewModelType = ViewModelTypeFactory.Create(entityMetadata.EntityType);
-                ViewModelTypeRegistry.Register(entityMetadata.EntityType, viewModelType);
+                Type viewModelType = viewModelTypeFactory.Create(entityMetadata.EntityType);
+
+                viewModelTypeRegistry.Register(entityMetadata.EntityType, viewModelType);
             }
 
             return TaskContinuation.Continue;

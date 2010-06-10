@@ -145,12 +145,12 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
         private static string CreateTypeName(Type entityType, string suffix)
         {
-            return entityType.FullName.Replace(".", "$") + "$" + suffix;
+            return entityType.FullName.Replace(".", "$") + suffix;
         }
 
         private static ModuleBuilder CreateModuleBuilder()
         {
-            ModuleBuilder builder = assemblyBuilder.DefineDynamicModule(assemblyBuilder.GetName().Name, AssemblyName + ".dll");
+            ModuleBuilder builder = assemblyBuilder.DefineDynamicModule(AssemblyName);
 
             return builder;
         }
@@ -202,7 +202,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         private Type GetNavigationPropertyType(PropertyMetadata property)
         {
             EntityMetadata navigateEntity = metadataProvider.GetMetadata(property.Navigation.EntityType);
-            Type textType = navigateEntity.FindProperty(property.Name).PropertyType;
+            PropertyMetadata navigateProperty = navigateEntity.FindProperty(property.Navigation.PropertyName);
+            Type textType = navigateProperty.PropertyType;
             Type valueType = navigateEntity.GetKeyTypes()[0];
 
             Type propertyType = genericNavigationLookupType.MakeGenericType(textType, valueType);

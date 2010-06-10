@@ -12,7 +12,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
-    public interface IMapper<TEntity, TViewModel> where TEntity : class where TViewModel : IViewModel
+    public interface IMapper<TEntity, TViewModel> where TEntity : class where TViewModel : IViewModel, new()
     {
         /// <summary>
         /// Maps the specified entity.
