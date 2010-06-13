@@ -236,7 +236,7 @@ namespace MvcExtensions
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression);
             }
 
-            return Expression(EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>) null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
+            return Expression(EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>)null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
         }
 
         /// <summary>
@@ -261,7 +261,7 @@ namespace MvcExtensions
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression);
             }
 
-            return Expression(UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>) null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
+            return Expression(UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>)null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
         }
 
         /// <summary>
