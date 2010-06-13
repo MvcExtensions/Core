@@ -34,7 +34,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_get_client_rules()
         {
-            var validator = new ExtendedRegularExpressionValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RegularExpressionValidationMetadata { Pattern = @"^[a-zA-Z0-9]+$", ErrorMessage = "Value must be alphanumeric." });
+            var validator = new ExtendedRegularExpressionValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RegularExpressionValidationMetadata { Pattern = @"^[a-zA-Z0-9]+$", ErrorMessage = () => "Value must be alphanumeric." });
 
             var rules = validator.GetClientValidationRules();
 

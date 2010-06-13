@@ -56,6 +56,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public TItemBuilder DisplayName(string value)
         {
+            return DisplayName(() => value);
+        }
+
+        /// <summary>
+        /// Sets the Display name.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public TItemBuilder DisplayName(Func<string> value)
+        {
             Item.DisplayName = value;
 
             return This;
@@ -67,6 +77,16 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public TItemBuilder ShortDisplayName(string value)
+        {
+            return ShortDisplayName(() => value);
+        }
+
+        /// <summary>
+        /// Sets the short display name.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public TItemBuilder ShortDisplayName(Func<string> value)
         {
             Item.ShortDisplayName = value;
 
@@ -91,6 +111,16 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public TItemBuilder Description(string value)
+        {
+            return Description(() => value);
+        }
+
+        /// <summary>
+        /// Sets the Description.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public TItemBuilder Description(Func<string> value)
         {
             Item.Description = value;
 
@@ -135,6 +165,16 @@ namespace MvcExtensions
         /// <param name="errorMessage">The error message when the value is not specified.</param>
         /// <returns></returns>
         public TItemBuilder Required(string errorMessage)
+        {
+            return Required(() => errorMessage);
+        }
+
+        /// <summary>
+        /// Marks the value as required.
+        /// </summary>
+        /// <param name="errorMessage">The error message when the value is not specified.</param>
+        /// <returns></returns>
+        public TItemBuilder Required(Func<string> errorMessage)
         {
             return Required(errorMessage, null, null);
         }
@@ -268,6 +308,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public TItemBuilder NullDisplayText(string value)
         {
+            return NullDisplayText(() => value);
+        }
+
+        /// <summary>
+        /// Sets the display text when the value is null.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public TItemBuilder NullDisplayText(Func<string> value)
+        {
             Item.NullDisplayText = value;
 
             return This;
@@ -279,6 +329,16 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public TItemBuilder Watermark(string value)
+        {
+            return Watermark(() => value);
+        }
+
+        /// <summary>
+        /// Sets the Watermark.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public TItemBuilder Watermark(Func<string> value)
         {
             Item.Watermark = value;
 
@@ -292,7 +352,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual TItemBuilder Required(string errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        protected virtual TItemBuilder Required(Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             Item.IsRequired = true;
 

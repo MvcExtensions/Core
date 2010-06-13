@@ -116,12 +116,36 @@ namespace MvcExtensions
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
         {
             metadata.ShowForDisplay = metadataItem.ShowForDisplay;
-            metadata.DisplayName = !string.IsNullOrEmpty(metadataItem.DisplayName) ? metadataItem.DisplayName : metadata.DisplayName;
-            metadata.ShortDisplayName = !string.IsNullOrEmpty(metadataItem.ShortDisplayName) ? metadataItem.ShortDisplayName : metadata.ShortDisplayName;
-            metadata.TemplateHint = !string.IsNullOrEmpty(metadataItem.TemplateName) ? metadataItem.TemplateName : metadata.TemplateHint;
-            metadata.Description = !string.IsNullOrEmpty(metadataItem.Description) ? metadataItem.Description : metadata.Description;
-            metadata.NullDisplayText = !string.IsNullOrEmpty(metadataItem.NullDisplayText) ? metadataItem.NullDisplayText : metadata.NullDisplayText;
-            metadata.Watermark = !string.IsNullOrEmpty(metadataItem.Watermark) ? metadataItem.Watermark : metadata.Watermark;
+
+            if (metadataItem.DisplayName != null)
+            {
+                metadata.DisplayName = metadataItem.DisplayName();
+            }
+
+            if (metadataItem.ShortDisplayName != null)
+            {
+                metadata.ShortDisplayName = metadataItem.ShortDisplayName();
+            }
+
+            if (!string.IsNullOrEmpty(metadataItem.TemplateName))
+            {
+                metadata.TemplateHint = metadataItem.TemplateName;
+            }
+
+            if (metadataItem.Description != null)
+            {
+                metadata.Description = metadataItem.Description();
+            }
+
+            if (metadataItem.NullDisplayText != null)
+            {
+                metadata.NullDisplayText = metadataItem.NullDisplayText();
+            }
+
+            if (metadataItem.Watermark != null)
+            {
+                metadata.Watermark = metadataItem.Watermark();
+            }
 
             if (metadataItem.HideSurroundingHtml.HasValue)
             {
@@ -151,11 +175,14 @@ namespace MvcExtensions
 
             if (formattableItem != null)
             {
-                metadata.DisplayFormatString = formattableItem.DisplayFormat;
-
-                if (formattableItem.ApplyFormatInEditMode && metadata.ShowForEdit)
+                if (formattableItem.DisplayFormat != null)
                 {
-                    metadata.EditFormatString = formattableItem.EditFormat;
+                    metadata.DisplayFormatString = formattableItem.DisplayFormat();
+                }
+
+                if (formattableItem.ApplyFormatInEditMode && metadata.ShowForEdit && formattableItem.EditFormat != null)
+                {
+                    metadata.EditFormatString = formattableItem.EditFormat();
                 }
             }
 

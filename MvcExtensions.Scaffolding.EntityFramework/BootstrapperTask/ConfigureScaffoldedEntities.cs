@@ -151,7 +151,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                         metadataItem.IsRequired = true;
                     }
 
-                    metadataItem.DisplayName = GetDisplayName(entityMetadata, propertyMetadata);
+                    metadataItem.DisplayName = () => GetDisplayName(entityMetadata, propertyMetadata);
 
                     propertiesMetadata.Add(propertyMetadata.Name, metadataItem);
                 }

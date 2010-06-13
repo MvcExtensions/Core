@@ -18,7 +18,7 @@ namespace MvcExtensions
         /// Gets or sets the display format.
         /// </summary>
         /// <value>The display format.</value>
-        public string DisplayFormat
+        public Func<string> DisplayFormat
         {
             get;
             set;
@@ -28,7 +28,7 @@ namespace MvcExtensions
         /// Gets or sets the edit format.
         /// </summary>
         /// <value>The edit format.</value>
-        public string EditFormat
+        public Func<string> EditFormat
         {
             get;
             set;

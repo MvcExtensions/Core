@@ -30,7 +30,7 @@ namespace MvcExtensions.Tests
         [InlineData(null, null, null)]
         public void ErrorMessage_should_not_be_blank_validation_metadata_has_error_message(string errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var validator = new ExtendedValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RequiredValidationMetadata { ErrorMessage = errorMessage, ErrorMessageResourceType = errorMessageResourceType, ErrorMessageResourceName = errorMessageResourceName });
+            var validator = new ExtendedValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RequiredValidationMetadata { ErrorMessage = () => errorMessage, ErrorMessageResourceType = errorMessageResourceType, ErrorMessageResourceName = errorMessageResourceName });
 
             Assert.NotNull(validator.ValidationErrorMessage);
             Assert.NotEqual(string.Empty, validator.ValidationErrorMessage);

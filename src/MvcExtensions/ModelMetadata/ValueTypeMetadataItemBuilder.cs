@@ -31,6 +31,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public ValueTypeMetadataItemBuilder<TValueType> DisplayFormat(string format)
         {
+            return DisplayFormat(() => format);
+        }
+
+        /// <summary>
+        /// Sets the format in display mode.
+        /// </summary>
+        /// <param name="format">The value.</param>
+        /// <returns></returns>
+        public ValueTypeMetadataItemBuilder<TValueType> DisplayFormat(Func<string> format)
+        {
             Item.DisplayFormat = format;
 
             return this;
@@ -43,6 +53,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public ValueTypeMetadataItemBuilder<TValueType> EditFormat(string format)
         {
+            return EditFormat(() => format);
+        }
+
+        /// <summary>
+        /// Sets the format in edit mode.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <returns></returns>
+        public ValueTypeMetadataItemBuilder<TValueType> EditFormat(Func<string> format)
+        {
             Item.EditFormat = format;
 
             return this;
@@ -54,6 +74,16 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public ValueTypeMetadataItemBuilder<TValueType> Format(string value)
+        {
+            return Format(() => value);
+        }
+
+        /// <summary>
+        /// Sets format for both display and edit mode.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public ValueTypeMetadataItemBuilder<TValueType> Format(Func<string> value)
         {
             Item.DisplayFormat = Item.EditFormat = value;
 
@@ -91,6 +121,18 @@ namespace MvcExtensions
         /// <returns></returns>
         public ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, string errorMessage)
         {
+            return Range(minimum, maximum, () => errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="minimum">The minimum.</param>
+        /// <param name="maximum">The maximum.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, Func<string> errorMessage)
+        {
             return Range(minimum, maximum, errorMessage, null, null);
         }
 
@@ -116,7 +158,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, string errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        protected virtual ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             RangeValidationMetadata<TValueType> rangeValidation = Item.Validations
                                                                       .OfType<RangeValidationMetadata<TValueType>>()

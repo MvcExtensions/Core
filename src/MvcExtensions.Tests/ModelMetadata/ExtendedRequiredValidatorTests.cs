@@ -18,7 +18,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_get_client_rules()
         {
-            var validator = new ExtendedRequiredValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RequiredValidationMetadata { ErrorMessage = "Value must be present." });
+            var validator = new ExtendedRequiredValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new RequiredValidationMetadata { ErrorMessage = () => "Value must be present." });
 
             var rules = validator.GetClientValidationRules();
 

@@ -74,9 +74,16 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(validationMetadata, "validationMetadata");
 
-            if (!string.IsNullOrEmpty(validationMetadata.ErrorMessage))
+            string errorMessage = null;
+
+            if (validationMetadata.ErrorMessage != null)
             {
-                Attribute.ErrorMessage = validationMetadata.ErrorMessage;
+                errorMessage = validationMetadata.ErrorMessage();
+            }
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                Attribute.ErrorMessage = errorMessage;
             }
             else if ((validationMetadata.ErrorMessageResourceType != null) && (!string.IsNullOrEmpty(validationMetadata.ErrorMessageResourceName)))
             {

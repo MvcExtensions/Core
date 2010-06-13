@@ -35,7 +35,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_get_client_rules()
         {
-            var validator = new ExtendedRangeValidatorTestDouble<int>(CreateModelMetadataWithModel(), new ControllerContext(), new RangeValidationMetadata<int> { Minimum = 1, Maximum = 7, ErrorMessage = "Value must be between 1 t0 7." });
+            var validator = new ExtendedRangeValidatorTestDouble<int>(CreateModelMetadataWithModel(), new ControllerContext(), new RangeValidationMetadata<int> { Minimum = 1, Maximum = 7, ErrorMessage = () => "Value must be between 1 t0 7." });
 
             var rules = validator.GetClientValidationRules();
 

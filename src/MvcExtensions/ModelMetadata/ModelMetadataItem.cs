@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -28,7 +29,7 @@ namespace MvcExtensions
         /// Gets or sets the display name.
         /// </summary>
         /// <value>The display name.</value>
-        public string DisplayName
+        public Func<string> DisplayName
         {
             get;
             set;
@@ -38,7 +39,7 @@ namespace MvcExtensions
         /// Gets or sets the short name of the display.
         /// </summary>
         /// <value>The short name of the display.</value>
-        public string ShortDisplayName
+        public Func<string> ShortDisplayName
         {
             get;
             set;
@@ -58,7 +59,7 @@ namespace MvcExtensions
         /// Gets or sets the description.
         /// </summary>
         /// <value>The description.</value>
-        public string Description
+        public Func<string> Description
         {
             get;
             set;
@@ -118,7 +119,7 @@ namespace MvcExtensions
         /// Gets or sets the null display text.
         /// </summary>
         /// <value>The null display text.</value>
-        public string NullDisplayText
+        public Func<string> NullDisplayText
         {
             get;
             set;
@@ -128,7 +129,7 @@ namespace MvcExtensions
         /// Gets or sets the watermark.
         /// </summary>
         /// <value>The watermark.</value>
-        public string Watermark
+        public Func<string> Watermark
         {
             get;
             set;

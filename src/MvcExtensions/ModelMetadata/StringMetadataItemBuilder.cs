@@ -153,6 +153,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public StringMetadataItemBuilder DisplayFormat(string format)
         {
+            return DisplayFormat(() => format);
+        }
+
+        /// <summary>
+        /// Sets the format in display mode.
+        /// </summary>
+        /// <param name="format">The value.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder DisplayFormat(Func<string> format)
+        {
             Item.DisplayFormat = format;
 
             return this;
@@ -165,6 +175,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public StringMetadataItemBuilder EditFormat(string format)
         {
+            return EditFormat(() => format);
+        }
+
+        /// <summary>
+        /// Sets the format in edit mode.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder EditFormat(Func<string> format)
+        {
             Item.EditFormat = format;
 
             return this;
@@ -176,6 +196,16 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <returns></returns>
         public StringMetadataItemBuilder Format(string value)
+        {
+            return Format(() => value);
+        }
+
+        /// <summary>
+        /// Sets format for both display and edit mode.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder Format(Func<string> value)
         {
             Item.DisplayFormat = Item.EditFormat = value;
 
@@ -206,7 +236,7 @@ namespace MvcExtensions
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression);
             }
 
-            return Expression(EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? EmailErrorMessage : null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
+            return Expression(EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>) null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
         }
 
         /// <summary>
@@ -231,7 +261,7 @@ namespace MvcExtensions
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression);
             }
 
-            return Expression(UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? UrlErrorMessage : null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
+            return Expression(UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>) null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
         }
 
         /// <summary>
@@ -270,6 +300,17 @@ namespace MvcExtensions
         /// <returns></returns>
         public StringMetadataItemBuilder Expression(string pattern, string errorMessage)
         {
+            return Expression(pattern, () => errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder Expression(string pattern, Func<string> errorMessage)
+        {
             return Expression(pattern, errorMessage, null, null);
         }
 
@@ -303,6 +344,17 @@ namespace MvcExtensions
         /// <returns></returns>
         public StringMetadataItemBuilder MaximumLength(int length, string errorMessage)
         {
+            return MaximumLength(length, () => errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder MaximumLength(int length, Func<string> errorMessage)
+        {
             return MaximumLength(length, errorMessage, null, null);
         }
 
@@ -326,7 +378,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual StringMetadataItemBuilder Expression(string pattern, string errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        protected virtual StringMetadataItemBuilder Expression(string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             RegularExpressionValidationMetadata regularExpressionValidation = GetExpressionValidation();
 
@@ -352,7 +404,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual StringMetadataItemBuilder MaximumLength(int length, string errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        protected virtual StringMetadataItemBuilder MaximumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             StringLengthValidationMetadata stringLengthValidation = Item.Validations
                                                                         .OfType<StringLengthValidationMetadata>()

@@ -19,7 +19,7 @@ namespace MvcExtensions
         /// Gets or sets the error message.
         /// </summary>
         /// <value>The error message.</value>
-        string ErrorMessage
+        Func<string> ErrorMessage
         {
             get;
             set;

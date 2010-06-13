@@ -9,6 +9,7 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 {
     using System;
     using System.Collections.Generic;
+    using System.Data.Objects;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
@@ -20,8 +21,30 @@ namespace MvcExtensions.Scaffolding.EntityFramework
     /// <typeparam name="TViewModel">The type of the view model.</typeparam>
     public class Mapper<TEntity, TViewModel> : IMapper<TEntity, TViewModel> where TEntity : class where TViewModel : IViewModel, new()
     {
+        private static readonly Type navigationLookupLookupType = typeof(NavigationLookup<,>);
+
         private static readonly Dictionary<Type, IList<Action<TViewModel, TEntity>>> viewModelSourceMapping = new Dictionary<Type, IList<Action<TViewModel, TEntity>>>();
         private static readonly object viewModelSourceMappingSyncLock = new object();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mapper&lt;TEntity, TViewModel&gt;"/> class.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        public Mapper(ObjectContext database)
+        {
+            Invariant.IsNotNull(database, "database");
+
+            Database = database;
+        }
+
+        /// <summary>
+        /// Gets the database.
+        /// </summary>
+        /// <value>The database.</value>
+        protected ObjectContext Database
+        {
+            get; private set;
+        }
 
         /// <summary>
         /// Maps the specified entity.
@@ -40,7 +63,11 @@ namespace MvcExtensions.Scaffolding.EntityFramework
         /// <returns></returns>
         public TEntity CreateFrom(TViewModel viewModel)
         {
-            throw new NotImplementedException();
+            TEntity entity = Database.CreateObject<TEntity>();
+
+            Copy(viewModel, entity);
+
+            return entity;
         }
 
         /// <summary>
@@ -68,7 +95,8 @@ namespace MvcExtensions.Scaffolding.EntityFramework
                     {
                         invokers = new List<Action<TViewModel, TEntity>>();
 
-                        IEnumerable<PropertyInfo> destinationProperties = destinationType.GetProperties();
+                        IEnumerable<PropertyInfo> destinationProperties = destinationType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.SetProperty)
+                                                                                         .Where(p => p.GetSetMethod() != null && p.GetSetMethod().GetParameters().Length == 1);
 
                         foreach (PropertyInfo sourceProperty in sourceType.GetProperties())
                         {
@@ -76,22 +104,28 @@ namespace MvcExtensions.Scaffolding.EntityFramework
 
                             PropertyInfo destinationProperty = destinationProperties.SingleOrDefault(p => p.Name.Equals(propertyName));
 
-                            if (destinationProperty != null)
+                            if (destinationProperty == null)
                             {
-                                if (sourceProperty.PropertyType.Equals(destinationProperty.PropertyType))
-                                {
-                                    ParameterExpression entity = Expression.Parameter(destinationType, "e");
-                                    ParameterExpression model = Expression.Parameter(sourceType, "m");
+                                continue;
+                            }
 
-                                    MemberExpression setter = Expression.Property(entity, propertyName);
-                                    MemberExpression getter = Expression.Property(model, propertyName);
+                            if (sourceProperty.PropertyType.Equals(destinationProperty.PropertyType))
+                            {
+                                ParameterExpression entity = Expression.Parameter(destinationType, "e");
+                                ParameterExpression model = Expression.Parameter(sourceType, "m");
 
-                                    MethodCallExpression call = Expression.Call(setter, destinationProperty.GetSetMethod(), Expression.Call(getter, sourceProperty.GetGetMethod()));
+                                MemberExpression setter = Expression.Property(entity, propertyName);
+                                MemberExpression getter = Expression.Property(model, propertyName);
 
-                                    Expression<Action<TViewModel, TEntity>> invoker = Expression.Lambda<Action<TViewModel, TEntity>>(call, entity, model);
+                                MethodCallExpression call = Expression.Call(setter, destinationProperty.GetSetMethod(), Expression.Call(getter, sourceProperty.GetGetMethod()));
 
-                                    invokers.Add(invoker.Compile());
-                                }
+                                Expression<Action<TViewModel, TEntity>> invoker = Expression.Lambda<Action<TViewModel, TEntity>>(call, entity, model);
+
+                                invokers.Add(invoker.Compile());
+                            }
+                            else if (sourceProperty.PropertyType.IsGenericType && navigationLookupLookupType.IsAssignableFrom(sourceProperty.PropertyType.GetGenericTypeDefinition()))
+                            {
+                                
                             }
                         }
 

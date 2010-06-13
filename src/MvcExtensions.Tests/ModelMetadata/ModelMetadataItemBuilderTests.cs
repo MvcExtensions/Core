@@ -25,7 +25,7 @@ namespace MvcExtensions.Tests
         {
             builder.DisplayName("foo");
 
-            Assert.Equal("foo", item.DisplayName);
+            Assert.Equal("foo", item.DisplayName());
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace MvcExtensions.Tests
         {
             builder.ShortDisplayName("foo");
 
-            Assert.Equal("foo", item.ShortDisplayName);
+            Assert.Equal("foo", item.ShortDisplayName());
         }
 
         [Fact]
@@ -49,7 +49,7 @@ namespace MvcExtensions.Tests
         {
             builder.Description("foo");
 
-            Assert.Equal("foo", item.Description);
+            Assert.Equal("foo", item.Description());
         }
 
         [Fact]
@@ -177,7 +177,7 @@ namespace MvcExtensions.Tests
         {
             builder.NullDisplayText("n/a");
 
-            Assert.Equal("n/a", item.NullDisplayText);
+            Assert.Equal("n/a", item.NullDisplayText());
         }
 
         [Fact]
@@ -185,7 +185,7 @@ namespace MvcExtensions.Tests
         {
             builder.Watermark("enter your value...");
 
-            Assert.Equal("enter your value...", item.Watermark);
+            Assert.Equal("enter your value...", item.Watermark());
         }
 
         private sealed class ModelMetadataItemTestDouble : ModelMetadataItem

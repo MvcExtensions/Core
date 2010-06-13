@@ -7,6 +7,8 @@
 
 namespace MvcExtensions
 {
+    using System;
+
     /// <summary>
     /// Represents an interface of a metadata that supports formatting.
     /// </summary>
@@ -16,7 +18,7 @@ namespace MvcExtensions
         /// Gets or sets the display format.
         /// </summary>
         /// <value>The display format.</value>
-        string DisplayFormat
+        Func<string> DisplayFormat
         {
             get;
             set;
@@ -26,7 +28,7 @@ namespace MvcExtensions
         /// Gets or sets the edit format.
         /// </summary>
         /// <value>The edit format.</value>
-        string EditFormat
+        Func<string> EditFormat
         {
             get;
             set;

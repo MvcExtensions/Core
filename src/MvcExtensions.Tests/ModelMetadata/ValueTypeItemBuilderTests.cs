@@ -25,7 +25,7 @@ namespace MvcExtensions.Tests
         {
             builder.DisplayFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat);
+            Assert.Equal("{0:d}", item.DisplayFormat());
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace MvcExtensions.Tests
         {
             builder.EditFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.EditFormat);
+            Assert.Equal("{0:d}", item.EditFormat());
         }
 
         [Fact]
@@ -41,8 +41,8 @@ namespace MvcExtensions.Tests
         {
             builder.Format("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat);
-            Assert.Equal("{0:d}", item.EditFormat);
+            Assert.Equal("{0:d}", item.DisplayFormat());
+            Assert.Equal("{0:d}", item.EditFormat());
         }
 
         [Fact]

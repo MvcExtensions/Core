@@ -89,11 +89,46 @@ namespace MvcExtensions.Tests
         }
 
         [Theory]
-        [InlineData(false, false, false, false, false)]
-        [InlineData(true, true, true, true, true)]
-        public void Should_return_metadata_with_same_value_as_model_meta_data_item(bool hideSurroundingHtml, bool isReadOnly, bool isRequired, bool showForEdit, bool applyFormatInEditMode)
+        [InlineData(false, false, false, true, true, "A property", "a property", "foo", "a description", "n/a", "Please enter...", "{0:c}", "{0:c}")]
+        [InlineData(true, true, true, false, false, null, null, null, null, null, null, null, null)]
+        public void Should_return_metadata_with_same_value_as_model_meta_data_item(bool hideSurroundingHtml, bool isReadOnly, bool isRequired, bool showForEdit, bool applyFormatInEditMode, string displayName, string shortDisplayName, string template, string description, string nullDisplayText, string watermark, string displayFormat, string editFormat)
         {
-            var metadataItem = new StringMetadataItem { HideSurroundingHtml = hideSurroundingHtml, IsReadOnly = isReadOnly, IsRequired = isRequired, ShowForEdit = showForEdit, ApplyFormatInEditMode = applyFormatInEditMode };
+            var metadataItem = new StringMetadataItem { HideSurroundingHtml = hideSurroundingHtml, IsReadOnly = isReadOnly, IsRequired = isRequired, ShowForEdit = showForEdit, ApplyFormatInEditMode = applyFormatInEditMode, TemplateName = template };
+
+            if (displayName != null)
+            {
+                metadataItem.DisplayName = () => displayName;
+            }
+
+            if (shortDisplayName != null)
+            {
+                metadataItem.ShortDisplayName = () => shortDisplayName;
+            }
+
+            if (description != null)
+            {
+                metadataItem.Description = () => description;
+            }
+
+            if (nullDisplayText != null)
+            {
+                metadataItem.NullDisplayText = () => nullDisplayText;
+            }
+
+            if (watermark != null)
+            {
+                metadataItem.Watermark = () => watermark;
+            }
+
+            if (displayFormat != null)
+            {
+                metadataItem.DisplayFormat = () => displayFormat;
+            }
+
+            if (editFormat != null)
+            {
+                metadataItem.EditFormat = () => editFormat;
+            }
 
             registry.Setup(r => r.GetModelPropertyMetadata(It.IsAny<Type>(), It.IsAny<string>())).Returns(metadataItem);
 
@@ -103,7 +138,43 @@ namespace MvcExtensions.Tests
             Assert.Equal(metadataItem.IsReadOnly, metadata.IsReadOnly);
             Assert.Equal(metadataItem.IsRequired, metadata.IsRequired);
             Assert.Equal(metadataItem.ShowForEdit, metadata.ShowForEdit);
-            Assert.Equal(metadataItem.EditFormat, metadata.EditFormatString);
+
+            if (displayName != null)
+            {
+                Assert.Equal(metadataItem.DisplayName(), metadata.DisplayName);
+            }
+
+            if (shortDisplayName != null)
+            {
+                Assert.Equal(metadataItem.ShortDisplayName(), metadata.ShortDisplayName);
+            }
+
+            Assert.Equal(metadataItem.TemplateName, metadata.TemplateHint);
+
+            if (description != null)
+            {
+                Assert.Equal(metadataItem.Description(), metadata.Description);
+            }
+
+            if (nullDisplayText != null)
+            {
+                Assert.Equal(metadataItem.NullDisplayText(), metadata.NullDisplayText);
+            }
+
+            if (watermark != null)
+            {
+                Assert.Equal(metadataItem.Watermark(), metadata.Watermark);
+            }
+
+            if (displayFormat != null)
+            {
+                Assert.Equal(metadataItem.DisplayFormat(), metadata.DisplayFormatString);
+            }
+
+            if (editFormat != null)
+            {
+                Assert.Equal(metadataItem.EditFormat(), metadata.EditFormatString);
+            }
         }
 
         public class DummyObject

@@ -21,8 +21,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsCurrency();
 
-            Assert.Equal(item.DisplayFormat, "{0:c}");
-            Assert.Equal(item.EditFormat, "{0:c}");
+            Assert.Equal(item.DisplayFormat(), "{0:c}");
+            Assert.Equal(item.EditFormat(), "{0:c}");
         }
 
         [Fact]
@@ -33,8 +33,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsCurrency();
 
-            Assert.Equal(item.DisplayFormat, "{0:c}");
-            Assert.Equal(item.EditFormat, "{0:c}");
+            Assert.Equal(item.DisplayFormat(), "{0:c}");
+            Assert.Equal(item.EditFormat(), "{0:c}");
         }
 
         [Fact]
@@ -45,8 +45,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsDateOnly();
 
-            Assert.Equal(item.DisplayFormat, "{0:d}");
-            Assert.Equal(item.EditFormat, "{0:d}");
+            Assert.Equal(item.DisplayFormat(), "{0:d}");
+            Assert.Equal(item.EditFormat(), "{0:d}");
         }
 
         [Fact]
@@ -57,8 +57,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsDateOnly();
 
-            Assert.Equal(item.DisplayFormat, "{0:d}");
-            Assert.Equal(item.EditFormat, "{0:d}");
+            Assert.Equal(item.DisplayFormat(), "{0:d}");
+            Assert.Equal(item.EditFormat(), "{0:d}");
         }
 
         [Fact]
@@ -69,8 +69,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsTimeOnly();
 
-            Assert.Equal(item.DisplayFormat, "{0:t}");
-            Assert.Equal(item.EditFormat, "{0:t}");
+            Assert.Equal(item.DisplayFormat(), "{0:t}");
+            Assert.Equal(item.EditFormat(), "{0:t}");
         }
 
         [Fact]
@@ -81,8 +81,8 @@ namespace MvcExtensions.Tests
 
             builder.FormatAsTimeOnly();
 
-            Assert.Equal(item.DisplayFormat, "{0:t}");
-            Assert.Equal(item.EditFormat, "{0:t}");
+            Assert.Equal(item.DisplayFormat(), "{0:t}");
+            Assert.Equal(item.EditFormat(), "{0:t}");
         }
     }
 }

@@ -34,7 +34,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_get_client_rules()
         {
-            var validator = new ExtendedStringLengthValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new StringLengthValidationMetadata { Maximum = 256, ErrorMessage = "Value length must be less than or equal to 256 character." });
+            var validator = new ExtendedStringLengthValidatorTestDouble(CreateModelMetadataWithModel(), new ControllerContext(), new StringLengthValidationMetadata { Maximum = 256, ErrorMessage = () => "Value length must be less than or equal to 256 character." });
 
             var rules = validator.GetClientValidationRules();
 
