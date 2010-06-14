@@ -5,10 +5,9 @@
 // All other rights reserved.
 #endregion
 
-using System;
-
 namespace MvcExtensions
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
