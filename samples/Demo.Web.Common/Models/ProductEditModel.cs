@@ -20,6 +20,7 @@ namespace Demo.Web
         public ProductEditModelConfiguration()
         {
             Configure(model => model.Id).Hide();
+
             Configure(model => model.Name).DisplayName(() => LocalizedTexts.Name)
                                           .Required(() => LocalizedTexts.NameCannotBeBlank)
                                           .MaximumLength(64, () => LocalizedTexts.NameCannotBeMoreThanSixtyFourCharacters);

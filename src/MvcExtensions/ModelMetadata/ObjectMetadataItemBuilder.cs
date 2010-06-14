@@ -78,7 +78,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey, Func<string> optionLabel, string template)
         {
-            return Select(template, viewDataKey, optionLabel);
+            return HtmlSelect(template, viewDataKey, optionLabel);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public ObjectMetadataItemBuilder<TModel> AsListBox(string viewDataKey, string template)
         {
-            return Select(template, viewDataKey, null);
+            return HtmlSelect(template, viewDataKey, null);
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        protected virtual ObjectMetadataItemBuilder<TModel> Select(string templateName, string viewDataKey, Func<string> optionLabel)
+        protected virtual ObjectMetadataItemBuilder<TModel> HtmlSelect(string templateName, string viewDataKey, Func<string> optionLabel)
         {
             ModelMetadataItemSelectableElementSetting selectableElementSetting = Item.AdditionalSettings
                                                                                      .OfType<ModelMetadataItemSelectableElementSetting>()
