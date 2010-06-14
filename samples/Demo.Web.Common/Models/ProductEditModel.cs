@@ -20,21 +20,22 @@ namespace Demo.Web
         public ProductEditModelConfiguration()
         {
             Configure(model => model.Id).Hide();
+            Configure(model => model.Name).DisplayName(() => LocalizedTexts.Name)
+                                          .Required(() => LocalizedTexts.NameCannotBeBlank)
+                                          .MaximumLength(64, () => LocalizedTexts.NameCannotBeMoreThanSixtyFourCharacters);
 
-            Configure(model => model.Name).Required("Name cannot be blank.")
-                                          .MaximumLength(64, "Name cannot be more than 64 characters.");
+            Configure(model => model.Category).DisplayName(() => LocalizedTexts.Category)
+                                              .Required(() => LocalizedTexts.CategoryMustBeSelected)
+                                              .AsDropDownList("categories", () => LocalizedTexts.SelectCategory);
 
-            Configure(model => model.Category).DisplayName("Category")
-                                              .Required("Category must be selected.")
-                                              .AsDropDownList("categories", "[Select category]");
-
-            Configure(model => model.Supplier).DisplayName("Supplier")
-                                              .Required("Supplier must be selected.")
+            Configure(model => model.Supplier).DisplayName(() => LocalizedTexts.Supplier)
+                                              .Required(() => LocalizedTexts.SupplierMustBeSelected)
                                               .AsListBox("suppliers");
 
-            Configure(model => model.Price).FormatAsCurrency()
-                                           .Required("Price cannot be blank.")
-                                           .Range(10.00m, 1000.00m, "Price must be between 10.00-1000.00.");
+            Configure(model => model.Price).DisplayName(() => LocalizedTexts.Price)
+                                           .FormatAsCurrency()
+                                           .Required(() => LocalizedTexts.PriceCannotBeBlank)
+                                           .Range(10.00m, 1000.00m, () => LocalizedTexts.PriceMustBeBetweenTenToThousand);
         }
     }
 }

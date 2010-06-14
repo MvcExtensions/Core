@@ -7,6 +7,8 @@
 
 namespace MvcExtensions
 {
+    using System;
+
     /// <summary>
     /// Define a class that is used to store the selectable element setting.
     /// </summary>
@@ -26,7 +28,7 @@ namespace MvcExtensions
         /// Gets or sets the option label.
         /// </summary>
         /// <value>The option label.</value>
-        public string OptionLabel
+        public Func<string> OptionLabel
         {
             get;
             set;

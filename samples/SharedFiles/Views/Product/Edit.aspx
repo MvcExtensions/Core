@@ -1,21 +1,20 @@
 <%@ Page Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Demo.Web.ProductEditModel>" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Edit
+    <%= LocalizedTexts.Edit %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h2>Edit</h2>
-    <%= Html.ValidationSummary(false, "Edit was unsuccessful. Please correct the errors and try again.") %>
+    <h2><%= LocalizedTexts.Edit %></h2>
+    <%= Html.ValidationSummary(false, LocalizedTexts.EditValidationSummary)%>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm()) {%>
         <fieldset>
-            <legend>Fields</legend>
             <%= Html.EditorForModel() %>
             <p>
-                <input type="submit" value="Save" />
+                <input type="submit" value="<%= LocalizedTexts.Edit %>" />
             </p>
         </fieldset>
     <% } %>
     <div>
-        <%= Html.ActionLink("Back to List", "Index") %>
+        <%= Html.ActionLink(LocalizedTexts.BackToList, "Index")%>
     </div>
 </asp:Content>

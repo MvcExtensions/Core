@@ -5,6 +5,8 @@
 // All other rights reserved.
 #endregion
 
+using System;
+
 namespace MvcExtensions
 {
     using System.Collections.Generic;
@@ -31,7 +33,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey)
         {
-            return AsDropDownList(viewDataKey, null);
+            return AsDropDownList(viewDataKey, (Func<string>)null);
         }
 
         /// <summary>
@@ -41,6 +43,17 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
         public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey, string optionLabel)
+        {
+            return AsDropDownList(viewDataKey, () => optionLabel);
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <returns></returns>
+        public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey, Func<string> optionLabel)
         {
             return AsDropDownList(viewDataKey, optionLabel, "DropDownList");
         }
@@ -53,6 +66,18 @@ namespace MvcExtensions
         /// <param name="template">The template.</param>
         /// <returns></returns>
         public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey, string optionLabel, string template)
+        {
+            return AsDropDownList(viewDataKey, () => optionLabel, template);
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <param name="template">The template.</param>
+        /// <returns></returns>
+        public ObjectMetadataItemBuilder<TModel> AsDropDownList(string viewDataKey, Func<string> optionLabel, string template)
         {
             return Select(template, viewDataKey, optionLabel);
         }
@@ -85,7 +110,7 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        protected virtual ObjectMetadataItemBuilder<TModel> Select(string templateName, string viewDataKey, string optionLabel)
+        protected virtual ObjectMetadataItemBuilder<TModel> Select(string templateName, string viewDataKey, Func<string> optionLabel)
         {
             ModelMetadataItemSelectableElementSetting selectableElementSetting = Item.AdditionalSettings
                                                                                      .OfType<ModelMetadataItemSelectableElementSetting>()
@@ -98,7 +123,11 @@ namespace MvcExtensions
             }
 
             selectableElementSetting.ViewDataKey = viewDataKey;
-            selectableElementSetting.OptionLabel = optionLabel;
+
+            if (optionLabel != null)
+            {
+                selectableElementSetting.OptionLabel = optionLabel;
+            }
 
             Item.TemplateName = templateName;
 

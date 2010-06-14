@@ -20,9 +20,10 @@ namespace Demo.Web
         public ProductDisplayModelConfiguration()
         {
             Configure(model => model.Id).Hide();
-            Configure(model => model.CategoryName).DisplayName("Category");
-            Configure(model => model.SupplierName).DisplayName("Supplier");
-            Configure(model => model.Price).FormatAsCurrency();
+            Configure(model => model.Name).DisplayName(() => LocalizedTexts.Name);
+            Configure(model => model.CategoryName).DisplayName(() => LocalizedTexts.Category);
+            Configure(model => model.SupplierName).DisplayName(() => LocalizedTexts.Supplier);
+            Configure(model => model.Price).DisplayName(() => LocalizedTexts.Price).FormatAsCurrency();
         }
     }
 }

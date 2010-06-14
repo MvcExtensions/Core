@@ -8,8 +8,8 @@
     <ProjectGuid>{0BB027BB-9BD2-410A-AEB2-B12B82D37D2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demo.Web.Common</RootNamespace>
-    <AssemblyName>Demo.Web.Common</AssemblyName>
+    <RootNamespace>Demo.Web</RootNamespace>
+    <AssemblyName>Demo.Web</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
@@ -92,6 +92,11 @@
     <Compile Include="Infrastructure\ProductEditModelBinder.cs" />
     <Compile Include="Infrastructure\ConfigureFilters.cs" />
     <Compile Include="Infrastructure\RegisterRoutes.cs" />
+    <Compile Include="LocalizedTexts.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LocalizedTexts.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\EntityBase.cs" />
@@ -129,6 +134,13 @@
       <Project>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</Project>
       <Name>MvcExtensions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LocalizedTexts.de.resx" />
+    <EmbeddedResource Include="LocalizedTexts.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LocalizedTexts.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
