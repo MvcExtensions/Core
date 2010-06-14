@@ -61,7 +61,7 @@ namespace Demo.Web {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {
             get {
