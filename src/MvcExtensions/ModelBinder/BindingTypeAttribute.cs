@@ -31,12 +31,11 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="inherited">if set to <c>true</c> [inherited].</param>
-        [DebuggerStepThrough]
         public BindingTypeAttribute(Type modelType, bool inherited)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            if (!inherited && (!(modelType.IsClass && !modelType.IsAbstract)))
+            if (!inherited && (modelType.IsInterface || modelType.IsAbstract || modelType.IsGenericType))
             {
                 throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.MustBeAValidClass, modelType.FullName), "modelType");
             }

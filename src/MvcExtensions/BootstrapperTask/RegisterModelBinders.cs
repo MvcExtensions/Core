@@ -120,7 +120,7 @@ namespace MvcExtensions
                                                                     modelTypes = buildManager.ConcreteTypes.Where(type => typeInfo.ModelType.IsAssignableFrom(type)).ToList();
                                                                 }
 
-                                                                if (!modelTypes.Contains(typeInfo.ModelType) && !typeInfo.ModelType.IsAbstract && typeInfo.ModelType.IsClass)
+                                                                if (!modelTypes.Contains(typeInfo.ModelType))
                                                                 {
                                                                     modelTypes.Add(typeInfo.ModelType);
                                                                 }

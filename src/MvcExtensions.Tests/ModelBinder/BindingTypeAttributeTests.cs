@@ -30,9 +30,15 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_throw_exception_when_invalid_class_type_is_passed_and_inherited_is_false()
+        public void Should_throw_exception_when_invalid_type_is_passed_and_inherited_is_false()
         {
             Assert.Throws<ArgumentException>(() => new BindingTypeAttribute(typeof(IActionFilter)));
+        }
+
+        [Fact]
+        public void Should_not_throw_exception_for_primitive_type()
+        {
+            Assert.DoesNotThrow(() => new BindingTypeAttribute(typeof(DateTime)));
         }
     }
 }
