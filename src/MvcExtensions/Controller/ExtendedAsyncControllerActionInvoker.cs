@@ -8,17 +8,18 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using System.Web.Mvc.Async;
 
     /// <summary>
-    /// The default <seealso cref="IActionInvoker"/> which supports the fluent filter registration and dependency injection.
+    /// The default async <seealso cref="IActionInvoker"/> which supports the fluent filter registration and dependency injection.
     /// </summary>
-    public class ExtendedControllerActionInvoker : ControllerActionInvoker
+    public class ExtendedAsyncControllerActionInvoker : AsyncControllerActionInvoker
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExtendedControllerActionInvoker"/> class.
+        /// Initializes a new instance of the <see cref="ExtendedAsyncControllerActionInvoker"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public ExtendedControllerActionInvoker(ContainerAdapter container)
+        public ExtendedAsyncControllerActionInvoker(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 

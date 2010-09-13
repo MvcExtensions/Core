@@ -28,7 +28,9 @@ namespace MvcExtensions.IronRuby
             {
                 int blockBeginIndex = match.Index;
 
-                IronRubyScriptBlock block = IronRubyScriptBlock.Parse(content.Substring(currentIndex, blockBeginIndex - currentIndex));
+                string script = content.Substring(currentIndex, blockBeginIndex - currentIndex);
+
+                IronRubyScriptBlock block = IronRubyScriptBlock.Parse(script);
 
                 if (!string.IsNullOrEmpty(block.Contents))
                 {

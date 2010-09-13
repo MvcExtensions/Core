@@ -5,6 +5,8 @@
 // All other rights reserved.
 #endregion
 
+using System.Web.Mvc.Async;
+
 namespace MvcExtensions
 {
     using System;
@@ -76,9 +78,18 @@ namespace MvcExtensions
 
                 if (controller != null)
                 {
-                    Type actionInvokerType = ActionInvokerRegistry.IsRegistered(controllerType) ?
-                                             ActionInvokerRegistry.Matching(controllerType) :
-                                             KnownTypes.DefaultActionInvokerType;
+                    Type actionInvokerType;
+
+                    if (ActionInvokerRegistry.IsRegistered(controllerType))
+                    {
+                        actionInvokerType = ActionInvokerRegistry.Matching(controllerType);
+                    }
+                    else
+                    {
+                        actionInvokerType = controller is IAsyncController ?
+                                            KnownTypes.AsyncActionInvokerType :
+                                            KnownTypes.DefaultActionInvokerType;
+                    }
 
                     controller.ActionInvoker = (IActionInvoker)Container.GetInstance(actionInvokerType);
                 }

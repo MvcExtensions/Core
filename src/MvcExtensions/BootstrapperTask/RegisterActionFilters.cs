@@ -74,7 +74,7 @@ namespace MvcExtensions
             {
                 Func<Type, bool> filter = type => KnownTypes.FilterAttributeType.IsAssignableFrom(type) &&
                                                   type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                  type.Assembly != KnownAssembly.AspNetMvcExtensibilityAssembly &&
+                                                  type.Assembly != KnownAssembly.AspNetMvcExtensionsAssembly &&
                                                   !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type);
 

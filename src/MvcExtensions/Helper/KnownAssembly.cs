@@ -15,6 +15,6 @@ namespace MvcExtensions
 
         public static readonly Assembly AspNetMvcAssembly = KnownTypes.ControllerType.Assembly;
 
-        public static readonly Assembly AspNetMvcExtensibilityAssembly = typeof(KnownAssembly).Assembly;
+        public static readonly Assembly AspNetMvcExtensionsAssembly = typeof(KnownAssembly).Assembly;
     }
 }

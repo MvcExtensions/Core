@@ -33,7 +33,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;MVC3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\MvcExtensions.xml</DocumentationFile>
@@ -45,7 +45,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;MVC3</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MvcExtensions.xml</DocumentationFile>
@@ -68,10 +68,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\AspNetMvc\System.Web.Mvc.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -97,6 +94,8 @@
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
     <Compile Include="Controller\ActionInvokerRegistry.cs" />
     <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
+    <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
+    <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
     <Compile Include="Controller\IActionInvokerRegistry.cs" />
     <Compile Include="ExtensionMethod\HttpContextBaseExtensions.cs" />
     <Compile Include="Helper\KnownAssembly.cs" />
