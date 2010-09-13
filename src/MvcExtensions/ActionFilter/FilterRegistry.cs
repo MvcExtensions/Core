@@ -14,8 +14,6 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// The default filter registry which supports fluent registration.
     /// </summary>
@@ -161,7 +159,7 @@ namespace MvcExtensions
         private static IEnumerable<Func<FilterAttribute>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)
             where TFilter : FilterAttribute
         {
-            return filters.Select(filter => new Func<FilterAttribute>(() => filter()));
+            return filters.Select(filter => new Func<FilterAttribute>(filter));
         }
     }
 }

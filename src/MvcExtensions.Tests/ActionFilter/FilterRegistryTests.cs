@@ -12,8 +12,6 @@ namespace MvcExtensions.Tests
     using System.Linq;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     using Moq;
     using Xunit;
 

@@ -12,8 +12,6 @@ namespace MvcExtensions
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a base class which is used to execute application startup and cleanup tasks.
     /// </summary>
@@ -110,17 +108,19 @@ namespace MvcExtensions
         /// </summary>
         protected override void DisposeCore()
         {
-            if (container != null)
+            if (container == null)
             {
-                container.GetAllInstances<BootstrapperTask>()
-                         .OrderByDescending(task => task.Order)
-                         .Each(task => task.Dispose());
-
-                container.Dispose();
+                return;
             }
+
+            container.GetAllInstances<BootstrapperTask>()
+                     .OrderByDescending(task => task.Order)
+                     .Each(task => task.Dispose());
+
+            container.Dispose();
         }
 
-        private static void Register(ContainerAdapter adapter, IBuildManager buildManager)
+        private static void Register(IServiceRegistrar adapter, IBuildManager buildManager)
         {
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
                    .RegisterInstance<ControllerBuilder>(ControllerBuilder.Current)
@@ -139,6 +139,7 @@ namespace MvcExtensions
 
             adapter.RegisterInstance<IServiceRegistrar>(adapter)
                    .RegisterInstance<IServiceLocator>(adapter)
+                   .RegisterInstance<IMvcServiceLocator>(adapter)
                    .RegisterInstance<IServiceInjector>(adapter)
                    .RegisterInstance<ContainerAdapter>(adapter);
         }
@@ -149,7 +150,7 @@ namespace MvcExtensions
 
             Register(adapter, BuildManager);
 
-            ServiceLocator.SetLocatorProvider(() => adapter);
+            MvcServiceLocator.SetCurrent(adapter);
 
             return adapter;
         }

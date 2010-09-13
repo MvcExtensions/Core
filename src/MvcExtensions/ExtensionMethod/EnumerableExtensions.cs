@@ -27,12 +27,14 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(action, "action");
 
-            if (instance != null)
+            if (instance == null)
             {
-                foreach (T item in instance)
-                {
-                    action(item);
-                }
+                return;
+            }
+
+            foreach (T item in instance)
+            {
+                action(item);
             }
         }
     }

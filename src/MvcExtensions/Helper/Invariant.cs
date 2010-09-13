@@ -25,7 +25,7 @@ namespace MvcExtensions
         {
             if (value == null)
             {
-                throw new ArgumentNullException(parameterName, string.Format(Culture.Current, ExceptionMessages.CannotBeNull, parameterName));
+                throw new ArgumentNullException(parameterName, string.Format(Culture.CurrentUI, ExceptionMessages.CannotBeNull, parameterName));
             }
         }
     }

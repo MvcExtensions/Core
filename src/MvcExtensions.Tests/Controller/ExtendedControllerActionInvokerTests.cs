@@ -53,7 +53,8 @@ namespace MvcExtensions.Tests
             decoratedFilters.ExceptionFilters.Add(controller);
 
             var actionDescriptor = new Mock<ActionDescriptor>();
-            actionDescriptor.Setup(ad => ad.GetFilters()).Returns(decoratedFilters);
+            //TODO: This is obsolete, need to replace it with new version.
+            // actionDescriptor.Setup(ad => ad.GetFilters()).Returns(decoratedFilters);
 
             var registeredAuthorizationFilter = new DummyFilter5 { Order = 1 };
             var registeredActionFilter = new DummyFilter6 { Order = 1 };

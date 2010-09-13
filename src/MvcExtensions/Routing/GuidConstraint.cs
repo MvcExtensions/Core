@@ -55,15 +55,11 @@ namespace MvcExtensions
             }
 
             bool matched = false;
+            Guid guid;
 
-            try
+            if (Guid.TryParse(value.ToString(), out guid) && (guid != Guid.Empty))
             {
-                Guid guid = new Guid(value.ToString());
-
-                matched = guid != Guid.Empty;
-            }
-            catch
-            {
+                matched = true;
             }
 
             return matched;

@@ -13,8 +13,6 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Represents an interface which is used to fluently registered <seealso cref="FilterAttribute"/>.
     /// </summary>

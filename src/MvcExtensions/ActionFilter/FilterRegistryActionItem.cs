@@ -74,11 +74,13 @@ namespace MvcExtensions
             {
                 for (int i = parameters1.Length - 1; i >= 0; i--)
                 {
-                    if (parameters1[i].ParameterType != parameters2[i].ParameterType)
+                    if (parameters1[i].ParameterType == parameters2[i].ParameterType)
                     {
-                        same = false;
-                        break;
+                        continue;
                     }
+
+                    same = false;
+                    break;
                 }
             }
 

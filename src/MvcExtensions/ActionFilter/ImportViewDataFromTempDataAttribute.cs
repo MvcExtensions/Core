@@ -52,29 +52,31 @@ namespace MvcExtensions
 
             ViewDataDictionary importingViewData = filterContext.Controller.TempData[Key] as ViewDataDictionary;
 
-            if (importingViewData != null)
+            if (importingViewData == null)
             {
-                ViewDataDictionary currentViewData = filterContext.Controller.ViewData;
-
-                foreach (KeyValuePair<string, object> pair in importingViewData.Where(pair => ReplaceExisting || !currentViewData.ContainsKey(pair.Key)))
-                {
-                    currentViewData[pair.Key] = pair.Value;
-                }
-
-                if (ReplaceExisting || (currentViewData.Model == null))
-                {
-                    currentViewData.Model = importingViewData.Model;
-                }
-
-                ModelStateDictionary currentModelState = filterContext.Controller.ViewData.ModelState;
-
-                foreach (KeyValuePair<string, ModelState> pair in importingViewData.ModelState.Where(pair => ReplaceExisting || !currentModelState.ContainsKey(pair.Key)))
-                {
-                    currentModelState[pair.Key] = pair.Value;
-                }
-
-                filterContext.Controller.TempData.Remove(Key);
+                return;
             }
+
+            ViewDataDictionary currentViewData = filterContext.Controller.ViewData;
+
+            foreach (KeyValuePair<string, object> pair in importingViewData.Where(pair => ReplaceExisting || !currentViewData.ContainsKey(pair.Key)))
+            {
+                currentViewData[pair.Key] = pair.Value;
+            }
+
+            if (ReplaceExisting || (currentViewData.Model == null))
+            {
+                currentViewData.Model = importingViewData.Model;
+            }
+
+            ModelStateDictionary currentModelState = filterContext.Controller.ViewData.ModelState;
+
+            foreach (KeyValuePair<string, ModelState> pair in importingViewData.ModelState.Where(pair => ReplaceExisting || !currentModelState.ContainsKey(pair.Key)))
+            {
+                currentModelState[pair.Key] = pair.Value;
+            }
+
+            filterContext.Controller.TempData.Remove(Key);
         }
     }
 }

@@ -129,7 +129,7 @@ namespace MvcExtensions
                                                                                     {
                                                                                         if (Binders.ContainsKey(modelType))
                                                                                         {
-                                                                                            throw new InvalidOperationException(string.Format(Culture.Current, ExceptionMessages.CannotHaveMoreThanOneModelBinderForTheSameModelType, pair.Binder.GetType().FullName, modelType.FullName));
+                                                                                            throw new InvalidOperationException(string.Format(Culture.CurrentUI, ExceptionMessages.CannotHaveMoreThanOneModelBinderForTheSameModelType, pair.Binder.GetType().FullName, modelType.FullName));
                                                                                         }
 
                                                                                         Binders.Add(modelType, pair.Binder);

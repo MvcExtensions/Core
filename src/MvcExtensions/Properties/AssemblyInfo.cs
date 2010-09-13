@@ -12,8 +12,8 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 [assembly: AllowPartiallyTrustedCallers]
-[assembly: AssemblyTitle("MvcExtensions (SP1 Preview)")]
-[assembly: AssemblyProduct("MvcExtensions (SP1 Preview)")]
+[assembly: AssemblyTitle("MvcExtensions 2.0")]
+[assembly: AssemblyProduct("MvcExtensions 2.0")]
 [assembly: CLSCompliant(true)]
 [assembly: Guid("c16bbd53-b25e-42e5-b75b-f9132846a59c")]
 [assembly: NeutralResourcesLanguage("en-US")]

@@ -332,7 +332,7 @@ namespace MvcExtensions
         {
             foreach (Type controllerType in typeCatalog.Where(controllerType => !KnownTypes.ControllerType.IsAssignableFrom(controllerType)))
             {
-                throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.IsNotATargetType, controllerType.FullName, KnownTypes.ControllerType.FullName));
+                throw new ArgumentException(string.Format(Culture.CurrentUI, ExceptionMessages.IsNotATargetType, controllerType.FullName, KnownTypes.ControllerType.FullName));
             }
         }
 
