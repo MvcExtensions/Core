@@ -5,12 +5,11 @@
 // All other rights reserved.
 #endregion
 
-using System.Web.Mvc.Async;
-
 namespace MvcExtensions
 {
     using System;
     using System.Web.Mvc;
+    using System.Web.Mvc.Async;
     using System.Web.Routing;
 
     /// <summary>
