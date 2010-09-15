@@ -26,6 +26,8 @@ namespace MvcExtensions.Tests
             controllerFactory = new Mock<IControllerFactory>();
 
             adapter.Setup(a => a.GetInstance<IControllerFactory>()).Returns(controllerFactory.Object);
+
+            MvcServiceLocator.SetCurrent(adapter.Object);
         }
 
         public void Dispose()
@@ -57,6 +59,7 @@ namespace MvcExtensions.Tests
         public void Should_not_register_controller_factory_when_excluded()
         {
             RegisterControllerFactory.Excluded = true;
+            MvcServiceLocator.SetCurrent(null);
 
             var builder = new ControllerBuilder();
 

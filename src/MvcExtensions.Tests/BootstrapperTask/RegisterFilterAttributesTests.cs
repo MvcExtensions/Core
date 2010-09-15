@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 // Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
@@ -13,14 +13,14 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class RegisterActionFiltersTests : IDisposable
+    public class RegisterFilterAttributesTests : IDisposable
     {
         private readonly Mock<ContainerAdapter> adapter;
 
-        public RegisterActionFiltersTests()
+        public RegisterFilterAttributesTests()
         {
-            RegisterActionFilters.Excluded = false;
-            RegisterActionFilters.IgnoredTypes.Clear();
+            RegisterFilterAttributes.Excluded = false;
+            RegisterFilterAttributes.IgnoredTypes.Clear();
 
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyFilter) });
@@ -32,8 +32,8 @@ namespace MvcExtensions.Tests
 
         public void Dispose()
         {
-            RegisterActionFilters.Excluded = false;
-            RegisterActionFilters.IgnoredTypes.Clear();
+            RegisterFilterAttributes.Excluded = false;
+            RegisterFilterAttributes.IgnoredTypes.Clear();
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient)).Verifiable();
 
-            new RegisterActionFilters(adapter.Object).Execute();
+            new RegisterFilterAttributes(adapter.Object).Execute();
 
             adapter.Verify();
         }
@@ -49,9 +49,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_filters_when_excluded()
         {
-            RegisterActionFilters.Excluded = true;
+            RegisterFilterAttributes.Excluded = true;
 
-            new RegisterActionFilters(adapter.Object).Execute();
+            new RegisterFilterAttributes(adapter.Object).Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
         }
@@ -59,9 +59,9 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_filters_when_filter_exists_in_ignored_list()
         {
-            RegisterActionFilters.IgnoredTypes.Add(typeof(DummyFilter));
+            RegisterFilterAttributes.IgnoredTypes.Add(typeof(DummyFilter));
 
-            new RegisterActionFilters(adapter.Object).Execute();
+            new RegisterFilterAttributes(adapter.Object).Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
         }

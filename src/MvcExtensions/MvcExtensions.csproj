@@ -91,6 +91,7 @@
     <Compile Include="ActionResult\ExtendedJsonResult.cs" />
     <Compile Include="ActionResult\XmlResult.cs" />
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
+    <Compile Include="BootstrapperTask\RegisteFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
     <Compile Include="Controller\ActionInvokerRegistry.cs" />
     <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
@@ -104,7 +105,7 @@
     <Compile Include="ActionResult\AdaptiveViewResult.cs" />
     <Compile Include="ActionResult\NotFoundResult.cs" />
     <Compile Include="ActionResult\PermanentRedirectResult.cs" />
-    <Compile Include="BootstrapperTask\RegisterActionFilters.cs" />
+    <Compile Include="BootstrapperTask\RegisterFilterAttributes.cs" />
     <Compile Include="BootstrapperTask\RegisterControllers.cs" />
     <Compile Include="BootstrapperTask\RegisterPerRequestTasks.cs" />
     <Compile Include="ActionFilter\ViewDataTempDataTransferAttribute.cs" />

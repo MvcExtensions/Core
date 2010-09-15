@@ -16,15 +16,15 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="FilterAttribute"/>.
     /// </summary>
-    public class RegisterActionFilters : BootstrapperTask
+    public class RegisterFilterAttributes : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterActionFilters"/> class.
+        /// Initializes a new instance of the <see cref="RegisterFilterAttributes"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterActionFilters(ContainerAdapter container)
+        public RegisterFilterAttributes(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -32,7 +32,7 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterActionFilters"/> should be excluded.
+        /// Gets or sets a value indicating whether this <see cref="RegisterFilterAttributes"/> should be excluded.
         /// </summary>
         /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
         public static bool Excluded

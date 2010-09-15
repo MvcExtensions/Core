@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 // Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
@@ -14,28 +14,25 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines a class which is used to register available <seealso cref="ValueProviderFactory"/>.
+    /// Defines a class which is used to register available <seealso cref="IFilterProvider"/>.
     /// </summary>
-    public class RegisterValueProviderFactories : BootstrapperTask
+    public class RegisteFilterProviders: BootstrapperTask
     {
-        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
+        private static readonly IList<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterValueProviderFactories"/> class.
+        /// Initializes a new instance of the <see cref="RegisteFilterProviders"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        /// <param name="valueProviderFactories">The value provider factories.</param>
-        public RegisterValueProviderFactories(ContainerAdapter container, ValueProviderFactoryCollection valueProviderFactories)
+        public RegisteFilterProviders(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
-            Invariant.IsNotNull(valueProviderFactories, "valueProviderFactories");
 
             Container = container;
-            ValueProviderFactories = valueProviderFactories;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterValueProviderFactories"/> should be excluded.
+        /// Gets or sets a value indicating whether this <see cref="RegisteFilterProviders"/> should be excluded.
         /// </summary>
         /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
         public static bool Excluded
@@ -45,7 +42,7 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets the ignored value provider factory types.
+        /// Gets the ignored controller types.
         /// </summary>
         /// <value>The ignored types.</value>
         public static ICollection<Type> IgnoredTypes
@@ -68,35 +65,25 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets the value provider factories.
-        /// </summary>
-        /// <value>The value provider factories.</value>
-        protected ValueProviderFactoryCollection ValueProviderFactories
-        { 
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
+        /// Executes the task.
         /// </summary>
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
             if (!Excluded)
             {
-                Func<Type, bool> filter = type => KnownTypes.ValueProviderFactoryType.IsAssignableFrom(type) &&
+                Func<Type, bool> filter = type => KnownTypes.FilterProviderType.IsAssignableFrom(type) &&
                                                   type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
-                                                  !ValueProviderFactories.Any(factory => factory.GetType() == type);
+                                                  !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
+                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
                 Container.GetInstance<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
-                         .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
+                         .Each(type => Container.RegisterAsTransient(KnownTypes.FilterProviderType, type));
 
-                Container.GetAllInstances<ValueProviderFactory>()
-                         .Each(factory => ValueProviderFactories.Add(factory));
+                Container.GetAllInstances<IFilterProvider>()
+                         .Each(provider => FilterProviders.Providers.Add(provider));
             }
 
             return TaskContinuation.Continue;

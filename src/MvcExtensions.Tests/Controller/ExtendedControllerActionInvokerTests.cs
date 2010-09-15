@@ -7,6 +7,9 @@
 
 namespace MvcExtensions.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -40,21 +43,21 @@ namespace MvcExtensions.Tests
             var decoratedResultFilter = new DummyFilter3 { Order = 2 };
             var decoratedExceptionFilter = new DummyFilter4 { Order = 2 };
 
-            var decoratedFilters = new FilterInfo();
+            var decoratedFilters = new[] {
+                                            new Filter(decoratedAuthorizationFilter, FilterScope.Action),
+                                            new Filter(decoratedActionFilter, FilterScope.Action),
+                                            new Filter(decoratedResultFilter, FilterScope.Action),
+                                            new Filter(decoratedExceptionFilter, FilterScope.Action),
+                                            new Filter(controller, FilterScope.Controller)
+                                         };
 
-            decoratedFilters.AuthorizationFilters.Add(decoratedAuthorizationFilter);
-            decoratedFilters.ActionFilters.Add(decoratedActionFilter);
-            decoratedFilters.ResultFilters.Add(decoratedResultFilter);
-            decoratedFilters.ExceptionFilters.Add(decoratedExceptionFilter);
+            var field = typeof(ControllerActionInvoker).GetField("_getFiltersThunk", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            decoratedFilters.AuthorizationFilters.Add(controller);
-            decoratedFilters.ActionFilters.Add(controller);
-            decoratedFilters.ResultFilters.Add(controller);
-            decoratedFilters.ExceptionFilters.Add(controller);
+            Func<ControllerContext, ActionDescriptor, IEnumerable<Filter>> getFilters = (cc, ad) => decoratedFilters;
+
+            field.SetValue(controllerActionInvoker, getFilters);
 
             var actionDescriptor = new Mock<ActionDescriptor>();
-            //TODO: This is obsolete, need to replace it with new version.
-            // actionDescriptor.Setup(ad => ad.GetFilters()).Returns(decoratedFilters);
 
             var registeredAuthorizationFilter = new DummyFilter5 { Order = 1 };
             var registeredActionFilter = new DummyFilter6 { Order = 1 };
