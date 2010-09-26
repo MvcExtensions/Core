@@ -34,7 +34,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;MVC3</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\MvcExtensions.xml</DocumentationFile>
@@ -46,7 +46,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;CODE_ANALYSIS;MVC3</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\MvcExtensions.xml</DocumentationFile>
@@ -93,6 +93,7 @@
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
     <Compile Include="BootstrapperTask\RegisteFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
+    <Compile Include="BootstrapperTask\RegisterFilters.cs" />
     <Compile Include="Controller\ActionInvokerRegistry.cs" />
     <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="ActionFilter\FilterRegistryItem.cs" />
     <Compile Include="ActionFilter\IFilterRegistry.cs" />
     <Compile Include="ModelBinder\BindingTypeAttribute.cs" />
-    <Compile Include="BootstrapperTask\ConfigureFiltersBase.cs" />
+    <Compile Include="BootstrapperTask\ConfigureFilterAttributesBase.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\IBootstrapper.cs" />
     <Compile Include="BootstrapperTask\BootstrapperTask.cs" />

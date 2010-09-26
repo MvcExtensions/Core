@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="IFilterProvider"/>.
     /// </summary>
-    public class RegisteFilterProviders: BootstrapperTask
+    public class RegisteFilterProviders : BootstrapperTask
     {
         private static readonly IList<Type> ignoredTypes = new List<Type>();
 

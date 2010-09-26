@@ -105,7 +105,7 @@ namespace MvcExtensions
                             {
                                 if (engine != null)
                                 {
-                                    ViewEngines.Add(engine);
+                                    ViewEngines.Insert(0, engine);
                                 }
                             });
 

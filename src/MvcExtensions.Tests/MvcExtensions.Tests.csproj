@@ -38,7 +38,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MVC3</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -47,7 +47,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;MVC3</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -158,7 +158,7 @@
     <Compile Include="Helper\InvariantTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerFactoryTests.cs" />
-    <Compile Include="BootstrapperTask\ConfigureFiltersBaseTests.cs" />
+    <Compile Include="BootstrapperTask\ConfigureFilterAttributesBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterModelBindersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterRoutesBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterViewEnginesTests.cs" />

@@ -85,7 +85,7 @@
     <Compile Include="Filter\PopulateModelAttribute.cs" />
     <Compile Include="Filter\PopulateSuppliersAttribute.cs" />
     <Compile Include="Infrastructure\ProductEditModelBinder.cs" />
-    <Compile Include="Infrastructure\ConfigureFilters.cs" />
+    <Compile Include="Infrastructure\ConfigureFilterAttributes.cs" />
     <Compile Include="Infrastructure\RegisterRoutes.cs" />
     <Compile Include="LocalizedTexts.Designer.cs">
       <AutoGen>True</AutoGen>

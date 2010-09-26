@@ -43,13 +43,14 @@ namespace MvcExtensions.Tests
             var decoratedResultFilter = new DummyFilter3 { Order = 2 };
             var decoratedExceptionFilter = new DummyFilter4 { Order = 2 };
 
-            var decoratedFilters = new[] {
-                                            new Filter(decoratedAuthorizationFilter, FilterScope.Action),
-                                            new Filter(decoratedActionFilter, FilterScope.Action),
-                                            new Filter(decoratedResultFilter, FilterScope.Action),
-                                            new Filter(decoratedExceptionFilter, FilterScope.Action),
-                                            new Filter(controller, FilterScope.Controller)
-                                         };
+            var decoratedFilters = new[]
+                                        {
+                                          new Filter(decoratedAuthorizationFilter, FilterScope.Action),
+                                          new Filter(decoratedActionFilter, FilterScope.Action),
+                                          new Filter(decoratedResultFilter, FilterScope.Action),
+                                          new Filter(decoratedExceptionFilter, FilterScope.Action),
+                                          new Filter(controller, FilterScope.Controller)
+                                        };
 
             var field = typeof(ControllerActionInvoker).GetField("_getFiltersThunk", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Instance);
 
