@@ -24,20 +24,20 @@ namespace MvcExtensions
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterRegistry"/> class.
         /// </summary>
-        /// <param name="serviceLocator">The service locator.</param>
-        public FilterRegistry(IServiceLocator serviceLocator)
+        /// <param name="container">The container.</param>
+        public FilterRegistry(ContainerAdapter container)
         {
-            Invariant.IsNotNull(serviceLocator, "serviceLocator");
+            Invariant.IsNotNull(container, "container");
 
-            ServiceLocator = serviceLocator;
+            Container = container;
             items = new List<FilterRegistryItem>();
         }
 
         /// <summary>
-        /// Gets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        public IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        public ContainerAdapter Container
         {
             get;
             private set;

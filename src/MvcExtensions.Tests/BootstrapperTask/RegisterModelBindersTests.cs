@@ -29,7 +29,7 @@ namespace MvcExtensions.Tests
             buildManager.SetupGet(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyModel), typeof(DummyModel1), typeof(DummyModel2), typeof(DummyModel3), typeof(FakeModelBinder1), typeof(FakeModelBinder2), typeof(FakeModelBinder3) });
 
             adapter = new Mock<ContainerAdapter>();
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService<IBuildManager>()).Returns(buildManager.Object);
 
             modelBinders = new ModelBinderDictionary();
 
@@ -49,7 +49,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_model_binders_when_excluded()
         {
-            adapter.Setup(a => a.GetAllInstances<IModelBinder>()).Returns(new IModelBinder[] { new FakeModelBinder1(), new FakeModelBinder2(), new FakeModelBinder3() });
+            adapter.Setup(a => a.GetServices<IModelBinder>()).Returns(new IModelBinder[] { new FakeModelBinder1(), new FakeModelBinder2(), new FakeModelBinder3() });
 
             RegisterModelBinders.Excluded = true;
 
@@ -75,7 +75,7 @@ namespace MvcExtensions.Tests
         {
             var modelBinder = new FakeModelBinder1();
 
-            adapter.Setup(a => a.GetAllInstances<IModelBinder>()).Returns(new[] { modelBinder });
+            adapter.Setup(a => a.GetServices<IModelBinder>()).Returns(new[] { modelBinder });
 
             registration.Execute();
 
@@ -88,7 +88,7 @@ namespace MvcExtensions.Tests
         {
             var modelBinder = new FakeModelBinder2();
 
-            adapter.Setup(a => a.GetAllInstances<IModelBinder>()).Returns(new[] { modelBinder });
+            adapter.Setup(a => a.GetServices<IModelBinder>()).Returns(new[] { modelBinder });
 
             registration.Execute();
 
@@ -101,7 +101,7 @@ namespace MvcExtensions.Tests
         {
             var modelBinder = new FakeModelBinder3();
 
-            adapter.Setup(a => a.GetAllInstances<IModelBinder>()).Returns(new[] { modelBinder });
+            adapter.Setup(a => a.GetServices<IModelBinder>()).Returns(new[] { modelBinder });
 
             registration.Execute();
 
@@ -111,7 +111,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_throw_exception_when_more_than_one_model_binder_exists_for_same_model()
         {
-            adapter.Setup(a => a.GetAllInstances<IModelBinder>()).Returns(new IModelBinder[] { new FakeModelBinder3(), new FakeModelBinder4() });
+            adapter.Setup(a => a.GetServices<IModelBinder>()).Returns(new IModelBinder[] { new FakeModelBinder3(), new FakeModelBinder4() });
 
             Assert.Throws<InvalidOperationException>(() => registration.Execute());
         }

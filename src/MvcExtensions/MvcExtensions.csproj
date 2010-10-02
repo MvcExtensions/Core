@@ -93,11 +93,13 @@
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
     <Compile Include="BootstrapperTask\RegisteFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
+    <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterFilters.cs" />
     <Compile Include="Controller\ActionInvokerRegistry.cs" />
     <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
     <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
+    <Compile Include="Controller\ExtendedControllerActivator.cs" />
     <Compile Include="Controller\IActionInvokerRegistry.cs" />
     <Compile Include="ExtensionMethod\HttpContextBaseExtensions.cs" />
     <Compile Include="Helper\KnownAssembly.cs" />
@@ -118,7 +120,7 @@
     <Compile Include="IoC\IServiceRegistrar.cs" />
     <Compile Include="IoC\LifetimeType.cs" />
     <Compile Include="Abstraction\OrderableTask.cs" />
-    <Compile Include="IoC\MvcServiceLocatorBase.cs" />
+    <Compile Include="IoC\ExtendedDependencyResolver.cs" />
     <Compile Include="IoC\ServiceRegistrarExtensions.cs" />
     <Compile Include="BuildManager\BuildManagerWrapper.cs" />
     <Compile Include="BuildManager\IBuildManager.cs" />
@@ -144,7 +146,6 @@
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\IBootstrapper.cs" />
     <Compile Include="BootstrapperTask\BootstrapperTask.cs" />
-    <Compile Include="BootstrapperTask\RegisterControllerFactory.cs" />
     <Compile Include="BootstrapperTask\RegisterModelBinders.cs" />
     <Compile Include="BootstrapperTask\RegisterRoutesBase.cs" />
     <Compile Include="BootstrapperTask\RegisterViewEngines.cs" />
@@ -153,7 +154,6 @@
     <Compile Include="ExtensionMethod\EnumerableExtensions.cs" />
     <Compile Include="ExtensionMethod\TypeExtensions.cs" />
     <Compile Include="Controller\ExtendedControllerActionInvoker.cs" />
-    <Compile Include="Controller\ExtendedControllerFactory.cs" />
     <Compile Include="ExtendedMvcApplication.cs" />
     <Compile Include="Helper\Invariant.cs" />
     <Compile Include="Helper\KnownTypes.cs" />

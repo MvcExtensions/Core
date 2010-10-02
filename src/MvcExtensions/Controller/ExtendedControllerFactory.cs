@@ -73,7 +73,7 @@ namespace MvcExtensions
 
             if (controllerType != null)
             {
-                controller = Container.GetInstance(controllerType) as Controller;
+                controller = Container.GetService(controllerType) as Controller;
 
                 if (controller != null)
                 {
@@ -90,7 +90,7 @@ namespace MvcExtensions
                                             KnownTypes.DefaultActionInvokerType;
                     }
 
-                    controller.ActionInvoker = (IActionInvoker)Container.GetInstance(actionInvokerType);
+                    controller.ActionInvoker = (IActionInvoker)Container.GetService(actionInvokerType);
                 }
             }
 

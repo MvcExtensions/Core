@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// Defines an attribute which is used to copy  the previous viewdata from the tempdata into current viewdata.
     /// <remarks>This  filter does  not execute for child action.</remarks>
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class ImportViewDataFromTempDataAttribute : ViewDataTempDataTransferAttribute
     {
         /// <summary>
@@ -38,6 +38,16 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to import parent action.
+        /// </summary>
+        /// <value><c>true</c> if [include parent]; otherwise, <c>false</c>.</value>
+        public bool IncludeParentAction
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Called before an action method executes.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
@@ -45,38 +55,49 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 
-            if (filterContext.IsChildAction)
+            bool parentImported = false;
+
+            if (IncludeParentAction && filterContext.IsChildAction)
             {
-                return;
+                Import(filterContext.ParentActionViewContext.TempData, filterContext.Controller.ViewData);
+                parentImported = true;
             }
 
-            ViewDataDictionary importingViewData = filterContext.Controller.TempData[Key] as ViewDataDictionary;
+            Import(filterContext.Controller.TempData, filterContext.Controller.ViewData);
+
+            if (parentImported)
+            {
+                filterContext.ParentActionViewContext.TempData.Remove(Key);
+            }
+
+            filterContext.Controller.TempData.Remove(Key);
+        }
+
+        private void Import(IDictionary<string, object> tempData, ViewDataDictionary currentViewData)
+        {
+            ViewDataDictionary importingViewData = tempData[Key] as ViewDataDictionary;
 
             if (importingViewData == null)
             {
                 return;
             }
 
-            ViewDataDictionary currentViewData = filterContext.Controller.ViewData;
-
             foreach (KeyValuePair<string, object> pair in importingViewData.Where(pair => ReplaceExisting || !currentViewData.ContainsKey(pair.Key)))
             {
                 currentViewData[pair.Key] = pair.Value;
             }
 
-            if (ReplaceExisting || (currentViewData.Model == null))
+            if ((ReplaceExisting || (currentViewData.Model == null)) && (importingViewData.Model != null))
             {
                 currentViewData.Model = importingViewData.Model;
             }
 
-            ModelStateDictionary currentModelState = filterContext.Controller.ViewData.ModelState;
+            ModelStateDictionary currentModelState = currentViewData.ModelState;
 
             foreach (KeyValuePair<string, ModelState> pair in importingViewData.ModelState.Where(pair => ReplaceExisting || !currentModelState.ContainsKey(pair.Key)))
             {
                 currentModelState[pair.Key] = pair.Value;
             }
-
-            filterContext.Controller.TempData.Remove(Key);
         }
     }
 }

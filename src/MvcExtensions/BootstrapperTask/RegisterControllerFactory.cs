@@ -16,20 +16,17 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterControllerFactory : BootstrapperTask
     {
-        private static Type controllerFactoryType = typeof(ExtendedControllerFactory);
+        private static Type controllerFactoryType = typeof(DefaultControllerFactory);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllerFactory"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        /// <param name="controllerBuilder">The controller builder.</param>
-        public RegisterControllerFactory(ContainerAdapter container, ControllerBuilder controllerBuilder)
+        public RegisterControllerFactory(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
-            Invariant.IsNotNull(controllerBuilder, "controllerBuilder");
 
             Container = container;
-            ControllerBuilder = controllerBuilder;
         }
 
         /// <summary>
@@ -72,16 +69,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets the controller builder.
-        /// </summary>
-        /// <value>The controller builder.</value>
-        protected ControllerBuilder ControllerBuilder
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Executes the task. Returns continuation of the next task(s) in the chain.
         /// </summary>
         /// <returns></returns>
@@ -90,8 +77,6 @@ namespace MvcExtensions
             if (!Excluded)
             {
                 Container.RegisterAsSingleton(typeof(IControllerFactory), ControllerFactoryType);
-
-                ControllerBuilder.SetControllerFactory(Container.GetInstance<IControllerFactory>());
             }
 
             return TaskContinuation.Continue;

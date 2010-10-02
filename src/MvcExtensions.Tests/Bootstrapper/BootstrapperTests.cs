@@ -37,7 +37,7 @@ namespace MvcExtensions.Tests
             var task = new Mock<BootstrapperTask>();
             task.Setup(t => t.Execute()).Verifiable();
 
-            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task.Object }).Verifiable();
+            adapter.Setup(a => a.GetServices<BootstrapperTask>()).Returns(new[] { task.Object }).Verifiable();
 
             bootstrapper.Execute();
 
@@ -50,7 +50,7 @@ namespace MvcExtensions.Tests
         {
             var task = new DummyTask();
 
-            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task }).Verifiable();
+            adapter.Setup(a => a.GetServices<BootstrapperTask>()).Returns(new[] { task }).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -128,7 +128,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_service_locator()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceLocator), adapter.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(null, typeof(IDependencyResolver), adapter.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -207,7 +207,7 @@ namespace MvcExtensions.Tests
 
             task1.Setup(t => t.Execute()).Returns(TaskContinuation.Skip);
 
-            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
+            adapter.Setup(a => a.GetServices<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
             bootstrapper.Execute();
 
@@ -222,7 +222,7 @@ namespace MvcExtensions.Tests
 
             task1.Setup(t => t.Execute()).Returns(TaskContinuation.Break);
 
-            adapter.Setup(a => a.GetAllInstances<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
+            adapter.Setup(a => a.GetServices<BootstrapperTask>()).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
             bootstrapper.Execute();
 

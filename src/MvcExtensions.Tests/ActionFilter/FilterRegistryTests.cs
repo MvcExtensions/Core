@@ -24,14 +24,14 @@ namespace MvcExtensions.Tests
         {
             adapter = new Mock<ContainerAdapter>();
 
-            adapter.Setup(a => a.GetInstance<DummyFilter1>()).Returns(new DummyFilter1());
-            adapter.Setup(a => a.GetInstance<DummyFilter2>()).Returns(new DummyFilter2());
-            adapter.Setup(a => a.GetInstance<DummyFilter3>()).Returns(new DummyFilter3());
-            adapter.Setup(a => a.GetInstance<DummyFilter4>()).Returns(new DummyFilter4());
-            adapter.Setup(a => a.GetInstance(typeof(DummyFilter1))).Returns(new DummyFilter1());
-            adapter.Setup(a => a.GetInstance(typeof(DummyFilter2))).Returns(new DummyFilter2());
-            adapter.Setup(a => a.GetInstance(typeof(DummyFilter3))).Returns(new DummyFilter3());
-            adapter.Setup(a => a.GetInstance(typeof(DummyFilter4))).Returns(new DummyFilter4());
+            adapter.Setup(a => a.GetService<DummyFilter1>()).Returns(new DummyFilter1());
+            adapter.Setup(a => a.GetService<DummyFilter2>()).Returns(new DummyFilter2());
+            adapter.Setup(a => a.GetService<DummyFilter3>()).Returns(new DummyFilter3());
+            adapter.Setup(a => a.GetService<DummyFilter4>()).Returns(new DummyFilter4());
+            adapter.Setup(a => a.GetService(typeof(DummyFilter1))).Returns(new DummyFilter1());
+            adapter.Setup(a => a.GetService(typeof(DummyFilter2))).Returns(new DummyFilter2());
+            adapter.Setup(a => a.GetService(typeof(DummyFilter3))).Returns(new DummyFilter3());
+            adapter.Setup(a => a.GetService(typeof(DummyFilter4))).Returns(new DummyFilter4());
 
             registry = new FilterRegistryTestDouble(adapter.Object);
         }
@@ -246,7 +246,7 @@ namespace MvcExtensions.Tests
 
         private sealed class FilterRegistryTestDouble : FilterRegistry
         {
-            public FilterRegistryTestDouble(IServiceLocator serviceLocator) : base(serviceLocator)
+            public FilterRegistryTestDouble(ContainerAdapter container) : base(container)
             {
             }
 

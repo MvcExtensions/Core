@@ -91,7 +91,7 @@ namespace MvcExtensions.Tests
             var task1 = new DummyTask(99, executionList);
             var task2 = new DummyTask(100, executionList);
 
-            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1, task2 });
+            container.Setup(a => a.GetServices<PerRequestTask>()).Returns(new[] { task1, task2 });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
@@ -108,7 +108,7 @@ namespace MvcExtensions.Tests
             var task2 = new Mock<PerRequestTask>();
             var task3 = new Mock<PerRequestTask>();
 
-            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
+            container.Setup(a => a.GetServices<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
@@ -125,7 +125,7 @@ namespace MvcExtensions.Tests
             var task2 = new Mock<PerRequestTask>();
             var task3 = new Mock<PerRequestTask>();
 
-            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
+            container.Setup(a => a.GetServices<PerRequestTask>()).Returns(new[] { task1.Object, task2.Object, task3.Object });
 
             httpApplication.StartBeginRequest(new Mock<HttpContextBase>().Object);
 
@@ -157,7 +157,7 @@ namespace MvcExtensions.Tests
             var task1 = new DummyTask(99, executionList);
             var task2 = new DummyTask(100, executionList);
 
-            container.Setup(a => a.GetAllInstances<PerRequestTask>()).Returns(new[] { task1, task2 });
+            container.Setup(a => a.GetServices<PerRequestTask>()).Returns(new[] { task1, task2 });
 
             httpApplication.StartEndRequest(new Mock<HttpContextBase>().Object);
 

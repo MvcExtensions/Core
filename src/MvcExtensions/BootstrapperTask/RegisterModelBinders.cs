@@ -92,14 +92,14 @@ namespace MvcExtensions
                                               type.IsDefined(KnownTypes.BindingAttributeType, true) &&
                                               !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-            Container.GetInstance<IBuildManager>()
+            Container.GetService<IBuildManager>()
                      .ConcreteTypes
                      .Where(filter)
                      .Each(type => Container.RegisterAsSingleton(KnownTypes.ModelBinderType, type));
 
-            IBuildManager buildManager = Container.GetInstance<IBuildManager>();
+            IBuildManager buildManager = Container.GetService<IBuildManager>();
 
-            Container.GetAllInstances<IModelBinder>()
+            Container.GetServices<IModelBinder>()
                      .Select(binder => new
                                             {
                                                 Binder = binder,

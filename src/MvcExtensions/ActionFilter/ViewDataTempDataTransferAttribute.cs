@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// </summary>
     public abstract class ViewDataTempDataTransferAttribute : FilterAttribute, IActionFilter
     {
-        private static string defaultKey = typeof(ViewDataTempDataTransferAttribute).FullName;
+        private static string defaultKey = typeof(ViewDataTempDataTransferAttribute).AssemblyQualifiedName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewDataTempDataTransferAttribute"/> class.

@@ -13,7 +13,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class which acts as an adapter for IoC Container.
     /// </summary>
-    public abstract class ContainerAdapter : MvcServiceLocatorBase, IServiceRegistrar, IServiceInjector, IDisposable
+    public abstract class ContainerAdapter : ExtendedDependencyResolver, IServiceRegistrar, IServiceInjector, IDisposable
     {
         private bool disposed;
 

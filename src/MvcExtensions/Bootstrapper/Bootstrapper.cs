@@ -73,7 +73,7 @@ namespace MvcExtensions
         {
             bool shouldSkip = false;
 
-            foreach (BootstrapperTask task in Adapter.GetAllInstances<BootstrapperTask>().OrderBy(task => task.Order))
+            foreach (BootstrapperTask task in Adapter.GetServices<BootstrapperTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -113,7 +113,7 @@ namespace MvcExtensions
                 return;
             }
 
-            container.GetAllInstances<BootstrapperTask>()
+            container.GetServices<BootstrapperTask>()
                      .OrderByDescending(task => task.Order)
                      .Each(task => task.Dispose());
 
@@ -138,8 +138,7 @@ namespace MvcExtensions
                         .Each(type => adapter.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
 
             adapter.RegisterInstance<IServiceRegistrar>(adapter)
-                   .RegisterInstance<IServiceLocator>(adapter)
-                   .RegisterInstance<IMvcServiceLocator>(adapter)
+                   .RegisterInstance<IDependencyResolver>(adapter)
                    .RegisterInstance<IServiceInjector>(adapter)
                    .RegisterInstance<ContainerAdapter>(adapter);
         }
@@ -150,7 +149,7 @@ namespace MvcExtensions
 
             Register(adapter, BuildManager);
 
-            MvcServiceLocator.SetCurrent(adapter);
+            DependencyResolver.SetResolver(adapter);
 
             return adapter;
         }

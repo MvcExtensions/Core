@@ -56,12 +56,12 @@ namespace MvcExtensions.Tests
             {
             }
 
-            protected override object DoGetInstance(Type serviceType, string key)
+            protected override object DoGetService(Type serviceType, string key)
             {
                 return null;
             }
 
-            protected override IEnumerable<object> DoGetAllInstances(Type serviceType)
+            protected override IEnumerable<object> DoGetServices(Type serviceType)
             {
                 return null;
             }

@@ -120,7 +120,6 @@
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
     <Compile Include="Controller\ExtendedControllerActionInvokerTests.cs" />
-    <Compile Include="Controller\ExtendedControllerFactoryTests.cs" />
     <Compile Include="ExtendedMvcApplicationTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\CompositeModelValidatorProviderTests.cs" />
@@ -157,7 +156,6 @@
     <Compile Include="ActionFilter\FilterRegistryTests.cs" />
     <Compile Include="Helper\InvariantTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BootstrapperTask\RegisterControllerFactoryTests.cs" />
     <Compile Include="BootstrapperTask\ConfigureFilterAttributesBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterModelBindersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterRoutesBaseTests.cs" />

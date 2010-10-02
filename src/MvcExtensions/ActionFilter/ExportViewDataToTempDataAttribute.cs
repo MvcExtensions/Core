@@ -33,11 +33,6 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 
-            if (filterContext.IsChildAction)
-            {
-                return;
-            }
-
             if (filterContext.Canceled || (filterContext.Exception != null && !filterContext.ExceptionHandled))
             {
                 return;

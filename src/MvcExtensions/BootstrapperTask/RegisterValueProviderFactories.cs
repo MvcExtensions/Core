@@ -90,12 +90,12 @@ namespace MvcExtensions
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
                                                   !ValueProviderFactories.Any(factory => factory.GetType() == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
 
-                Container.GetAllInstances<ValueProviderFactory>()
+                Container.GetServices<ValueProviderFactory>()
                          .Each(factory => ValueProviderFactories.Add(factory));
             }
 

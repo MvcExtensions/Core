@@ -19,10 +19,10 @@ namespace MvcExtensions
     public interface IFilterRegistry : IFluentSyntax
     {
         /// <summary>
-        /// Gets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        ContainerAdapter Container
         {
             [EditorBrowsable(EditorBrowsableState.Never)]
             get;

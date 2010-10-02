@@ -95,12 +95,12 @@ namespace MvcExtensions
                                               !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
                                               !viewEngineTypes.Any(engineType => engineType == type);
 
-            Container.GetInstance<IBuildManager>()
+            Container.GetService<IBuildManager>()
                      .ConcreteTypes
                      .Where(filter)
                      .Each(type => Container.RegisterAsSingleton(KnownTypes.ViewEngineType, type));
 
-            Container.GetAllInstances<IViewEngine>()
+            Container.GetServices<IViewEngine>()
                      .Each(engine =>
                             {
                                 if (engine != null)

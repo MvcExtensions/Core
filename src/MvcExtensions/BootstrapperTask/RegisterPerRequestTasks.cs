@@ -74,7 +74,7 @@ namespace MvcExtensions
                 Func<Type, bool> filter = type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type) &&
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));

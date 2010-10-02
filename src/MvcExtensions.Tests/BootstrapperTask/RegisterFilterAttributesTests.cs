@@ -27,7 +27,7 @@ namespace MvcExtensions.Tests
 
             adapter = new Mock<ContainerAdapter>();
 
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService<IBuildManager>()).Returns(buildManager.Object);
         }
 
         public void Dispose()

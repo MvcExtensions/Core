@@ -77,12 +77,12 @@ namespace MvcExtensions
                                                   !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsTransient(KnownTypes.FilterProviderType, type));
 
-                Container.GetAllInstances<IFilterProvider>()
+                Container.GetServices<IFilterProvider>()
                          .Each(provider => FilterProviders.Providers.Add(provider));
             }
 
