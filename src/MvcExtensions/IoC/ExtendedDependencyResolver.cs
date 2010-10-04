@@ -19,27 +19,6 @@ namespace MvcExtensions
     public abstract class ExtendedDependencyResolver : IDependencyResolver
     {
         /// <summary>
-        /// Gets the service.
-        /// </summary>
-        /// <typeparam name="TService">The type of the service.</typeparam>
-        /// <returns></returns>
-        public virtual TService GetService<TService>()
-        {
-            return (TService)GetService(typeof(TService), null);
-        }
-
-        /// <summary>
-        /// Gets the service.
-        /// </summary>
-        /// <typeparam name="TService">The type of the service.</typeparam>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public virtual TService GetService<TService>(string key)
-        {
-            return (TService)GetService(typeof(TService), key);
-        }
-
-        /// <summary>
         /// Implementation of <see cref="IServiceProvider.GetService"/>.
         /// </summary>
         /// <param name="serviceType">The requested service.</param>
@@ -72,19 +51,9 @@ namespace MvcExtensions
         /// <summary>
         /// Gets the services.
         /// </summary>
-        /// <typeparam name="TService">The type of the service.</typeparam>
-        /// <returns></returns>
-        public virtual IEnumerable<TService> GetServices<TService>()
-        {
-            return GetServices(typeof(TService)).Select(item => (TService)item);
-        }
-
-        /// <summary>
-        /// Gets the services.
-        /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns></returns>
-        public IEnumerable<object> GetServices(Type serviceType)
+        public virtual IEnumerable<object> GetServices(Type serviceType)
         {
             try
             {

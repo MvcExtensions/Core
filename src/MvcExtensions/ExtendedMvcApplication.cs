@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
     using System.Web;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class to manage application life cycle.

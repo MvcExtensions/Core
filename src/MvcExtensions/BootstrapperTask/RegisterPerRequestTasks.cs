@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="PerRequestTask"/>.
