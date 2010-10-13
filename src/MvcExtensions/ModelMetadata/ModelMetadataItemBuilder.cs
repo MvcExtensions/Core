@@ -233,6 +233,28 @@ namespace MvcExtensions
             return This;
         }
 
+        ///<summary>
+        /// Hides surrounding HTML.
+        ///</summary>
+        ///<returns></returns>
+        public TItemBuilder HideSurroundingHtml()
+        {
+            Item.HideSurroundingHtml = true;
+
+            return This;
+        }
+
+        ///<summary>
+        /// Shows surrounding HTML.
+        ///</summary>
+        ///<returns></returns>
+        public TItemBuilder ShowSurroundingHtml()
+        {
+            Item.HideSurroundingHtml = false;
+
+            return This;
+        }
+
         /// <summary>
         /// Shows the value in display mode.
         /// </summary>

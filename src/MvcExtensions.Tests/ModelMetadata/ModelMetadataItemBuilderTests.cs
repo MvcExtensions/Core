@@ -123,6 +123,22 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_be_able_to_hide_surrounding_html()
+        {
+            builder.HideSurroundingHtml();
+
+            Assert.True(item.HideSurroundingHtml.Value);
+        }
+
+        [Fact]
+        public void Should_be_able_to_show_surrounding_html()
+        {
+            builder.ShowSurroundingHtml();
+
+            Assert.False(item.HideSurroundingHtml.Value);
+        }
+
+        [Fact]
         public void Should_be_able_to_set_show_for_display()
         {
             builder.ShowForDisplay();
