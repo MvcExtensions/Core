@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
 
     /// <summary>
@@ -80,7 +81,7 @@ namespace MvcExtensions
                 {
                     float value;
 
-                    if (float.TryParse(subParts[1], out value))
+                    if (float.TryParse(subParts[1], NumberStyles.Any, CultureInfo.InvariantCulture, out value))
                     {
                         Value = value;
                     }

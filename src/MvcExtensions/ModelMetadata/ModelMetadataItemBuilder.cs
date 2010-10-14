@@ -233,10 +233,10 @@ namespace MvcExtensions
             return This;
         }
 
-        ///<summary>
+        /// <summary>
         /// Hides surrounding HTML.
-        ///</summary>
-        ///<returns></returns>
+        /// </summary>
+        /// <returns></returns>
         public TItemBuilder HideSurroundingHtml()
         {
             Item.HideSurroundingHtml = true;
@@ -244,10 +244,10 @@ namespace MvcExtensions
             return This;
         }
 
-        ///<summary>
+        /// <summary>
         /// Shows surrounding HTML.
-        ///</summary>
-        ///<returns></returns>
+        /// </summary>
+        /// <returns></returns>
         public TItemBuilder ShowSurroundingHtml()
         {
             Item.HideSurroundingHtml = false;
