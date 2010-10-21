@@ -8,6 +8,7 @@
 
     <PropertyGroup>
         <artifactPath>$(MSBuildProjectDirectory)\..\Drops</artifactPath>
+        <nuPackPath>$(MSBuildProjectDirectory)\NuPack</nuPackPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
 
         <solution>$(MSBuildProjectDirectory)\MvcExtensions.sln</solution>
