@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvcExtensions.Windsor</name>
+    </assembly>
+    <members>
+        <member name="T:MvcExtensions.Windsor.WindsorBootstrapper">
+            <summary>
+            Defines a <seealso cref="T:MvcExtensions.Bootstrapper">Bootstrapper</seealso> which is backed by <seealso cref="T:MvcExtensions.Windsor.WindsorAdapter"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorBootstrapper.#ctor(MvcExtensions.IBuildManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Windsor.WindsorBootstrapper"/> class.
+            </summary>
+            <param name="buildManager">The build manager.</param>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorBootstrapper.CreateAdapter">
+            <summary>
+            Creates the container adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorBootstrapper.LoadModules">
+            <summary>
+            Loads the container specific modules.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.Windsor.WindsorMvcApplication">
+            <summary>
+            Defines a <see cref="T:System.Web.HttpApplication"/> which uses <seealso cref="T:MvcExtensions.Windsor.WindsorBootstrapper"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorMvcApplication.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Windsor.WindsorMvcApplication"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorMvcApplication.CreateBootstrapper">
+            <summary>
+            Creates the bootstrapper.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.Windsor.WindsorAdapter">
+            <summary>
+            Defines an adapter class which is backed by Windsor <seealso cref="T:Castle.Windsor.IWindsorContainer">Container</seealso>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.#ctor(Castle.Windsor.IWindsorContainer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Windsor.WindsorAdapter"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.RegisterType(System.String,System.Type,System.Type,MvcExtensions.LifetimeType)">
+            <summary>
+            Registers the type.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="lifetime">The lifetime of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.RegisterInstance(System.String,System.Type,System.Object)">
+            <summary>
+            Registers the instance.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.Inject(System.Object)">
+            <summary>
+            Injects the matching dependences.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.DoGetInstance(System.Type,System.String)">
+            <summary>
+            Gets the matching instance for the given type and key.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.DoGetAllInstances(System.Type)">
+            <summary>
+            Gets all the instances for the given type.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Windsor.WindsorAdapter.DisposeCore">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.Windsor.WindsorAdapter.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+    </members>
+</doc>

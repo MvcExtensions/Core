@@ -1,7 +1,7 @@
 namespace Demo.Web.Windsor
 {
-    using Castle.MicroKernel;
     using Castle.MicroKernel.Registration;
+    using Castle.MicroKernel.SubSystems.Configuration;
     using Castle.Windsor;
 
     public class RegisterServices : IWindsorInstaller

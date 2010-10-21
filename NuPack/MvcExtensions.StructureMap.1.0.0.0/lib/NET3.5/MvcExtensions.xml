@@ -1,0 +1,3928 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MvcExtensions</name>
+    </assembly>
+    <members>
+        <member name="T:MvcExtensions.TaskContinuation">
+            <summary>
+            Describes how the next task in the chain will be handled.
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.TaskContinuation.Continue">
+            <summary>
+            Executes the next task
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.TaskContinuation.Skip">
+            <summary>
+            Skips the next task.
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.TaskContinuation.Break">
+            <summary>
+            Stops the execution.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.CompressAttribute">
+            <summary>
+            Defines a class which is used to compress the response with the client supported algorithm.
+            <remarks>This  filter does  not execute for child action.</remarks>
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.CompressAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.CompressAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.CompressAttribute.OnResultExecuting(System.Web.Mvc.ResultExecutingContext)">
+            <summary>
+            Called before an action result executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="M:MvcExtensions.CompressAttribute.OnResultExecuted(System.Web.Mvc.ResultExecutedContext)">
+            <summary>
+            Called after an action result executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="T:MvcExtensions.ExportViewDataToTempDataAttribute">
+            <summary>
+            Defines an attribute which is used to copy viewdata in tempdata.
+            <remarks>This  filter does  not execute for child action.</remarks>
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.ViewDataTempDataTransferAttribute">
+            <summary>
+            Defines an abstract attribute which is used to transfer data between viewdata and tempdata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ViewDataTempDataTransferAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ViewDataTempDataTransferAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ViewDataTempDataTransferAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>
+            Called before an action method executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="M:MvcExtensions.ViewDataTempDataTransferAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>
+            Called after the action method executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="P:MvcExtensions.ViewDataTempDataTransferAttribute.DefaultKey">
+            <summary>
+            Gets or sets the default key.
+            </summary>
+            <value>The default key.</value>
+        </member>
+        <member name="P:MvcExtensions.ViewDataTempDataTransferAttribute.Key">
+            <summary>
+            Gets or sets the key.
+            </summary>
+            <value>The key.</value>
+        </member>
+        <member name="M:MvcExtensions.ExportViewDataToTempDataAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExportViewDataToTempDataAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExportViewDataToTempDataAttribute.OnActionExecuted(System.Web.Mvc.ActionExecutedContext)">
+            <summary>
+            Called after the action method executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="T:MvcExtensions.ExtendedAuthorizeAttribute">
+            <summary>
+            Defines a base class which is used to create custom authorization.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAuthorizeAttribute.OnAuthorization(System.Web.Mvc.AuthorizationContext)">
+            <summary>
+            Called when authorization is required.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAuthorizeAttribute.IsAuthorized(System.Web.Mvc.AuthorizationContext)">
+            <summary>
+            Determines whether the specified filter context is authorized.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+            <returns>
+            <c>true</c> if the specified filter context is authorized; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAuthorizeAttribute.HandleUnauthorized(System.Web.Mvc.AuthorizationContext)">
+            <summary>
+            Handles the unauthorized request.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAuthorizeAttribute.OnCacheAuthorization(System.Web.Mvc.AuthorizationContext)">
+            <summary>
+            Called when cache module verifies the cache status.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ImportViewDataFromTempDataAttribute">
+            <summary>
+            Defines an attribute which is used to copy  the previous viewdata from the tempdata into current viewdata.
+            <remarks>This  filter does  not execute for child action.</remarks>
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ImportViewDataFromTempDataAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ImportViewDataFromTempDataAttribute"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ImportViewDataFromTempDataAttribute.OnActionExecuting(System.Web.Mvc.ActionExecutingContext)">
+            <summary>
+            Called before an action method executes.
+            </summary>
+            <param name="filterContext">The filter context.</param>
+        </member>
+        <member name="P:MvcExtensions.ImportViewDataFromTempDataAttribute.ReplaceExisting">
+            <summary>
+            Gets or sets a value indicating whether to replace the current viewdata with previous viewdata when same viewdata key exists.
+            </summary>
+            <value><c>true</c> if [replace existing]; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedJsonResult">
+            <summary>
+            Defines a class which is used to return json result.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedJsonResult.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedJsonResult"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedJsonResult.#ctor(System.Collections.Generic.IEnumerable{System.Web.Script.Serialization.JavaScriptConverter})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedJsonResult"/> class.
+            </summary>
+            <param name="jsonConverters">The json converters.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedJsonResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context within which the result is executed.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
+        </member>
+        <member name="P:MvcExtensions.ExtendedJsonResult.JsonConverters">
+            <summary>
+            Gets the json converters.
+            </summary>
+            <value>The json converters.</value>
+        </member>
+        <member name="T:MvcExtensions.XmlResult">
+            <summary>
+            Defines a class which is used to return xml result.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.XmlResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
+        </member>
+        <member name="P:MvcExtensions.XmlResult.ContentType">
+            <summary>
+            Gets or sets the type of the content.
+            </summary>
+            <value></value>
+            <returns>The type of the content.</returns>
+        </member>
+        <member name="P:MvcExtensions.XmlResult.Data">
+            <summary>
+            Gets or sets the data.
+            </summary>
+            <value></value>
+            <returns>The data.</returns>
+        </member>
+        <member name="T:MvcExtensions.ConfigureActionInvokersBase">
+            <summary>
+            Defines a class to configure <seealso cref="T:System.Web.Mvc.IActionInvoker"/> for <see cref="T:System.Web.Mvc.Controller"/>.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.BootstrapperTask">
+            <summary>
+            Defines a base class which is executed when <see cref="T:MvcExtensions.ExtendedMvcApplication"/> starts and ends.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.OrderableTask">
+            <summary>
+            Defines a class which supports execution order.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.Disposable">
+            <summary>
+            Defines a base class which holds reference of one or more resource object.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Disposable.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:MvcExtensions.Disposable"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Disposable.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Disposable.DisposeCore">
+            <summary>
+            Disposes the resources.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IOrderableTask">
+            <summary>
+            Represents an interface which supports execution order.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IOrderableTask.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.IOrderableTask.Order">
+            <summary>
+            Gets the order that the task would execute.
+            </summary>
+            <value>The order.</value>
+        </member>
+        <member name="M:MvcExtensions.OrderableTask.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.OrderableTask"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.OrderableTask.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.OrderableTask.DefaultOrder">
+            <summary>
+            Gets or sets the default order that the task would execute.
+            </summary>
+            <value>The order.</value>
+        </member>
+        <member name="P:MvcExtensions.OrderableTask.Order">
+            <summary>
+            Gets the order that the task would execute.
+            </summary>
+            <value>The order.</value>
+        </member>
+        <member name="M:MvcExtensions.ConfigureActionInvokersBase.#ctor(MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ConfigureActionInvokersBase"/> class.
+            </summary>
+            <param name="registry">The registry.</param>
+        </member>
+        <member name="M:MvcExtensions.ConfigureActionInvokersBase.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ConfigureActionInvokersBase.Configure">
+            <summary>
+            Configures the action invokers.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ConfigureActionInvokersBase.Registry">
+            <summary>
+            Gets the registry.
+            </summary>
+            <value>The registry.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterActionInvokers">
+            <summary>
+            Defines a class which is used to register the default <seealso cref="T:System.Web.Mvc.IActionInvoker"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterActionInvokers.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterActionInvokers"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterActionInvokers.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionInvokers.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterActionInvokers"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionInvokers.IgnoredTypes">
+            <summary>
+            Gets the ignored controller types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionInvokers.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.ActionInvokerRegistry">
+            <summary>
+            Defines a class which is used to hold the action invoker mapping.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IActionInvokerRegistry">
+            <summary>
+            Defines an interface which is used to hold the action invoker mapping.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IActionInvokerRegistry.Register(System.Type,System.Type)">
+            <summary>
+            Registers the specified mapping
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <param name="actionInvokerType">Type of the controller factory.</param>
+        </member>
+        <member name="M:MvcExtensions.IActionInvokerRegistry.IsRegistered(System.Type)">
+            <summary>
+            Determines whether the specified controller action invoker  is registered.
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <returns>
+            <c>true</c> if the specified controller action invoker type is registered; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.IActionInvokerRegistry.Matching(System.Type)">
+            <summary>
+            Returns the matching action invoker type for the specified controller type.
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistry.Register(System.Type,System.Type)">
+            <summary>
+            Registers the specified mapping
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <param name="actionInvokerType">Type of the controller factory.</param>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistry.IsRegistered(System.Type)">
+            <summary>
+            Determines whether the specified controller action invoker  is registered.
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <returns>
+            <c>true</c> if the specified controller action invoker type is registered; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistry.Matching(System.Type)">
+            <summary>
+            Returns the matching action invoker type for the specified controller type.
+            </summary>
+            <param name="controllerType">Type of the controller.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.ActionInvokerRegistry.Mappings">
+            <summary>
+            Gets the mappings.
+            </summary>
+            <value>The mappings.</value>
+        </member>
+        <member name="T:MvcExtensions.ActionInvokerRegistryExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:MvcExtensions.IActionInvokerRegistry"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistryExtensions.Register``2(MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Registers the specified instance.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistryExtensions.Register``3(MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Registers the specified instance.
+            </summary>
+            <typeparam name="TController1">The type of the controller1.</typeparam>
+            <typeparam name="TController2">The type of the controller2.</typeparam>
+            <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistryExtensions.Register``4(MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Registers the specified instance.
+            </summary>
+            <typeparam name="TController1">The type of the controller1.</typeparam>
+            <typeparam name="TController2">The type of the controller2.</typeparam>
+            <typeparam name="TController3">The type of the controller3.</typeparam>
+            <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistryExtensions.Register``5(MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Registers the specified instance.
+            </summary>
+            <typeparam name="TController1">The type of the controller1.</typeparam>
+            <typeparam name="TController2">The type of the controller2.</typeparam>
+            <typeparam name="TController3">The type of the controller3.</typeparam>
+            <typeparam name="TController4">The type of the controller4.</typeparam>
+            <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ActionInvokerRegistryExtensions.Register``1(MvcExtensions.IActionInvokerRegistry,MvcExtensions.TypeCatalog)">
+            <summary>
+            Registers the specified instance.
+            </summary>
+            <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The type catalog.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ExtendedAsyncControllerActionInvoker">
+            <summary>
+            The default async <seealso cref="T:System.Web.Mvc.IActionInvoker"/> which supports the fluent filter registration and dependency injection.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAsyncControllerActionInvoker.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedAsyncControllerActionInvoker"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedAsyncControllerActionInvoker.GetFilters(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Retrieves information about the action filters.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>Information about the action filters.</returns>
+        </member>
+        <member name="P:MvcExtensions.ExtendedAsyncControllerActionInvoker.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.HttpContextBaseExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Web.HttpContextBase"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.HttpContextBaseExtensions.Compress(System.Web.HttpContextBase)">
+            <summary>
+            Compresses the specified instance.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.HttpContextBaseExtensions.Cache(System.Web.HttpContextBase,System.TimeSpan)">
+            <summary>
+            Caches the specified instance.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="duration">The duration.</param>
+        </member>
+        <member name="T:MvcExtensions.QValueSorter">
+            <summary>
+            Defines a helper class to sort types depending upon it value and order.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.QValueSorter.Sort(System.String)">
+            <summary>
+            Sorts the specified types based upon its QValue and order.
+            </summary>
+            <param name="types">The types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.QValueSorter.Sort(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Sorts the specified types based upon its QValue and order.
+            </summary>
+            <param name="types">The types.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.AdaptivePostRedirectGetResult">
+            <summary>
+            Defines an class which is used to redirect adaptively in PRG scenario. If the request is ajax it writes the viewdata in json string; otherwise
+            it redirects to the given url. 
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.AdaptivePostRedirectGetResult.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.AdaptivePostRedirectGetResult"/> class.
+            </summary>
+            <param name="url">The target URL.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="url"/> parameter is null.</exception>
+        </member>
+        <member name="M:MvcExtensions.AdaptivePostRedirectGetResult.#ctor(System.String,System.Collections.Generic.IEnumerable{System.Web.Script.Serialization.JavaScriptConverter})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.AdaptivePostRedirectGetResult"/> class.
+            </summary>
+            <param name="url">The URL.</param>
+            <param name="jsonConverters">The json converters.</param>
+        </member>
+        <member name="M:MvcExtensions.AdaptivePostRedirectGetResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context within which the result is executed.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
+        </member>
+        <member name="P:MvcExtensions.AdaptivePostRedirectGetResult.JsonConverters">
+            <summary>
+            Gets the json converters.
+            </summary>
+            <value>The json converters.</value>
+        </member>
+        <member name="T:MvcExtensions.AdaptiveViewResult">
+            <summary>
+            Defines an class which is used to render a view adaptively. If the request is ajax it writes the viewdata in json string; otherwise
+            it  renders the specified view. 
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.AdaptiveViewResult.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.AdaptiveViewResult"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.AdaptiveViewResult.#ctor(System.Collections.Generic.IEnumerable{System.Web.Script.Serialization.JavaScriptConverter})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.AdaptiveViewResult"/> class.
+            </summary>
+            <param name="jsonConverters">The json converters.</param>
+        </member>
+        <member name="M:MvcExtensions.AdaptiveViewResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            When called by the action invoker, renders the view to the response.
+            </summary>
+            <param name="context">The context that the result is executed in.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
+        </member>
+        <member name="P:MvcExtensions.AdaptiveViewResult.JsonConverters">
+            <summary>
+            Gets the json converters.
+            </summary>
+            <value>The json converters.</value>
+        </member>
+        <member name="T:MvcExtensions.NotFoundResult">
+            <summary>
+            Defines a class which is used to return Http 404 status code.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.NotFoundResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
+        </member>
+        <member name="T:MvcExtensions.PermanentRedirectResult">
+            <summary>
+            Defines a class which is used to return  Http 301 status code.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.PermanentRedirectResult.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.PermanentRedirectResult"/> class.
+            </summary>
+            <param name="url">The target URL.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="url"/> parameter is null.</exception>
+        </member>
+        <member name="M:MvcExtensions.PermanentRedirectResult.ExecuteResult(System.Web.Mvc.ControllerContext)">
+            <summary>
+            Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
+            </summary>
+            <param name="context">The context within which the result is executed.</param>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
+        </member>
+        <member name="T:MvcExtensions.RegisterActionFilters">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:System.Web.Mvc.FilterAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterActionFilters.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterActionFilters"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterActionFilters.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionFilters.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterActionFilters"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionFilters.IgnoredTypes">
+            <summary>
+            Gets the ignored filter attribute types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterActionFilters.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterControllers">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:System.Web.Mvc.Controller"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterControllers.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterControllers"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterControllers.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllers.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterControllers"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllers.IgnoredTypes">
+            <summary>
+            Gets the ignored controller types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllers.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterPerRequestTasks">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:MvcExtensions.PerRequestTask"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterPerRequestTasks.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterPerRequestTasks"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterPerRequestTasks.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterPerRequestTasks.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterPerRequestTasks"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterPerRequestTasks.IgnoredTypes">
+            <summary>
+            Gets the ignored controller types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterPerRequestTasks.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.HttpResponseBaseExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Web.HttpResponseBase"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.HttpResponseBaseExtensions.WriteJson(System.Web.HttpResponseBase,System.String)">
+            <summary>
+            Writes the json.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="json">The json.</param>
+        </member>
+        <member name="T:MvcExtensions.ObjectExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Object"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ObjectExtensions.ToJson(System.Object)">
+            <summary>
+            Convert the given object into json string.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectExtensions.ToJson(System.Object,System.Collections.Generic.IEnumerable{System.Web.Script.Serialization.JavaScriptConverter})">
+            <summary>
+            Convert the given object into json string.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="jsonConverters">The json converters.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ViewDataDictionaryExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Web.Mvc.ViewDataDictionary"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Get``1(System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Gets the value against the specified type name.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Get``1(System.Web.Mvc.ViewDataDictionary,System.String)">
+            <summary>
+            Gets the value that is stored against the specified key.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="key">The key.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Get``1(System.Web.Mvc.ViewDataDictionary,System.String,``0)">
+            <summary>
+            Gets the value that is stored against the specified key, if the key does not exists it will return the provided default value.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="key">The key.</param>
+            <param name="defaultValue">The default value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Set``1(System.Web.Mvc.ViewDataDictionary,``0)">
+            <summary>
+            Sets the value against the specified type.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Set``1(System.Web.Mvc.ViewDataDictionary,System.String,``0)">
+            <summary>
+            Sets the value against the specified key.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Contains``1(System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Determines whether  the specified type exists.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns>
+            <c>true</c> if [contains] [the specified instance]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.Remove``1(System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Removes the specified type.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.ToJson(System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Convert the view data into json string.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.ToJson(System.Web.Mvc.ViewDataDictionary,System.Collections.Generic.IEnumerable{System.Web.Script.Serialization.JavaScriptConverter})">
+            <summary>
+            Convert the view data into json string.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="jsonConverters">The json converters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ViewDataDictionaryExtensions.AsSerializable(System.Web.Mvc.ViewDataDictionary)">
+            <summary>
+            Convert the view data into a serializable object.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ContainerAdapter">
+            <summary>
+            Defines a base class which acts as an adapter for IoC Container.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IServiceRegistrar">
+            <summary>
+            Represents an interface which is used to register services.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IFluentSyntax">
+            <summary>
+            Hides the common object members in development environment.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IFluentSyntax.Equals(System.Object)">
+            <summary>
+            Determines whether two <see cref="T:System.Object"/> instances are equal.
+            </summary>
+            <param name="value">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>.</param>
+            <returns><c>true</c> if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, <c>false</c>.</returns>
+        </member>
+        <member name="M:MvcExtensions.IFluentSyntax.GetHashCode">
+            <summary>
+            Serves as a hash function for a particular type. 
+            </summary>
+            <returns>A hash code for the current <see cref="T:System.Object"/>.</returns>
+        </member>
+        <member name="M:MvcExtensions.IFluentSyntax.GetType">
+            <summary>
+            Gets the <see cref="T:System.Type"/> of the current instance.
+            </summary>
+            <returns>The <see cref="T:System.Type"/> instance that represents the exact runtime type of the current instance.</returns>
+        </member>
+        <member name="M:MvcExtensions.IFluentSyntax.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.</returns>
+        </member>
+        <member name="M:MvcExtensions.IServiceRegistrar.RegisterType(System.String,System.Type,System.Type,MvcExtensions.LifetimeType)">
+            <summary>
+            Registers the service and its implementation with the lifetime behavior.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="lifetime">The lifetime of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.IServiceRegistrar.RegisterInstance(System.String,System.Type,System.Object)">
+            <summary>
+            Registers the instance as singleton.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.IServiceInjector">
+            <summary>
+            Represents an interface which is used to inject dependencies for a given object.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IServiceInjector.Inject(System.Object)">
+            <summary>
+            Injects the matching dependences.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.Finalize">
+            <summary>
+            Releases unmanaged resources and performs other cleanup operations before the
+            <see cref="T:MvcExtensions.ContainerAdapter"/> is reclaimed by garbage collection.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.RegisterType(System.String,System.Type,System.Type,MvcExtensions.LifetimeType)">
+            <summary>
+            Registers the service and its implementation with the lifetime behavior.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="lifetime">The lifetime of the service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.RegisterInstance(System.String,System.Type,System.Object)">
+            <summary>
+            Registers the instance as singleton.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.Inject(System.Object)">
+            <summary>
+            Injects the matching dependences.
+            </summary>
+            <param name="instance">The instance.</param>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.DisposeCore">
+            <summary>
+            Releases unmanaged and - optionally - managed resources
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ContainerAdapter.MvcExtensions#IFluentSyntax#GetType">
+            <summary>
+            Defines a base class which acts as an adapter for IoC Container.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.LifetimeType">
+            <summary>
+            Represents an enum which defines the life time of the registered service.
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.LifetimeType.PerRequest">
+            <summary>
+            The same object will be returned for the same request.
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.LifetimeType.Singleton">
+            <summary>
+            This object will be created only once and the same object will be returned each time it is requested.
+            </summary>
+        </member>
+        <member name="F:MvcExtensions.LifetimeType.Transient">
+            <summary>
+            The object will be created every time it is requested.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.ServiceRegistrarExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:MvcExtensions.IServiceRegistrar"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterInstance``1(MvcExtensions.IServiceRegistrar,System.Object)">
+            <summary>
+            Registers the instance as a singleton service.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="service">The service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterInstance(MvcExtensions.IServiceRegistrar,System.Object)">
+            <summary>
+            Registers the instance as a singleton service of the instance type.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="service">The service.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsPerRequest``1(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers the service as per request.
+            </summary>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsPerRequest``2(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers as per request.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsPerRequest(MvcExtensions.IServiceRegistrar,System.Type)">
+            <summary>
+            Registers the service as per request.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsPerRequest(MvcExtensions.IServiceRegistrar,System.Type,System.Type)">
+            <summary>
+            Registers the service as per request.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsSingleton``1(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers the service as singleton.
+            </summary>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsSingleton``2(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers as singleton.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsSingleton(MvcExtensions.IServiceRegistrar,System.Type)">
+            <summary>
+            Registers the service as singleton.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsSingleton(MvcExtensions.IServiceRegistrar,System.Type,System.Type)">
+            <summary>
+            Registers the service as singleton.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsTransient``1(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers the service as transient.
+            </summary>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsTransient``2(MvcExtensions.IServiceRegistrar)">
+            <summary>
+            Registers the service as transient.
+            </summary>
+            <typeparam name="TService">The type of the service.</typeparam>
+            <typeparam name="TImplementation">The type of the implementation.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsTransient(MvcExtensions.IServiceRegistrar,System.Type)">
+            <summary>
+            Registers the service as transient.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ServiceRegistrarExtensions.RegisterAsTransient(MvcExtensions.IServiceRegistrar,System.Type,System.Type)">
+            <summary>
+            Registers the service as transient.
+            </summary>
+            <param name="instance">The instance.</param>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.BuildManagerWrapper">
+            <summary>
+            Defines a wrapper class which provides access to the internal <seealso cref="T:System.Web.Compilation.BuildManager"/>.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IBuildManager">
+            <summary>
+            Represents an interface which provides access to all the referenced assemblies.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.IBuildManager.Assemblies">
+            <summary>
+            Gets the available assemblies.
+            </summary>
+            <value>The assemblies.</value>
+        </member>
+        <member name="P:MvcExtensions.IBuildManager.PublicTypes">
+            <summary>
+            Gets the available public types of <see cref="P:MvcExtensions.IBuildManager.Assemblies"/>.
+            </summary>
+            <value>The concrete types.</value>
+        </member>
+        <member name="P:MvcExtensions.IBuildManager.ConcreteTypes">
+            <summary>
+            Gets the available concrete types of <see cref="P:MvcExtensions.IBuildManager.Assemblies"/>.
+            </summary>
+            <value>The concrete types.</value>
+        </member>
+        <member name="P:MvcExtensions.BuildManagerWrapper.Current">
+            <summary>
+            Gets the current <see cref="T:MvcExtensions.IBuildManager"/>.
+            </summary>
+            <value>The current.</value>
+        </member>
+        <member name="P:MvcExtensions.BuildManagerWrapper.Assemblies">
+            <summary>
+            Gets the assemblies.
+            </summary>
+            <value>The assemblies.</value>
+        </member>
+        <member name="P:MvcExtensions.BuildManagerWrapper.PublicTypes">
+            <summary>
+            Gets the available public types of <see cref="P:MvcExtensions.BuildManagerWrapper.Assemblies"/>.
+            </summary>
+            <value>The concrete types.</value>
+        </member>
+        <member name="P:MvcExtensions.BuildManagerWrapper.ConcreteTypes">
+            <summary>
+            Gets the available concrete types of <see cref="P:MvcExtensions.BuildManagerWrapper.Assemblies"/>.
+            </summary>
+            <value>The concrete types.</value>
+        </member>
+        <member name="T:MvcExtensions.CompositeModelValidatorProvider">
+            <summary>
+            Defines a class which is used to maintain multiple model validator provider.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.CompositeModelValidatorProvider.#ctor(System.Web.Mvc.ModelValidatorProvider[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.CompositeModelValidatorProvider"/> class.
+            </summary>
+            <param name="providers">The providers.</param>
+        </member>
+        <member name="M:MvcExtensions.CompositeModelValidatorProvider.GetValidators(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Gets a list of validators.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="context">The context.</param>
+            <returns>A list of validators.</returns>
+        </member>
+        <member name="P:MvcExtensions.CompositeModelValidatorProvider.Providers">
+            <summary>
+            Gets the providers.
+            </summary>
+            <value>The providers.</value>
+        </member>
+        <member name="T:MvcExtensions.EnumConstraint`1">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value is  a matching enum value.
+            </summary>
+            <typeparam name="TEnum">The type of the enum.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.EnumConstraint`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.EnumConstraint`1"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.EnumConstraint`1.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.EnumConstraint`1"/> class.
+            </summary>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="M:MvcExtensions.EnumConstraint`1.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+            <summary>
+            Matches the specified HTTP context.
+            </summary>
+            <param name="httpContext">The HTTP context.</param>
+            <param name="route">The route.</param>
+            <param name="parameterName">Name of the parameter.</param>
+            <param name="values">The values.</param>
+            <param name="routeDirection">The route direction.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.GuidConstraint">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value is <seealso cref="T:System.Guid"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.GuidConstraint.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.GuidConstraint"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.GuidConstraint.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.GuidConstraint"/> class.
+            </summary>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="M:MvcExtensions.GuidConstraint.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+            <summary>
+            Matches the specified HTTP context.
+            </summary>
+            <param name="httpContext">The HTTP context.</param>
+            <param name="route">The route.</param>
+            <param name="parameterName">Name of the parameter.</param>
+            <param name="values">The values.</param>
+            <param name="routeDirection">The route direction.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.PositiveIntegerConstraint">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value is  a positive <seealso cref="T:System.Int32"/>.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.RangeConstraint`1">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value is  between the specified range.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RangeConstraint`1.#ctor(`0,`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RangeConstraint`1"/> class.
+            </summary>
+            <param name="min">The min.</param>
+            <param name="max">The max.</param>
+        </member>
+        <member name="M:MvcExtensions.RangeConstraint`1.#ctor(`0,`0,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RangeConstraint`1"/> class.
+            </summary>
+            <param name="min">The min.</param>
+            <param name="max">The max.</param>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="M:MvcExtensions.RangeConstraint`1.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+            <summary>
+            Matches the specified HTTP context.
+            </summary>
+            <param name="httpContext">The HTTP context.</param>
+            <param name="route">The route.</param>
+            <param name="parameterName">Name of the parameter.</param>
+            <param name="values">The values.</param>
+            <param name="routeDirection">The route direction.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.PositiveIntegerConstraint.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.PositiveIntegerConstraint"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.PositiveIntegerConstraint.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.PositiveIntegerConstraint"/> class.
+            </summary>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="T:MvcExtensions.PositiveLongConstraint">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value is  a positive <seealso cref="T:System.Int64"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.PositiveLongConstraint.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.PositiveLongConstraint"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.PositiveLongConstraint.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.PositiveIntegerConstraint"/> class.
+            </summary>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="T:MvcExtensions.RegexConstraint">
+            <summary>
+            Defines a class which is used to ensure the URL parameter value must match the provided expression.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegexConstraint.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegexConstraint"/> class.
+            </summary>
+            <param name="expression">The expression.</param>
+        </member>
+        <member name="M:MvcExtensions.RegexConstraint.#ctor(System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegexConstraint"/> class.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="optional">if set to <c>true</c> [optional].</param>
+        </member>
+        <member name="M:MvcExtensions.RegexConstraint.Match(System.Web.HttpContextBase,System.Web.Routing.Route,System.String,System.Web.Routing.RouteValueDictionary,System.Web.Routing.RouteDirection)">
+            <summary>
+            Matches the specified HTTP context.
+            </summary>
+            <param name="httpContext">The HTTP context.</param>
+            <param name="route">The route.</param>
+            <param name="parameterName">Name of the parameter.</param>
+            <param name="values">The values.</param>
+            <param name="routeDirection">The route direction.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.TypeCatalog">
+            <summary>
+            Defines a class that is used to filter types for one or more assemblies.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalog.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.TypeCatalog"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalog.#ctor(System.Collections.Generic.IList{System.Reflection.Assembly},System.Collections.Generic.IList{System.Predicate{System.Type}},System.Collections.Generic.IList{System.Predicate{System.Type}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.TypeCatalog"/> class.
+            </summary>
+            <param name="assemblies">The assemblies.</param>
+            <param name="includeFilters">The include filters.</param>
+            <param name="excludeFilters">The exclude filters.</param>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalog.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalog.System#Collections#IEnumerable#GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through a collection.
+            </summary>
+            <returns>
+            An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+            </returns>
+        </member>
+        <member name="P:MvcExtensions.TypeCatalog.Assemblies">
+            <summary>
+            Gets the assemblies.
+            </summary>
+            <value>The assemblies.</value>
+        </member>
+        <member name="P:MvcExtensions.TypeCatalog.IncludeFilters">
+            <summary>
+            Gets the include type filters.
+            </summary>
+            <value>The include filters.</value>
+        </member>
+        <member name="P:MvcExtensions.TypeCatalog.ExcludeFilters">
+            <summary>
+            Gets the exclude type filters.
+            </summary>
+            <value>The exclude filters.</value>
+        </member>
+        <member name="T:MvcExtensions.TypeCatalogBuilder">
+            <summary>
+            Defines a class to fluently build <seealso cref="P:MvcExtensions.TypeCatalogBuilder.TypeCatalog"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.TypeCatalogBuilder"/> class.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.#ctor(MvcExtensions.TypeCatalog)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.TypeCatalogBuilder"/> class.
+            </summary>
+            <param name="typeCatalog">The type catalog.</param>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.op_Implicit(MvcExtensions.TypeCatalogBuilder)~MvcExtensions.TypeCatalog">
+            <summary>
+            Performs an implicit conversion from <see cref="T:MvcExtensions.TypeCatalogBuilder"/> to <see cref="T:MvcExtensions.TypeCatalog"/>.
+            </summary>
+            <param name="builder">The builder.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Add(System.Reflection.Assembly[])">
+            <summary>
+            Adds the specified assemblies.
+            </summary>
+            <param name="assemblies">The assemblies.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Add(System.String[])">
+            <summary>
+            Adds the specified assemblies that matches the specified names. This method comes into action when the assembly is available in the application but does not have any direct reference.
+            </summary>
+            <param name="assemblyNames">The assembly names.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Include(System.Type[])">
+            <summary>
+            Includes the specified types.
+            </summary>
+            <param name="types">The types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Include(System.String[])">
+            <summary>
+            Includes the types that matches specified names. This method comes into action when the type is available in the application but does not have any direct reference.
+            </summary>
+            <param name="typeNames">The type names.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Include(System.Predicate{System.Type})">
+            <summary>
+            Includes the types that matches specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Exclude(System.Type[])">
+            <summary>
+            Excludes the specified types.
+            </summary>
+            <param name="types">The types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Exclude(System.String[])">
+            <summary>
+            Excludes the types that matches specified names. This method comes into action when the type is available in the application but does not have any direct reference.
+            </summary>
+            <param name="typeNames">The type names.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.Exclude(System.Predicate{System.Type})">
+            <summary>
+            Excludes the types that matches specified filter.
+            </summary>
+            <param name="filter">The filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeCatalogBuilder.MvcExtensions#IFluentSyntax#GetType">
+            <summary>
+            Defines a class to fluently build <seealso cref="P:MvcExtensions.TypeCatalogBuilder.TypeCatalog"/>.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.TypeCatalogBuilder.TypeCatalog">
+            <summary>
+            Gets the internal type catalog.
+            </summary>
+            <value>The type catalog.</value>
+        </member>
+        <member name="T:MvcExtensions.PerRequestTask">
+            <summary>
+            Defines a base class which is executed for each request. This is similar to <seealso cref="T:System.Web.IHttpModule"/> with only begin and end support.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.FilterRegistryExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:MvcExtensions.IFilterRegistry"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``1(MvcExtensions.IFilterRegistry,MvcExtensions.TypeCatalog)">
+            <summary>
+            Registers the specified filter for the given controller types.
+            </summary>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The controller types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``1(MvcExtensions.IFilterRegistry,MvcExtensions.TypeCatalog,System.Action{``0})">
+            <summary>
+            Registers and configures the specified filter for the given controller types.
+            </summary>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The controller types.</param>
+            <param name="configureFilter">The configure filter action.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``2(MvcExtensions.IFilterRegistry,MvcExtensions.TypeCatalog)">
+            <summary>
+            Registers the specified filters for the given controller types.
+            </summary>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The controller types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``3(MvcExtensions.IFilterRegistry,MvcExtensions.TypeCatalog)">
+            <summary>
+            Registers the specified filters for the given controller types.
+            </summary>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The controller types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``4(MvcExtensions.IFilterRegistry,MvcExtensions.TypeCatalog)">
+            <summary>
+            Registers the specified filters for the given controller types.
+            </summary>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <typeparam name="TFilter4">The type of the filter4.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="typeCatalog">The controller types.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``2(MvcExtensions.IFilterRegistry)">
+            <summary>
+            Registers the specified filter for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``2(MvcExtensions.IFilterRegistry,System.Action{``1})">
+            <summary>
+            Registers and configures the specified filter for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="configureFilter">The configure filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``3(MvcExtensions.IFilterRegistry)">
+            <summary>
+            Registers the specified filters for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``4(MvcExtensions.IFilterRegistry)">
+            <summary>
+            Registers the specified filters for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``5(MvcExtensions.IFilterRegistry)">
+            <summary>
+            Registers the specified filters for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <typeparam name="TFilter4">The type of the filter4.</typeparam>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``2(MvcExtensions.IFilterRegistry,System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+            Registers the specified filter for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The controller action method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``2(MvcExtensions.IFilterRegistry,System.Linq.Expressions.Expression{System.Action{``0}},System.Action{``1})">
+            <summary>
+            Registers and configures the specified filter for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The controller action method.</param>
+            <param name="configureFilter">The configure filter.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``3(MvcExtensions.IFilterRegistry,System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+            Registers the specified filters for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The controller action method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``4(MvcExtensions.IFilterRegistry,System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+            Registers the specified filters for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The controller action method.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryExtensions.Register``5(MvcExtensions.IFilterRegistry,System.Linq.Expressions.Expression{System.Action{``0}})">
+            <summary>
+            Registers the specified filters for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter1">The type of the filter1.</typeparam>
+            <typeparam name="TFilter2">The type of the filter2.</typeparam>
+            <typeparam name="TFilter3">The type of the filter3.</typeparam>
+            <typeparam name="TFilter4">The type of the filter4.</typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The controller action method.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.FilterRegistry">
+            <summary>
+            The default filter registry which supports fluent registration.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IFilterRegistry">
+            <summary>
+            Represents an interface which is used to fluently registered <seealso cref="T:System.Web.Mvc.FilterAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IFilterRegistry.Register``2(System.Collections.Generic.IEnumerable{System.Func{``1}})">
+            <summary>
+            Registers the specified filters for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="filters">The filters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.IFilterRegistry.Register``2(System.Linq.Expressions.Expression{System.Action{``0}},System.Collections.Generic.IEnumerable{System.Func{``1}})">
+            <summary>
+            Registers the specified filters for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="action">The controller action method.</param>
+            <param name="filters">The filters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.IFilterRegistry.Matching(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Returns the matching filters for the given controller action.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.IFilterRegistry.ServiceLocator">
+            <summary>
+            Gets the service locator.
+            </summary>
+            <value>The service locator.</value>
+        </member>
+        <member name="P:MvcExtensions.IFilterRegistry.Items">
+            <summary>
+            Gets the registered items.
+            </summary>
+            <value>The items.</value>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistry.#ctor(Microsoft.Practices.ServiceLocation.IServiceLocator)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.FilterRegistry"/> class.
+            </summary>
+            <param name="serviceLocator">The service locator.</param>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistry.Register``2(System.Collections.Generic.IEnumerable{System.Func{``1}})">
+            <summary>
+            Registers the specified filters for the given controller.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="filters">The filters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistry.Register``2(System.Linq.Expressions.Expression{System.Action{``0}},System.Collections.Generic.IEnumerable{System.Func{``1}})">
+            <summary>
+            Registers the specified filters for the given controller action.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+            <typeparam name="TFilter">The type of the filter.</typeparam>
+            <param name="action">The action.</param>
+            <param name="filters">The filters.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistry.Matching(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Returns the matching filters for the given controller action.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistry.MvcExtensions#IFluentSyntax#GetType">
+            <summary>
+            The default filter registry which supports fluent registration.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.FilterRegistry.ServiceLocator">
+            <summary>
+            Gets the service locator.
+            </summary>
+            <value>The service locator.</value>
+        </member>
+        <member name="P:MvcExtensions.FilterRegistry.Items">
+            <summary>
+            Gets the registered items.
+            </summary>
+            <value>The items.</value>
+        </member>
+        <member name="T:MvcExtensions.FilterRegistryActionItem`1">
+            <summary>
+            Defines a class to store the <see cref="T:System.Web.Mvc.FilterAttribute"/> factories of <seealso cref="T:System.Web.Mvc.Controller"/> action method.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+        </member>
+        <member name="T:MvcExtensions.FilterRegistryItem">
+            <summary>
+            Defines a base class to store the <see cref="T:System.Web.Mvc.FilterAttribute"/> factories.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryItem.#ctor(System.Collections.Generic.IEnumerable{System.Func{System.Web.Mvc.FilterAttribute}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.FilterRegistryItem"/> class.
+            </summary>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryItem.IsMatching(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Determines whether this filter matches with give controller context.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            <c>true</c> if the specified controller context is matching; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="P:MvcExtensions.FilterRegistryItem.Filters">
+            <summary>
+            Gets or sets the filter factories.
+            </summary>
+            <value>The filters.</value>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryActionItem`1.#ctor(System.Linq.Expressions.Expression{System.Action{`0}},System.Collections.Generic.IEnumerable{System.Func{System.Web.Mvc.FilterAttribute}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.FilterRegistryActionItem`1"/> class.
+            </summary>
+            <param name="action">The action.</param>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryActionItem`1.IsMatching(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Determines whether the specified controller context is matching.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            <c>true</c> if the specified controller context is matching; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:MvcExtensions.FilterRegistryControllerItem`1">
+            <summary>
+            Defines a class to store the <see cref="T:System.Web.Mvc.FilterAttribute"/> factories of <seealso cref="T:System.Web.Mvc.Controller"/>.
+            </summary>
+            <typeparam name="TController">The type of the controller.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryControllerItem`1.#ctor(System.Collections.Generic.IEnumerable{System.Func{System.Web.Mvc.FilterAttribute}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.FilterRegistryControllerItem`1"/> class.
+            </summary>
+            <param name="filters">The filters.</param>
+        </member>
+        <member name="M:MvcExtensions.FilterRegistryControllerItem`1.IsMatching(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Determines whether the specified controller context is matching.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>
+            <c>true</c> if the specified controller context is matching; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="T:MvcExtensions.BindingTypeAttribute">
+            <summary>
+            Defines an attribute  which is used to store the type information for which the <seealso cref="T:System.Web.Mvc.IModelBinder"/> is registered.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.BindingTypeAttribute.#ctor(System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.BindingTypeAttribute"/> class.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+        </member>
+        <member name="M:MvcExtensions.BindingTypeAttribute.#ctor(System.Type,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.BindingTypeAttribute"/> class.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="inherited">if set to <c>true</c> [inherited].</param>
+        </member>
+        <member name="P:MvcExtensions.BindingTypeAttribute.ModelType">
+            <summary>
+            Gets the type of the model.
+            </summary>
+            <value>The type of the model.</value>
+        </member>
+        <member name="P:MvcExtensions.BindingTypeAttribute.Inherited">
+            <summary>
+            Gets a value indicating whether to include the inherited types of the <see cref="P:MvcExtensions.BindingTypeAttribute.ModelType"/>.
+            </summary>
+            <value><c>true</c> if inherited; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:MvcExtensions.ConfigureFiltersBase">
+            <summary>
+            Defines a class to configure <seealso cref="T:System.Web.Mvc.FilterAttribute"/> for <see cref="T:System.Web.Mvc.Controller"/> or action methods.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ConfigureFiltersBase.#ctor(MvcExtensions.IFilterRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ConfigureFiltersBase"/> class.
+            </summary>
+            <param name="registry">The registry.</param>
+        </member>
+        <member name="M:MvcExtensions.ConfigureFiltersBase.Execute">
+            <summary>
+            Executes the task.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ConfigureFiltersBase.Configure">
+            <summary>
+            Configures the filters.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ConfigureFiltersBase.Registry">
+            <summary>
+            Gets the filter registry.
+            </summary>
+            <value>The filter registry.</value>
+        </member>
+        <member name="T:MvcExtensions.Bootstrapper">
+            <summary>
+            Defines a base class which is used to execute application startup and cleanup tasks.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IBootstrapper">
+            <summary>
+            Represents an interface which is used to execute <seealso cref="T:MvcExtensions.BootstrapperTask"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IBootstrapper.Execute">
+            <summary>
+            Executes the <seealso cref="T:MvcExtensions.BootstrapperTask"/>.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.IBootstrapper.Adapter">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="M:MvcExtensions.Bootstrapper.#ctor(MvcExtensions.IBuildManager)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.Bootstrapper"/> class.
+            </summary>
+            <param name="buildManager">The build manager.</param>
+        </member>
+        <member name="M:MvcExtensions.Bootstrapper.Execute">
+            <summary>
+            Executes the <seealso cref="T:MvcExtensions.BootstrapperTask"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Bootstrapper.CreateAdapter">
+            <summary>
+            Creates the container adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.Bootstrapper.LoadModules">
+            <summary>
+            Loads the container specific modules.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Bootstrapper.DisposeCore">
+            <summary>
+            Disposes the resources.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.Bootstrapper.Adapter">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.Bootstrapper.BuildManager">
+            <summary>
+            Gets  the build manager.
+            </summary>
+            <value>The build manager.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterControllerFactory">
+            <summary>
+            Defines a class which is used to register the default <seealso cref="T:System.Web.Mvc.IControllerFactory"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterControllerFactory.#ctor(MvcExtensions.ContainerAdapter,System.Web.Mvc.ControllerBuilder)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterControllerFactory"/> class.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="controllerBuilder">The controller builder.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterControllerFactory.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllerFactory.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterControllerFactory"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllerFactory.ControllerFactoryType">
+            <summary>
+            Gets or sets the type of the controller factory.
+            </summary>
+            <value>The type of the controller factory.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllerFactory.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterControllerFactory.ControllerBuilder">
+            <summary>
+            Gets or sets the controller builder.
+            </summary>
+            <value>The controller builder.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterModelBinders">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:System.Web.Mvc.IModelBinder"/> that is decorated with <seealso cref="T:MvcExtensions.BindingTypeAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterModelBinders.#ctor(MvcExtensions.ContainerAdapter,System.Web.Mvc.ModelBinderDictionary)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterModelBinders"/> class.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="binders">The binders.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterModelBinders.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelBinders.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterModelBinders"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelBinders.IgnoredTypes">
+            <summary>
+            Gets the ignored model binder types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelBinders.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelBinders.Binders">
+            <summary>
+            Gets or sets the binders.
+            </summary>
+            <value>The binders.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterRoutesBase">
+            <summary>
+            Defines a base class to configure <seealso cref="T:System.Web.Routing.RouteTable"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterRoutesBase.#ctor(System.Web.Routing.RouteCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterRoutesBase"/> class.
+            </summary>
+            <param name="routes">The routes.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterRoutesBase.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.RegisterRoutesBase.Register">
+            <summary>
+            Registers the routes.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.RegisterRoutesBase.Routes">
+            <summary>
+            Gets the routes.
+            </summary>
+            <value>The routes.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterViewEngines">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:System.Web.Mvc.IViewEngine"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterViewEngines.#ctor(MvcExtensions.ContainerAdapter,System.Web.Mvc.ViewEngineCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterViewEngines"/> class.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="viewEngines">The view engines.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterViewEngines.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterViewEngines.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterViewEngines"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterViewEngines.IgnoredTypes">
+            <summary>
+            Gets the ignored model binder types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterViewEngines.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterViewEngines.ViewEngines">
+            <summary>
+            Gets the view engines.
+            </summary>
+            <value>The view engines.</value>
+        </member>
+        <member name="T:MvcExtensions.EnumerableExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.EnumerableExtensions.Each``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Executes the provided action for each item.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="instance">The instance.</param>
+            <param name="action">The action.</param>
+        </member>
+        <member name="T:MvcExtensions.TypeExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:System.Type"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.TypeExtensions.HasDefaultConstructor(System.Type)">
+            <summary>
+            Determines whether the specified type has parameter less constructor..
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns>
+            <c>true</c> if parameter less constructor exists; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.TypeExtensions.PublicTypes(System.Reflection.Assembly)">
+            <summary>
+            Gets the public types of the given assembly.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeExtensions.PublicTypes(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Gets the public types of the given assemblies.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeExtensions.ConcreteTypes(System.Reflection.Assembly)">
+            <summary>
+            Gets the concretes types of the given assembly.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.TypeExtensions.ConcreteTypes(System.Collections.Generic.IEnumerable{System.Reflection.Assembly})">
+            <summary>
+            Gets the concretes types of the given assemblies.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ExtendedControllerActionInvoker">
+            <summary>
+            The default <seealso cref="T:System.Web.Mvc.IActionInvoker"/> which supports the fluent filter registration and dependency injection.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedControllerActionInvoker.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedControllerActionInvoker"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedControllerActionInvoker.GetFilters(System.Web.Mvc.ControllerContext,System.Web.Mvc.ActionDescriptor)">
+            <summary>
+            Retrieves information about the action filters.
+            </summary>
+            <param name="controllerContext">The controller context.</param>
+            <param name="actionDescriptor">The action descriptor.</param>
+            <returns>Information about the action filters.</returns>
+        </member>
+        <member name="P:MvcExtensions.ExtendedControllerActionInvoker.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedControllerFactory">
+            <summary>
+            The Default IoC backed <seealso cref="T:System.Web.Mvc.IControllerFactory"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedControllerFactory.#ctor(MvcExtensions.ContainerAdapter,MvcExtensions.IActionInvokerRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedControllerFactory"/> class.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="actionInvokerRegistry">The action invoker registry.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedControllerFactory.GetControllerInstance(System.Web.Routing.RequestContext,System.Type)">
+            <summary>
+            Retrieves the controller instance for the specified request context and controller type.
+            </summary>
+            <param name="requestContext">The context of the HTTP request, which includes the HTTP context and route data.</param>
+            <param name="controllerType">The type of the controller.</param>
+            <returns>The controller instance.</returns>
+            <exception cref="T:System.Web.HttpException">
+            <paramref name="controllerType"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="controllerType"/> cannot be assigned.</exception>
+            <exception cref="T:System.InvalidOperationException">An instance of <paramref name="controllerType"/> cannot be created.</exception>
+        </member>
+        <member name="P:MvcExtensions.ExtendedControllerFactory.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.ExtendedControllerFactory.ActionInvokerRegistry">
+            <summary>
+            Gets the action invoker registry.
+            </summary>
+            <value>The action invoker registry.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedMvcApplication">
+            <summary>
+            Defines a base class to manage application life cycle.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.Init">
+            <summary>
+            Executes custom initialization code after all event handler modules have been added.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.Application_Start">
+            <summary>
+            Fires when the application starts.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.Application_End">
+            <summary>
+            Fires when the application ends.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.CreateBootstrapper">
+            <summary>
+            Creates the bootstrapper.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnStart">
+            <summary>
+            Executes when the application starts.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnBeginRequest(System.Web.HttpContextBase)">
+            <summary>
+            Called when request starts.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnPerRequestTasksExecuting">
+            <summary>
+            Executes before the registered <see cref="T:MvcExtensions.PerRequestTask"/> executes.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnPerRequestTasksExecuted">
+            <summary>
+            Executes after the registered <see cref="T:MvcExtensions.PerRequestTask"/> executes.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnEndRequest(System.Web.HttpContextBase)">
+            <summary>
+            Executes when the request ends.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnPerRequestTasksDisposing">
+            <summary>
+            Executes before the registered <see cref="T:MvcExtensions.PerRequestTask"/> disposes.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnPerRequestTasksDisposed">
+            <summary>
+            Executes after the registered <see cref="T:MvcExtensions.PerRequestTask"/> disposes.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.OnEnd">
+            <summary>
+            Executes when the application ends.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedMvcApplication.GetCurrentAdapter">
+            <summary>
+            Gets the current adapter.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.ExtendedMvcApplication.Bootstrapper">
+            <summary>
+            Gets the bootstrapper.
+            </summary>
+            <value>The bootstrapper.</value>
+        </member>
+        <member name="P:MvcExtensions.ExtendedMvcApplication.Adapter">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.Invariant">
+            <summary>
+            Defines a utility class to validate method arguments.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.Invariant.IsNotNull(System.Object,System.String)">
+            <summary>
+            Determines whether the given argument is not null.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="parameterName">Name of the parameter.</param>
+        </member>
+        <member name="T:MvcExtensions.ExceptionMessages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression">
+            <summary>
+              Looks up a localized string similar to Cannot apply email when there is an active expression..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression">
+            <summary>
+              Looks up a localized string similar to Cannot apply url when there is an active expression..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.CannotBeNull">
+            <summary>
+              Looks up a localized string similar to &quot;{0}&quot; cannot be null..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.CannotHaveMoreThanOneModelBinderForTheSameModelType">
+            <summary>
+              Looks up a localized string similar to Cannot have more than one model binder &quot;{0}&quot; for the same model type &quot;{1}&quot;..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.InvalidActionInvokerTypeTypeMustImplementIActionInvoker">
+            <summary>
+              Looks up a localized string similar to Invalid action invoker type. Type must implement &quot;IActionInvoker&quot;..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.InvalidControllerTypeTypeMustBeAInheritedFromController">
+            <summary>
+              Looks up a localized string similar to Invalid controller type. Type must be a inherited from &quot;Controller&quot;..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.InvalidEmailAddressFormat">
+            <summary>
+              Looks up a localized string similar to Invalid email address format..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.InvalidUrlFormat">
+            <summary>
+              Looks up a localized string similar to Invalid url format..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.IsNotATargetType">
+            <summary>
+              Looks up a localized string similar to &quot;{0}&quot; is not a &quot;{1}&quot; type..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.JsonGet">
+            <summary>
+              Looks up a localized string similar to This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.MustBeAValidClass">
+            <summary>
+              Looks up a localized string similar to &quot;{0}&quot; must be a valid class..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.TheExpressionMustBeAValidControllerAction">
+            <summary>
+              Looks up a localized string similar to The expression must be a valid controller action..
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound">
+            <summary>
+              Looks up a localized string similar to The property {0}.{1} could not be found..
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.RegisterValueProviderFactories">
+            <summary>
+            Defines a class which is used to register available <seealso cref="T:System.Web.Mvc.ValueProviderFactory"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterValueProviderFactories.#ctor(MvcExtensions.ContainerAdapter,System.Web.Mvc.ValueProviderFactoryCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterValueProviderFactories"/> class.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="valueProviderFactories">The value provider factories.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterValueProviderFactories.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterValueProviderFactories.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterValueProviderFactories"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterValueProviderFactories.IgnoredTypes">
+            <summary>
+            Gets the ignored value provider factory types.
+            </summary>
+            <value>The ignored types.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterValueProviderFactories.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterValueProviderFactories.ValueProviderFactories">
+            <summary>
+            Gets the value provider factories.
+            </summary>
+            <value>The value provider factories.</value>
+        </member>
+        <member name="T:MvcExtensions.RegisterModelMetadata">
+            <summary>
+            Defines a class which is used to register the default <seealso cref="T:System.Web.Mvc.ModelMetadataProvider"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RegisterModelMetadata.#ctor(MvcExtensions.ContainerAdapter)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.RegisterModelMetadata"/> class.
+            </summary>
+            <param name="container">The container.</param>
+        </member>
+        <member name="M:MvcExtensions.RegisterModelMetadata.Execute">
+            <summary>
+            Executes the task. Returns continuation of the next task(s) in the chain.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelMetadata.Excluded">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="T:MvcExtensions.RegisterModelMetadata"/> should be excluded.
+            </summary>
+            <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.RegisterModelMetadata.Container">
+            <summary>
+            Gets the container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedRangeValidator`1">
+            <summary>
+            Defines a class that is used to validate range.
+            </summary>
+            <typeparam name="TValueType">The type of the value type.</typeparam>
+        </member>
+        <member name="T:MvcExtensions.ExtendedValidator`1">
+            <summary>
+            Defines a base class that is used to validate model value.
+            </summary>
+            <typeparam name="TValidationAttribute">The type of the validation attribute.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.ExtendedValidator`1.#ctor(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedValidator`1"/> class.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="controllerContext">The controller context.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedValidator`1.Validate(System.Object)">
+            <summary>
+            When implemented in a derived class, validates the object.
+            </summary>
+            <param name="container">The container.</param>
+            <returns>A list of validation results.</returns>
+        </member>
+        <member name="M:MvcExtensions.ExtendedValidator`1.PopulateErrorMessage(MvcExtensions.IModelValidationMetadata)">
+            <summary>
+            Populates the error message from the given metadata.
+            </summary>
+            <param name="validationMetadata">The validation metadata.</param>
+        </member>
+        <member name="P:MvcExtensions.ExtendedValidator`1.Attribute">
+            <summary>
+            Gets the attribute.
+            </summary>
+            <value>The attribute.</value>
+        </member>
+        <member name="P:MvcExtensions.ExtendedValidator`1.ErrorMessage">
+            <summary>
+            Gets the error message.
+            </summary>
+            <value>The error message.</value>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRangeValidator`1.#ctor(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext,MvcExtensions.ModelValidationMetadata)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedRangeValidator`1"/> class.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="controllerContext">The controller context.</param>
+            <param name="validationMetadata">The validation metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRangeValidator`1.GetClientValidationRules">
+            <summary>
+            Gets metadata for client validation.
+            </summary>
+            <returns>The metadata for client validation.</returns>
+        </member>
+        <member name="T:MvcExtensions.RegularExpressionValidationMetadata">
+            <summary>
+            Represents a class to store regular expression validation metadata.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.ModelValidationMetadata">
+            <summary>
+            Represents a base class to store validation metadata.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.IModelValidationMetadata">
+            <summary>
+            Represents an interface to store validation metadata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IModelValidationMetadata.CreateValidator(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.IModelValidationMetadata.ErrorMessage">
+            <summary>
+            Gets or sets the error message.
+            </summary>
+            <value>The error message.</value>
+        </member>
+        <member name="P:MvcExtensions.IModelValidationMetadata.ErrorMessageResourceType">
+            <summary>
+            Gets or sets the type of the error message resource.
+            </summary>
+            <value>The type of the error message resource.</value>
+        </member>
+        <member name="P:MvcExtensions.IModelValidationMetadata.ErrorMessageResourceName">
+            <summary>
+            Gets or sets the name of the error message resource.
+            </summary>
+            <value>The name of the error message resource.</value>
+        </member>
+        <member name="M:MvcExtensions.ModelValidationMetadata.CreateValidator(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelValidationMetadata.CreateValidatorCore(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.ModelValidationMetadata.ErrorMessage">
+            <summary>
+            Gets or sets the error message.
+            </summary>
+            <value>The error message.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelValidationMetadata.ErrorMessageResourceType">
+            <summary>
+            Gets or sets the type of the error message resource.
+            </summary>
+            <value>The type of the error message resource.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelValidationMetadata.ErrorMessageResourceName">
+            <summary>
+            Gets or sets the name of the error message resource.
+            </summary>
+            <value>The name of the error message resource.</value>
+        </member>
+        <member name="M:MvcExtensions.RegularExpressionValidationMetadata.CreateValidatorCore(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RegularExpressionValidationMetadata.Pattern">
+            <summary>
+            Gets or sets the pattern.
+            </summary>
+            <value>The pattern.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedRegularExpressionValidator">
+            <summary>
+            Defines a class that is used to validate regular expression.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRegularExpressionValidator.#ctor(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext,MvcExtensions.ModelValidationMetadata)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedRegularExpressionValidator"/> class.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="controllerContext">The controller context.</param>
+            <param name="validationMetadata">The validation metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRegularExpressionValidator.GetClientValidationRules">
+            <summary>
+            Gets metadata for client validation.
+            </summary>
+            <returns>The metadata for client validation.</returns>
+        </member>
+        <member name="T:MvcExtensions.ExtendedModelMetadata">
+            <summary>
+            Defines a metadata class which supports fluent metadata registration.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelMetadata.#ctor(System.Web.Mvc.ModelMetadataProvider,System.Type,System.Func{System.Object},System.Type,System.String,MvcExtensions.ModelMetadataItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedModelMetadata"/> class.
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="containerType">Type of the container.</param>
+            <param name="modelAccessor">The model accessor.</param>
+            <param name="modelType">Type of the model.</param>
+            <param name="propertyName">Name of the property.</param>
+            <param name="metadata">The metadata.</param>
+        </member>
+        <member name="P:MvcExtensions.ExtendedModelMetadata.Metadata">
+            <summary>
+            Gets or sets the metadata.
+            </summary>
+            <value>The metadata.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedRequiredValidator">
+            <summary>
+            Defines a class that is used to validate whether a value is specified.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRequiredValidator.#ctor(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext,MvcExtensions.IModelValidationMetadata)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedRequiredValidator"/> class.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="controllerContext">The controller context.</param>
+            <param name="validationMetadata">The validation metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedRequiredValidator.GetClientValidationRules">
+            <summary>
+            Gets metadata for client validation.
+            </summary>
+            <returns>The metadata for client validation.</returns>
+        </member>
+        <member name="T:MvcExtensions.ExtendedStringLengthValidator">
+            <summary>
+            Defines a class that is used to validate string length.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedStringLengthValidator.#ctor(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext,MvcExtensions.ModelValidationMetadata)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedStringLengthValidator"/> class.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="controllerContext">The controller context.</param>
+            <param name="validationMetadata">The validation metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedStringLengthValidator.GetClientValidationRules">
+            <summary>
+            Gets metadata for client validation.
+            </summary>
+            <returns>The metadata for client validation.</returns>
+        </member>
+        <member name="T:MvcExtensions.IModelMetadataFormattableItem">
+            <summary>
+            Represents an interface of a metadata that supports formatting.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.IModelMetadataFormattableItem.DisplayFormat">
+            <summary>
+            Gets or sets the display format.
+            </summary>
+            <value>The display format.</value>
+        </member>
+        <member name="P:MvcExtensions.IModelMetadataFormattableItem.EditFormat">
+            <summary>
+            Gets or sets the edit format.
+            </summary>
+            <value>The edit format.</value>
+        </member>
+        <member name="P:MvcExtensions.IModelMetadataFormattableItem.ApplyFormatInEditMode">
+            <summary>
+            Gets or sets a value indicating whether to apply format in edit mode.
+            </summary>
+            <value>
+            <c>true</c> if [apply format in edit mode]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:MvcExtensions.IModelMetadataRegistry">
+            <summary>
+            Represents an interface to store all the metadata of the models.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.IModelMetadataRegistry.RegisterModel(System.Type,MvcExtensions.ModelMetadataItem)">
+            <summary>
+            Registers the model type metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="metadataItem">The metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.IModelMetadataRegistry.RegisterModelProperties(System.Type,System.Collections.Generic.IDictionary{System.String,MvcExtensions.ModelMetadataItem})">
+            <summary>
+            Registers the specified model type properties metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="metadataItems">The metadata dictionary.</param>
+        </member>
+        <member name="M:MvcExtensions.IModelMetadataRegistry.GetModelMetadata(System.Type)">
+            <summary>
+            Gets the model metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.IModelMetadataRegistry.GetModelPropertyMetadata(System.Type,System.String)">
+            <summary>
+            Gets the model property metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="propertyName">Name of the property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.IModelMetadataRegistry.GetModelPropertiesMetadata(System.Type)">
+            <summary>
+            Gets the model properties metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.StringLengthValidationMetadata">
+            <summary>
+            Represents a class to store string length validation metadata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.StringLengthValidationMetadata.CreateValidatorCore(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.StringLengthValidationMetadata.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="T:MvcExtensions.ModelMetadataItem">
+            <summary>
+            Defines a base class that is used to store metadata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItem.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ModelMetadataItem"/> class.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.DisplayName">
+            <summary>
+            Gets or sets the display name.
+            </summary>
+            <value>The display name.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.ShortDisplayName">
+            <summary>
+            Gets or sets the short name of the display.
+            </summary>
+            <value>The short name of the display.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.TemplateName">
+            <summary>
+            Gets or sets the name of the template.
+            </summary>
+            <value>The name of the template.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.Description">
+            <summary>
+            Gets or sets the description.
+            </summary>
+            <value>The description.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.IsReadOnly">
+            <summary>
+            Gets or sets the whether associate model is read only.
+            </summary>
+            <value>The is read only.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.IsRequired">
+            <summary>
+            Gets or sets the whether associate model is required.
+            </summary>
+            <value>The is required.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.HideSurroundingHtml">
+            <summary>
+            Gets or sets the hide surrounding HTML.
+            </summary>
+            <value>The hide surrounding HTML.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.ShowForDisplay">
+            <summary>
+            Gets or sets a value indicating whether to show for display.
+            </summary>
+            <value><c>true</c> if [show for display]; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.ShowForEdit">
+            <summary>
+            Gets or sets a value indicating whether to show for edit.
+            </summary>
+            <value>The show for edit.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.NullDisplayText">
+            <summary>
+            Gets or sets the null display text.
+            </summary>
+            <value>The null display text.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.Watermark">
+            <summary>
+            Gets or sets the watermark.
+            </summary>
+            <value>The watermark.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.Validations">
+            <summary>
+            Gets or the validations metadata.
+            </summary>
+            <value>The validations.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItem.AdditionalSettings">
+            <summary>
+            Gets the additional settings.
+            </summary>
+            <value>The additional settings.</value>
+        </member>
+        <member name="T:MvcExtensions.ModelMetadataItemBuilder`2">
+            <summary>
+            Defines a base class to fluently configure metadata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ModelMetadataItemBuilder`2"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.DisplayName(System.String)">
+            <summary>
+            Sets the Display name.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.DisplayName(System.Func{System.String})">
+            <summary>
+            Sets the Display name.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.ShortDisplayName(System.String)">
+            <summary>
+            Sets the short display name.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.ShortDisplayName(System.Func{System.String})">
+            <summary>
+            Sets the short display name.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Template(System.String)">
+            <summary>
+            Sets the Templates name.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Description(System.String)">
+            <summary>
+            Sets the Description.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Description(System.Func{System.String})">
+            <summary>
+            Sets the Description.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.ReadOnly">
+            <summary>
+            Marks the value as read only.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Writable">
+            <summary>
+            Marks the value as writable, this is handy when the framework initializes the
+            value as read only and you want to negate it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Required">
+            <summary>
+            Marks the value as required.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Required(System.String)">
+            <summary>
+            Marks the value as required.
+            </summary>
+            <param name="errorMessage">The error message when the value is not specified.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Required(System.Func{System.String})">
+            <summary>
+            Marks the value as required.
+            </summary>
+            <param name="errorMessage">The error message when the value is not specified.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Required(System.Type,System.String)">
+            <summary>
+            Marks the value as required.
+            </summary>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Optional">
+            <summary>
+            Marks the value as optional, this is handy when the framework initializes the 
+            value as required and you want to negate it.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.AsHidden">
+            <summary>
+            Marks the value to render as hidden input element in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.AsHidden(System.Boolean)">
+            <summary>
+            Marks the value to render as hidden input element in edit mode.
+            </summary>
+            <param name="hideSurroundingHtml">Indicates whether the value will appear in display mode</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.ShowForDisplay">
+            <summary>
+            Shows the value in display mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.HideForDisplay">
+            <summary>
+            Hides the value in display mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.ShowForEdit">
+            <summary>
+            Shows the value in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.HideForEdit">
+            <summary>
+            Hides the value in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Show">
+            <summary>
+            Shows the value in both display and edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Hide">
+            <summary>
+            Hides the value in both display and edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.NullDisplayText(System.String)">
+            <summary>
+            Sets the display text when the value is null.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.NullDisplayText(System.Func{System.String})">
+            <summary>
+            Sets the display text when the value is null.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Watermark(System.String)">
+            <summary>
+            Sets the Watermark.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Watermark(System.Func{System.String})">
+            <summary>
+            Sets the Watermark.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.Required(System.Func{System.String},System.Type,System.String)">
+            <summary>
+            Marks the value as required.
+            </summary>
+            <param name="errorMessage">The error message.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataItemBuilder`2.MvcExtensions#IFluentSyntax#GetType">
+            <summary>
+            Defines a base class to fluently configure metadata.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItemBuilder`2.Item">
+            <summary>
+            Gets the internal item.
+            </summary>
+            <value>The item.</value>
+        </member>
+        <member name="T:MvcExtensions.ModelMetadataRegistry">
+            <summary>
+            Defines a class to store all the metadata of the models.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataRegistry.RegisterModel(System.Type,MvcExtensions.ModelMetadataItem)">
+            <summary>
+            Registers the model type metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="metadataItem">The metadata.</param>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataRegistry.RegisterModelProperties(System.Type,System.Collections.Generic.IDictionary{System.String,MvcExtensions.ModelMetadataItem})">
+            <summary>
+            Registers the specified model type properties metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="metadataItems">The metadata dictionary.</param>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataRegistry.GetModelMetadata(System.Type)">
+            <summary>
+            Gets the model metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataRegistry.GetModelPropertyMetadata(System.Type,System.String)">
+            <summary>
+            Gets the model property metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <param name="propertyName">Name of the property.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataRegistry.GetModelPropertiesMetadata(System.Type)">
+            <summary>
+            Gets the model properties metadata.
+            </summary>
+            <param name="modelType">Type of the model.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ValueTypeMetadataItem">
+            <summary>
+            Defines a class that is used to store <seealso cref="T:System.ValueType"/> metadata.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ValueTypeMetadataItem.DisplayFormat">
+            <summary>
+            Gets or sets the display format.
+            </summary>
+            <value>The display format.</value>
+        </member>
+        <member name="P:MvcExtensions.ValueTypeMetadataItem.EditFormat">
+            <summary>
+            Gets or sets the edit format.
+            </summary>
+            <value>The edit format.</value>
+        </member>
+        <member name="P:MvcExtensions.ValueTypeMetadataItem.ApplyFormatInEditMode">
+            <summary>
+            Gets or sets a value indicating whether to apply format in edit mode.
+            </summary>
+            <value>
+            <c>true</c> if [apply format in edit mode]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:MvcExtensions.ValueTypeMetadataItemBuilder`1">
+            <summary>
+            Defines a class to fluently configure metadata of a <seealso cref="T:System.ValueType"/> type.
+            </summary>
+            <typeparam name="TValueType">The type of the value type.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.#ctor(MvcExtensions.ValueTypeMetadataItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ValueTypeMetadataItemBuilder`1"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.DisplayFormat(System.String)">
+            <summary>
+            Sets the format in display mode.
+            </summary>
+            <param name="format">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.DisplayFormat(System.Func{System.String})">
+            <summary>
+            Sets the format in display mode.
+            </summary>
+            <param name="format">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.EditFormat(System.String)">
+            <summary>
+            Sets the format in edit mode.
+            </summary>
+            <param name="format">The format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.EditFormat(System.Func{System.String})">
+            <summary>
+            Sets the format in edit mode.
+            </summary>
+            <param name="format">The format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Format(System.String)">
+            <summary>
+            Sets format for both display and edit mode.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Format(System.Func{System.String})">
+            <summary>
+            Sets format for both display and edit mode.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.ApplyFormatInEditMode">
+            <summary>
+            Indicates to apply format in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Range(`0,`0)">
+            <summary>
+            Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="minimum">The minimum.</param>
+            <param name="maximum">The maximum.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Range(`0,`0,System.String)">
+            <summary>
+            Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="minimum">The minimum.</param>
+            <param name="maximum">The maximum.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Range(`0,`0,System.Func{System.String})">
+            <summary>
+            Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="minimum">The minimum.</param>
+            <param name="maximum">The maximum.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Range(`0,`0,System.Type,System.String)">
+            <summary>
+            Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="minimum">The minimum.</param>
+            <param name="maximum">The maximum.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilder`1.Range(`0,`0,System.Func{System.String},System.Type,System.String)">
+            <summary>
+            Sets the range of value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="minimum">The minimum.</param>
+            <param name="maximum">The maximum.</param>
+            <param name="errorMessage">The error message.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ObjectMetadataItem">
+            <summary>
+            Defines a base class that is used to store unknown object's metadata.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.ObjectMetadataItemBuilder`1">
+            <summary>
+            Defines a class to fluently configure metadata of a model.
+            </summary>
+            <typeparam name="TModel">The type of the model.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.#ctor(MvcExtensions.ObjectMetadataItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ObjectMetadataItemBuilder`1"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsDropDownList(System.String)">
+            <summary>
+            Marks the value to render as DropDownList element in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="T:System.Collections.Generic.IEnumerable`1"/>.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsDropDownList(System.String,System.String)">
+            <summary>
+            Marks the value to render as DropDownList element in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="T:System.Collections.Generic.IEnumerable`1"/>.</param>
+            <param name="optionLabel">The option label.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsDropDownList(System.String,System.Func{System.String})">
+            <summary>
+            Marks the value to render as DropDownList element in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="T:System.Collections.Generic.IEnumerable`1"/>.</param>
+            <param name="optionLabel">The option label.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsDropDownList(System.String,System.String,System.String)">
+            <summary>
+            Marks the value to render as DropDownList element in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key.</param>
+            <param name="optionLabel">The option label.</param>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsDropDownList(System.String,System.Func{System.String},System.String)">
+            <summary>
+            Marks the value to render as DropDownList element in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key.</param>
+            <param name="optionLabel">The option label.</param>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsListBox(System.String)">
+            <summary>
+            Marks the value to render as ListBox in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="T:System.Collections.Generic.IEnumerable`1"/>.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.AsListBox(System.String,System.String)">
+            <summary>
+            Marks the value to render as ListBox in edit mode.
+            </summary>
+            <param name="viewDataKey">The view data key.</param>
+            <param name="template">The template.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ObjectMetadataItemBuilder`1.HtmlSelect(System.String,System.String,System.Func{System.String})">
+            <summary>
+            Render the value using the specified template.
+            </summary>
+            <param name="templateName">Name of the template.</param>
+            <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="T:System.Collections.Generic.IEnumerable`1"/>.</param>
+            <param name="optionLabel">The option label.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.RangeValidationMetadata`1">
+            <summary>
+            Represents a class to store range validation metadata.
+            </summary>
+            <typeparam name="TValueType">The type of the value type.</typeparam>
+        </member>
+        <member name="M:MvcExtensions.RangeValidationMetadata`1.CreateValidatorCore(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.RangeValidationMetadata`1.Minimum">
+            <summary>
+            Gets or sets the minimum.
+            </summary>
+            <value>The minimum.</value>
+        </member>
+        <member name="P:MvcExtensions.RangeValidationMetadata`1.Maximum">
+            <summary>
+            Gets or sets the maximum.
+            </summary>
+            <value>The maximum.</value>
+        </member>
+        <member name="T:MvcExtensions.RequiredValidationMetadata">
+            <summary>
+            Represents a class to store required validation metadata.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.RequiredValidationMetadata.CreateValidatorCore(MvcExtensions.ExtendedModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Creates the validator.
+            </summary>
+            <param name="modelMetadata">The model metadata.</param>
+            <param name="context">The context.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.StringMetadataItem">
+            <summary>
+            Defines a class that is used to store <seealso cref="T:System.String"/> metadata.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItem.DisplayFormat">
+            <summary>
+            Gets or sets the display format.
+            </summary>
+            <value>The display format.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItem.EditFormat">
+            <summary>
+            Gets or sets the edit format.
+            </summary>
+            <value>The edit format.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItem.ApplyFormatInEditMode">
+            <summary>
+            Gets or sets a value indicating whether to apply format in edit mode.
+            </summary>
+            <value>
+            <c>true</c> if [apply format in edit mode]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItem.ConvertEmptyStringToNull">
+            <summary>
+            Gets or sets a value indicating whether the value would be converted to null when the value is empty string.
+            </summary>
+            <value>
+            <c>true</c> if [convert empty string to null]; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:MvcExtensions.StringMetadataItemBuilder">
+            <summary>
+            Defines a class to fluently configure metadata of a <seealso cref="T:System.String"/> type.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.#ctor(MvcExtensions.StringMetadataItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.StringMetadataItemBuilder"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.DisplayFormat(System.String)">
+            <summary>
+            Sets the format in display mode.
+            </summary>
+            <param name="format">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.DisplayFormat(System.Func{System.String})">
+            <summary>
+            Sets the format in display mode.
+            </summary>
+            <param name="format">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.EditFormat(System.String)">
+            <summary>
+            Sets the format in edit mode.
+            </summary>
+            <param name="format">The format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.EditFormat(System.Func{System.String})">
+            <summary>
+            Sets the format in edit mode.
+            </summary>
+            <param name="format">The format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Format(System.String)">
+            <summary>
+            Sets format for both display and edit mode.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Format(System.Func{System.String})">
+            <summary>
+            Sets format for both display and edit mode.
+            </summary>
+            <param name="value">The value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.ApplyFormatInEditMode">
+            <summary>
+            Indicates to apply format in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.AsEmail">
+            <summary>
+            Indicates that the value would appear as email address in display mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.AsHtml">
+            <summary>
+            Indicates that the value would appear as raw html in display mode, so no encoding will be performed.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.AsUrl">
+            <summary>
+            Indicates that the value would appear as url in display mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.AsMultilineText">
+            <summary>
+            Marks the value to render as text area element in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.AsPassword">
+            <summary>
+            Marks the value to render as password element in edit mode.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Expression(System.String)">
+            <summary>
+            Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Expression(System.String,System.String)">
+            <summary>
+            Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Expression(System.String,System.Func{System.String})">
+            <summary>
+            Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Expression(System.String,System.Type,System.String)">
+            <summary>
+            Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.MaximumLength(System.Int32)">
+            <summary>
+            Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="length">The length.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.MaximumLength(System.Int32,System.String)">
+            <summary>
+            Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="length">The length.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.MaximumLength(System.Int32,System.Func{System.String})">
+            <summary>
+            Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="length">The length.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.MaximumLength(System.Int32,System.Type,System.String)">
+            <summary>
+            Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="length">The length.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.Expression(System.String,System.Func{System.String},System.Type,System.String)">
+            <summary>
+            Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="pattern">The pattern.</param>
+            <param name="errorMessage">The error message.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.StringMetadataItemBuilder.MaximumLength(System.Int32,System.Func{System.String},System.Type,System.String)">
+            <summary>
+            Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+            </summary>
+            <param name="length">The length.</param>
+            <param name="errorMessage">The error message.</param>
+            <param name="errorMessageResourceType">Type of the error message resource.</param>
+            <param name="errorMessageResourceName">Name of the error message resource.</param>
+            <returns></returns>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.EmailExpression">
+            <summary>
+            Gets or sets the email expression.
+            </summary>
+            <value>The email expression.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.EmailErrorMessage">
+            <summary>
+            Gets or sets the email error message.
+            </summary>
+            <value>The email error message.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.EmailErrorMessageResourceType">
+            <summary>
+            Gets or sets the type of the email error message resource.
+            </summary>
+            <value>The type of the email error message resource.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.EmailErrorMessageResourceName">
+            <summary>
+            Gets or sets the name of the email error message resource.
+            </summary>
+            <value>The name of the email error message resource.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.UrlExpression">
+            <summary>
+            Gets or sets the URL expression.
+            </summary>
+            <value>The URL expression.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.UrlErrorMessage">
+            <summary>
+            Gets or sets the URL error message.
+            </summary>
+            <value>The URL error message.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.UrlErrorMessageResourceType">
+            <summary>
+            Gets or sets the type of the URL error message resource.
+            </summary>
+            <value>The type of the URL error message resource.</value>
+        </member>
+        <member name="P:MvcExtensions.StringMetadataItemBuilder.UrlErrorMessageResourceName">
+            <summary>
+            Gets or sets the name of the URL error message resource.
+            </summary>
+            <value>The name of the URL error message resource.</value>
+        </member>
+        <member name="T:MvcExtensions.BooleanMetadataItem">
+            <summary>
+            Defines a class that is used to store <seealso cref="T:System.Boolean"/> metadata.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.BooleanMetadataItemBuilder">
+            <summary>
+            Defines a class to fluently configure metadata of a <seealso cref="T:System.Boolean"/> type.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.BooleanMetadataItemBuilder.#ctor(MvcExtensions.BooleanMetadataItem)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.BooleanMetadataItemBuilder"/> class.
+            </summary>
+            <param name="item">The item.</param>
+        </member>
+        <member name="T:MvcExtensions.IModelMetadataAdditionalSetting">
+            <summary>
+            Represents a marker interface for model metadata additional setting.
+            </summary>
+        </member>
+        <member name="T:MvcExtensions.ModelMetadataItemSelectableElementSetting">
+            <summary>
+            Define a class that is used to store the selectable element setting.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItemSelectableElementSetting.ViewDataKey">
+            <summary>
+            Gets or sets the view data key.
+            </summary>
+            <value>The view data key.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataItemSelectableElementSetting.OptionLabel">
+            <summary>
+            Gets or sets the option label.
+            </summary>
+            <value>The option label.</value>
+        </member>
+        <member name="T:MvcExtensions.ValueTypeMetadataItemBuilderExtensions">
+            <summary>
+            Defines an static class which contains extension methods of <see cref="T:MvcExtensions.ValueTypeMetadataItemBuilder`1"/>.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsCurrency(MvcExtensions.ValueTypeMetadataItemBuilder{System.Decimal})">
+            <summary>
+            Shows the value in currency format in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsCurrency(MvcExtensions.ValueTypeMetadataItemBuilder{System.Nullable{System.Decimal}})">
+            <summary>
+            Shows the value in currency format in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsDateOnly(MvcExtensions.ValueTypeMetadataItemBuilder{System.DateTime})">
+            <summary>
+            Shows the only the date part of the value in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsDateOnly(MvcExtensions.ValueTypeMetadataItemBuilder{System.Nullable{System.DateTime}})">
+            <summary>
+            Shows the only the date part of the value in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsTimeOnly(MvcExtensions.ValueTypeMetadataItemBuilder{System.DateTime})">
+            <summary>
+            Shows the only the time part of the value in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ValueTypeMetadataItemBuilderExtensions.FormatAsTimeOnly(MvcExtensions.ValueTypeMetadataItemBuilder{System.Nullable{System.DateTime}})">
+            <summary>
+            Shows the only the time part of the value in both display and edit mode.
+            </summary>
+            <param name="instance">The instance.</param>
+            <returns></returns>
+        </member>
+        <member name="T:MvcExtensions.ExtendedModelValidatorProvider">
+            <summary>
+            Defines a model validator provider which support fluent registration.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelValidatorProvider.GetValidators(System.Web.Mvc.ModelMetadata,System.Web.Mvc.ControllerContext)">
+            <summary>
+            Gets a list of validators.
+            </summary>
+            <param name="metadata">The metadata.</param>
+            <param name="context">The context.</param>
+            <returns>A list of validators.</returns>
+        </member>
+        <member name="T:MvcExtensions.IModelMetadataConfiguration">
+            <summary>
+            Represents an interface to store metadata data of a model.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.IModelMetadataConfiguration.ModelType">
+            <summary>
+            Gets the type of the model.
+            </summary>
+            <value>The type of the model.</value>
+        </member>
+        <member name="P:MvcExtensions.IModelMetadataConfiguration.Configurations">
+            <summary>
+            Gets the configurations.
+            </summary>
+            <value>The configurations.</value>
+        </member>
+        <member name="T:MvcExtensions.ModelMetadataConfiguration`1">
+            <summary>
+            Defines a base class that is used to configure metadata of a model fluently.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.String}})">
+            <summary>
+            Configures the string value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Configures the boolean value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Boolean}}})">
+            <summary>
+            Configures the nullable boolean value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.DateTime}})">
+            <summary>
+            Configures the datetime value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.DateTime}}})">
+            <summary>
+            Configures the nullable datetime value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Byte}})">
+            <summary>
+            Configures the byte value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Byte}}})">
+            <summary>
+            Configures the nullable byte value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Int16}})">
+            <summary>
+            Configures the short value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Int16}}})">
+            <summary>
+            Configures the nullable short value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Int32}})">
+            <summary>
+            Configures the integer value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Int32}}})">
+            <summary>
+            Configures the nullable integer value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Int64}})">
+            <summary>
+            Configures the long value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Int64}}})">
+            <summary>
+            Configures the nullable long value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Single}})">
+            <summary>
+            Configures the float value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Single}}})">
+            <summary>
+            Configures the nullable float value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Double}})">
+            <summary>
+            Configures the double value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Double}}})">
+            <summary>
+            Configures the nullable double value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Decimal}})">
+            <summary>
+            Configures the decimal value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure(System.Linq.Expressions.Expression{System.Func{`0,System.Nullable{System.Decimal}}})">
+            <summary>
+            Configures the nullable decimal value.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Configure``1(System.Linq.Expressions.Expression{System.Func{`0,``0}})">
+            <summary>
+            Configures the specified value.
+            </summary>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.Append``2(System.Linq.Expressions.Expression{System.Func{`0,``1}})">
+            <summary>
+            Appends the specified configuration.
+            </summary>
+            <typeparam name="TItem">The type of the item.</typeparam>
+            <typeparam name="TType">The type of the type.</typeparam>
+            <param name="expression">The expression.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MvcExtensions.ModelMetadataConfiguration`1.MvcExtensions#IFluentSyntax#GetType">
+            <summary>
+            Defines a base class that is used to configure metadata of a model fluently.
+            </summary>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataConfiguration`1.ModelType">
+            <summary>
+            Gets the type of the model.
+            </summary>
+            <value>The type of the model.</value>
+        </member>
+        <member name="P:MvcExtensions.ModelMetadataConfiguration`1.Configurations">
+            <summary>
+            Gets the configurations.
+            </summary>
+            <value>The configurations.</value>
+        </member>
+        <member name="T:MvcExtensions.ExtendedModelMetadataProvider">
+            <summary>
+            Defines a metadata provider which supports fluent registration.
+            </summary>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelMetadataProvider.#ctor(MvcExtensions.IModelMetadataRegistry)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MvcExtensions.ExtendedModelMetadataProvider"/> class.
+            </summary>
+            <param name="registry">The registry.</param>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelMetadataProvider.GetMetadataForProperties(System.Object,System.Type)">
+            <summary>
+            Gets a <see cref="T:System.Web.Mvc.ModelMetadata"/> object for each property of a model.
+            </summary>
+            <param name="container">The container.</param>
+            <param name="containerType">The type of the container.</param>
+            <returns>
+            A <see cref="T:System.Web.Mvc.ModelMetadata"/> object for each property of a model.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelMetadataProvider.GetMetadataForProperty(System.Func{System.Object},System.Type,System.String)">
+            <summary>
+            Gets metadata for the specified property.
+            </summary>
+            <param name="modelAccessor">The model accessor.</param>
+            <param name="containerType">The type of the container.</param>
+            <param name="propertyName">The property to get the metadata model for.</param>
+            <returns>
+            The metadata model for the specified property.
+            </returns>
+        </member>
+        <member name="M:MvcExtensions.ExtendedModelMetadataProvider.GetMetadataForType(System.Func{System.Object},System.Type)">
+            <summary>
+            Gets metadata for the specified model accessor and model type.
+            </summary>
+            <param name="modelAccessor">The model accessor.</param>
+            <param name="modelType">They type of the model.</param>
+            <returns>The metadata.</returns>
+        </member>
+    </members>
+</doc>

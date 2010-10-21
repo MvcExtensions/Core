@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>MvcExtensions.Ninject.1.0</id>
+    <version>1.0</version>
+    <authors>
+      <author>Kazi Manzur Rashid (kazimanzurrashid@gmail.com)</author>
+    </authors>
+    <description>Ninject Adapter for ASP.NET MVC Extensions. ASP.NET MVC Extensions(http://mvcextensions.codeplex.com) is developed on top of ASP.NET MVC extensibility point, which allows your preferred IoC Container to rule everywhere.</description>
+    <language>en-US</language>
+		<keywords>
+			<keyword>ASP.NET</keyword>
+			<keyword>ASP.NET MVC</keyword>
+			<keyword>Inversion of Control</keyword>
+			<keyword>Dependency Injection</keyword>
+			<keyword>mvc</keyword>
+			<keyword>IoC</keyword>
+			<keyword>Ninject</keyword>
+			<keyword>Web</keyword>
+		<keywords>
+		<homepage>http://mvcextensions.codeplex.com</homepage>
+		<created>2010-10-21T5:24:00</created>
+    <modified>2010-10-21T5:24:00</modified>
+  </metadata>
+  <dependencies>
+		<dependency id="MicrosoftWebMvc" version="2.0"/>
+		<dependency id="CommonServiceLocator" version="1.0"/>
+		<dependency id="Ninject" version="2.0.1.0"/>
+  </dependencies>
+</package>
