@@ -45,13 +45,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\References\PnP\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+      <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>..\..\References\AspNetMvc2\System.Web.Mvc.dll</HintPath>
+      </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\References\Mvc2.0\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
