@@ -76,16 +76,6 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_register_controller_builder()
-        {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(ControllerBuilder), ControllerBuilder.Current)).Returns(adapter.Object).Verifiable();
-
-            Assert.NotNull(bootstrapper.Adapter);
-
-            adapter.Verify();
-        }
-
-        [Fact]
         public void Should_register_model_binder_dictionary()
         {
             adapter.Setup(a => a.RegisterInstance(null, typeof(ModelBinderDictionary), ModelBinders.Binders)).Returns(adapter.Object).Verifiable();

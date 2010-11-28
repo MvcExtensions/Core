@@ -123,14 +123,12 @@ namespace MvcExtensions
         private static void Register(IServiceRegistrar adapter, IBuildManager buildManager)
         {
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
-                   .RegisterInstance<ControllerBuilder>(ControllerBuilder.Current)
                    .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
                    .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
                    .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
                    .RegisterAsSingleton<IActionInvokerRegistry, ActionInvokerRegistry>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
-                   .RegisterAsSingleton<ModelMetadataProvider, ExtendedModelMetadataProvider>()
                    .RegisterInstance<IBuildManager>(buildManager);
 
             buildManager.ConcreteTypes
