@@ -26,7 +26,7 @@ namespace MvcExtensions.Tests
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyController) });
 
             adapter = new Mock<ContainerAdapter>();
-            adapter.Setup(a => a.GetService<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
         }
 
         public void Dispose()

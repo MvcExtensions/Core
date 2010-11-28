@@ -74,8 +74,7 @@ namespace MvcExtensions
             validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
             CompositeModelValidatorProvider compositeModelValidatorProvider = new CompositeModelValidatorProvider(validatorProviders.ToArray());
 
-            Container.RegisterInstance<ModelValidatorProvider>(compositeModelValidatorProvider);
-
+            ModelMetadataProviders.Current = Container.GetService<ModelMetadataProvider>();
             ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
 

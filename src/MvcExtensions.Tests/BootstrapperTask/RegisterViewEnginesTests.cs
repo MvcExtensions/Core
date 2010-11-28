@@ -30,9 +30,9 @@ namespace MvcExtensions.Tests
             var viewEngines = new List<IViewEngine>();
 
             adapter = new Mock<ContainerAdapter>();
-            adapter.Setup(a => a.GetService<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
             adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => viewEngines.Add((IViewEngine)Activator.CreateInstance(t2)));
-            adapter.Setup(a => a.GetServices<IViewEngine>()).Returns(() => viewEngines);
+            adapter.Setup(a => a.GetServices(typeof(IViewEngine))).Returns(() => viewEngines);
         }
 
         public void Dispose()

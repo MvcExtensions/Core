@@ -24,10 +24,6 @@ namespace MvcExtensions.Tests
         {
             adapter = new Mock<ContainerAdapter>();
 
-            adapter.Setup(a => a.GetService<DummyFilter1>()).Returns(new DummyFilter1());
-            adapter.Setup(a => a.GetService<DummyFilter2>()).Returns(new DummyFilter2());
-            adapter.Setup(a => a.GetService<DummyFilter3>()).Returns(new DummyFilter3());
-            adapter.Setup(a => a.GetService<DummyFilter4>()).Returns(new DummyFilter4());
             adapter.Setup(a => a.GetService(typeof(DummyFilter1))).Returns(new DummyFilter1());
             adapter.Setup(a => a.GetService(typeof(DummyFilter2))).Returns(new DummyFilter2());
             adapter.Setup(a => a.GetService(typeof(DummyFilter3))).Returns(new DummyFilter3());

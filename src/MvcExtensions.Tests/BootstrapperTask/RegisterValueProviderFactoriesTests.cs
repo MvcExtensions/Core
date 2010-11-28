@@ -30,9 +30,9 @@ namespace MvcExtensions.Tests
             var factories = new List<ValueProviderFactory>();
 
             adapter = new Mock<ContainerAdapter>();
-            adapter.Setup(a => a.GetService<IBuildManager>()).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
             adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => factories.Add((ValueProviderFactory)Activator.CreateInstance(t2)));
-            adapter.Setup(a => a.GetServices<ValueProviderFactory>()).Returns(() => factories);
+            adapter.Setup(a => a.GetServices(typeof(ValueProviderFactory))).Returns(() => factories);
         }
 
         public void Dispose()

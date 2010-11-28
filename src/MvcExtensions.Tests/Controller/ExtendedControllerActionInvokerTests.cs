@@ -28,7 +28,7 @@ namespace MvcExtensions.Tests
             adapter = new Mock<ContainerAdapter>();
             filterRegistry = new Mock<IFilterRegistry>();
 
-            adapter.Setup(a => a.GetService<IFilterRegistry>()).Returns(filterRegistry.Object);
+            adapter.Setup(a => a.GetService(typeof(IFilterRegistry))).Returns(filterRegistry.Object);
 
             controllerActionInvoker = new ExtendedControllerActionInvokerTestDouble(adapter.Object);
         }
