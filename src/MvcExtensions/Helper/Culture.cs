@@ -20,5 +20,14 @@ namespace MvcExtensions
                 return CultureInfo.CurrentCulture;
             }
         }
+
+        public static CultureInfo CurrentUI
+        {
+            [DebuggerStepThrough]
+            get
+            {
+                return CultureInfo.CurrentUICulture;
+            }
+        }
     }
 }

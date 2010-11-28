@@ -25,30 +25,6 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_not_export_for_child_action()
-        {
-            var httpContext = new Mock<HttpContextBase>();
-
-            var routeData = new RouteData();
-            routeData.DataTokens.Add("ParentActionViewContext", new object());
-
-            var requestContext = new RequestContext(httpContext.Object, routeData);
-
-            var controller = new Mock<ControllerBase>();
-            controller.Object.ViewData = new ViewDataDictionary();
-            controller.Object.TempData = new TempDataDictionary();
-
-            var controllerContext = new ControllerContext(requestContext, controller.Object);
-            var actionContext = new ActionExecutedContext(controllerContext, new Mock<ActionDescriptor>().Object, false, null);
-
-            var attribute = new ExportViewDataToTempDataAttribute();
-
-            attribute.OnActionExecuted(actionContext);
-
-            Assert.False(actionContext.Controller.TempData.ContainsKey(attribute.Key));
-        }
-
-        [Fact]
         public void Should_not_export_when_action_is_canceled()
         {
             var httpContext = new Mock<HttpContextBase>();

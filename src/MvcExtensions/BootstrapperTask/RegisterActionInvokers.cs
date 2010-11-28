@@ -18,7 +18,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterActionInvokers : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterActionInvokers"/> class.
@@ -74,7 +74,7 @@ namespace MvcExtensions
             {
                 Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) && !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsTransient(type));

@@ -94,7 +94,7 @@ namespace MvcExtensions
 
             if (propertyDescriptor == null)
             {
-                throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound, containerType.FullName, propertyName));
+                throw new ArgumentException(string.Format(Culture.CurrentUI, ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound, containerType.FullName, propertyName));
             }
 
             return CreatePropertyMetadata(containerType, propertyName, propertyDescriptor.PropertyType, metadataItem, modelAccessor);

@@ -18,7 +18,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterControllers : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllers"/> class.
@@ -77,7 +77,7 @@ namespace MvcExtensions
                                                   !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsTransient(type));

@@ -53,11 +53,11 @@ namespace MvcExtensions.Tests
             buildManager.SetupGet(bm => bm.ConcreteTypes).Returns(new[] { new Mock<IModelMetadataConfiguration>().Object.GetType(), new Mock<IModelMetadataConfiguration>().Object.GetType() });
 
             adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
-            adapter.Setup(a => a.GetInstance<IBuildManager>()).Returns(buildManager.Object);
-            adapter.Setup(a => a.GetInstance<IModelMetadataRegistry>()).Returns(registry.Object);
-            adapter.Setup(a => a.GetAllInstances<IModelMetadataConfiguration>()).Returns(new[] { configuration1.Object, configuration2.Object });
-            adapter.Setup(a => a.GetAllInstances<ModelValidatorProvider>()).Returns(new[] { new ExtendedModelValidatorProvider() });
-            adapter.Setup(a => a.GetInstance<ModelMetadataProvider>()).Returns(new ExtendedModelMetadataProvider(registry.Object));
+            adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService(typeof(IModelMetadataRegistry))).Returns(registry.Object);
+            adapter.Setup(a => a.GetServices(typeof(IModelMetadataConfiguration))).Returns(new[] { configuration1.Object, configuration2.Object });
+            adapter.Setup(a => a.GetServices(typeof(ModelValidatorProvider))).Returns(new[] { new ExtendedModelValidatorProvider() });
+            adapter.Setup(a => a.GetService(typeof(ModelMetadataProvider))).Returns(new ExtendedModelMetadataProvider(registry.Object));
 
             registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
 

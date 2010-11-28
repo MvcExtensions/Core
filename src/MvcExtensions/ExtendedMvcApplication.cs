@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
     using System.Web;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class to manage application life cycle.
@@ -108,7 +109,7 @@ namespace MvcExtensions
 
             bool shouldSkip = false;
 
-            foreach (PerRequestTask task in GetCurrentAdapter().GetAllInstances<PerRequestTask>().OrderBy(task => task.Order))
+            foreach (PerRequestTask task in GetCurrentAdapter().GetServices<PerRequestTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -150,7 +151,7 @@ namespace MvcExtensions
         {
             OnPerRequestTasksDisposing();
 
-            GetCurrentAdapter().GetAllInstances<PerRequestTask>()
+            GetCurrentAdapter().GetServices<PerRequestTask>()
                                .OrderByDescending(task => task.Order)
                                .Each(task => task.Dispose());
 

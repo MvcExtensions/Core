@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 // Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
@@ -10,12 +10,10 @@ namespace MvcExtensions
     using System;
     using System.Diagnostics;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a base class which acts as an adapter for IoC Container.
     /// </summary>
-    public abstract class ContainerAdapter : ServiceLocatorImplBase, IServiceRegistrar, IServiceInjector, IDisposable
+    public abstract class ContainerAdapter : ExtendedDependencyResolver, IServiceRegistrar, IServiceInjector, IDisposable
     {
         private bool disposed;
 

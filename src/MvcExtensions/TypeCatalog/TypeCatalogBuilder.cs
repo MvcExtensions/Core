@@ -87,7 +87,7 @@ namespace MvcExtensions
 
             if (assemblyNames.Any())
             {
-                Add(assemblyNames.Select(name => Assembly.Load(name)).ToArray());
+                Add(assemblyNames.Select(Assembly.Load).ToArray());
             }
 
             return this;
@@ -121,7 +121,7 @@ namespace MvcExtensions
 
             if (typeNames.Any())
             {
-                Include(typeNames.Select(name => Type.GetType(name)).ToArray());
+                Include(typeNames.Select(Type.GetType).ToArray());
             }
 
             return this;
@@ -169,7 +169,7 @@ namespace MvcExtensions
 
             if (typeNames.Any())
             {
-                Exclude(typeNames.Select(name => Type.GetType(name)).ToArray());
+                Exclude(typeNames.Select(Type.GetType).ToArray());
             }
 
             return this;

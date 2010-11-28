@@ -12,8 +12,6 @@ namespace MvcExtensions
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Defines a base class which is used to execute application startup and cleanup tasks.
     /// </summary>
@@ -75,7 +73,7 @@ namespace MvcExtensions
         {
             bool shouldSkip = false;
 
-            foreach (BootstrapperTask task in Adapter.GetAllInstances<BootstrapperTask>().OrderBy(task => task.Order))
+            foreach (BootstrapperTask task in Adapter.GetServices<BootstrapperTask>().OrderBy(task => task.Order))
             {
                 if (shouldSkip)
                 {
@@ -110,17 +108,19 @@ namespace MvcExtensions
         /// </summary>
         protected override void DisposeCore()
         {
-            if (container != null)
+            if (container == null)
             {
-                container.GetAllInstances<BootstrapperTask>()
-                         .OrderByDescending(task => task.Order)
-                         .Each(task => task.Dispose());
-
-                container.Dispose();
+                return;
             }
+
+            container.GetServices<BootstrapperTask>()
+                     .OrderByDescending(task => task.Order)
+                     .Each(task => task.Dispose());
+
+            container.Dispose();
         }
 
-        private static void Register(ContainerAdapter adapter, IBuildManager buildManager)
+        private static void Register(IServiceRegistrar adapter, IBuildManager buildManager)
         {
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
                    .RegisterInstance<ControllerBuilder>(ControllerBuilder.Current)
@@ -138,7 +138,7 @@ namespace MvcExtensions
                         .Each(type => adapter.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
 
             adapter.RegisterInstance<IServiceRegistrar>(adapter)
-                   .RegisterInstance<IServiceLocator>(adapter)
+                   .RegisterInstance<IDependencyResolver>(adapter)
                    .RegisterInstance<IServiceInjector>(adapter)
                    .RegisterInstance<ContainerAdapter>(adapter);
         }
@@ -149,7 +149,7 @@ namespace MvcExtensions
 
             Register(adapter, BuildManager);
 
-            ServiceLocator.SetLocatorProvider(() => adapter);
+            DependencyResolver.SetResolver(adapter);
 
             return adapter;
         }

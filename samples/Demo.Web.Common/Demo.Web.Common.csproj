@@ -10,7 +10,7 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>Demo.Web</RootNamespace>
         <AssemblyName>Demo.Web</AssemblyName>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <FileUpgradeFlags>
         </FileUpgradeFlags>
@@ -31,6 +31,7 @@
         <IsWebBootstrapper>false</IsWebBootstrapper>
         <UseApplicationTrust>false</UseApplicationTrust>
         <BootstrapperEnabled>true</BootstrapperEnabled>
+        <TargetFrameworkProfile />
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -52,14 +53,6 @@
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\..\References\PnP\Microsoft.Practices.ServiceLocation.dll</HintPath>
-        </Reference>
-        <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\..\References\AspNetMvc2\System.Web.Mvc.dll</HintPath>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.ComponentModel.DataAnnotations">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -72,11 +65,16 @@
         <Reference Include="System.Web.Abstractions">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
         </Reference>
+        <Reference Include="System.Web.ApplicationServices" />
         <Reference Include="System.Web.Extensions">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
         </Reference>
         <Reference Include="System.Web.Routing">
             <RequiredTargetFramework>3.5</RequiredTargetFramework>
+        </Reference>
+        <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+            <SpecificVersion>False</SpecificVersion>
+            <HintPath>..\..\References\AspNetMvc3\System.Web.Mvc.dll</HintPath>
         </Reference>
     </ItemGroup>
     <ItemGroup>
@@ -90,7 +88,7 @@
         <Compile Include="Filter\PopulateModelAttribute.cs" />
         <Compile Include="Filter\PopulateSuppliersAttribute.cs" />
         <Compile Include="Infrastructure\ProductEditModelBinder.cs" />
-        <Compile Include="Infrastructure\ConfigureFilters.cs" />
+        <Compile Include="Infrastructure\ConfigureFilterAttributes.cs" />
         <Compile Include="Infrastructure\RegisterRoutes.cs" />
         <Compile Include="LocalizedTexts.Designer.cs">
             <AutoGen>True</AutoGen>

@@ -1,233 +1,234 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProductVersion>9.0.30729</ProductVersion>
-        <SchemaVersion>2.0</SchemaVersion>
-        <ProjectGuid>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>MvcExtensions</RootNamespace>
-        <AssemblyName>MvcExtensions</AssemblyName>
-        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-        <PublishUrl>publish\</PublishUrl>
-        <Install>true</Install>
-        <InstallFrom>Disk</InstallFrom>
-        <UpdateEnabled>false</UpdateEnabled>
-        <UpdateMode>Foreground</UpdateMode>
-        <UpdateInterval>7</UpdateInterval>
-        <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-        <UpdatePeriodically>false</UpdatePeriodically>
-        <UpdateRequired>false</UpdateRequired>
-        <MapFileExtensions>true</MapFileExtensions>
-        <ApplicationRevision>0</ApplicationRevision>
-        <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-        <IsWebBootstrapper>false</IsWebBootstrapper>
-        <UseApplicationTrust>false</UseApplicationTrust>
-        <BootstrapperEnabled>true</BootstrapperEnabled>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;MVC3</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <DocumentationFile>bin\Debug\MvcExtensions.xml</DocumentationFile>
-        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-        <RunCodeAnalysis>false</RunCodeAnalysis>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE;CODE_ANALYSIS;MVC3</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <DocumentationFile>bin\Release\MvcExtensions.xml</DocumentationFile>
-        <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-        <RunCodeAnalysis>false</RunCodeAnalysis>
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\References\PnP\Microsoft.Practices.ServiceLocation.dll</HintPath>
-        </Reference>
-        <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-            <SpecificVersion>False</SpecificVersion>
-            <HintPath>..\References\AspNetMvc2\System.Web.Mvc.dll</HintPath>
-        </Reference>
-        <Reference Include="System" />
-        <Reference Include="System.configuration" />
-        <Reference Include="System.Core">
-            <RequiredTargetFramework>3.5</RequiredTargetFramework>
-        </Reference>
-        <Reference Include="System.Web" />
-        <Reference Include="System.Web.Abstractions">
-            <RequiredTargetFramework>3.5</RequiredTargetFramework>
-        </Reference>
-        <Reference Include="System.Web.Extensions" />
-        <Reference Include="System.Web.Routing">
-            <RequiredTargetFramework>3.5</RequiredTargetFramework>
-        </Reference>
-        <Reference Include="System.Xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <Reference Include="System.ComponentModel.DataAnnotations">
-            <RequiredTargetFramework>3.5</RequiredTargetFramework>
-        </Reference>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
-            <Link>Properties\CommonAssemblyInfo.cs</Link>
-        </Compile>
-        <Compile Include="Abstraction\TaskContinuation.cs" />
-        <Compile Include="ActionFilter\CompressAttribute.cs" />
-        <Compile Include="ActionFilter\ExportViewDataToTempDataAttribute.cs" />
-        <Compile Include="ActionFilter\ExtendedAuthorizeAttribute.cs" />
-        <Compile Include="ActionFilter\ImportViewDataFromTempDataAttribute.cs" />
-        <Compile Include="ActionResult\ExtendedJsonResult.cs" />
-        <Compile Include="ActionResult\XmlResult.cs" />
-        <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
-        <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
-        <Compile Include="Controller\ActionInvokerRegistry.cs" />
-        <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
-        <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
-        <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
-        <Compile Include="Controller\IActionInvokerRegistry.cs" />
-        <Compile Include="ExtensionMethod\HttpContextBaseExtensions.cs" />
-        <Compile Include="Helper\KnownAssembly.cs" />
-        <Compile Include="Helper\QValueSorter.cs" />
-        <Compile Include="ActionResult\AdaptivePostRedirectGetResult.cs" />
-        <Compile Include="ActionResult\AdaptiveViewResult.cs" />
-        <Compile Include="ActionResult\NotFoundResult.cs" />
-        <Compile Include="ActionResult\PermanentRedirectResult.cs" />
-        <Compile Include="BootstrapperTask\RegisterActionFilters.cs" />
-        <Compile Include="BootstrapperTask\RegisterControllers.cs" />
-        <Compile Include="BootstrapperTask\RegisterPerRequestTasks.cs" />
-        <Compile Include="ActionFilter\ViewDataTempDataTransferAttribute.cs" />
-        <Compile Include="ExtensionMethod\HttpResponseBaseExtensions.cs" />
-        <Compile Include="ExtensionMethod\ObjectExtensions.cs" />
-        <Compile Include="ExtensionMethod\ViewDataDictionaryExtensions.cs" />
-        <Compile Include="Helper\Culture.cs" />
-        <Compile Include="IoC\ContainerAdapter.cs" />
-        <Compile Include="IoC\IServiceRegistrar.cs" />
-        <Compile Include="IoC\LifetimeType.cs" />
-        <Compile Include="Abstraction\OrderableTask.cs" />
-        <Compile Include="IoC\ServiceRegistrarExtensions.cs" />
-        <Compile Include="BuildManager\BuildManagerWrapper.cs" />
-        <Compile Include="BuildManager\IBuildManager.cs" />
-        <Compile Include="Abstraction\IOrderableTask.cs" />
-        <Compile Include="ModelMetadata\CompositeModelValidatorProvider.cs" />
-        <Compile Include="Routing\EnumConstraint.cs" />
-        <Compile Include="Routing\GuidConstraint.cs" />
-        <Compile Include="Routing\PositiveIntegerConstraint.cs" />
-        <Compile Include="Routing\PositiveLongConstraint.cs" />
-        <Compile Include="Routing\RangeConstraint.cs" />
-        <Compile Include="Routing\RegexConstraint.cs" />
-        <Compile Include="TypeCatalog\TypeCatalog.cs" />
-        <Compile Include="TypeCatalog\TypeCatalogBuilder.cs" />
-        <Compile Include="PerRequestTask\PerRequestTask.cs" />
-        <Compile Include="ActionFilter\FilterRegistryExtensions.cs" />
-        <Compile Include="ActionFilter\FilterRegistry.cs" />
-        <Compile Include="ActionFilter\FilterRegistryActionItem.cs" />
-        <Compile Include="ActionFilter\FilterRegistryControllerItem.cs" />
-        <Compile Include="ActionFilter\FilterRegistryItem.cs" />
-        <Compile Include="ActionFilter\IFilterRegistry.cs" />
-        <Compile Include="ModelBinder\BindingTypeAttribute.cs" />
-        <Compile Include="BootstrapperTask\ConfigureFiltersBase.cs" />
-        <Compile Include="Bootstrapper\Bootstrapper.cs" />
-        <Compile Include="Bootstrapper\IBootstrapper.cs" />
-        <Compile Include="BootstrapperTask\BootstrapperTask.cs" />
-        <Compile Include="BootstrapperTask\RegisterControllerFactory.cs" />
-        <Compile Include="BootstrapperTask\RegisterModelBinders.cs" />
-        <Compile Include="BootstrapperTask\RegisterRoutesBase.cs" />
-        <Compile Include="BootstrapperTask\RegisterViewEngines.cs" />
-        <Compile Include="Abstraction\Disposable.cs" />
-        <Compile Include="IoC\IServiceInjector.cs" />
-        <Compile Include="ExtensionMethod\EnumerableExtensions.cs" />
-        <Compile Include="ExtensionMethod\TypeExtensions.cs" />
-        <Compile Include="Controller\ExtendedControllerActionInvoker.cs" />
-        <Compile Include="Controller\ExtendedControllerFactory.cs" />
-        <Compile Include="ExtendedMvcApplication.cs" />
-        <Compile Include="Helper\Invariant.cs" />
-        <Compile Include="Helper\KnownTypes.cs" />
-        <Compile Include="Helper\IFluentSyntax.cs" />
-        <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="GlobalSuppressions.cs" />
-        <Compile Include="ExceptionMessages.Designer.cs">
-            <AutoGen>True</AutoGen>
-            <DesignTime>True</DesignTime>
-            <DependentUpon>ExceptionMessages.resx</DependentUpon>
-        </Compile>
-        <Compile Include="BootstrapperTask\RegisterValueProviderFactories.cs" />
-        <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
-        <Compile Include="ModelMetadata\ExtendedRangeValidator.cs" />
-        <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\ExtendedRegularExpressionValidator.cs" />
-        <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
-        <Compile Include="ModelMetadata\ExtendedRequiredValidator.cs" />
-        <Compile Include="ModelMetadata\ExtendedStringLengthValidator.cs" />
-        <Compile Include="ModelMetadata\IModelMetadataFormattableItem.cs" />
-        <Compile Include="ModelMetadata\IModelMetadataRegistry.cs" />
-        <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\StringLengthValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\ModelMetadataItem.cs" />
-        <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
-        <Compile Include="ModelMetadata\ModelMetadataRegistry.cs" />
-        <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\ValueTypeMetadataItem.cs" />
-        <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilder.cs" />
-        <Compile Include="ModelMetadata\ObjectMetadataItem.cs" />
-        <Compile Include="ModelMetadata\ObjectMetadataItemBuilder.cs" />
-        <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
-        <Compile Include="ModelMetadata\StringMetadataItem.cs" />
-        <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
-        <Compile Include="ModelMetadata\BooleanMetadataItem.cs" />
-        <Compile Include="ModelMetadata\BooleanMetadataItemBuilder.cs" />
-        <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
-        <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />
-        <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />
-        <Compile Include="ModelMetadata\ExtendedModelValidatorProvider.cs" />
-        <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
-        <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
-        <Compile Include="ModelMetadata\ExtendedValidator.cs" />
-        <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
-    </ItemGroup>
-    <ItemGroup>
-        <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Include="ExceptionMessages.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-    </ItemGroup>
-    <ItemGroup>
-        <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-            <Visible>False</Visible>
-            <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-            <Install>false</Install>
-        </BootstrapperPackage>
-        <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-            <Visible>False</Visible>
-            <ProductName>.NET Framework 3.5 SP1</ProductName>
-            <Install>true</Install>
-        </BootstrapperPackage>
-        <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-            <Visible>False</Visible>
-            <ProductName>Windows Installer 3.1</ProductName>
-            <Install>true</Install>
-        </BootstrapperPackage>
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MvcExtensions</RootNamespace>
+    <AssemblyName>MvcExtensions</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\MvcExtensions.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MvcExtensions.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\AspNetMvc3\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Abstraction\TaskContinuation.cs" />
+    <Compile Include="ActionFilter\CompressAttribute.cs" />
+    <Compile Include="ActionFilter\ExportViewDataToTempDataAttribute.cs" />
+    <Compile Include="ActionFilter\ExtendedAuthorizeAttribute.cs" />
+    <Compile Include="ActionFilter\ImportViewDataFromTempDataAttribute.cs" />
+    <Compile Include="ActionResult\ExtendedJsonResult.cs" />
+    <Compile Include="ActionResult\XmlResult.cs" />
+    <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
+    <Compile Include="BootstrapperTask\RegisteFilterProviders.cs" />
+    <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
+    <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
+    <Compile Include="BootstrapperTask\RegisterFilters.cs" />
+    <Compile Include="Controller\ActionInvokerRegistry.cs" />
+    <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
+    <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
+    <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
+    <Compile Include="Controller\ExtendedControllerActivator.cs" />
+    <Compile Include="Controller\IActionInvokerRegistry.cs" />
+    <Compile Include="ExtensionMethod\HttpContextBaseExtensions.cs" />
+    <Compile Include="Helper\KnownAssembly.cs" />
+    <Compile Include="Helper\QValueSorter.cs" />
+    <Compile Include="ActionResult\AdaptivePostRedirectGetResult.cs" />
+    <Compile Include="ActionResult\AdaptiveViewResult.cs" />
+    <Compile Include="ActionResult\NotFoundResult.cs" />
+    <Compile Include="ActionResult\PermanentRedirectResult.cs" />
+    <Compile Include="BootstrapperTask\RegisterFilterAttributes.cs" />
+    <Compile Include="BootstrapperTask\RegisterControllers.cs" />
+    <Compile Include="BootstrapperTask\RegisterPerRequestTasks.cs" />
+    <Compile Include="ActionFilter\ViewDataTempDataTransferAttribute.cs" />
+    <Compile Include="ExtensionMethod\HttpResponseBaseExtensions.cs" />
+    <Compile Include="ExtensionMethod\ObjectExtensions.cs" />
+    <Compile Include="ExtensionMethod\ViewDataDictionaryExtensions.cs" />
+    <Compile Include="Helper\Culture.cs" />
+    <Compile Include="IoC\ContainerAdapter.cs" />
+    <Compile Include="IoC\ExtendedDependencyResolverExtensions.cs" />
+    <Compile Include="IoC\IServiceRegistrar.cs" />
+    <Compile Include="IoC\LifetimeType.cs" />
+    <Compile Include="Abstraction\OrderableTask.cs" />
+    <Compile Include="IoC\ExtendedDependencyResolver.cs" />
+    <Compile Include="IoC\ServiceRegistrarExtensions.cs" />
+    <Compile Include="BuildManager\BuildManagerWrapper.cs" />
+    <Compile Include="BuildManager\IBuildManager.cs" />
+    <Compile Include="Abstraction\IOrderableTask.cs" />
+    <Compile Include="ModelMetadata\CompositeModelValidatorProvider.cs" />
+    <Compile Include="Routing\EnumConstraint.cs" />
+    <Compile Include="Routing\GuidConstraint.cs" />
+    <Compile Include="Routing\PositiveIntegerConstraint.cs" />
+    <Compile Include="Routing\PositiveLongConstraint.cs" />
+    <Compile Include="Routing\RangeConstraint.cs" />
+    <Compile Include="Routing\RegexConstraint.cs" />
+    <Compile Include="TypeCatalog\TypeCatalog.cs" />
+    <Compile Include="TypeCatalog\TypeCatalogBuilder.cs" />
+    <Compile Include="PerRequestTask\PerRequestTask.cs" />
+    <Compile Include="ActionFilter\FilterRegistryExtensions.cs" />
+    <Compile Include="ActionFilter\FilterRegistry.cs" />
+    <Compile Include="ActionFilter\FilterRegistryActionItem.cs" />
+    <Compile Include="ActionFilter\FilterRegistryControllerItem.cs" />
+    <Compile Include="ActionFilter\FilterRegistryItem.cs" />
+    <Compile Include="ActionFilter\IFilterRegistry.cs" />
+    <Compile Include="ModelBinder\BindingTypeAttribute.cs" />
+    <Compile Include="BootstrapperTask\ConfigureFilterAttributesBase.cs" />
+    <Compile Include="Bootstrapper\Bootstrapper.cs" />
+    <Compile Include="Bootstrapper\IBootstrapper.cs" />
+    <Compile Include="BootstrapperTask\BootstrapperTask.cs" />
+    <Compile Include="BootstrapperTask\RegisterModelBinders.cs" />
+    <Compile Include="BootstrapperTask\RegisterRoutesBase.cs" />
+    <Compile Include="BootstrapperTask\RegisterViewEngines.cs" />
+    <Compile Include="Abstraction\Disposable.cs" />
+    <Compile Include="IoC\IServiceInjector.cs" />
+    <Compile Include="ExtensionMethod\EnumerableExtensions.cs" />
+    <Compile Include="ExtensionMethod\TypeExtensions.cs" />
+    <Compile Include="Controller\ExtendedControllerActionInvoker.cs" />
+    <Compile Include="ExtendedMvcApplication.cs" />
+    <Compile Include="Helper\Invariant.cs" />
+    <Compile Include="Helper\KnownTypes.cs" />
+    <Compile Include="Helper\IFluentSyntax.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ExceptionMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="BootstrapperTask\RegisterValueProviderFactories.cs" />
+    <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
+    <Compile Include="ModelMetadata\ExtendedRangeValidator.cs" />
+    <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\ExtendedRegularExpressionValidator.cs" />
+    <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
+    <Compile Include="ModelMetadata\ExtendedRequiredValidator.cs" />
+    <Compile Include="ModelMetadata\ExtendedStringLengthValidator.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataFormattableItem.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataRegistry.cs" />
+    <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\StringLengthValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItem.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataRegistry.cs" />
+    <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\ValueTypeMetadataItem.cs" />
+    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\ObjectMetadataItem.cs" />
+    <Compile Include="ModelMetadata\ObjectMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\StringMetadataItem.cs" />
+    <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\BooleanMetadataItem.cs" />
+    <Compile Include="ModelMetadata\BooleanMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />
+    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />
+    <Compile Include="ModelMetadata\ExtendedModelValidatorProvider.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
+    <Compile Include="ModelMetadata\ExtendedValidator.cs" />
+    <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ExceptionMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

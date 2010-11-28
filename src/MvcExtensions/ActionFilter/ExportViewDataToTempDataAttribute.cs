@@ -33,24 +33,21 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 
-            if (filterContext.IsChildAction)
-            {
-                return;
-            }
-
             if (filterContext.Canceled || (filterContext.Exception != null && !filterContext.ExceptionHandled))
             {
                 return;
             }
 
             // Export if it is not an ajax request and we are redirecting
-            if (!filterContext.HttpContext.Request.IsAjaxRequest() && ((filterContext.Result is RedirectResult) || (filterContext.Result is RedirectToRouteResult)))
+            if (filterContext.HttpContext.Request.IsAjaxRequest() || ((!(filterContext.Result is RedirectResult)) && (!(filterContext.Result is RedirectToRouteResult))))
             {
-                // Copy viewdata
-                ViewDataDictionary viewData = new ViewDataDictionary(filterContext.Controller.ViewData);
-
-                filterContext.Controller.TempData[Key] = viewData;
+                return;
             }
+
+            // Copy viewdata
+            ViewDataDictionary viewData = new ViewDataDictionary(filterContext.Controller.ViewData);
+
+            filterContext.Controller.TempData[Key] = viewData;
         }
     }
 }

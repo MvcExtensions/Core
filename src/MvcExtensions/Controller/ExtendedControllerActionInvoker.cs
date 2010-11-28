@@ -47,7 +47,7 @@ namespace MvcExtensions
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");
 
             FilterInfo decoratedFilters = base.GetFilters(controllerContext, actionDescriptor);
-            FilterInfo registeredFilters = Container.GetInstance<IFilterRegistry>().Matching(controllerContext, actionDescriptor);
+            FilterInfo registeredFilters = Container.GetService<IFilterRegistry>().Matching(controllerContext, actionDescriptor);
 
             return ControllerActionInvokerHelper.Merge(Container, decoratedFilters, registeredFilters);
         }

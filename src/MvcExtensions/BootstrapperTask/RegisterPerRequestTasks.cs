@@ -11,13 +11,14 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="PerRequestTask"/>.
     /// </summary>
     public class RegisterPerRequestTasks : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterPerRequestTasks"/> class.
@@ -74,7 +75,7 @@ namespace MvcExtensions
                 Func<Type, bool> filter = type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type) &&
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));

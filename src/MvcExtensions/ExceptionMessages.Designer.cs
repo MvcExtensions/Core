@@ -61,6 +61,24 @@ namespace MvcExtensions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Activation error occurred while trying to get all instances of type {0}..
+        /// </summary>
+        internal static string ActivateAllExceptionMessage {
+            get {
+                return ResourceManager.GetString("ActivateAllExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activation error occurred while trying to get instance of type {0}, key &quot;{1}&quot;..
+        /// </summary>
+        internal static string ActivationExceptionMessage {
+            get {
+                return ResourceManager.GetString("ActivationExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot apply email when there is an active expression..
         /// </summary>
         internal static string CannotApplyEmailWhenThereIsAnActiveExpression {

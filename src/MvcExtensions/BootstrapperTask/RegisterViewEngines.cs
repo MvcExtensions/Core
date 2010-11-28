@@ -18,7 +18,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterViewEngines : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterViewEngines"/> class.
@@ -95,17 +95,17 @@ namespace MvcExtensions
                                               !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
                                               !viewEngineTypes.Any(engineType => engineType == type);
 
-            Container.GetInstance<IBuildManager>()
+            Container.GetService<IBuildManager>()
                      .ConcreteTypes
                      .Where(filter)
                      .Each(type => Container.RegisterAsSingleton(KnownTypes.ViewEngineType, type));
 
-            Container.GetAllInstances<IViewEngine>()
+            Container.GetServices<IViewEngine>()
                      .Each(engine =>
                             {
                                 if (engine != null)
                                 {
-                                    ViewEngines.Add(engine);
+                                    ViewEngines.Insert(0, engine);
                                 }
                             });
 

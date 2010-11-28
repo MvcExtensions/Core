@@ -28,8 +28,8 @@ namespace MvcExtensions.Tests
         {
             var validator = new ExtendedRangeValidatorTestDouble<int>(CreateModelMetadataWithModel(), new ControllerContext(), new RangeValidationMetadata<int> { Minimum = 1, Maximum = 7 });
 
-            Assert.Equal(1, validator.PublicAttribute.Minimum);
-            Assert.Equal(7, validator.PublicAttribute.Maximum);
+            Assert.Equal("1", validator.PublicAttribute.Minimum);
+            Assert.Equal("7", validator.PublicAttribute.Maximum);
         }
 
         [Fact]

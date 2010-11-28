@@ -50,11 +50,13 @@ namespace MvcExtensions
 
             httpResponse.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/xml";
 
-            if (Data != null)
+            if (Data == null)
             {
-                XmlSerializer serializer = new XmlSerializer(Data.GetType());
-                serializer.Serialize(httpResponse.Output, Data);
+                return;
             }
+
+            XmlSerializer serializer = new XmlSerializer(Data.GetType());
+            serializer.Serialize(httpResponse.Output, Data);
         }
     }
 }

@@ -332,13 +332,13 @@ namespace MvcExtensions
         {
             foreach (Type controllerType in typeCatalog.Where(controllerType => !KnownTypes.ControllerType.IsAssignableFrom(controllerType)))
             {
-                throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.IsNotATargetType, controllerType.FullName, KnownTypes.ControllerType.FullName));
+                throw new ArgumentException(string.Format(Culture.CurrentUI, ExceptionMessages.IsNotATargetType, controllerType.FullName, KnownTypes.ControllerType.FullName));
             }
         }
 
         private static IEnumerable<Func<FilterAttribute>> CreateFilterFactories(IFilterRegistry registry, params Type[] filterTypes)
         {
-            return filterTypes.Select(filterType => new Func<FilterAttribute>(() => registry.ServiceLocator.GetInstance(filterType) as FilterAttribute));
+            return filterTypes.Select(filterType => new Func<FilterAttribute>(() => registry.Container.GetService(filterType) as FilterAttribute));
         }
 
         private static IEnumerable<Func<FilterAttribute>> CreateAndConfigureFilterFactory<TFilter>(IFilterRegistry registry, Action<TFilter> configureFilter) where TFilter : FilterAttribute
@@ -347,7 +347,7 @@ namespace MvcExtensions
                        {
                            () =>
                            {
-                               TFilter filter = registry.ServiceLocator.GetInstance<TFilter>();
+                               TFilter filter = registry.Container.GetService<TFilter>();
 
                                configureFilter(filter);
 

@@ -18,7 +18,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterModelBinders : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterModelBinders"/> class.
@@ -92,14 +92,14 @@ namespace MvcExtensions
                                               type.IsDefined(KnownTypes.BindingAttributeType, true) &&
                                               !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-            Container.GetInstance<IBuildManager>()
+            Container.GetService<IBuildManager>()
                      .ConcreteTypes
                      .Where(filter)
                      .Each(type => Container.RegisterAsSingleton(KnownTypes.ModelBinderType, type));
 
-            IBuildManager buildManager = Container.GetInstance<IBuildManager>();
+            IBuildManager buildManager = Container.GetService<IBuildManager>();
 
-            Container.GetAllInstances<IModelBinder>()
+            Container.GetServices<IModelBinder>()
                      .Select(binder => new
                                             {
                                                 Binder = binder,
@@ -120,7 +120,7 @@ namespace MvcExtensions
                                                                     modelTypes = buildManager.ConcreteTypes.Where(type => typeInfo.ModelType.IsAssignableFrom(type)).ToList();
                                                                 }
 
-                                                                if (!modelTypes.Contains(typeInfo.ModelType) && (!typeInfo.ModelType.IsInterface && !typeInfo.ModelType.IsAbstract && !typeInfo.ModelType.IsGenericType))
+                                                                if (!modelTypes.Contains(typeInfo.ModelType) && (!typeInfo.ModelType.IsInterface && !typeInfo.ModelType.IsAbstract))
                                                                 {
                                                                     modelTypes.Add(typeInfo.ModelType);
                                                                 }
@@ -129,7 +129,7 @@ namespace MvcExtensions
                                                                                     {
                                                                                         if (Binders.ContainsKey(modelType))
                                                                                         {
-                                                                                            throw new InvalidOperationException(string.Format(Culture.Current, ExceptionMessages.CannotHaveMoreThanOneModelBinderForTheSameModelType, pair.Binder.GetType().FullName, modelType.FullName));
+                                                                                            throw new InvalidOperationException(string.Format(Culture.CurrentUI, ExceptionMessages.CannotHaveMoreThanOneModelBinderForTheSameModelType, pair.Binder.GetType().FullName, modelType.FullName));
                                                                                         }
 
                                                                                         Binders.Add(modelType, pair.Binder);

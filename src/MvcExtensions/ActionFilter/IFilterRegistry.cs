@@ -13,18 +13,16 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Web.Mvc;
 
-    using Microsoft.Practices.ServiceLocation;
-
     /// <summary>
     /// Represents an interface which is used to fluently registered <seealso cref="FilterAttribute"/>.
     /// </summary>
     public interface IFilterRegistry : IFluentSyntax
     {
         /// <summary>
-        /// Gets the service locator.
+        /// Gets the container.
         /// </summary>
-        /// <value>The service locator.</value>
-        IServiceLocator ServiceLocator
+        /// <value>The container.</value>
+        ContainerAdapter Container
         {
             [EditorBrowsable(EditorBrowsableState.Never)]
             get;

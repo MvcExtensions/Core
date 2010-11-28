@@ -35,9 +35,9 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            if (!inherited && (modelType.IsInterface || modelType.IsAbstract || modelType.IsGenericType))
+            if (!inherited && (modelType.IsInterface || modelType.IsAbstract))
             {
-                throw new ArgumentException(string.Format(Culture.Current, ExceptionMessages.MustBeAValidClass, modelType.FullName), "modelType");
+                throw new ArgumentException(string.Format(Culture.CurrentUI, ExceptionMessages.MustBeAValidClass, modelType.FullName), "modelType");
             }
 
             ModelType = modelType;

@@ -18,7 +18,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterValueProviderFactories : BootstrapperTask
     {
-        private static readonly IList<Type> ignoredTypes = new List<Type>();
+        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterValueProviderFactories"/> class.
@@ -90,12 +90,12 @@ namespace MvcExtensions
                                                   !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
                                                   !ValueProviderFactories.Any(factory => factory.GetType() == type);
 
-                Container.GetInstance<IBuildManager>()
+                Container.GetService<IBuildManager>()
                          .ConcreteTypes
                          .Where(filter)
                          .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
 
-                Container.GetAllInstances<ValueProviderFactory>()
+                Container.GetServices<ValueProviderFactory>()
                          .Each(factory => ValueProviderFactories.Add(factory));
             }
 
