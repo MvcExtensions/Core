@@ -86,7 +86,6 @@
     <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Abstraction\OrderableTaskTests.cs" />
     <Compile Include="ActionFilter\CompressAttributeTests.cs" />
     <Compile Include="ActionFilter\ExtendedAuthorizeAttributeTests.cs" />
     <Compile Include="ActionFilter\ViewDataTempDataTransferAttributeTests.cs" />
@@ -100,7 +99,6 @@
     <Compile Include="ActionResult\PermanentRedirectResultTests.cs" />
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokersTests.cs" />
-    <Compile Include="BootstrapperTask\RegisterPerRequestTasksTests.cs" />
     <Compile Include="BootstrapperTask\RegisterValueProviderFactoriesTests.cs" />
     <Compile Include="BootstrapperTask\RegisterControllersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterFilterAttributesTests.cs" />

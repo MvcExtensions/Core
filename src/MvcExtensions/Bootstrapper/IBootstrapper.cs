@@ -15,6 +15,33 @@ namespace MvcExtensions
     public interface IBootstrapper : IDisposable
     {
         /// <summary>
+        /// Gets the build manager.
+        /// </summary>
+        /// <value>The build manager.</value>
+        IBuildManager BuildManager
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the bootstrapper tasks.
+        /// </summary>
+        /// <value>The bootstrapper tasks.</value>
+        IBootstrapperTasksRegistry BootstrapperTasks
+        {
+            get;
+        }
+
+        /// <summary>
+        /// Gets the per request task registry.
+        /// </summary>
+        /// <value>The per request tasks.</value>
+        IPerRequestTasksRegistry PerRequestTasks
+        {
+            get;
+        }
+
+        /// <summary>
         /// Gets the container.
         /// </summary>
         /// <value>The container.</value>
@@ -26,6 +53,21 @@ namespace MvcExtensions
         /// <summary>
         /// Executes the <seealso cref="BootstrapperTask"/>.
         /// </summary>
-        void Execute();
+        void ExecuteBootstrapperTasks();
+
+        /// <summary>
+        /// Dispose the <seealso cref="BootstrapperTask"/>.
+        /// </summary>
+        void DisposeBootstrapperTasks();
+
+        /// <summary>
+        /// Executes the <seealso cref="PerRequestTask"/>.
+        /// </summary>
+        void ExecutePerRequestTasks();
+
+        /// <summary>
+        /// Dispose the <seealso cref="PerRequestTask"/>.
+        /// </summary>
+        void DisposePerRequestTasks();
     }
 }

@@ -8,18 +8,14 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Diagnostics;
     using System.Linq;
-    using System.Collections.Generic;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="Controller"/>.
     /// </summary>
-    public class RegisterControllers : BootstrapperTask
+    public class RegisterControllers : IgnorableTypesBootstrapperTask<RegisterControllers, Controller>
     {
-        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllers"/> class.
         /// </summary>
@@ -29,29 +25,6 @@ namespace MvcExtensions
             Invariant.IsNotNull(container, "container");
 
             Container = container;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterControllers"/> should be excluded.
-        /// </summary>
-        /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
-        public static bool Excluded
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets the ignored controller types.
-        /// </summary>
-        /// <value>The ignored types.</value>
-        public static ICollection<Type> IgnoredTypes
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return ignoredTypes;
-            }
         }
 
         /// <summary>
@@ -70,18 +43,15 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            if (!Excluded)
-            {
-                Func<Type, bool> filter = type => KnownTypes.ControllerType.IsAssignableFrom(type) &&
-                                                  type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                  !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
-                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type);
+            Func<Type, bool> filter = type => KnownTypes.ControllerType.IsAssignableFrom(type) &&
+                                              type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                              !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
+                                              !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
-                Container.GetService<IBuildManager>()
-                         .ConcreteTypes
-                         .Where(filter)
-                         .Each(type => Container.RegisterAsTransient(type));
-            }
+            Container.GetService<IBuildManager>()
+                     .ConcreteTypes
+                     .Where(filter)
+                     .Each(type => Container.RegisterAsTransient(type));
 
             return TaskContinuation.Continue;
         }

@@ -26,9 +26,6 @@ namespace MvcExtensions.Tests
             ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
             ModelValidatorProviders.Providers.Clear();
 
-            RegisterModelMetadata.Excluded = false;
-            ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
-
             registry = new Mock<IModelMetadataRegistry>();
             adapter = new Mock<ContainerAdapter>();
 
@@ -39,8 +36,6 @@ namespace MvcExtensions.Tests
         {
             ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
             ModelValidatorProviders.Providers.Clear();
-
-            RegisterModelMetadata.Excluded = false;
         }
 
         [Fact]
@@ -56,28 +51,13 @@ namespace MvcExtensions.Tests
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
             adapter.Setup(a => a.GetService(typeof(IModelMetadataRegistry))).Returns(registry.Object);
             adapter.Setup(a => a.GetServices(typeof(IModelMetadataConfiguration))).Returns(new[] { configuration1.Object, configuration2.Object });
-            adapter.Setup(a => a.GetServices(typeof(ModelValidatorProvider))).Returns(new[] { new ExtendedModelValidatorProvider() });
-            adapter.Setup(a => a.GetService(typeof(ModelMetadataProvider))).Returns(new ExtendedModelMetadataProvider(registry.Object));
 
             registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
 
             registration.Execute();
 
-            registry.VerifyAll();
-
             Assert.IsType<ExtendedModelMetadataProvider>(ModelMetadataProviders.Current);
             Assert.IsType<CompositeModelValidatorProvider>(ModelValidatorProviders.Providers[0]);
-        }
-
-        [Fact]
-        public void Should_not_register_model_metadata_and_validation_provider_when_excluded()
-        {
-            RegisterModelMetadata.Excluded = true;
-
-            registration.Execute();
-
-            Assert.IsNotType<ExtendedModelMetadataProvider>(ModelMetadataProviders.Current);
-            Assert.Empty(ModelValidatorProviders.Providers);
         }
     }
 }

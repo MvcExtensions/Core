@@ -7,6 +7,8 @@
 
 namespace MvcExtensions
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
@@ -24,11 +26,49 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="Bootstrapper"/> class.
         /// </summary>
         /// <param name="buildManager">The build manager.</param>
-        protected Bootstrapper(IBuildManager buildManager)
+        /// <param name="bootstrapperTasks">The bootstrapper tasks.</param>
+        /// <param name="perRequestTasks">The per request tasks.</param>
+        protected Bootstrapper(IBuildManager buildManager, IBootstrapperTasksRegistry bootstrapperTasks, IPerRequestTasksRegistry perRequestTasks)
         {
             Invariant.IsNotNull(buildManager, "buildManager");
+            Invariant.IsNotNull(bootstrapperTasks, "bootstrapperTasks");
+            Invariant.IsNotNull(bootstrapperTasks, "perRequestTasks");
 
             BuildManager = buildManager;
+
+            BuildManager = buildManager;
+            BootstrapperTasks = bootstrapperTasks;
+            PerRequestTasks = perRequestTasks;
+        }
+
+        /// <summary>
+        /// Gets  the build manager.
+        /// </summary>
+        /// <value>The build manager.</value>
+        public IBuildManager BuildManager
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the bootstrapper task registry.
+        /// </summary>
+        /// <value>The bootstrapper tasks.</value>
+        public IBootstrapperTasksRegistry BootstrapperTasks
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the per request task registry.
+        /// </summary>
+        /// <value>The per request tasks.</value>
+        public IPerRequestTasksRegistry PerRequestTasks
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -57,39 +97,35 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets  the build manager.
+        /// Executes the <seealso cref="BootstrapperTask"/>.
         /// </summary>
-        /// <value>The build manager.</value>
-        protected IBuildManager BuildManager
+        public void ExecuteBootstrapperTasks()
         {
-            get;
-            private set;
+            Execute<BootstrapperTask>(BootstrapperTasks.TaskConfigurations);
         }
 
         /// <summary>
-        /// Executes the <seealso cref="BootstrapperTask"/>.
+        /// Dispose the <seealso cref="BootstrapperTask"/>.
         /// </summary>
-        public void Execute()
+        public void DisposeBootstrapperTasks()
         {
-            bool shouldSkip = false;
+            Cleanup<BootstrapperTask>(BootstrapperTasks.TaskConfigurations);
+        }
 
-            foreach (BootstrapperTask task in Adapter.GetServices<BootstrapperTask>().OrderBy(task => task.Order))
-            {
-                if (shouldSkip)
-                {
-                    shouldSkip = false;
-                    continue;
-                }
+        /// <summary>
+        /// Executes the <seealso cref="PerRequestTask"/>.
+        /// </summary>
+        public void ExecutePerRequestTasks()
+        {
+            Execute<PerRequestTask>(PerRequestTasks.TaskConfigurations);
+        }
 
-                TaskContinuation continuation = task.Execute();
-
-                if (continuation == TaskContinuation.Break)
-                {
-                    break;
-                }
-
-                shouldSkip = continuation == TaskContinuation.Skip;
-            }
+        /// <summary>
+        /// Dispose the <seealso cref="PerRequestTask"/>.
+        /// </summary>
+        public void DisposePerRequestTasks()
+        {
+            Cleanup<PerRequestTask>(PerRequestTasks.TaskConfigurations);
         }
 
         /// <summary>
@@ -113,14 +149,48 @@ namespace MvcExtensions
                 return;
             }
 
-            container.GetServices<BootstrapperTask>()
-                     .OrderByDescending(task => task.Order)
-                     .Each(task => task.Dispose());
-
             container.Dispose();
         }
 
-        private static void Register(IServiceRegistrar adapter, IBuildManager buildManager)
+        private void Execute<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
+        {
+            bool shouldSkip = false;
+
+            foreach (KeyValuePair<Type, Action<object>> taskConfiguration in tasks)
+            {
+                if (shouldSkip)
+                {
+                    shouldSkip = false;
+                    continue;
+                }
+
+                TTask task = (TTask)Adapter.GetService(taskConfiguration.Key);
+
+                if (taskConfiguration.Value != null)
+                {
+                    taskConfiguration.Value(task);
+                }
+
+                TaskContinuation continuation = task.Execute();
+
+                if (continuation == TaskContinuation.Break)
+                {
+                    break;
+                }
+
+                shouldSkip = continuation == TaskContinuation.Skip;
+            }
+        }
+
+        private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
+        {
+            foreach (TTask task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
+            {
+                task.Dispose();
+            }
+        }
+
+        private void Register(IServiceRegistrar adapter)
         {
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
                    .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
@@ -129,23 +199,29 @@ namespace MvcExtensions
                    .RegisterAsSingleton<IActionInvokerRegistry, ActionInvokerRegistry>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
-                   .RegisterInstance<IBuildManager>(buildManager);
+                   .RegisterInstance<IBuildManager>(BuildManager);
 
-            buildManager.ConcreteTypes
+            BuildManager.ConcreteTypes
                         .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))
                         .Each(type => adapter.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
+
+            BuildManager.ConcreteTypes
+                        .Where(type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type))
+                        .Each(type => adapter.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));
 
             adapter.RegisterInstance<IServiceRegistrar>(adapter)
                    .RegisterInstance<IDependencyResolver>(adapter)
                    .RegisterInstance<IServiceInjector>(adapter)
-                   .RegisterInstance<ContainerAdapter>(adapter);
+                   .RegisterInstance<ContainerAdapter>(adapter)
+                   .RegisterInstance<IBootstrapperTasksRegistry>(BootstrapperTasks)
+                   .RegisterInstance<IPerRequestTasksRegistry>(PerRequestTasks);
         }
 
         private ContainerAdapter CreateAndSetCurrent()
         {
             ContainerAdapter adapter = CreateAdapter();
 
-            Register(adapter, BuildManager);
+            Register(adapter);
 
             DependencyResolver.SetResolver(adapter);
 

@@ -29,16 +29,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterModelMetadata"/> should be excluded.
-        /// </summary>
-        /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
-        public static bool Excluded
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets the container.
         /// </summary>
         /// <value>The container.</value>
@@ -54,11 +44,6 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            if (Excluded)
-            {
-                return TaskContinuation.Continue;
-            }
-
             IEnumerable<Type> concreteTypes = Container.GetService<IBuildManager>().ConcreteTypes;
 
             concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))

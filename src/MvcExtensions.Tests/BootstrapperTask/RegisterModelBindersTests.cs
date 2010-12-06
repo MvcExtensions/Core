@@ -13,7 +13,7 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class RegisterModelBindersTests : IDisposable
+    public class RegisterModelBindersTests
     {
         private readonly ModelBinderDictionary modelBinders = new ModelBinderDictionary();
         private readonly RegisterModelBinders registration;
@@ -22,9 +22,6 @@ namespace MvcExtensions.Tests
 
         public RegisterModelBindersTests()
         {
-            RegisterModelBinders.Excluded = false;
-            RegisterModelBinders.IgnoredTypes.Clear();
-
             buildManager = new Mock<IBuildManager>();
             buildManager.SetupGet(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyModel), typeof(DummyModel1), typeof(DummyModel2), typeof(DummyModel3), typeof(FakeModelBinder1), typeof(FakeModelBinder2), typeof(FakeModelBinder3) });
 
@@ -40,28 +37,10 @@ namespace MvcExtensions.Tests
         {
         }
 
-        public void Dispose()
-        {
-            RegisterModelBinders.Excluded = false;
-            RegisterModelBinders.IgnoredTypes.Clear();
-        }
-
-        [Fact]
-        public void Should_not_register_model_binders_when_excluded()
-        {
-            adapter.Setup(a => a.GetServices(typeof(IModelBinder))).Returns(new IModelBinder[] { new FakeModelBinder1(), new FakeModelBinder2(), new FakeModelBinder3() });
-
-            RegisterModelBinders.Excluded = true;
-
-            registration.Execute();
-
-            Assert.Empty(modelBinders);
-        }
-
         [Fact]
         public void Should_not_register_model_binders_when_model_binder_exists_in_ignore_list()
         {
-            RegisterModelBinders.IgnoredTypes.Add(typeof(FakeModelBinder3));
+            registration.Ignore<FakeModelBinder3>();
 
             registration.Execute();
 

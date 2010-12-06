@@ -10,21 +10,11 @@ namespace MvcExtensions
     /// <summary>
     /// Represents an interface which supports execution order.
     /// </summary>
-    public interface IOrderableTask
+    public abstract class Task : Disposable
     {
         /// <summary>
-        /// Gets the order that the task would execute.
-        /// </summary>
-        /// <value>The order.</value>
-        int Order
-        {
-            get;
-        }
-
-        /// <summary>
         /// Executes the task.
-        /// </summary>
-        /// <returns></returns>
-        TaskContinuation Execute();
+        /// </summary><returns></returns>
+        public abstract TaskContinuation Execute();
     }
 }

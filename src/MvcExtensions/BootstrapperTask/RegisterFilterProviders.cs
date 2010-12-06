@@ -12,15 +12,15 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines a class which is used to register the default <seealso cref="IActionInvoker"/>.
+    /// Defines a class which is used to register available <seealso cref="IFilterProvider"/>.
     /// </summary>
-    public class RegisterActionInvokers : IgnorableTypesBootstrapperTask<RegisterActionInvokers, IActionInvoker>
+    public class RegisterFilterProviders : IgnorableTypesBootstrapperTask<RegisterFilterProviders, IFilterProvider>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterActionInvokers"/> class.
+        /// Initializes a new instance of the <see cref="RegisterFilterProviders"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterActionInvokers(ContainerAdapter container)
+        public RegisterFilterProviders(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -38,17 +38,23 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
+        /// Executes the task.
         /// </summary>
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) && !IgnoredTypes.Any(ignoredType => ignoredType == type);
+            Func<Type, bool> filter = type => KnownTypes.FilterProviderType.IsAssignableFrom(type) &&
+                                              type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                              !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
+                                              !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes
                      .Where(filter)
-                     .Each(type => Container.RegisterAsTransient(type));
+                     .Each(type => Container.RegisterAsTransient(KnownTypes.FilterProviderType, type));
+
+            Container.GetServices<IFilterProvider>()
+                     .Each(provider => FilterProviders.Providers.Add(provider));
 
             return TaskContinuation.Continue;
         }

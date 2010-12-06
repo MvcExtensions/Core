@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// </summary>
     public class RegisterControllerActivator : BootstrapperTask
     {
-        private static Type controllerActivatorType = typeof(ExtendedControllerActivator);
+        private Type controllerActivatorType = typeof(ExtendedControllerActivator);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllerActivator"/> class.
@@ -30,20 +30,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterControllerActivator"/> should be excluded.
-        /// </summary>
-        /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
-        public static bool Excluded
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Gets or sets the type of the controller activator.
         /// </summary>
         /// <value>The type of the controller activator.</value>
-        public static Type ControllerActivatorType
+        public Type ControllerActivatorType
         {
             [DebuggerStepThrough]
             get
@@ -74,10 +64,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            if (!Excluded)
-            {
-                Container.RegisterAsSingleton(typeof(IControllerActivator), ControllerActivatorType);
-            }
+            Container.RegisterAsSingleton(typeof(IControllerActivator), ControllerActivatorType);
 
             return TaskContinuation.Continue;
         }

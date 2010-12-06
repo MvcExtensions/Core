@@ -21,7 +21,9 @@ namespace MvcExtensions
         /// <returns></returns>
         public static TService GetService<TService>(this ExtendedDependencyResolver instance, string key)
         {
-            return (TService) instance.GetService(typeof(TService), key);
+            Invariant.IsNotNull(instance, "instance");
+
+            return (TService)instance.GetService(typeof(TService), key);
         }
     }
 }

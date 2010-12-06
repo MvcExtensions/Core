@@ -8,18 +8,14 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="ValueProviderFactory"/>.
     /// </summary>
-    public class RegisterValueProviderFactories : BootstrapperTask
+    public class RegisterValueProviderFactories : IgnorableTypesBootstrapperTask<RegisterValueProviderFactories, ValueProviderFactory>
     {
-        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterValueProviderFactories"/> class.
         /// </summary>
@@ -32,29 +28,6 @@ namespace MvcExtensions
 
             Container = container;
             ValueProviderFactories = valueProviderFactories;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterValueProviderFactories"/> should be excluded.
-        /// </summary>
-        /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
-        public static bool Excluded
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets the ignored value provider factory types.
-        /// </summary>
-        /// <value>The ignored types.</value>
-        public static ICollection<Type> IgnoredTypes
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return ignoredTypes;
-            }
         }
 
         /// <summary>
@@ -83,21 +56,18 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            if (!Excluded)
-            {
-                Func<Type, bool> filter = type => KnownTypes.ValueProviderFactoryType.IsAssignableFrom(type) &&
-                                                  type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                                  !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
-                                                  !ValueProviderFactories.Any(factory => factory.GetType() == type);
+            Func<Type, bool> filter = type => KnownTypes.ValueProviderFactoryType.IsAssignableFrom(type) &&
+                                              type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                              !IgnoredTypes.Any(ignoredType => ignoredType == type) &&
+                                              !ValueProviderFactories.Any(factory => factory.GetType() == type);
 
-                Container.GetService<IBuildManager>()
-                         .ConcreteTypes
-                         .Where(filter)
-                         .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
+            Container.GetService<IBuildManager>()
+                     .ConcreteTypes
+                     .Where(filter)
+                     .Each(type => Container.RegisterAsSingleton(KnownTypes.ValueProviderFactoryType, type));
 
-                Container.GetServices<ValueProviderFactory>()
-                         .Each(factory => ValueProviderFactories.Add(factory));
-            }
+            Container.GetServices<ValueProviderFactory>()
+                     .Each(factory => ValueProviderFactories.Add(factory));
 
             return TaskContinuation.Continue;
         }

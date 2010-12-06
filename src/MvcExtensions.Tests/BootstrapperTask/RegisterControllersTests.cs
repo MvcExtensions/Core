@@ -7,32 +7,22 @@
 
 namespace MvcExtensions.Tests
 {
-    using System;
     using System.Web.Mvc;
 
     using Moq;
     using Xunit;
 
-    public class RegisterControllersTests : IDisposable
+    public class RegisterControllersTests
     {
         private readonly Mock<ContainerAdapter> adapter;
 
         public RegisterControllersTests()
         {
-            RegisterControllers.Excluded = false;
-            RegisterControllers.IgnoredTypes.Clear();
-
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyController) });
 
             adapter = new Mock<ContainerAdapter>();
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
-        }
-
-        public void Dispose()
-        {
-            RegisterControllers.Excluded = false;
-            RegisterControllers.IgnoredTypes.Clear();
         }
 
         [Fact]
@@ -46,21 +36,13 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_not_register_controllers_when_excluded()
-        {
-            RegisterControllers.Excluded = true;
-
-            new RegisterControllers(adapter.Object).Execute();
-
-            adapter.Verify(a => a.RegisterType(null, typeof(DummyController), typeof(DummyController), LifetimeType.Transient), Times.Never());
-        }
-
-        [Fact]
         public void Should_not_register_controllers_when_controller_exists_in_ignored_list()
         {
-            RegisterControllers.IgnoredTypes.Add(typeof(DummyController));
+            var registration = new RegisterControllers(adapter.Object);
 
-            new RegisterControllers(adapter.Object).Execute();
+            registration.Ignore<DummyController>();
+
+            registration.Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(DummyController), typeof(DummyController), LifetimeType.Transient), Times.Never());
         }

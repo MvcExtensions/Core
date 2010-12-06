@@ -10,7 +10,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class which is executed when <see cref="ExtendedMvcApplication"/> starts and ends.
     /// </summary>
-    public abstract class BootstrapperTask : OrderableTask
+    public abstract class BootstrapperTask : Task
     {
     }
 }

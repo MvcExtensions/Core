@@ -90,8 +90,11 @@
     <Compile Include="ActionFilter\ImportViewDataFromTempDataAttribute.cs" />
     <Compile Include="ActionResult\ExtendedJsonResult.cs" />
     <Compile Include="ActionResult\XmlResult.cs" />
+    <Compile Include="BootstrapperTask\BootstrapperTasksRegistry.cs" />
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
-    <Compile Include="BootstrapperTask\RegisteFilterProviders.cs" />
+    <Compile Include="BootstrapperTask\IBootstrapperTasksRegistry.cs" />
+    <Compile Include="BootstrapperTask\IgnorableTypesBootstrapperTask.cs" />
+    <Compile Include="BootstrapperTask\RegisterFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterFilters.cs" />
@@ -110,7 +113,6 @@
     <Compile Include="ActionResult\PermanentRedirectResult.cs" />
     <Compile Include="BootstrapperTask\RegisterFilterAttributes.cs" />
     <Compile Include="BootstrapperTask\RegisterControllers.cs" />
-    <Compile Include="BootstrapperTask\RegisterPerRequestTasks.cs" />
     <Compile Include="ActionFilter\ViewDataTempDataTransferAttribute.cs" />
     <Compile Include="ExtensionMethod\HttpResponseBaseExtensions.cs" />
     <Compile Include="ExtensionMethod\ObjectExtensions.cs" />
@@ -120,13 +122,14 @@
     <Compile Include="IoC\ExtendedDependencyResolverExtensions.cs" />
     <Compile Include="IoC\IServiceRegistrar.cs" />
     <Compile Include="IoC\LifetimeType.cs" />
-    <Compile Include="Abstraction\OrderableTask.cs" />
     <Compile Include="IoC\ExtendedDependencyResolver.cs" />
     <Compile Include="IoC\ServiceRegistrarExtensions.cs" />
     <Compile Include="BuildManager\BuildManagerWrapper.cs" />
     <Compile Include="BuildManager\IBuildManager.cs" />
-    <Compile Include="Abstraction\IOrderableTask.cs" />
+    <Compile Include="Abstraction\Task.cs" />
     <Compile Include="ModelMetadata\CompositeModelValidatorProvider.cs" />
+    <Compile Include="PerRequestTask\PerRequestTasksRegistry.cs" />
+    <Compile Include="PerRequestTask\IPerRequestTasksRegistry.cs" />
     <Compile Include="Routing\EnumConstraint.cs" />
     <Compile Include="Routing\GuidConstraint.cs" />
     <Compile Include="Routing\PositiveIntegerConstraint.cs" />

@@ -15,15 +15,12 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class RegisterViewEnginesTests : IDisposable
+    public class RegisterViewEnginesTests
     {
         private readonly Mock<ContainerAdapter> adapter;
 
         public RegisterViewEnginesTests()
         {
-            RegisterViewEngines.Excluded = false;
-            RegisterViewEngines.IgnoredTypes.Clear();
-
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyViewEngine) });
 
@@ -33,12 +30,6 @@ namespace MvcExtensions.Tests
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
             adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => viewEngines.Add((IViewEngine)Activator.CreateInstance(t2)));
             adapter.Setup(a => a.GetServices(typeof(IViewEngine))).Returns(() => viewEngines);
-        }
-
-        public void Dispose()
-        {
-            RegisterViewEngines.Excluded = false;
-            RegisterViewEngines.IgnoredTypes.Clear();
         }
 
         [Fact]
@@ -52,22 +43,13 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_not_register_view_engine_when_excluded()
-        {
-            var viewEngines = new ViewEngineCollection();
-            RegisterViewEngines.Excluded = true;
-
-            new RegisterViewEngines(adapter.Object, viewEngines).Execute();
-
-            Assert.Empty(viewEngines);
-        }
-
-        [Fact]
         public void Should_not_register_view_engine_when_view_engine_exists_in_ignored_list()
         {
-            RegisterViewEngines.IgnoredTypes.Add(typeof(DummyViewEngine));
+            var registration = new RegisterViewEngines(adapter.Object, new ViewEngineCollection());
 
-            new RegisterViewEngines(adapter.Object, new ViewEngineCollection { new Mock<IViewEngine>().Object }).Execute();
+            registration.Ignore<DummyViewEngine>();
+
+            registration.Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton), Times.Never());
         }

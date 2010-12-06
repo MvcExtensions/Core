@@ -9,17 +9,14 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="IViewEngine"/>.
     /// </summary>
-    public class RegisterViewEngines : BootstrapperTask
+    public class RegisterViewEngines : IgnorableTypesBootstrapperTask<RegisterViewEngines, IViewEngine>
     {
-        private static readonly ICollection<Type> ignoredTypes = new List<Type>();
-
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterViewEngines"/> class.
         /// </summary>
@@ -32,29 +29,6 @@ namespace MvcExtensions
 
             Container = container;
             ViewEngines = viewEngines;
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="RegisterViewEngines"/> should be excluded.
-        /// </summary>
-        /// <value><c>true</c> if excluded; otherwise, <c>false</c>.</value>
-        public static bool Excluded
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets the ignored model binder types.
-        /// </summary>
-        /// <value>The ignored types.</value>
-        public static ICollection<Type> IgnoredTypes
-        {
-            [DebuggerStepThrough]
-            get
-            {
-                return ignoredTypes;
-            }
         }
 
         /// <summary>
@@ -83,11 +57,6 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            if (Excluded)
-            {
-                return TaskContinuation.Continue;
-            }
-
             IEnumerable<Type> viewEngineTypes = ViewEngines.Select(ve => ve.GetType()).ToList();
 
             Func<Type, bool> filter = type => KnownTypes.ViewEngineType.IsAssignableFrom(type) &&

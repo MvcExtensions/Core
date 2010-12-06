@@ -9,9 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Diagnostics;
-    using System.Linq;
     using System.Web;
-    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class to manage application life cycle.
@@ -74,7 +72,7 @@ namespace MvcExtensions
         /// </summary>
         public void Application_Start()
         {
-            Bootstrapper.Execute();
+            Bootstrapper.ExecuteBootstrapperTasks();
             OnStart();
         }
 
@@ -83,8 +81,8 @@ namespace MvcExtensions
         /// </summary>
         public void Application_End()
         {
+            Bootstrapper.DisposeBootstrapperTasks();
             OnEnd();
-            Bootstrapper.Dispose();
         }
 
         /// <summary>
@@ -106,27 +104,7 @@ namespace MvcExtensions
         protected virtual void OnBeginRequest(HttpContextBase context)
         {
             OnPerRequestTasksExecuting();
-
-            bool shouldSkip = false;
-
-            foreach (PerRequestTask task in GetCurrentAdapter().GetServices<PerRequestTask>().OrderBy(task => task.Order))
-            {
-                if (shouldSkip)
-                {
-                    shouldSkip = false;
-                    continue;
-                }
-
-                TaskContinuation continuation = task.Execute();
-
-                if (continuation == TaskContinuation.Break)
-                {
-                    break;
-                }
-
-                shouldSkip = continuation == TaskContinuation.Skip;
-            }
-
+            Bootstrapper.ExecutePerRequestTasks();
             OnPerRequestTasksExecuted();
         }
 
@@ -150,11 +128,7 @@ namespace MvcExtensions
         protected virtual void OnEndRequest(HttpContextBase context)
         {
             OnPerRequestTasksDisposing();
-
-            GetCurrentAdapter().GetServices<PerRequestTask>()
-                               .OrderByDescending(task => task.Order)
-                               .Each(task => task.Dispose());
-
+            Bootstrapper.DisposePerRequestTasks();
             OnPerRequestTasksDisposed();
         }
 

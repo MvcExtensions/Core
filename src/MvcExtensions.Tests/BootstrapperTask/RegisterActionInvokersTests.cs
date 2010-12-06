@@ -13,15 +13,12 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class RegisterActionInvokersTests : IDisposable
+    public class RegisterActionInvokersTests
     {
         private readonly Mock<ContainerAdapter> adapter;
 
         public RegisterActionInvokersTests()
         {
-            RegisterActionInvokers.Excluded = false;
-            RegisterActionInvokers.IgnoredTypes.Clear();
-
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyActionInvoker) });
 
@@ -29,14 +26,8 @@ namespace MvcExtensions.Tests
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
         }
 
-        public void Dispose()
-        {
-            RegisterActionInvokers.Excluded = false;
-            RegisterActionInvokers.IgnoredTypes.Clear();
-        }
-
         [Fact]
-        public void Should_register_available_controllers()
+        public void Should_register_available_action_invokers()
         {
             adapter.Setup(a => a.RegisterType(null, typeof(DummyActionInvoker), typeof(DummyActionInvoker), LifetimeType.Transient)).Verifiable();
 
@@ -46,21 +37,13 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_not_register_action_invoker_when_excluded()
+        public void Should_not_register_action_invokers_when_action_invoker_exists_in_ignored_list()
         {
-            RegisterActionInvokers.Excluded = true;
+            var registration = new RegisterActionInvokers(adapter.Object);
 
-            new RegisterActionInvokers(adapter.Object).Execute();
+            registration.Ignore<DummyActionInvoker>();
 
-            adapter.Verify(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Transient), Times.Never());
-        }
-
-        [Fact]
-        public void Should_not_register_controllers_when_controller_exists_in_ignored_list()
-        {
-            RegisterActionInvokers.IgnoredTypes.Add(typeof(DummyActionInvoker));
-
-            new RegisterActionInvokers(adapter.Object).Execute();
+            registration.Execute();
 
             adapter.Verify(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Transient), Times.Never());
         }

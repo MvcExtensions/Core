@@ -12,7 +12,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class which is executed for each request. This is similar to <seealso cref="IHttpModule"/> with only begin and end support.
     /// </summary>
-    public abstract class PerRequestTask : OrderableTask
+    public abstract class PerRequestTask : Task
     {
     }
 }

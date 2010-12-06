@@ -7,33 +7,23 @@
 
 namespace MvcExtensions.Tests
 {
-    using System;
     using System.Web.Mvc;
 
     using Moq;
     using Xunit;
 
-    public class RegisterFilterAttributesTests : IDisposable
+    public class RegisterFilterAttributesTests
     {
         private readonly Mock<ContainerAdapter> adapter;
 
         public RegisterFilterAttributesTests()
         {
-            RegisterFilterAttributes.Excluded = false;
-            RegisterFilterAttributes.IgnoredTypes.Clear();
-
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyFilter) });
 
             adapter = new Mock<ContainerAdapter>();
 
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
-        }
-
-        public void Dispose()
-        {
-            RegisterFilterAttributes.Excluded = false;
-            RegisterFilterAttributes.IgnoredTypes.Clear();
         }
 
         [Fact]
@@ -47,21 +37,13 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_not_register_filters_when_excluded()
-        {
-            RegisterFilterAttributes.Excluded = true;
-
-            new RegisterFilterAttributes(adapter.Object).Execute();
-
-            adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
-        }
-
-        [Fact]
         public void Should_not_register_filters_when_filter_exists_in_ignored_list()
         {
-            RegisterFilterAttributes.IgnoredTypes.Add(typeof(DummyFilter));
+            var registration = new RegisterFilterAttributes(adapter.Object);
 
-            new RegisterFilterAttributes(adapter.Object).Execute();
+            registration.Ignore<DummyFilter>();
+
+            registration.Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
         }

@@ -8,6 +8,7 @@
 namespace MvcExtensions.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -18,43 +19,51 @@ namespace MvcExtensions.Tests
     {
         private readonly Mock<ContainerAdapter> adapter;
         private readonly Mock<IBuildManager> buildManager;
+        private readonly Mock<IBootstrapperTasksRegistry> bootstrapperTasksRegistry;
+        private readonly Mock<IPerRequestTasksRegistry> perRequestTasksRegistry;
+
         private readonly Bootstrapper bootstrapper;
 
         public BootstrapperTests()
         {
             buildManager = new Mock<IBuildManager>();
+            bootstrapperTasksRegistry = new Mock<IBootstrapperTasksRegistry>();
+            perRequestTasksRegistry = new Mock<IPerRequestTasksRegistry>();
             adapter = new Mock<ContainerAdapter>();
 
             adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
             adapter.Setup(a => a.RegisterInstance(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<object>())).Returns(adapter.Object);
 
-            bootstrapper = new BootstrapperTestDouble(adapter, buildManager.Object);
+            bootstrapper = new BootstrapperTestDouble(adapter, buildManager.Object, bootstrapperTasksRegistry.Object, perRequestTasksRegistry.Object);
         }
 
         [Fact]
-        public void Execute_should_execute_bootstrapper_tasks()
+        public void ExecuteBootstrapperTasks_should_execute_bootstrapper_tasks()
         {
             var task = new Mock<BootstrapperTask>();
             task.Setup(t => t.Execute()).Verifiable();
 
-            adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task.Object }).Verifiable();
+            var config = new KeyValuePair<Type, Action<object>>(task.GetType(), null);
 
-            bootstrapper.Execute();
+            bootstrapperTasksRegistry.Setup(r => r.TaskConfigurations).Returns(new[] {config});
+            adapter.Setup(a => a.GetService(It.IsAny<Type>())).Returns(task.Object).Verifiable();
+
+            bootstrapper.ExecuteBootstrapperTasks();
 
             task.VerifyAll();
             adapter.VerifyAll();
         }
 
         [Fact]
-        public void Dispose_should_dispose_bootstrapper_tasks()
+        public void DisposeBootstrapperTasks_should_dispose_bootstrapper_tasks()
         {
             var task = new DummyTask();
+            var config = new KeyValuePair<Type, Action<object>>(task.GetType(), null);
 
-            adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task }).Verifiable();
+            bootstrapperTasksRegistry.Setup(r => r.TaskConfigurations).Returns(new[] { config });
+            adapter.Setup(a => a.GetService(It.IsAny<Type>())).Returns(task).Verifiable();
 
-            Assert.NotNull(bootstrapper.Adapter);
-
-            bootstrapper.Dispose();
+            bootstrapper.DisposeBootstrapperTasks();
 
             Assert.True(task.Disposed);
         }
@@ -199,7 +208,7 @@ namespace MvcExtensions.Tests
 
             adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
-            bootstrapper.Execute();
+            //bootstrapper.Execute();
 
             task2.Verify(t => t.Execute(), Times.Never());
         }
@@ -214,7 +223,7 @@ namespace MvcExtensions.Tests
 
             adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
-            bootstrapper.Execute();
+            //bootstrapper.Execute();
 
             task2.Verify(t => t.Execute(), Times.Never());
         }
@@ -223,7 +232,7 @@ namespace MvcExtensions.Tests
         {
             private readonly Mock<ContainerAdapter> adapter;
 
-            public BootstrapperTestDouble(Mock<ContainerAdapter> adapter, IBuildManager buildManager) : base(buildManager)
+            public BootstrapperTestDouble(Mock<ContainerAdapter> adapter, IBuildManager buildManager, IBootstrapperTasksRegistry bootstrapperTasksRegistry, IPerRequestTasksRegistry perRequestTasksRegistry) : base(buildManager, bootstrapperTasksRegistry, perRequestTasksRegistry)
             {
                 this.adapter = adapter;
             }

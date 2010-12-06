@@ -19,13 +19,13 @@ namespace MvcExtensions
     /// </summary>
     public class BuildManagerWrapper : IBuildManager
     {
-        private static readonly IBuildManager current = new BuildManagerWrapper();
+        private static readonly IBuildManager instance = new BuildManagerWrapper();
         private IEnumerable<Assembly> referencedAssemblies;
         private IEnumerable<Type> publicTypes;
         private IEnumerable<Type> concreteTypes;
 
         /// <summary>
-        /// Gets the current <see cref="IBuildManager"/>.
+        /// Gets the singleton instance.
         /// </summary>
         /// <value>The current.</value>
         public static IBuildManager Current
@@ -33,7 +33,7 @@ namespace MvcExtensions
             [DebuggerStepThrough]
             get
             {
-                return current;
+                return instance;
             }
         }
 
