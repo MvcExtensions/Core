@@ -65,9 +65,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{2D4E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{86BCA31E-FCFE-4611-B79B-BFF698C6A1AD}"
 	ProjectSection(SolutionItems) = preProject
-		Sample\SharedFiles\Scripts\MicrosoftAjax.js = Sample\SharedFiles\Scripts\MicrosoftAjax.js
-		Sample\SharedFiles\Scripts\MicrosoftMvcAjax.js = Sample\SharedFiles\Scripts\MicrosoftMvcAjax.js
-		Sample\SharedFiles\Scripts\MicrosoftMvcValidation.js = Sample\SharedFiles\Scripts\MicrosoftMvcValidation.js
+		Sample\SharedFiles\Scripts\jquery-1.4.1.min.js = Sample\SharedFiles\Scripts\jquery-1.4.1.min.js
+		Sample\SharedFiles\Scripts\jquery.unobtrusive-ajax.min.js = Sample\SharedFiles\Scripts\jquery.unobtrusive-ajax.min.js
+		Sample\SharedFiles\Scripts\jquery.validate.min.js = Sample\SharedFiles\Scripts\jquery.validate.min.js
+		Sample\SharedFiles\Scripts\jquery.validate.unobtrusive.min.js = Sample\SharedFiles\Scripts\jquery.validate.unobtrusive.min.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DisplayTemplates", "DisplayTemplates", "{375138DB-E561-4289-8220-78ED0D1BA0C4}"

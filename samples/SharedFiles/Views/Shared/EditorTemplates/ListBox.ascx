@@ -12,7 +12,7 @@
 </script>
 <% ModelMetadataItemSelectableElementSetting setting = GetSelectableElementSetting();%>
 <% if (setting != null) {%>
-    <%= Html.ListBox(null, ViewData.Eval(setting.ViewDataKey) as IEnumerable<SelectListItem>)%>
+    <%= Html.ListBox(string.Empty, ViewData.Eval(setting.ViewDataKey) as IEnumerable<SelectListItem>)%>
 <% }%>
 <% else {%>
     <%= Html.DisplayForModel()%>
