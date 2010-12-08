@@ -115,6 +115,15 @@ namespace MvcExtensions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Incorrect type, it must be descended of &quot;{0}&quot;..
+        /// </summary>
+        internal static string IncorrectTypeMustBeDescended {
+            get {
+                return ResourceManager.GetString("IncorrectTypeMustBeDescended", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid action invoker type. Type must implement &quot;IActionInvoker&quot;..
         /// </summary>
         internal static string InvalidActionInvokerTypeTypeMustImplementIActionInvoker {

@@ -45,7 +45,7 @@ namespace MvcExtensions.Tests
 
             var config = new KeyValuePair<Type, Action<object>>(task.GetType(), null);
 
-            bootstrapperTasksRegistry.Setup(r => r.TaskConfigurations).Returns(new[] {config});
+            bootstrapperTasksRegistry.Setup(r => r.TaskConfigurations).Returns(new[] { config });
             adapter.Setup(a => a.GetService(It.IsAny<Type>())).Returns(task.Object).Verifiable();
 
             bootstrapper.ExecuteBootstrapperTasks();
@@ -155,9 +155,9 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_register_filter_registry_as_singleton()
+        public void Should_register_action_invoker_registry()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(IFilterRegistry), typeof(FilterRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterInstance(null, typeof(TypeMappingRegistry<Controller, IActionInvoker>), It.IsAny<object>())).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -165,9 +165,9 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
-        public void Should_register_action_invoker_registry_as_singleton()
+        public void Should_register_filter_registry_as_singleton()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(IActionInvokerRegistry), typeof(ActionInvokerRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterType(null, typeof(IFilterRegistry), typeof(FilterRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -191,7 +191,7 @@ namespace MvcExtensions.Tests
 
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { task.GetType() });
 
-            adapter.Setup(a => a.RegisterType(null, typeof(BootstrapperTask), task.GetType(), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterType(null, task.GetType(), task.GetType(), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -208,7 +208,7 @@ namespace MvcExtensions.Tests
 
             adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
-            //bootstrapper.Execute();
+            bootstrapper.ExecuteBootstrapperTasks();
 
             task2.Verify(t => t.Execute(), Times.Never());
         }
@@ -223,7 +223,7 @@ namespace MvcExtensions.Tests
 
             adapter.Setup(a => a.GetServices(typeof(BootstrapperTask))).Returns(new[] { task1.Object, task2.Object }).Verifiable();
 
-            //bootstrapper.Execute();
+            bootstrapper.ExecuteBootstrapperTasks();
 
             task2.Verify(t => t.Execute(), Times.Never());
         }

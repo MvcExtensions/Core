@@ -12,12 +12,12 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class ConfigureActionInvokersBaseTests
+    public class ConfigurableTypeMappingBaseTests
     {
         [Fact]
         public void Should_be_able_to_configure()
         {
-            var registry = new Mock<IActionInvokerRegistry>();
+            var registry = new Mock<TypeMappingRegistry<Controller, IActionInvoker>>();
 
             registry.Setup(r => r.Register(typeof(Dummy1Controller), typeof(DummyActionInvoker))).Verifiable();
 
@@ -26,9 +26,9 @@ namespace MvcExtensions.Tests
             registry.Verify();
         }
 
-        private class ConfigureActionInvokersBaseTestDouble : ConfigureActionInvokersBase
+        private class ConfigureActionInvokersBaseTestDouble : ConfigurableTypeMappingBase<Controller, IActionInvoker>
         {
-            public ConfigureActionInvokersBaseTestDouble(IActionInvokerRegistry registry) : base(registry)
+            public ConfigureActionInvokersBaseTestDouble(TypeMappingRegistry<Controller, IActionInvoker> registry) : base(registry)
             {
             }
 

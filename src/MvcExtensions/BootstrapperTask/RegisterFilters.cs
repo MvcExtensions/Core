@@ -44,6 +44,7 @@ namespace MvcExtensions
         public override TaskContinuation Execute()
         {
             Func<Type, bool> filter = type => KnownTypes.FilterType.IsAssignableFrom(type) &&
+                                              !KnownTypes.FilterAttributeType.IsAssignableFrom(type) &&
                                               type.Assembly != KnownAssembly.AspNetMvcAssembly &&
                                               type.Assembly != KnownAssembly.AspNetMvcExtensionsAssembly &&
                                               !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&

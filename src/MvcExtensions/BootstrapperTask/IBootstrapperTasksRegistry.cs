@@ -22,18 +22,25 @@ namespace MvcExtensions
         IEnumerable<KeyValuePair<Type, Action<object>>> TaskConfigurations { get; }
 
         /// <summary>
-        /// Includes this instance.
+        /// Includes the specified task.
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <returns></returns>
         IBootstrapperTasksRegistry Include<TTask>() where TTask : BootstrapperTask;
 
         /// <summary>
-        /// Includes the specified configure.
+        /// Includes the specified task and also allows to configure.
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <param name="configure">The configure.</param>
         /// <returns></returns>
         IBootstrapperTasksRegistry Include<TTask>(Action<TTask> configure) where TTask : BootstrapperTask;
+
+        /// <summary>
+        /// Excludes the specified task which might have  implicitly added.
+        /// </summary>
+        /// <typeparam name="TTask">The type of the task.</typeparam>
+        /// <returns></returns>
+        IBootstrapperTasksRegistry Exclude<TTask>() where TTask : BootstrapperTask;
     }
 }

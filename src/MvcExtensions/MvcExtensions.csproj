@@ -83,6 +83,10 @@
     <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
+    <Compile Include="BootstrapperTask\ConfigureControllerActivatorsBase.cs" />
+    <Compile Include="BootstrapperTask\ConfigureViewPageActivatorsBase.cs" />
+    <Compile Include="BootstrapperTask\DependsOnAttribute.cs" />
     <Compile Include="Abstraction\TaskContinuation.cs" />
     <Compile Include="ActionFilter\CompressAttribute.cs" />
     <Compile Include="ActionFilter\ExportViewDataToTempDataAttribute.cs" />
@@ -91,19 +95,21 @@
     <Compile Include="ActionResult\ExtendedJsonResult.cs" />
     <Compile Include="ActionResult\XmlResult.cs" />
     <Compile Include="BootstrapperTask\BootstrapperTasksRegistry.cs" />
-    <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
+    <Compile Include="BootstrapperTask\ConfigurableTypeMappingBase.cs" />
     <Compile Include="BootstrapperTask\IBootstrapperTasksRegistry.cs" />
     <Compile Include="BootstrapperTask\IgnorableTypesBootstrapperTask.cs" />
     <Compile Include="BootstrapperTask\RegisterFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterFilters.cs" />
-    <Compile Include="Controller\ActionInvokerRegistry.cs" />
-    <Compile Include="Controller\ActionInvokerRegistryExtensions.cs" />
+    <Compile Include="BootstrapperTask\RegisterViewPageActivator.cs" />
+    <Compile Include="BootstrapperTask\RegisterViews.cs" />
+    <Compile Include="Controller\ControllerActivatorTypeMappingRegistryExtensions.cs" />
+    <Compile Include="TypeContainers\TypeMappingRegistry.cs" />
+    <Compile Include="Controller\ActionInvokerTypeMappingRegistryExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
     <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
     <Compile Include="Controller\ExtendedControllerActivator.cs" />
-    <Compile Include="Controller\IActionInvokerRegistry.cs" />
     <Compile Include="ExtensionMethod\HttpContextBaseExtensions.cs" />
     <Compile Include="Helper\KnownAssembly.cs" />
     <Compile Include="Helper\QValueSorter.cs" />
@@ -136,8 +142,8 @@
     <Compile Include="Routing\PositiveLongConstraint.cs" />
     <Compile Include="Routing\RangeConstraint.cs" />
     <Compile Include="Routing\RegexConstraint.cs" />
-    <Compile Include="TypeCatalog\TypeCatalog.cs" />
-    <Compile Include="TypeCatalog\TypeCatalogBuilder.cs" />
+    <Compile Include="TypeContainers\TypeCatalog.cs" />
+    <Compile Include="TypeContainers\TypeCatalogBuilder.cs" />
     <Compile Include="PerRequestTask\PerRequestTask.cs" />
     <Compile Include="ActionFilter\FilterRegistryExtensions.cs" />
     <Compile Include="ActionFilter\FilterRegistry.cs" />
@@ -203,6 +209,8 @@
     <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
     <Compile Include="ModelMetadata\ExtendedValidator.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
+    <Compile Include="View\ViewPageTypeMappingRegistryExtensions.cs" />
+    <Compile Include="View\ExtendedViewPageActivator.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />

@@ -15,19 +15,16 @@ namespace MvcExtensions
     /// </summary>
     public abstract class IgnorableTypesBootstrapperTask<TBootstrapperTask, TIgnoreType> : BootstrapperTask where TBootstrapperTask : IgnorableTypesBootstrapperTask<TBootstrapperTask, TIgnoreType> where TIgnoreType : class
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="IgnorableTypesBootstrapperTask{TBootstrapperTask,TIgnoreType}"/> class.
-        /// </summary>
-        protected IgnorableTypesBootstrapperTask()
-        {
-            IgnoredTypes = new List<Type>();
-        }
+        private readonly ICollection<Type> ignoredTypes = new List<Type>();
 
         /// <summary>
         /// Gets the ignored types.
         /// </summary>
         /// <value>The ignored types.</value>
-        protected ICollection<Type> IgnoredTypes { get; private set; }
+        protected virtual ICollection<Type> IgnoredTypes
+        {
+            get { return ignoredTypes; }
+        }
 
         /// <summary>
         /// Ignores this instance.

@@ -12,14 +12,14 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class to configure mapping between controller activator and controller.
     /// </summary>
-    [DependsOn(typeof(RegisterActionInvokers))]
-    public abstract class ConfigureActionInvokersBase : ConfigurableTypeMappingBase<Controller, IActionInvoker>
+    [DependsOn(typeof(RegisterControllerActivator))]
+    public abstract class ConfigureControllerActivatorsBase : ConfigurableTypeMappingBase<Controller, IControllerActivator>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigureActionInvokersBase"/> class.
+        /// Initializes a new instance of the <see cref="ConfigureControllerActivatorsBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureActionInvokersBase(TypeMappingRegistry<Controller, IActionInvoker> registry) : base(registry)
+        protected ConfigureControllerActivatorsBase(TypeMappingRegistry<Controller, IControllerActivator> registry) : base(registry)
         {
         }
     }

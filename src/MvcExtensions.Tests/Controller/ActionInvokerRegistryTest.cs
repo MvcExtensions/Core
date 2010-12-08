@@ -14,11 +14,11 @@ namespace MvcExtensions.Tests
 
     public class ActionInvokerRegistryTest
     {
-        private readonly ActionInvokerRegistry registry;
+        private readonly TypeMappingRegistry<Controller, IActionInvoker> registry;
 
         public ActionInvokerRegistryTest()
         {
-            registry = new ActionInvokerRegistry();
+            registry = new TypeMappingRegistry<Controller, IActionInvoker>();
         }
 
         [Fact]

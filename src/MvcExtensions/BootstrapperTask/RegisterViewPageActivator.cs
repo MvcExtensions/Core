@@ -13,17 +13,17 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines a class which is used to register the default <seealso cref="IControllerActivator"/>.
+    /// Defines a class which is used to register the default <seealso cref="IViewPageActivator"/>.
     /// </summary>
-    public class RegisterControllerActivator : BootstrapperTask
+    public class RegisterViewPageActivator : BootstrapperTask
     {
-        private Type controllerActivatorType = typeof(ExtendedControllerActivator);
+        private Type viewPageActivatorType = typeof(ExtendedViewPageActivator);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegisterControllerActivator"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterControllerActivator(ContainerAdapter container)
+        public RegisterViewPageActivator(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -34,18 +34,18 @@ namespace MvcExtensions
         /// Gets or sets the type of the controller activator.
         /// </summary>
         /// <value>The type of the controller activator.</value>
-        public Type ControllerActivatorType
+        public Type ViewPageActivatorType
         {
             [DebuggerStepThrough]
             get
             {
-                return controllerActivatorType;
+                return viewPageActivatorType;
             }
 
             [DebuggerStepThrough]
             set
             {
-                controllerActivatorType = value;
+                viewPageActivatorType = value;
             }
         }
 
@@ -65,17 +65,16 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            Func<Type, bool> filter = type => KnownTypes.ControllerActivatorType.IsAssignableFrom(type) &&
-                                              type != ControllerActivatorType &&
+            Func<Type, bool> filter = type => KnownTypes.ViewPageActivatorType.IsAssignableFrom(type) &&
+                                              type != ViewPageActivatorType &&
                                               type.Assembly != KnownAssembly.AspNetMvcAssembly &&
                                               !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes
-                     .Where(filter)
-                     .Each(type => Container.RegisterAsSingleton(type));
+                     .Where(filter).Each(type => Container.RegisterAsSingleton(type));
 
-            Container.RegisterAsSingleton(KnownTypes.ControllerActivatorType, ControllerActivatorType);
+            Container.RegisterAsSingleton(KnownTypes.ViewPageActivatorType, ViewPageActivatorType);
 
             return TaskContinuation.Continue;
         }

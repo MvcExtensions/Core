@@ -14,6 +14,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="FilterAttribute"/>.
     /// </summary>
+    [DependsOn(typeof(RegisterActionInvokers))]
     public class RegisterFilterAttributes : IgnorableTypesBootstrapperTask<RegisterFilterAttributes, FilterAttribute>
     {
         /// <summary>

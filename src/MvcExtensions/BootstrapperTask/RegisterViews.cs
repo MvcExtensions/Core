@@ -12,16 +12,16 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines a class which is used to register the default <seealso cref="IActionInvoker"/>.
+    /// Defines a class which is used to register available <seealso cref="IView"/>.
     /// </summary>
-    [DependsOn(typeof(RegisterControllerActivator))]
-    public class RegisterActionInvokers : IgnorableTypesBootstrapperTask<RegisterActionInvokers, IActionInvoker>
+    [DependsOn(typeof(RegisterViewPageActivator))]
+    public class RegisterViews : IgnorableTypesBootstrapperTask<RegisterViews, IView>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegisterActionInvokers"/> class.
+        /// Initializes a new instance of the <see cref="RegisterViews"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterActionInvokers(ContainerAdapter container)
+        public RegisterViews(ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -39,12 +39,14 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Executes the task. Returns continuation of the next task(s) in the chain.
-        /// </summary>
-        /// <returns></returns>
+        /// Executes the task.
+        /// </summary><returns></returns>
         public override TaskContinuation Execute()
         {
-            Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) && !IgnoredTypes.Any(ignoredType => ignoredType == type);
+            Func<Type, bool> filter = type => KnownTypes.ViewType.IsAssignableFrom(type) &&
+                                              type.Assembly != KnownAssembly.AspNetMvcAssembly &&
+                                              !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
+                                              !IgnoredTypes.Any(ignoredType => ignoredType == type);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes

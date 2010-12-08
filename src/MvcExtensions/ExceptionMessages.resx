@@ -162,4 +162,7 @@
   <data name="ActivationExceptionMessage" xml:space="preserve">
     <value>Activation error occurred while trying to get instance of type {0}, key "{1}".</value>
   </data>
+  <data name="IncorrectTypeMustBeDescended" xml:space="preserve">
+    <value>Incorrect type, it must be descended of "{0}".</value>
+  </data>
 </root>

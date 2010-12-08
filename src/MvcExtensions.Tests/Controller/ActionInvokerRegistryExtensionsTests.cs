@@ -15,11 +15,11 @@ namespace MvcExtensions.Tests
 
     public class ActionInvokerRegistryExtensionsTests
     {
-        private readonly Mock<IActionInvokerRegistry> registry;
+        private readonly Mock<TypeMappingRegistry<Controller, IActionInvoker>> registry;
 
         public ActionInvokerRegistryExtensionsTests()
         {
-            registry = new Mock<IActionInvokerRegistry>();
+            registry = new Mock<TypeMappingRegistry<Controller, IActionInvoker>>();
         }
 
         [Fact]

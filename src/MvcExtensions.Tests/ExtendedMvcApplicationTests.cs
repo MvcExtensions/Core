@@ -161,12 +161,12 @@ namespace MvcExtensions.Tests
 
             public void StartBeginRequest(HttpContextBase httpContext)
             {
-                base.OnBeginRequest(httpContext);
+                OnBeginRequest(httpContext);
             }
 
             public void StartEndRequest(HttpContextBase httpContext)
             {
-                base.OnEndRequest(httpContext);
+                OnEndRequest(httpContext);
             }
 
             protected override IBootstrapper CreateBootstrapper()

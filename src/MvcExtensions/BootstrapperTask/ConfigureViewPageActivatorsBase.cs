@@ -10,16 +10,16 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines a class to configure mapping between controller activator and controller.
+    /// Defines a class to configure mapping between view page activator and view.
     /// </summary>
-    [DependsOn(typeof(RegisterActionInvokers))]
-    public abstract class ConfigureActionInvokersBase : ConfigurableTypeMappingBase<Controller, IActionInvoker>
+    [DependsOn(typeof(RegisterViewPageActivator))]
+    public abstract class ConfigureViewPageActivatorsBase : ConfigurableTypeMappingBase<IView, IViewPageActivator>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigureActionInvokersBase"/> class.
+        /// Initializes a new instance of the <see cref="ConfigureViewPageActivatorsBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureActionInvokersBase(TypeMappingRegistry<Controller, IActionInvoker> registry) : base(registry)
+        protected ConfigureViewPageActivatorsBase(TypeMappingRegistry<IView, IViewPageActivator> registry) : base(registry)
         {
         }
     }

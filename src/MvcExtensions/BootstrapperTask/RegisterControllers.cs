@@ -14,6 +14,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="Controller"/>.
     /// </summary>
+    [DependsOn(typeof(RegisterControllerActivator))]
     public class RegisterControllers : IgnorableTypesBootstrapperTask<RegisterControllers, Controller>
     {
         /// <summary>

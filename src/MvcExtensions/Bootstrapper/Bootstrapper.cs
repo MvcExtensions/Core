@@ -166,6 +166,8 @@ namespace MvcExtensions
 
                 TTask task = (TTask)Adapter.GetService(taskConfiguration.Key);
 
+                Debug.Assert(task != null);
+
                 if (taskConfiguration.Value != null)
                 {
                     taskConfiguration.Value(task);
@@ -196,25 +198,27 @@ namespace MvcExtensions
                    .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
                    .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
                    .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
-                   .RegisterAsSingleton<IActionInvokerRegistry, ActionInvokerRegistry>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
                    .RegisterInstance<IBuildManager>(BuildManager);
 
             BuildManager.ConcreteTypes
                         .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))
-                        .Each(type => adapter.RegisterAsSingleton(KnownTypes.BootstrapperTaskType, type));
+                        .Each(type => adapter.RegisterAsSingleton(type));
 
             BuildManager.ConcreteTypes
                         .Where(type => KnownTypes.PerRequestTaskType.IsAssignableFrom(type))
-                        .Each(type => adapter.RegisterAsPerRequest(KnownTypes.PerRequestTaskType, type));
+                        .Each(type => adapter.RegisterAsPerRequest(type));
 
             adapter.RegisterInstance<IServiceRegistrar>(adapter)
                    .RegisterInstance<IDependencyResolver>(adapter)
                    .RegisterInstance<IServiceInjector>(adapter)
                    .RegisterInstance<ContainerAdapter>(adapter)
                    .RegisterInstance<IBootstrapperTasksRegistry>(BootstrapperTasks)
-                   .RegisterInstance<IPerRequestTasksRegistry>(PerRequestTasks);
+                   .RegisterInstance<IPerRequestTasksRegistry>(PerRequestTasks)
+                   .RegisterInstance<TypeMappingRegistry<Controller, IActionInvoker>>(new TypeMappingRegistry<Controller, IActionInvoker>())
+                   .RegisterInstance<TypeMappingRegistry<Controller, IControllerActivator>>(new TypeMappingRegistry<Controller, IControllerActivator>())
+                   .RegisterInstance<TypeMappingRegistry<IView, IViewPageActivator>>(new TypeMappingRegistry<IView, IViewPageActivator>());
         }
 
         private ContainerAdapter CreateAndSetCurrent()

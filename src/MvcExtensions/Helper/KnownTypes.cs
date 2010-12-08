@@ -20,6 +20,8 @@ namespace MvcExtensions
 
         public static readonly Type ModelBinderType = typeof(IModelBinder);
 
+        public static readonly Type ControllerActivatorType = typeof(IControllerActivator);
+
         public static readonly Type ControllerType = typeof(Controller);
 
         public static readonly Type ActionInvokerType = typeof(IActionInvoker);
@@ -33,6 +35,10 @@ namespace MvcExtensions
         public static readonly Type FilterAttributeType = typeof(FilterAttribute);
 
         public static readonly Type FilterProviderType = typeof(IFilterProvider);
+
+        public static readonly Type ViewPageActivatorType = typeof(IViewPageActivator);
+
+        public static readonly Type ViewType = typeof(IView);
 
         public static readonly Type ViewEngineType = typeof(IViewEngine);
 

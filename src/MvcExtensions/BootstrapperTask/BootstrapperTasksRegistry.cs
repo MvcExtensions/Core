@@ -52,7 +52,7 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Includes the task and also configure it.
+        /// Includes the specified task and also allows to configure.
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <param name="configure">The configure.</param>
@@ -66,9 +66,45 @@ namespace MvcExtensions
                 modified = t => configure((TTask)t);
             }
 
-            tasks.Add(new TaskConfiguration { TaskType = typeof(TTask), Configure = modified });
+            Include(typeof(TTask), modified);
 
             return this;
+        }
+
+        /// <summary>
+        /// Excludes this instance.
+        /// </summary>
+        /// <typeparam name="TTask">The type of the task.</typeparam>
+        /// <returns></returns>
+        public virtual IBootstrapperTasksRegistry Exclude<TTask>() where TTask : BootstrapperTask
+        {
+            Type taskType = typeof(TTask);
+
+            IEnumerable<TaskConfiguration> taskConfigurations = tasks.Where(c => c.TaskType == taskType).ToList();
+
+            foreach (TaskConfiguration taskConfiguration in taskConfigurations)
+            {
+                tasks.Remove(taskConfiguration);
+            }
+
+            return this;
+        }
+
+        private void Include(Type type, Action<object> configure)
+        {
+            IEnumerable<Type> requires = type.GetCustomAttributes(typeof(DependsOnAttribute), true)
+                                             .Cast<DependsOnAttribute>()
+                                             .Select(a => a.TaskType)
+                                             .Distinct()
+                                             .Except(TaskConfigurations.Select(t => t.Key))
+                                             .ToList();
+
+            foreach (Type require in requires)
+            {
+                Include(require, null);
+            }
+
+            tasks.Add(new TaskConfiguration { TaskType = type, Configure = configure });
         }
 
         private sealed class TaskConfiguration
