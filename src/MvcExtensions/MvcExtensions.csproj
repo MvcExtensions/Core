@@ -85,6 +85,7 @@
     </Compile>
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
     <Compile Include="BootstrapperTask\ConfigureControllerActivatorsBase.cs" />
+    <Compile Include="BootstrapperTask\ConfigureModelBindersBase.cs" />
     <Compile Include="BootstrapperTask\ConfigureViewPageActivatorsBase.cs" />
     <Compile Include="BootstrapperTask\DependsOnAttribute.cs" />
     <Compile Include="Abstraction\TaskContinuation.cs" />
@@ -98,15 +99,19 @@
     <Compile Include="BootstrapperTask\ConfigurableTypeMappingBase.cs" />
     <Compile Include="BootstrapperTask\IBootstrapperTasksRegistry.cs" />
     <Compile Include="BootstrapperTask\IgnorableTypesBootstrapperTask.cs" />
+    <Compile Include="BootstrapperTask\RegisterAreas.cs" />
     <Compile Include="BootstrapperTask\RegisterFilterProviders.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokers.cs" />
     <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterFilters.cs" />
+    <Compile Include="BootstrapperTask\RegisterModelBinderProvider.cs" />
     <Compile Include="BootstrapperTask\RegisterViewPageActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterViews.cs" />
-    <Compile Include="Controller\ControllerActivatorTypeMappingRegistryExtensions.cs" />
+    <Compile Include="Controller\ControllerActivatorMappingExtensions.cs" />
+    <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
+    <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
     <Compile Include="TypeContainers\TypeMappingRegistry.cs" />
-    <Compile Include="Controller\ActionInvokerTypeMappingRegistryExtensions.cs" />
+    <Compile Include="Controller\ActionInvokerMappingExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />
     <Compile Include="Controller\ExtendedAsyncControllerActionInvoker.cs" />
     <Compile Include="Controller\ExtendedControllerActivator.cs" />
@@ -151,7 +156,6 @@
     <Compile Include="ActionFilter\FilterRegistryControllerItem.cs" />
     <Compile Include="ActionFilter\FilterRegistryItem.cs" />
     <Compile Include="ActionFilter\IFilterRegistry.cs" />
-    <Compile Include="ModelBinder\BindingTypeAttribute.cs" />
     <Compile Include="BootstrapperTask\ConfigureFilterAttributesBase.cs" />
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Bootstrapper\IBootstrapper.cs" />

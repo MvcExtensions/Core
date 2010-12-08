@@ -99,7 +99,7 @@ namespace MvcExtensions
                 {
                     actionInvokerType = controller is IAsyncController ?
                                         KnownTypes.AsyncActionInvokerType :
-                                        KnownTypes.DefaultActionInvokerType;
+                                        KnownTypes.SyncActionInvokerType;
                 }
 
                 IActionInvoker actionInvoker = Container.GetService(actionInvokerType) as IActionInvoker;

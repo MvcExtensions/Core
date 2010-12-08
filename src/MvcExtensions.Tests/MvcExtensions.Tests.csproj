@@ -113,7 +113,6 @@
     <Compile Include="IoC\ServiceRegistrarExtensionsTests.cs" />
     <Compile Include="BootstrapperTask\RegisterModelMetadataTests.cs" />
     <Compile Include="BuildManager\BuildManagerWrapperTests.cs" />
-    <Compile Include="ModelBinder\BindingTypeAttributeTests.cs" />
     <Compile Include="Bootstrapper\BootstrapperTests.cs" />
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
@@ -187,7 +186,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ModelBinder\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{Controller, IControllerActivator}"/>.
     /// </summary>
-    public static class ControllerActivatorTypeMappingRegistryExtensions
+    public static class ControllerActivatorMappingExtensions
     {
         /// <summary>
         /// Registers the specified instance.
@@ -120,12 +120,13 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance, TypeCatalog typeCatalog)
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance, TypeCatalog typeCatalog) where TControllerActivator : IControllerActivator
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
 
             IList<Type> controllerTypes = typeCatalog.ToList();
+
             EnsureControllerTypes(controllerTypes);
 
             Type controllerActivatorType = typeof(TControllerActivator);

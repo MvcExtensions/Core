@@ -12,8 +12,6 @@ namespace MvcExtensions
 
     internal static class KnownTypes
     {
-        public static readonly Type BindingAttributeType = typeof(BindingTypeAttribute);
-
         public static readonly Type BootstrapperTaskType = typeof(BootstrapperTask);
 
         public static readonly Type PerRequestTaskType = typeof(PerRequestTask);
@@ -26,7 +24,7 @@ namespace MvcExtensions
 
         public static readonly Type ActionInvokerType = typeof(IActionInvoker);
 
-        public static readonly Type DefaultActionInvokerType = typeof(ExtendedControllerActionInvoker);
+        public static readonly Type SyncActionInvokerType = typeof(ExtendedControllerActionInvoker);
 
         public static readonly Type AsyncActionInvokerType = typeof(ExtendedAsyncControllerActionInvoker);
 

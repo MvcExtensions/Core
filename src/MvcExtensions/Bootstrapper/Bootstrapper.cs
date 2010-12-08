@@ -218,7 +218,8 @@ namespace MvcExtensions
                    .RegisterInstance<IPerRequestTasksRegistry>(PerRequestTasks)
                    .RegisterInstance<TypeMappingRegistry<Controller, IActionInvoker>>(new TypeMappingRegistry<Controller, IActionInvoker>())
                    .RegisterInstance<TypeMappingRegistry<Controller, IControllerActivator>>(new TypeMappingRegistry<Controller, IControllerActivator>())
-                   .RegisterInstance<TypeMappingRegistry<IView, IViewPageActivator>>(new TypeMappingRegistry<IView, IViewPageActivator>());
+                   .RegisterInstance<TypeMappingRegistry<IView, IViewPageActivator>>(new TypeMappingRegistry<IView, IViewPageActivator>())
+                   .RegisterInstance<TypeMappingRegistry<object, IModelBinder>>(new TypeMappingRegistry<object, IModelBinder>());
         }
 
         private ContainerAdapter CreateAndSetCurrent()

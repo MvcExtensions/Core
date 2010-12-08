@@ -4,9 +4,6 @@ namespace Demo.Web
     using System.ComponentModel;
     using System.Web.Mvc;
 
-    using MvcExtensions;
-
-    [BindingType(typeof(ProductEditModel))]
     public class ProductEditModelBinder : DefaultModelBinder
     {
         private readonly IRepository<Category> categoryRepository;

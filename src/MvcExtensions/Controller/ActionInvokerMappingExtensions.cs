@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{Controller, IActionInvoker}"/>.
     /// </summary>
-    public static class ActionInvokerTypeMappingRegistryExtensions
+    public static class ActionInvokerMappingExtensions
     {
         /// <summary>
         /// Registers the specified instance.
@@ -120,12 +120,13 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance, TypeCatalog typeCatalog)
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance, TypeCatalog typeCatalog) where TActionInvoker : IActionInvoker
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
 
             IList<Type> controllerTypes = typeCatalog.ToList();
+
             EnsureControllerTypes(controllerTypes);
 
             Type actionInvokerType = typeof(TActionInvoker);

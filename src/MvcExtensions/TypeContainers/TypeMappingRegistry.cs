@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// </summary>
     /// <typeparam name="TType1">The type of the type1.</typeparam>
     /// <typeparam name="TType2">The type of the type2.</typeparam>
-    public class TypeMappingRegistry<TType1, TType2> where TType1 : class where TType2 : class
+    public class TypeMappingRegistry<TType1, TType2> where TType2 : class
     {
         private readonly IDictionary<Type, Type> mappings = new Dictionary<Type, Type>();
 

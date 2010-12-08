@@ -8,9 +8,10 @@
         public MvcApplication()
         {
             Bootstrapper.BootstrapperTasks
-                        .Include<RegisterModelBinders>()
                         .Include<RegisterModelMetadata>()
+                        .Include<RegisterControllers>()
                         .Include<ConfigureFilterAttributes>()
+                        .Include<ConfigureModelBinders>()
                         .Include<RegisterRoutes>();
         }
     }
