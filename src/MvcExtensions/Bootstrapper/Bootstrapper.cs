@@ -195,12 +195,9 @@ namespace MvcExtensions
         private void Register(IServiceRegistrar adapter)
         {
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
-                   .RegisterInstance<ModelBinderDictionary>(ModelBinders.Binders)
-                   .RegisterInstance<ViewEngineCollection>(ViewEngines.Engines)
-                   .RegisterInstance<ValueProviderFactoryCollection>(ValueProviderFactories.Factories)
+                   .RegisterInstance<IBuildManager>(BuildManager)
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
-                   .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>()
-                   .RegisterInstance<IBuildManager>(BuildManager);
+                   .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
 
             BuildManager.ConcreteTypes
                         .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))

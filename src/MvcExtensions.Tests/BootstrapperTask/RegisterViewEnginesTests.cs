@@ -9,7 +9,6 @@ namespace MvcExtensions.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
     using Moq;
@@ -35,33 +34,23 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_view_engines()
         {
-            var viewEngines = new ViewEngineCollection();
+            adapter.Setup(a => a.RegisterType(null, typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton)).Verifiable();
 
-            new RegisterViewEngines(adapter.Object, viewEngines).Execute();
+            new RegisterViewEngines(adapter.Object).Execute();
 
-            Assert.NotEmpty(viewEngines);
+            adapter.Verify();
         }
 
         [Fact]
         public void Should_not_register_view_engine_when_view_engine_exists_in_ignored_list()
         {
-            var registration = new RegisterViewEngines(adapter.Object, new ViewEngineCollection());
+            var registration = new RegisterViewEngines(adapter.Object);
 
             registration.Ignore<DummyViewEngine>();
 
             registration.Execute();
 
             adapter.Verify(a => a.RegisterType(null, typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton), Times.Never());
-        }
-
-        [Fact]
-        public void Should_not_register_already_registered_view_engine()
-        {
-            var viewEngines = new ViewEngineCollection { new DummyViewEngine() };
-
-            new RegisterViewEngines(adapter.Object, viewEngines).Execute();
-
-            Assert.Equal(1, viewEngines.Count(ve => ve.GetType() == typeof(DummyViewEngine)));
         }
 
         private sealed class DummyViewEngine : IViewEngine

@@ -9,7 +9,6 @@ namespace MvcExtensions.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
     using Moq;
@@ -35,33 +34,23 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_value_provider_factories()
         {
-            var valueProviderFactories = new ValueProviderFactoryCollection();
+            adapter.Setup(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient)).Verifiable();
 
-            new RegisterValueProviderFactories(adapter.Object, valueProviderFactories).Execute();
+            new RegisterValueProviderFactories(adapter.Object).Execute();
 
-            Assert.Equal(1, valueProviderFactories.Count);
+            adapter.Verify();
         }
 
         [Fact]
         public void Should_not_register_value_provider_factory_when_factory_exists_in_ignored_list()
         {
-            var registration = new RegisterValueProviderFactories(adapter.Object, new ValueProviderFactoryCollection());
+            var registration = new RegisterValueProviderFactories(adapter.Object);
 
             registration.Ignore<DummyValueProviderFactory>();
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Singleton), Times.Never());
-        }
-
-        [Fact]
-        public void Should_not_register_already_registered_factory()
-        {
-            var factories = new ValueProviderFactoryCollection { new DummyValueProviderFactory() };
-
-            new RegisterValueProviderFactories(adapter.Object, factories).Execute();
-
-            Assert.Equal(1, factories.Count(f => f.GetType() == typeof(DummyValueProviderFactory)));
+            adapter.Verify(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyValueProviderFactory : ValueProviderFactory
