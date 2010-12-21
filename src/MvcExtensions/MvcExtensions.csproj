@@ -120,8 +120,6 @@
     <Compile Include="Helper\QValueSorter.cs" />
     <Compile Include="ActionResult\AdaptivePostRedirectGetResult.cs" />
     <Compile Include="ActionResult\AdaptiveViewResult.cs" />
-    <Compile Include="ActionResult\NotFoundResult.cs" />
-    <Compile Include="ActionResult\PermanentRedirectResult.cs" />
     <Compile Include="BootstrapperTask\RegisterFilterAttributes.cs" />
     <Compile Include="BootstrapperTask\RegisterControllers.cs" />
     <Compile Include="ActionFilter\ViewDataTempDataTransferAttribute.cs" />

@@ -95,8 +95,6 @@
     <Compile Include="ActionResult\AdaptiveViewResultTests.cs" />
     <Compile Include="ActionResult\XmlResultTests.cs" />
     <Compile Include="ActionResult\ExtendedJsonResultTests.cs" />
-    <Compile Include="ActionResult\NotFoundResultTests.cs" />
-    <Compile Include="ActionResult\PermanentRedirectResultTests.cs" />
     <Compile Include="BootstrapperTask\ConfigurableTypeMappingBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterValueProviderFactoriesTests.cs" />

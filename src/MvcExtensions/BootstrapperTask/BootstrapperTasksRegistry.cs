@@ -92,11 +92,13 @@ namespace MvcExtensions
 
         private void Include(Type type, Action<object> configure)
         {
+            IEnumerable<Type> localCopy = tasks.Select(t => t.TaskType).ToArray();
+
             IEnumerable<Type> requires = type.GetCustomAttributes(typeof(DependsOnAttribute), true)
                                              .Cast<DependsOnAttribute>()
                                              .Select(a => a.TaskType)
                                              .Distinct()
-                                             .Except(TaskConfigurations.Select(t => t.Key))
+                                             .Except(localCopy)
                                              .ToList();
 
             foreach (Type require in requires)

@@ -45,11 +45,11 @@ namespace MvcExtensions.Tests
 
             var decoratedFilters = new[]
                                         {
-                                          new Filter(decoratedAuthorizationFilter, FilterScope.Action),
-                                          new Filter(decoratedActionFilter, FilterScope.Action),
-                                          new Filter(decoratedResultFilter, FilterScope.Action),
-                                          new Filter(decoratedExceptionFilter, FilterScope.Action),
-                                          new Filter(controller, FilterScope.Controller)
+                                          new Filter(decoratedAuthorizationFilter, FilterScope.Action, null),
+                                          new Filter(decoratedActionFilter, FilterScope.Action, null),
+                                          new Filter(decoratedResultFilter, FilterScope.Action, null),
+                                          new Filter(decoratedExceptionFilter, FilterScope.Action, null),
+                                          new Filter(controller, FilterScope.Controller, null)
                                         };
 
             var field = typeof(ControllerActionInvoker).GetField("_getFiltersThunk", BindingFlags.FlattenHierarchy | BindingFlags.NonPublic | BindingFlags.Instance);
