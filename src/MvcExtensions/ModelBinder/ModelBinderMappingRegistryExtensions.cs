@@ -77,7 +77,6 @@ namespace MvcExtensions
             return instance;
         }
 
-
         /// <summary>
         /// Registers the specified instance.
         /// </summary>

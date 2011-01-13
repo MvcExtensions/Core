@@ -23,16 +23,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Gets the container.
-        /// </summary>
-        /// <value>The container.</value>
-        protected ContainerAdapter Container
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Gets or sets the type of the model binder provider.
         /// </summary>
         /// <value>The type of the model binder provider.</value>
@@ -49,6 +39,16 @@ namespace MvcExtensions
             {
                 modelBinderProviderType = value;
             }
+        }
+
+        /// <summary>
+        /// Gets the container.
+        /// </summary>
+        /// <value>The container.</value>
+        protected ContainerAdapter Container
+        {
+            get;
+            private set;
         }
 
         /// <summary>
