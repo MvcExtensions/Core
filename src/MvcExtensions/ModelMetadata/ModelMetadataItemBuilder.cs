@@ -256,6 +256,28 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Disables request validation for property.
+        /// </summary>
+        /// <returns></returns>
+        public TItemBuilder AllowHtml()
+        {
+            Item.RequestValidationEnabled = false;
+
+            return This;
+        }
+
+        /// <summary>
+        /// Enebles request validation for property.
+        /// </summary>
+        /// <returns></returns>
+        public TItemBuilder DisallowHtml()
+        {
+            Item.RequestValidationEnabled = true;
+
+            return This;
+        }
+
+        /// <summary>
         /// Shows the value in display mode.
         /// </summary>
         /// <returns></returns>

@@ -96,6 +96,16 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets or sets the request validation enabled.
+        /// </summary>
+        /// <value>The allow HTML.</value>
+        public bool? RequestValidationEnabled
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether to show for display.
         /// </summary>
         /// <value><c>true</c> if [show for display]; otherwise, <c>false</c>.</value>

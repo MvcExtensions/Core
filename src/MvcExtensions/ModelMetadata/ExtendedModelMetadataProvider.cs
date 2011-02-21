@@ -152,6 +152,11 @@ namespace MvcExtensions
                 metadata.HideSurroundingHtml = metadataItem.HideSurroundingHtml.Value;
             }
 
+            if (metadataItem.RequestValidationEnabled.HasValue)
+            {
+                metadata.RequestValidationEnabled = metadataItem.RequestValidationEnabled.Value;
+            }
+
             if (metadataItem.IsReadOnly.HasValue)
             {
                 metadata.IsReadOnly = metadataItem.IsReadOnly.Value;

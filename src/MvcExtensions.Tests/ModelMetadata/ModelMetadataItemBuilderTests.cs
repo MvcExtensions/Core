@@ -139,6 +139,22 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_be_able_to_allow_html()
+        {
+            builder.AllowHtml();
+
+            Assert.False(item.RequestValidationEnabled.Value);
+        }
+
+        [Fact]
+        public void Should_be_able_to_disallow_html()
+        {
+            builder.DisallowHtml();
+
+            Assert.True(item.RequestValidationEnabled.Value);
+        }
+
+        [Fact]
         public void Should_be_able_to_set_show_for_display()
         {
             builder.ShowForDisplay();
