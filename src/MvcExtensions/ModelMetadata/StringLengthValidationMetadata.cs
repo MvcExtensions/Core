@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
@@ -26,6 +27,16 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Gets or sets the minimum.
+        /// </summary>
+        /// <value>The minimum.</value>
+        public int Minimum
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Creates the validator.
         /// </summary>
         /// <param name="modelMetadata">The model metadata.</param>
@@ -33,7 +44,10 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var attribute = new StringLengthAttribute(Maximum);
+            var attribute = new StringLengthAttribute(Maximum)
+                                {
+                                    MinimumLength = Minimum
+                                };
             PopulateErrorMessage(attribute);
             return new StringLengthAttributeAdapter(modelMetadata, context, attribute);
         }
