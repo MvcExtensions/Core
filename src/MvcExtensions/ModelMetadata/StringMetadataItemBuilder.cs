@@ -371,6 +371,50 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder MinimumLength(int length)
+        {
+            return MinimumLength(length, null, null, null);
+        }
+
+        /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder MinimumLength(int length, string errorMessage)
+        {
+            return MinimumLength(length, () => errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder MinimumLength(int length, Func<string> errorMessage)
+        {
+            return MinimumLength(length, errorMessage, null, null);
+        }
+
+        /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessageResourceType">Type of the error message resource.</param>
+        /// <param name="errorMessageResourceName">Name of the error message resource.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder MinimumLength(int length, Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            return MinimumLength(length, null, errorMessageResourceType, errorMessageResourceName);
+        }
+
+        /// <summary>
         /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
         /// <param name="pattern">The pattern.</param>
@@ -403,6 +447,26 @@ namespace MvcExtensions
             StringLengthValidationMetadata stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
             stringLengthValidation.Maximum = length;
+            stringLengthValidation.ErrorMessage = errorMessage;
+            stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
+            stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <param name="errorMessageResourceType">Type of the error message resource.</param>
+        /// <param name="errorMessageResourceName">Name of the error message resource.</param>
+        /// <returns></returns>
+        protected virtual StringMetadataItemBuilder MinimumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            StringLengthValidationMetadata stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+
+            stringLengthValidation.Minimum = length;
             stringLengthValidation.ErrorMessage = errorMessage;
             stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
             stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;

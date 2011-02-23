@@ -208,5 +208,29 @@ namespace MvcExtensions.Tests
 
             Assert.NotEmpty(item.Validations);
         }
+
+        [Fact]
+        public void Should_be_able_to_set_minimum_length()
+        {
+            builder.MinimumLength(24);
+
+            Assert.NotEmpty(item.Validations);
+        }
+
+        [Fact]
+        public void Should_be_able_to_set_minimum_length_with_text_message()
+        {
+            builder.MinimumLength(24, "Value must be grater than or equal to 24 characters.");
+
+            Assert.NotEmpty(item.Validations);
+        }
+
+        [Fact]
+        public void Should_be_able_to_set_minimum_length_with_type_and_resource_name()
+        {
+            builder.MinimumLength(24, typeof(object), "foo");
+
+            Assert.NotEmpty(item.Validations);
+        }
     }
 }
