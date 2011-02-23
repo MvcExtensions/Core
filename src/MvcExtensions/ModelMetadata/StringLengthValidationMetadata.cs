@@ -7,7 +7,6 @@
 
 namespace MvcExtensions
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
@@ -16,6 +15,15 @@ namespace MvcExtensions
     /// </summary>
     public class StringLengthValidationMetadata : ModelValidationMetadata
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StringLengthValidationMetadata"/> class
+        /// </summary>
+        public StringLengthValidationMetadata()
+        {
+            Maximum = int.MaxValue;
+            Minimum = 0;
+        }
+
         /// <summary>
         /// Gets or sets the maximum.
         /// </summary>
