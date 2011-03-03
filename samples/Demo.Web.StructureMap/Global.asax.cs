@@ -10,7 +10,7 @@
             Bootstrapper.BootstrapperTasks
                         .Include<RegisterModelMetadata>()
                         .Include<RegisterControllers>()
-                        .Include<ConfigureFilterAttributes>()
+                        .Include<ConfigureFilters>()
                         .Include<ConfigureModelBinders>()
                         .Include<RegisterRoutes>();
         }

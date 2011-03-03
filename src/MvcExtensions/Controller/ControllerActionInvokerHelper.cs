@@ -29,22 +29,22 @@ namespace MvcExtensions
         private static void MergeOrdered(FilterInfo mergedFilters, FilterInfo decoratedFilters, FilterInfo registeredFilters)
         {
             Merge(decoratedFilters.AuthorizationFilters, registeredFilters.AuthorizationFilters, IsFilterAttriute)
-                .Cast<FilterAttribute>()
+                .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IAuthorizationFilter>().Each(filter => mergedFilters.AuthorizationFilters.Add(filter));
 
             Merge(decoratedFilters.ActionFilters, registeredFilters.ActionFilters, IsFilterAttriute)
-                .Cast<FilterAttribute>()
+                .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IActionFilter>().Each(filter => mergedFilters.ActionFilters.Add(filter));
 
             Merge(decoratedFilters.ResultFilters, registeredFilters.ResultFilters, IsFilterAttriute)
-                .Cast<FilterAttribute>()
+                .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IResultFilter>().Each(filter => mergedFilters.ResultFilters.Add(filter));
 
             Merge(decoratedFilters.ExceptionFilters, registeredFilters.ExceptionFilters, IsFilterAttriute)
-                .Cast<FilterAttribute>()
+                .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IExceptionFilter>().Each(filter => mergedFilters.ExceptionFilters.Add(filter));
         }
@@ -71,12 +71,12 @@ namespace MvcExtensions
 
         private static bool IsFilterAttriute<TFilter>(TFilter filter)
         {
-            return KnownTypes.FilterAttributeType.IsAssignableFrom(filter.GetType());
+            return KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
 
         private static bool IsNonFilterAttriute<TFilter>(TFilter filter)
         {
-            return !KnownTypes.FilterAttributeType.IsAssignableFrom(filter.GetType());
+            return !KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
 
         private static void Inject(IServiceInjector container, FilterInfo decoratedFilters)

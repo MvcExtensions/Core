@@ -12,14 +12,14 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class to configure <seealso cref="FilterAttribute"/> for <see cref="Controller"/> or action methods.
     /// </summary>
-    [DependsOn(typeof(RegisterFilterAttributes))]
-    public abstract class ConfigureFilterAttributesBase : BootstrapperTask
+    [DependsOn(typeof(RegisterFilters))]
+    public abstract class ConfigureFiltersBase : BootstrapperTask
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigureFilterAttributesBase"/> class.
+        /// Initializes a new instance of the <see cref="ConfigureFiltersBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureFilterAttributesBase(IFilterRegistry registry)
+        protected ConfigureFiltersBase(IFilterRegistry registry)
         {
             Invariant.IsNotNull(registry, "registry");
 

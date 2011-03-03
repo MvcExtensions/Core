@@ -12,11 +12,11 @@ namespace MvcExtensions.Tests
     using Moq;
     using Xunit;
 
-    public class RegisterFilterAttributesTests
+    public class RegisterFiltersTests
     {
         private readonly Mock<ContainerAdapter> adapter;
 
-        public RegisterFilterAttributesTests()
+        public RegisterFiltersTests()
         {
             var buildManager = new Mock<IBuildManager>();
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { typeof(DummyFilter) });
@@ -31,7 +31,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient)).Verifiable();
 
-            new RegisterFilterAttributes(adapter.Object).Execute();
+            new RegisterFilters(adapter.Object).Execute();
 
             adapter.Verify();
         }
@@ -39,7 +39,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_filters_when_filter_exists_in_ignored_list()
         {
-            var registration = new RegisterFilterAttributes(adapter.Object);
+            var registration = new RegisterFilters(adapter.Object);
 
             registration.Ignore<DummyFilter>();
 

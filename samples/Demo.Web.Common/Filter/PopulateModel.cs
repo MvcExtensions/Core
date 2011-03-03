@@ -2,8 +2,15 @@ namespace Demo.Web
 {
     using System.Web.Mvc;
 
-    public abstract class PopulateModelAttribute : FilterAttribute, IActionFilter
+    public abstract class PopulateModel : IMvcFilter, IActionFilter
     {
+        public bool AllowMultiple
+        {
+            get { return false; }
+        }
+
+        public int Order { get; set; }
+
         public void OnActionExecuting(ActionExecutingContext filterContext)
         {
         }

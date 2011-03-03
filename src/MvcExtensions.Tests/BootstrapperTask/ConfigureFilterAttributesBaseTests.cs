@@ -28,7 +28,7 @@ namespace MvcExtensions.Tests
             registry.Verify();
         }
 
-        private class ConfigureFiltersBaseTestDouble : ConfigureFilterAttributesBase
+        private class ConfigureFiltersBaseTestDouble : ConfigureFiltersBase
         {
             public ConfigureFiltersBaseTestDouble(IFilterRegistry registry) : base(registry)
             {

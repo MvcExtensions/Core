@@ -23,7 +23,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="FilterRegistryControllerItem&lt;TController&gt;"/> class.
         /// </summary>
         /// <param name="filters">The filters.</param>
-        public FilterRegistryControllerItem(IEnumerable<Func<FilterAttribute>> filters) : base(filters)
+        public FilterRegistryControllerItem(IEnumerable<Func<IMvcFilter>> filters) : base(filters)
         {
         }
 

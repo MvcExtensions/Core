@@ -1,14 +1,12 @@
 namespace Demo.Web
 {
-    using System;
     using System.Web.Mvc;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public sealed class PopulateCategoriesAttribute : PopulateModelAttribute
+    public sealed class PopulateCategories : PopulateModel
     {
         private readonly IRepository<Category> repository;
 
-        public PopulateCategoriesAttribute(IRepository<Category> repository)
+        public PopulateCategories(IRepository<Category> repository)
         {
             this.repository = repository;
         }

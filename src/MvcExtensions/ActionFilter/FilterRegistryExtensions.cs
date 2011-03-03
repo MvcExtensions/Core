@@ -28,7 +28,7 @@ namespace MvcExtensions
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
         public static IFilterRegistry Register<TFilter>(this IFilterRegistry instance, TypeCatalog typeCatalog)
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             return Register<TFilter>(instance, typeCatalog, filter => { });
         }
@@ -42,7 +42,7 @@ namespace MvcExtensions
         /// <param name="configureFilter">The configure filter action.</param>
         /// <returns></returns>
         public static IFilterRegistry Register<TFilter>(this IFilterRegistry instance, TypeCatalog typeCatalog, Action<TFilter> configureFilter)
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -69,8 +69,8 @@ namespace MvcExtensions
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
         public static IFilterRegistry Register<TFilter1, TFilter2>(this IFilterRegistry instance, TypeCatalog typeCatalog)
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -88,9 +88,9 @@ namespace MvcExtensions
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
         public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance, TypeCatalog typeCatalog)
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -109,10 +109,10 @@ namespace MvcExtensions
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
         public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance, TypeCatalog typeCatalog)
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
-            where TFilter4 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
+            where TFilter4 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -129,7 +129,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance)
             where TController : Controller
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             return Register<TController, TFilter>(instance, (TFilter filter) => { });
         }
@@ -144,12 +144,12 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Action<TFilter> configureFilter)
             where TController : Controller
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(configureFilter, "configureFilter");
 
-            instance.Register<TController, FilterAttribute>(CreateAndConfigureFilterFactory(instance, configureFilter));
+            instance.Register<TController, IMvcFilter>(CreateAndConfigureFilterFactory(instance, configureFilter));
 
             return instance;
         }
@@ -164,12 +164,12 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2>(this IFilterRegistry instance)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.Register<TController, FilterAttribute>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2)).ToArray());
+            return instance.Register<TController, IMvcFilter>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2)).ToArray());
         }
 
         /// <summary>
@@ -183,13 +183,13 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.Register<TController, FilterAttribute>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2), typeof(TFilter3)).ToArray());
+            return instance.Register<TController, IMvcFilter>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2), typeof(TFilter3)).ToArray());
         }
 
         /// <summary>
@@ -204,14 +204,14 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
-            where TFilter4 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
+            where TFilter4 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.Register<TController, FilterAttribute>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2), typeof(TFilter3), typeof(TFilter4)).ToArray());
+            return instance.Register<TController, IMvcFilter>(CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2), typeof(TFilter3), typeof(TFilter4)).ToArray());
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -242,7 +242,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Expression<Action<TController>> action, Action<TFilter> configureFilter)
             where TController : Controller
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(action, "action");
@@ -262,8 +262,8 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2>(this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -282,9 +282,9 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -304,10 +304,10 @@ namespace MvcExtensions
         /// <returns></returns>
         public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
-            where TFilter1 : FilterAttribute
-            where TFilter2 : FilterAttribute
-            where TFilter3 : FilterAttribute
-            where TFilter4 : FilterAttribute
+            where TFilter1 : IMvcFilter
+            where TFilter2 : IMvcFilter
+            where TFilter3 : IMvcFilter
+            where TFilter4 : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -336,14 +336,14 @@ namespace MvcExtensions
             }
         }
 
-        private static IEnumerable<Func<FilterAttribute>> CreateFilterFactories(IFilterRegistry registry, params Type[] filterTypes)
+        private static IEnumerable<Func<IMvcFilter>> CreateFilterFactories(IFilterRegistry registry, params Type[] filterTypes)
         {
-            return filterTypes.Select(filterType => new Func<FilterAttribute>(() => registry.Container.GetService(filterType) as FilterAttribute));
+            return filterTypes.Select(filterType => new Func<IMvcFilter>(() => registry.Container.GetService(filterType) as IMvcFilter));
         }
 
-        private static IEnumerable<Func<FilterAttribute>> CreateAndConfigureFilterFactory<TFilter>(IFilterRegistry registry, Action<TFilter> configureFilter) where TFilter : FilterAttribute
+        private static IEnumerable<Func<IMvcFilter>> CreateAndConfigureFilterFactory<TFilter>(IFilterRegistry registry, Action<TFilter> configureFilter) where TFilter : IMvcFilter
         {
-            return new List<Func<FilterAttribute>>
+            return new List<Func<IMvcFilter>>
                        {
                            () =>
                            {

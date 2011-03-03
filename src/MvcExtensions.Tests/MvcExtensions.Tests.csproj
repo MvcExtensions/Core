@@ -99,7 +99,7 @@
     <Compile Include="BootstrapperTask\RegisterActionInvokersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterValueProviderFactoriesTests.cs" />
     <Compile Include="BootstrapperTask\RegisterControllersTests.cs" />
-    <Compile Include="BootstrapperTask\RegisterFilterAttributesTests.cs" />
+    <Compile Include="BootstrapperTask\RegisterFiltersTests.cs" />
     <Compile Include="Controller\ActionInvokerRegistryExtensionsTests.cs" />
     <Compile Include="Controller\ActionInvokerRegistryTest.cs" />
     <Compile Include="ExtensionMethod\HttpContextBaseExtensionsTests.cs" />

@@ -20,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="FilterRegistryItem"/> class.
         /// </summary>
         /// <param name="filters">The filters.</param>
-        protected FilterRegistryItem(IEnumerable<Func<FilterAttribute>> filters)
+        protected FilterRegistryItem(IEnumerable<Func<IMvcFilter>> filters)
         {
             Invariant.IsNotNull(filters, "filters");
 
@@ -31,7 +31,7 @@ namespace MvcExtensions
         /// Gets or sets the filter factories.
         /// </summary>
         /// <value>The filters.</value>
-        public IEnumerable<Func<FilterAttribute>> Filters
+        public IEnumerable<Func<IMvcFilter>> Filters
         {
             get;
             protected set;

@@ -84,12 +84,12 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Filter\PopulateCategoriesAttribute.cs" />
-    <Compile Include="Filter\PopulateModelAttribute.cs" />
-    <Compile Include="Filter\PopulateSuppliersAttribute.cs" />
+    <Compile Include="Filter\PopulateCategories.cs" />
+    <Compile Include="Filter\PopulateModel.cs" />
+    <Compile Include="Filter\PopulateSuppliers.cs" />
     <Compile Include="Infrastructure\ConfigureModelBinders.cs" />
     <Compile Include="Infrastructure\ProductEditModelBinder.cs" />
-    <Compile Include="Infrastructure\ConfigureFilterAttributes.cs" />
+    <Compile Include="Infrastructure\ConfigureFilters.cs" />
     <Compile Include="Infrastructure\RegisterRoutes.cs" />
     <Compile Include="LocalizedTexts.Designer.cs">
       <AutoGen>True</AutoGen>

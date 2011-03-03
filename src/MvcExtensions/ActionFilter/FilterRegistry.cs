@@ -64,7 +64,7 @@ namespace MvcExtensions
         /// <param name="filters">The filters.</param>
         /// <returns></returns>
         public virtual IFilterRegistry Register<TController, TFilter>(IEnumerable<Func<TFilter>> filters)
-            where TController : Controller where TFilter : FilterAttribute
+            where TController : Controller where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(filters, "filters");
 
@@ -86,7 +86,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public virtual IFilterRegistry Register<TController, TFilter>(Expression<Action<TController>> action, IEnumerable<Func<TFilter>> filters)
             where TController : Controller
-            where TFilter : FilterAttribute
+            where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(action, "action");
             Invariant.IsNotNull(filters, "filters");
@@ -110,28 +110,28 @@ namespace MvcExtensions
             Invariant.IsNotNull(controllerContext, "controllerContext");
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");
 
-            IList<FilterAttribute> authorizationFilters = new List<FilterAttribute>();
-            IList<FilterAttribute> actionFilters = new List<FilterAttribute>();
-            IList<FilterAttribute> resultFilters = new List<FilterAttribute>();
-            IList<FilterAttribute> exceptionFiltes = new List<FilterAttribute>();
+            IList<IMvcFilter> authorizationFilters = new List<IMvcFilter>();
+            IList<IMvcFilter> actionFilters = new List<IMvcFilter>();
+            IList<IMvcFilter> resultFilters = new List<IMvcFilter>();
+            IList<IMvcFilter> exceptionFiltes = new List<IMvcFilter>();
 
-            foreach (IEnumerable<FilterAttribute> filters in Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
-                                                                  .Select(item => item.Filters.Select(filter => filter())))
+            foreach (IEnumerable<IMvcFilter> filters in Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
+                                                             .Select(item => item.Filters.Select(filter => filter())))
             {
                 filters.OfType<IAuthorizationFilter>()
-                    .Cast<FilterAttribute>()
+                    .Cast<IMvcFilter>()
                     .Each(authorizationFilters.Add);
 
                 filters.OfType<IActionFilter>()
-                    .Cast<FilterAttribute>()
+                    .Cast<IMvcFilter>()
                     .Each(actionFilters.Add);
 
                 filters.OfType<IResultFilter>()
-                    .Cast<FilterAttribute>()
+                    .Cast<IMvcFilter>()
                     .Each(resultFilters.Add);
 
                 filters.OfType<IExceptionFilter>()
-                    .Cast<FilterAttribute>()
+                    .Cast<IMvcFilter>()
                     .Each(exceptionFiltes.Add);
             }
 
@@ -156,10 +156,10 @@ namespace MvcExtensions
             return filterInfo;
         }
 
-        private static IEnumerable<Func<FilterAttribute>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)
-            where TFilter : FilterAttribute
+        private static IEnumerable<Func<IMvcFilter>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)
+            where TFilter : IMvcFilter
         {
-            return filters.Select(filter => new Func<FilterAttribute>(filter));
+            return filters.Select(filter => new Func<IMvcFilter>(() => filter() as IMvcFilter));
         }
     }
 }

@@ -166,8 +166,6 @@ namespace MvcExtensions
 
                 TTask task = (TTask)Adapter.GetService(taskConfiguration.Key);
 
-                Debug.Assert(task != null);
-
                 if (taskConfiguration.Value != null)
                 {
                     taskConfiguration.Value(task);

@@ -47,7 +47,7 @@ namespace MvcExtensions
         /// <returns></returns>
         IFilterRegistry Register<TController, TFilter>(IEnumerable<Func<TFilter>> filters)
             where TController : Controller
-            where TFilter : FilterAttribute;
+            where TFilter : IMvcFilter;
 
         /// <summary>
         /// Registers the specified filters for the given controller action.
@@ -59,7 +59,7 @@ namespace MvcExtensions
         /// <returns></returns>
         IFilterRegistry Register<TController, TFilter>(Expression<Action<TController>> action, IEnumerable<Func<TFilter>> filters)
             where TController : Controller
-            where TFilter : FilterAttribute;
+            where TFilter : IMvcFilter;
 
         /// <summary>
         /// Returns the matching filters for the given controller action.
