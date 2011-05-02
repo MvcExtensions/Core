@@ -20,7 +20,7 @@ namespace MvcExtensions.Tests
         [InlineData(@"image/gif,image/jpeg,image/pjpeg,application/x-ms-application,application/vnd.ms-xpsdocument,application/xaml+xml,application/x-ms-xbap, application/x-shockwave-flash,application/vnd.ms-excel,application/msword,application/vnd.ms-powerpoint,*/*", @"image/gif")]
         public void Should_be_able_sort_according_to_q_value(string acceptTypes, string result)
         {
-            var orderedTypes = QValueSorter.Sort(acceptTypes);
+            var orderedTypes = QValueSorter.Sort(acceptTypes.Split(new[] { ',' }), false);
             var firstType = orderedTypes.First();
 
             Assert.Equal(result, firstType);

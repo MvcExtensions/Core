@@ -73,6 +73,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.ComponentModel.DataAnnotations">
@@ -83,6 +84,8 @@
     <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionResult\RespondWithResult.cs" />
+    <Compile Include="ActionResult\WrappedActionResultWithFlash.cs" />
     <Compile Include="BootstrapperTask\ConfigureActionInvokersBase.cs" />
     <Compile Include="BootstrapperTask\ConfigureControllerActivatorsBase.cs" />
     <Compile Include="BootstrapperTask\ConfigureModelBindersBase.cs" />
@@ -107,9 +110,35 @@
     <Compile Include="BootstrapperTask\RegisterModelBinderProvider.cs" />
     <Compile Include="BootstrapperTask\RegisterViewPageActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterViews.cs" />
+    <Compile Include="Controller\ActionController.cs" />
     <Compile Include="Controller\ControllerActivatorMappingExtensions.cs" />
+    <Compile Include="Controller\IRESTFullCreate.cs" />
+    <Compile Include="Controller\IRESTFullDestroy.cs" />
+    <Compile Include="Controller\IRESTFullDetails.cs" />
+    <Compile Include="Controller\IRESTFullList.cs" />
+    <Compile Include="Controller\IRESTFulUpdate.cs" />
+    <Compile Include="ExtensionMethod\ActionResultExtensions.cs" />
+    <Compile Include="ExtensionMethod\RouteDataExtensions.cs" />
+    <Compile Include="ExtensionMethod\RouteExtensions.cs" />
+    <Compile Include="Flash\FlashHtmlExtensions.cs" />
+    <Compile Include="Flash\FlashStorage.cs" />
+    <Compile Include="Helper\KnownActionNames.cs" />
+    <Compile Include="Helper\KnownMimeTypes.cs" />
+    <Compile Include="Helper\RouteValuesHelpers.cs" />
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
+    <Compile Include="Responders\HtmlResponder.cs" />
+    <Compile Include="Responders\IHasResponders.cs" />
+    <Compile Include="Responders\IResponder.cs" />
+    <Compile Include="Responders\JsonResponder.cs" />
+    <Compile Include="Responders\ModelStateError.cs" />
+    <Compile Include="Responders\Responder.cs" />
+    <Compile Include="Responders\ResponderCollection.cs" />
+    <Compile Include="ExtensionMethod\ResponderCollectionExtensions.cs" />
+    <Compile Include="Responders\ResponderContext.cs" />
+    <Compile Include="Responders\SerializableResponder.cs" />
+    <Compile Include="Responders\XmlResponder.cs" />
+    <Compile Include="Routing\RESTFulActionConstraint.cs" />
     <Compile Include="TypeContainers\TypeMappingRegistry.cs" />
     <Compile Include="Controller\ActionInvokerMappingExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />

@@ -165,4 +165,10 @@
   <data name="IncorrectTypeMustBeDescended" xml:space="preserve">
     <value>Incorrect type, it must be descended of "{0}".</value>
   </data>
+  <data name="SameResponderExists" xml:space="preserve">
+    <value>Responder with the same type "{0}" already exists.</value>
+  </data>
+  <data name="ExcludeAlreadyExists" xml:space="preserve">
+    <value>You cannot include if you have already specified exclude.</value>
+  </data>
 </root>

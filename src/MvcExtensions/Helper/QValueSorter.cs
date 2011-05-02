@@ -12,34 +12,23 @@ namespace MvcExtensions
     using System.Linq;
 
     /// <summary>
-    /// Defines a helper class to sort types depending upon it value and order.
+    /// A helper class to sort QValue.
     /// </summary>
     public static class QValueSorter
     {
         /// <summary>
-        /// Sorts the specified types based upon its QValue and order.
+        /// Sorts the specified types.
         /// </summary>
         /// <param name="types">The types.</param>
+        /// <param name="defective">if set to <c>true</c> [defective].</param>
         /// <returns></returns>
-        public static IEnumerable<string> Sort(string types)
-        {
-            return string.IsNullOrEmpty(types) ?
-                   new string[0] :
-                   Sort(types.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
-        }
-
-        /// <summary>
-        /// Sorts the specified types based upon its QValue and order.
-        /// </summary>
-        /// <param name="types">The types.</param>
-        /// <returns></returns>
-        public static IEnumerable<string> Sort(IEnumerable<string> types)
+        public static IEnumerable<string> Sort(IEnumerable<string> types, bool defective)
         {
             Invariant.IsNotNull(types, "types");
 
             IEnumerable<TypeWithQValue> typesWithQValue = types.Select((t, i) => new TypeWithQValue(t, i))
                                                                .Where(tq => tq.Value > 0)
-                                                               .OrderBy(tq => tq, new TypeWithQValueComparer())
+                                                               .OrderBy(tq => tq, new TypeWithQValueComparer(defective))
                                                                .ToList();
 
             return typesWithQValue.Select(t => t.Name).ToList();
@@ -103,8 +92,45 @@ namespace MvcExtensions
 
         private sealed class TypeWithQValueComparer : IComparer<TypeWithQValue>
         {
+            private readonly bool defective;
+
+            public TypeWithQValueComparer(bool defective)
+            {
+                this.defective = defective;
+            }
+
             public int Compare(TypeWithQValue x, TypeWithQValue y)
             {
+                if (x == null)
+                {
+                    throw new ArgumentNullException("x");
+                }
+
+                if (y == null)
+                {
+                    throw new ArgumentNullException("y");
+                }
+
+                if (defective)
+                {
+                    // When browser is defective we have to give precedence Html over XML
+                    bool isXHtml = KnownMimeTypes.HtmlTypes().Contains(x.Name, StringComparer.OrdinalIgnoreCase);
+                    bool isXXml = KnownMimeTypes.XmlTypes().Contains(x.Name, StringComparer.OrdinalIgnoreCase);
+
+                    bool isYHtml = KnownMimeTypes.HtmlTypes().Contains(y.Name, StringComparer.OrdinalIgnoreCase);
+                    bool isYXml = KnownMimeTypes.XmlTypes().Contains(y.Name, StringComparer.OrdinalIgnoreCase);
+
+                    if (isXHtml && isYXml)
+                    {
+                        return -1;
+                    }
+
+                    if (isXXml && isYHtml)
+                    {
+                        return 1;
+                    }
+                }
+
                 return x.Value == y.Value ? x.Ordinal.CompareTo(y.Ordinal) : y.Value.CompareTo(x.Value);
             }
         }
