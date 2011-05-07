@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Linq.Expressions;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
@@ -147,6 +148,50 @@ namespace MvcExtensions
             Item.IsReadOnly = false;
 
             return This;
+        }
+
+        /// <summary>
+        /// Sets the other property that the value must match.
+        /// </summary>
+        /// <param name="otherProperty">The other property</param>
+        /// <returns></returns>
+        public TItemBuilder Compare(string otherProperty)
+        {
+            return Compare(otherProperty, null, null, null);
+        }
+
+        /// <summary>
+        /// Sets the other property that the value must match.
+        /// </summary>
+        /// <param name="otherProperty">The other property</param>
+        /// <param name="errorMessage">The error message when the value is not specified.</param>
+        /// <returns></returns>
+        public TItemBuilder Compare(string otherProperty, string errorMessage)
+        {
+            return Compare(otherProperty, () => errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the other property that the value must match.
+        /// </summary>
+        /// <param name="otherProperty">The other property</param>
+        /// <param name="errorMessage">The error message when the value is not specified.</param>
+        /// <returns></returns>
+        public TItemBuilder Compare(string otherProperty, Func<string> errorMessage)
+        {
+            return Compare(otherProperty, errorMessage, null, null);
+        }
+
+        /// <summary>
+        /// Sets the other property that the value must match.
+        /// </summary>
+        /// <param name="errorMessageResourceType">Type of the error message resource.</param>
+        /// <param name="errorMessageResourceName">Name of the error message resource.</param>
+        /// <param name="otherProperty">The other property</param>
+        /// <returns></returns>
+        public TItemBuilder Compare(string otherProperty, Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            return Compare(otherProperty, null, errorMessageResourceType, errorMessageResourceName);
         }
 
         /// <summary>
@@ -404,6 +449,26 @@ namespace MvcExtensions
             requiredValidation.ErrorMessage = errorMessage;
             requiredValidation.ErrorMessageResourceType = errorMessageResourceType;
             requiredValidation.ErrorMessageResourceName = errorMessageResourceName;
+
+            return This;
+        }
+
+        /// <summary>
+        /// Sets the other property that the value must match.
+        /// </summary>
+        /// <param name="otherProperty">The other property.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <param name="errorMessageResourceType">Type of the error message resource.</param>
+        /// <param name="errorMessageResourceName">Name of the error message resource.</param>
+        /// <returns></returns>
+        protected virtual TItemBuilder Compare(string otherProperty, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            CompareValidationMetadata compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
+
+            compareValidation.OtherProperty = otherProperty;
+            compareValidation.ErrorMessage = errorMessage;
+            compareValidation.ErrorMessageResourceType = errorMessageResourceType;
+            compareValidation.ErrorMessageResourceName = errorMessageResourceName;
 
             return This;
         }

@@ -117,6 +117,7 @@
     <Compile Include="Controller\ExtendedControllerActionInvokerTests.cs" />
     <Compile Include="ExtendedMvcApplicationTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
+    <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\CompositeModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProviderTests.cs" />

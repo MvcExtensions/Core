@@ -69,6 +69,30 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_be_able_to_set_other_property_to_compare()
+        {
+            builder.Compare("SomeProperty");
+
+            Assert.NotEmpty(item.Validations);
+        }
+
+        [Fact]
+        public void Should_be_able_to_set_other_property_to_compare_with_text_error_message()
+        {
+            builder.Compare("SomeProperty", "Properties must be equal");
+
+            Assert.NotEmpty(item.Validations);
+        }
+
+        [Fact]
+        public void Should_be_able_to_set_other_property_to_compare_with_type_and_resource_name()
+        {
+            builder.Compare("SomeProperty", typeof(object), "foo");
+
+            Assert.NotEmpty(item.Validations);
+        }
+
+        [Fact]
         public void Should_be_able_to_set_required()
         {
             builder.Required();
