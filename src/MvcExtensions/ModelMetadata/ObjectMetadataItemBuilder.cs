@@ -111,15 +111,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual ObjectMetadataItemBuilder<TModel> HtmlSelect(string templateName, string viewDataKey, Func<string> optionLabel)
         {
-            ModelMetadataItemSelectableElementSetting selectableElementSetting = Item.AdditionalSettings
-                                                                                     .OfType<ModelMetadataItemSelectableElementSetting>()
-                                                                                     .FirstOrDefault();
-
-            if (selectableElementSetting == null)
-            {
-                selectableElementSetting = new ModelMetadataItemSelectableElementSetting();
-                Item.AdditionalSettings.Add(selectableElementSetting);
-            }
+            ModelMetadataItemSelectableElementSetting selectableElementSetting = Item.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
 
             selectableElementSetting.ViewDataKey = viewDataKey;
 

@@ -160,15 +160,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            RangeValidationMetadata<TValueType> rangeValidation = Item.Validations
-                                                                      .OfType<RangeValidationMetadata<TValueType>>()
-                                                                      .FirstOrDefault();
-
-            if (rangeValidation == null)
-            {
-                rangeValidation = new RangeValidationMetadata<TValueType>();
-                Item.Validations.Add(rangeValidation);
-            }
+            RangeValidationMetadata<TValueType> rangeValidation = Item.GetValidationOrCreateNew<RangeValidationMetadata<TValueType>>();
 
             rangeValidation.Minimum = minimum;
             rangeValidation.Maximum = maximum;

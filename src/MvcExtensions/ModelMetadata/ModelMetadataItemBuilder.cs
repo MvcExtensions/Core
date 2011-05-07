@@ -10,7 +10,6 @@ namespace MvcExtensions
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Linq;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
@@ -199,7 +198,7 @@ namespace MvcExtensions
         {
             Item.IsRequired = false;
 
-            RequiredValidationMetadata requiredValidation = GetRequiredValidation();
+            RequiredValidationMetadata requiredValidation = Item.GetValidation<RequiredValidationMetadata>();
 
             if (requiredValidation != null)
             {
@@ -400,24 +399,13 @@ namespace MvcExtensions
         {
             Item.IsRequired = true;
 
-            RequiredValidationMetadata requiredValidation = GetRequiredValidation();
-
-            if (requiredValidation == null)
-            {
-                requiredValidation = new RequiredValidationMetadata();
-                Item.Validations.Add(requiredValidation);
-            }
+            RequiredValidationMetadata requiredValidation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
 
             requiredValidation.ErrorMessage = errorMessage;
             requiredValidation.ErrorMessageResourceType = errorMessageResourceType;
             requiredValidation.ErrorMessageResourceName = errorMessageResourceName;
 
             return This;
-        }
-
-        private RequiredValidationMetadata GetRequiredValidation()
-        {
-            return Item.Validations.OfType<RequiredValidationMetadata>().SingleOrDefault();
         }
     }
 }

@@ -380,14 +380,8 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual StringMetadataItemBuilder Expression(string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            RegularExpressionValidationMetadata regularExpressionValidation = GetExpressionValidation();
-
-            if (regularExpressionValidation == null)
-            {
-                regularExpressionValidation = new RegularExpressionValidationMetadata();
-                Item.Validations.Add(regularExpressionValidation);
-            }
-
+            RegularExpressionValidationMetadata regularExpressionValidation = Item.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
+            
             regularExpressionValidation.Pattern = pattern;
             regularExpressionValidation.ErrorMessage = errorMessage;
             regularExpressionValidation.ErrorMessageResourceType = errorMessageResourceType;
@@ -406,15 +400,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual StringMetadataItemBuilder MaximumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            StringLengthValidationMetadata stringLengthValidation = Item.Validations
-                                                                        .OfType<StringLengthValidationMetadata>()
-                                                                        .FirstOrDefault();
-
-            if (stringLengthValidation == null)
-            {
-                stringLengthValidation = new StringLengthValidationMetadata();
-                Item.Validations.Add(stringLengthValidation);
-            }
+            StringLengthValidationMetadata stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
             stringLengthValidation.Maximum = length;
             stringLengthValidation.ErrorMessage = errorMessage;
@@ -426,7 +412,7 @@ namespace MvcExtensions
 
         private RegularExpressionValidationMetadata GetExpressionValidation()
         {
-            return Item.Validations.OfType<RegularExpressionValidationMetadata>().SingleOrDefault();
+            return Item.GetValidation<RegularExpressionValidationMetadata>();
         }
     }
 }
