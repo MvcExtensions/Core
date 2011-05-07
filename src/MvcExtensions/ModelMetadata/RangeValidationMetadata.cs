@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
     /// <summary>
@@ -43,7 +44,9 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            return new ExtendedRangeValidator<TValueType>(modelMetadata, context, this);
+            var attribute = new RangeAttribute(typeof(TValueType), Minimum.ToString(), Maximum.ToString());
+            PopulateErrorMessage(attribute);
+            return new RangeAttributeAdapter(modelMetadata, context, attribute);
         }
     }
 }

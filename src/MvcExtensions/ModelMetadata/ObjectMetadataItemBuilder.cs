@@ -9,7 +9,6 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Defines a class to fluently configure metadata of a model.

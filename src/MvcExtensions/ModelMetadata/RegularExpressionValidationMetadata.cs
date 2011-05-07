@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
     /// <summary>
@@ -32,7 +33,9 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            return new ExtendedRegularExpressionValidator(modelMetadata, context, this);
+            var attribute = new RegularExpressionAttribute(Pattern);
+            PopulateErrorMessage(attribute);
+            return new RegularExpressionAttributeAdapter(modelMetadata, context, attribute);
         }
     }
 }

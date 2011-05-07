@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
     /// <summary>
@@ -57,6 +58,33 @@ namespace MvcExtensions
             Invariant.IsNotNull(context, "context");
 
             return CreateValidatorCore(modelMetadata, context);
+        }
+
+        /// <summary>
+        /// Populates the error message from the given metadata.
+        /// </summary>
+        /// <param name="validationAttribute"></param>
+        public void PopulateErrorMessage(ValidationAttribute validationAttribute)
+        {
+            Invariant.IsNotNull(this, "validationMetadata");
+
+            string errorMessage = null;
+
+            if (ErrorMessage != null)
+            {
+                errorMessage = ErrorMessage();
+            }
+
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                validationAttribute.ErrorMessage = errorMessage;
+            }
+            else if ((ErrorMessageResourceType != null) &&
+                     (!String.IsNullOrEmpty(ErrorMessageResourceName)))
+            {
+                validationAttribute.ErrorMessageResourceType = ErrorMessageResourceType;
+                validationAttribute.ErrorMessageResourceName = ErrorMessageResourceName;
+            }
         }
 
         /// <summary>

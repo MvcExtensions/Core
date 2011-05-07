@@ -10,7 +10,6 @@ namespace MvcExtensions.Tests
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
-
     using Xunit;
     using Xunit.Extensions;
 
@@ -61,35 +60,27 @@ namespace MvcExtensions.Tests
         {
             public static string ErrorMessage
             {
-                get
-                {
-                    return "Value must be present";
-                }
+                get { return "Value must be present"; }
             }
         }
 
         private sealed class ExtendedValidatorTestDouble : ExtendedValidator<RequiredAttribute>
         {
-            public ExtendedValidatorTestDouble(ModelMetadata metadata, ControllerContext controllerContext, IModelValidationMetadata validationMetadata) : base(metadata, controllerContext)
+            public ExtendedValidatorTestDouble(ModelMetadata metadata, ControllerContext controllerContext, ModelValidationMetadata validationMetadata) : base(metadata, controllerContext)
             {
-                Attribute = new RequiredAttribute();
-                PopulateErrorMessage(validationMetadata);
+                var attribute = new RequiredAttribute();
+                validationMetadata.PopulateErrorMessage(attribute);
+                Attribute = attribute;
             }
 
             public RequiredAttribute ValidationAttribute
             {
-                get
-                {
-                    return Attribute;
-                }
+                get { return Attribute; }
             }
 
             public string ValidationErrorMessage
             {
-                get
-                {
-                    return ErrorMessage;
-                }
+                get { return ErrorMessage; }
             }
         }
     }

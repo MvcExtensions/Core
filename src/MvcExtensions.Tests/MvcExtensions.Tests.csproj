@@ -121,10 +121,6 @@
     <Compile Include="ModelMetadata\ExtendedModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedRangeValidatorTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedRegularExpressionValidatorTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedRequiredValidatorTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedStringLengthValidatorTests.cs" />
     <Compile Include="ModelMetadata\ExtendedValidatorTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataConfigurationTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBaseTests.cs" />

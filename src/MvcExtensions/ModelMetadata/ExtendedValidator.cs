@@ -65,31 +65,5 @@ namespace MvcExtensions
                                  };
             }
         }
-
-        /// <summary>
-        /// Populates the error message from the given metadata.
-        /// </summary>
-        /// <param name="validationMetadata">The validation metadata.</param>
-        protected void PopulateErrorMessage(IModelValidationMetadata validationMetadata)
-        {
-            Invariant.IsNotNull(validationMetadata, "validationMetadata");
-
-            string errorMessage = null;
-
-            if (validationMetadata.ErrorMessage != null)
-            {
-                errorMessage = validationMetadata.ErrorMessage();
-            }
-
-            if (!string.IsNullOrEmpty(errorMessage))
-            {
-                Attribute.ErrorMessage = errorMessage;
-            }
-            else if ((validationMetadata.ErrorMessageResourceType != null) && (!string.IsNullOrEmpty(validationMetadata.ErrorMessageResourceName)))
-            {
-                Attribute.ErrorMessageResourceType = validationMetadata.ErrorMessageResourceType;
-                Attribute.ErrorMessageResourceName = validationMetadata.ErrorMessageResourceName;
-            }
-        }
     }
 }

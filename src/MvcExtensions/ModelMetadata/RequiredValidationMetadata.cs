@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
 
     /// <summary>
@@ -22,7 +23,9 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            return new ExtendedRequiredValidator(modelMetadata, context, this);
+            var attribute = new RequiredAttribute();
+            PopulateErrorMessage(attribute);
+            return new RequiredAttributeAdapter(modelMetadata, context, attribute);
         }
     }
 }

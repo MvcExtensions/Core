@@ -208,12 +208,8 @@
     </Compile>
     <Compile Include="BootstrapperTask\RegisterValueProviderFactories.cs" />
     <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
-    <Compile Include="ModelMetadata\ExtendedRangeValidator.cs" />
     <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\ExtendedRegularExpressionValidator.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
-    <Compile Include="ModelMetadata\ExtendedRequiredValidator.cs" />
-    <Compile Include="ModelMetadata\ExtendedStringLengthValidator.cs" />
     <Compile Include="ModelMetadata\IModelMetadataFormattableItem.cs" />
     <Compile Include="ModelMetadata\IModelMetadataRegistry.cs" />
     <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
