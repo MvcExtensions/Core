@@ -19,7 +19,7 @@ namespace MvcExtensions
     /// </summary>
     public static class RESTFullRouteExtensions
     {
-        const string IdParameterExpression = "{" + RESTFulActionConstraint.IdParameterName + "}";
+        private const string IdParameterExpression = "{" + RESTFulActionConstraint.IdParameterName + "}";
 
         private static readonly Type createType = typeof(IRESTFullCreate);
         private static readonly Type updateType = typeof(IRESTFulUpdate<>);
@@ -163,7 +163,7 @@ namespace MvcExtensions
         private static bool ImplementsInterface(Type classType, Type interfaceType)
         {
             IEnumerable<Type> targetInterfaces = classType.GetInterfaces()
-                                                          .Where(type => type.IsGenericType && interfaceType.IsAssignableFrom(type.GetGenericTypeDefinition()));
+                .Where(type => type.IsGenericType && interfaceType.IsAssignableFrom(type.GetGenericTypeDefinition()));
 
             return targetInterfaces.Any();
         }

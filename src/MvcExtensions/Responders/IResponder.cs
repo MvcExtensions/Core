@@ -29,7 +29,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>
-        /// 	<c>true</c> if this instance [can respond to action] the specified action; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance [can respond to action] the specified action; otherwise, <c>false</c>.
         /// </returns>
         bool CanRespondToAction(string action);
 
@@ -38,7 +38,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="format">The format.</param>
         /// <returns>
-        /// 	<c>true</c> if this instance [can respond to format] the specified format; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance [can respond to format] the specified format; otherwise, <c>false</c>.
         /// </returns>
         bool CanRespondToFormat(string format);
 
@@ -47,7 +47,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="mimeType">Type of the MIME.</param>
         /// <returns>
-        /// 	<c>true</c> if this instance [can respond to MIME type] the specified MIME type; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance [can respond to MIME type] the specified MIME type; otherwise, <c>false</c>.
         /// </returns>
         bool CanRespondToMimeType(string mimeType);
 
