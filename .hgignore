@@ -9,6 +9,7 @@ syntax: glob
 *.vspscc
 *.scc
 *.zip
+*.docstates
 publish.xml
 [Dd]ebug*/
 [Bb]in

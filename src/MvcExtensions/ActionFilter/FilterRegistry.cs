@@ -116,7 +116,8 @@ namespace MvcExtensions
             IList<IMvcFilter> exceptionFiltes = new List<IMvcFilter>();
 
             foreach (IEnumerable<IMvcFilter> filters in Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
-                                                             .Select(item => item.Filters.Select(filter => filter())))
+                                                             .Select(item => item.Filters.Select(filter => filter()).ToList())
+                                                             .ToList())
             {
                 filters.OfType<IAuthorizationFilter>()
                     .Cast<IMvcFilter>()
