@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
 
@@ -40,8 +41,9 @@ namespace MvcExtensions
             {
                 return DoGetService(serviceType, key);
             }
-            catch
+            catch(Exception e)
             {
+                Debug.WriteLine(e);
                 // Eat the exception, the ASP.NET MVC Framework expects a null service when the underlying container
                 // cannot resolve.
                 return null;
