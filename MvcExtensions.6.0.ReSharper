@@ -28,7 +28,6 @@
           <Item>volatile</Item>
         </MODIFIERS_ORDER>
         <PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE>False</PLACE_ABSTRACT_ACCESSORHOLDER_ON_SINGLE_LINE>
-        <SPACE_AFTER_TYPECAST_PARENTHESES>False</SPACE_AFTER_TYPECAST_PARENTHESES>
         <SPACE_BEFORE_TYPEOF_PARENTHESES>False</SPACE_BEFORE_TYPEOF_PARENTHESES>
         <SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>True</SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES>
         <WRAP_LIMIT>400</WRAP_LIMIT>
@@ -57,6 +56,9 @@
         <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
       </Naming2>
     </CSharp>
+    <HTML>
+      <FormatSettings />
+    </HTML>
     <JavaScript>
       <FormatSettings />
       <Naming2 />
@@ -81,7 +83,7 @@
     <Xaml>
       <Naming2 />
     </Xaml>
-    <FileHeader Region="Copyright"><![CDATA[Copyright (c) 2009 - 2011, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+    <FileHeader Region="Copyright"><![CDATA[Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 This source is subject to the Microsoft Public License. 
 See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 All other rights reserved.]]></FileHeader>
