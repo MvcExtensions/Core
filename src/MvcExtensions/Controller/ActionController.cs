@@ -17,7 +17,7 @@ namespace MvcExtensions
     /// Defines an abstract controller which contains  CRUD actions in RESTFul way.
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
-    public abstract class ActionController<TKey> : Controller, IHasResponders, IRESTFullCreate, IRESTFulUpdate<TKey>, IRESTFullDestroy<TKey>, IRESTFullDetails<TKey>, IRESTFullList
+    public abstract class ActionController<TKey> : Controller, IHasResponders, IRESTFullCreate, IRESTFullUpdate<TKey>, IRESTFullDestroy<TKey>, IRESTFullDetails<TKey>, IRESTFullList
     {
         private static readonly Func<ResponderCollection> defaultRespondersFactory = () => new ResponderCollection
                                                                                                {

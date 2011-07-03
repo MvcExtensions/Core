@@ -90,15 +90,15 @@ namespace MvcExtensions
         /// <typeparam name="TView1">The type of the controller1.</typeparam>
         /// <typeparam name="TView2">The type of the controller2.</typeparam>
         /// <typeparam name="TView3">The type of the controller3.</typeparam>
-        /// <typeparam name="TVIew4">The type of the controller4.</typeparam>
+        /// <typeparam name="TView4">The type of the controller4.</typeparam>
         /// <typeparam name="TViewPageActivator">The type of the controller activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TVIew4, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TView4, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
             where TView1 : IView
             where TView2 : IView
             where TView3 : IView
-            where TVIew4 : IView
+            where TView4 : IView
             where TViewPageActivator : IViewPageActivator
         {
             Invariant.IsNotNull(instance, "instance");
@@ -108,7 +108,7 @@ namespace MvcExtensions
             instance.Register(typeof(TView1), viewPageActivatorType);
             instance.Register(typeof(TView2), viewPageActivatorType);
             instance.Register(typeof(TView3), viewPageActivatorType);
-            instance.Register(typeof(TVIew4), viewPageActivatorType);
+            instance.Register(typeof(TView4), viewPageActivatorType);
 
             return instance;
         }
