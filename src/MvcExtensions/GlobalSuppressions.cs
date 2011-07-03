@@ -15,8 +15,6 @@
 // All other rights reserved.
 #endregion
 
-
-
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA2210:AssembliesShouldHaveValidStrongNames")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1813:AvoidUnsealedAttributes", Scope = "type", Target = "MvcExtensions.CompressAttribute")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", Scope = "member", Target = "MvcExtensions.AdaptivePostRedirectGetResult.#.ctor(System.String)", MessageId = "0#")]
