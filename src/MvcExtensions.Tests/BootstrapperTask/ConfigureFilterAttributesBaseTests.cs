@@ -21,7 +21,7 @@ namespace MvcExtensions.Tests
         {
             var registry = new Mock<IFilterRegistry>();
 
-            registry.Setup(r => r.Register<Dummy1Controller, FilterAttribute>(It.IsAny<IList<Func<FilterAttribute>>>())).Verifiable();
+            registry.Setup(r => r.Register<Dummy1Controller, IMvcFilter>(It.IsAny<IEnumerable<Func<IMvcFilter>>>())).Verifiable();
 
             new ConfigureFiltersBaseTestDouble(registry.Object).Execute();
 

@@ -48,8 +48,17 @@ namespace MvcExtensions.Tests
             adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
         }
 
-        private sealed class DummyFilter : FilterAttribute
+        private sealed class DummyFilter : IMvcFilter
         {
+            public bool AllowMultiple
+            {
+                get { return true; }
+            }
+
+            public int Order
+            {
+                get { return 0; }
+            }
         }
     }
 }
