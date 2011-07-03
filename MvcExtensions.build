@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Full" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
+    
+    <PropertyGroup>
+      <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
+    </PropertyGroup>
+    <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
 
     <PropertyGroup Condition="'$(Condition)' == ''">
         <Configuration>Release</Configuration>
@@ -49,7 +54,7 @@
         <windsorTest>$(windsorTestPath)\$(windsorTestFile).csproj</windsorTest>
     </PropertyGroup>
 
-    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;NCover;Deploy"/>
+    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;CodeCoverage;Deploy"/>
 
     <Target Name="Init">
         <MakeDir Directories="$(artifactPath)" Condition="!Exists('$(artifactPath)')"/>
@@ -153,87 +158,50 @@
     </Target>
 
     <PropertyGroup>
-        <xunitConsolePath>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.x86.exe</xunitConsolePath>
-        <nCoverPath>$(MSBuildProjectDirectory)\Build\NCover</nCoverPath>
-        <nCoverMSBuild>$(nCoverPath)\NCoverExplorer.MSBuildTasks.dll</nCoverMSBuild>
-        <nCoverExclusions>
-            <CoverageExclusion>
-                <ExclusionType>Assembly</ExclusionType>
-                <Pattern>*.Tests</Pattern>
-            </CoverageExclusion>
-        </nCoverExclusions>
-        <nCoverExcludeAttributes>System.Runtime.CompilerServices.CompilerGeneratedAttribute;System.CodeDom.Compiler.GeneratedCodeAttribute;System.Diagnostics.DebuggerNonUserCodeAttribute</nCoverExcludeAttributes>
+        <xunitConsolePath>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunitConsolePath>
     </PropertyGroup>
     <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
-    <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCover"/>
-    <UsingTask AssemblyFile="$(nCoverMSBuild)" TaskName="NCoverExplorer.MSBuildTasks.NCoverExplorer"/>
-    <Target Name="NCover">
-        <NCover
-            ToolPath="$(nCoverPath)"
-            CommandLineExe="$(xunitConsolePath)"
-            CommandLineArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(coreTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
-            CoverageFile="$(artifactPath)\$(coreFile)-coverage.xml"
-            LogFile="$(artifactPath)\$(coreFile)-coverage.log"
-            ExcludeAttributes="$(nCoverExcludeAttributes)"
+    
+    <Target Name="CodeCoverage">
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunitConsolePath)"
+        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(coreTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Output="$(artifactPath)\$(coreFile)-coverage.xml"
+        Include="[$(coreFile)]*"
+        Exclude="[*.Test]*"
+      />
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunitConsolePath)"
+        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(ninjectTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Output="$(artifactPath)\$(ninjectFile)-coverage.xml"
+        Include="[$(ninjectFile)]*"
+        Exclude="[*.Test]*"
+      />
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunitConsolePath)"
+        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(structureMapTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Output="$(artifactPath)\$(structureMapFile)-coverage.xml"
+        Include="[$(structureMapFile)]*"
+        Exclude="[*.Test]*"      
+      />
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunitConsolePath)"
+        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(unityTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Output="$(artifactPath)\$(unityFile)-coverage.xml"
+        Include="[$(unityFile)]*"
+        Exclude="[*.Test]*"
+      />
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunitConsolePath)"
+        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(windsorTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Output="$(artifactPath)\$(windsorFile)-coverage.xml"
+        Include="[$(windsorFile)]*"
+        Exclude="[*.Test]*"
+      />
+      <CombineXunitXml
+        OutputFile="$(artifactPath)\Xunit.xml"
+        InputFiles="$(artifactPath)\$(coreTestFile).xunit.xml;$(artifactPath)\$(ninjectTestFile).xunit.xml;$(artifactPath)\$(structureMapTestFile).xunit.xml;$(artifactPath)\$(unityTestFile).xunit.xml;$(artifactPath)\$(windsorTestFile).xunit.xml"
         />
-        <NCover
-            ToolPath="$(nCoverPath)"
-            CommandLineExe="$(xunitConsolePath)"
-            CommandLineArgs="&quot;$(ninjectTestPath)\bin\$(Configuration)\$(ninjectTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(ninjectTestFile).xunit.xml&quot;"
-            CoverageFile="$(artifactPath)\$(ninjectFile)-coverage.xml"
-            LogFile="$(artifactPath)\$(ninjectFile)-coverage.log"
-            ExcludeAttributes="$(nCoverExcludeAttributes)"
-        />
-        <NCover
-            ToolPath="$(nCoverPath)"
-            CommandLineExe="$(xunitConsolePath)"
-            CommandLineArgs="&quot;$(structureMapTestPath)\bin\$(Configuration)\$(structureMapTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(structureMapTestFile).xunit.xml&quot;"
-            CoverageFile="$(artifactPath)\$(structureMapFile)-coverage.xml"
-            LogFile="$(artifactPath)\$(structureMapFile)-coverage.log"
-            ExcludeAttributes="$(nCoverExcludeAttributes)"
-        />
-        <NCover
-            ToolPath="$(nCoverPath)"
-            CommandLineExe="$(xunitConsolePath)"
-            CommandLineArgs="&quot;$(unityTestPath)\bin\$(Configuration)\$(unityTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(unityTestFile).xunit.xml&quot;"
-            CoverageFile="$(artifactPath)\$(unityFile)-coverage.xml"
-            LogFile="$(artifactPath)\$(unityFile)-coverage.log"
-            ExcludeAttributes="$(nCoverExcludeAttributes)"
-        />
-        <NCover
-            ToolPath="$(nCoverPath)"
-            CommandLineExe="$(xunitConsolePath)"
-            CommandLineArgs="&quot;$(windsorTestPath)\bin\$(Configuration)\$(windsorTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(windsorTestFile).xunit.xml&quot;"
-            CoverageFile="$(artifactPath)\$(windsorFile)-coverage.xml"
-            LogFile="$(artifactPath)\$(windsorFile)-coverage.log"
-            ExcludeAttributes="$(nCoverExcludeAttributes)"
-        />
-        <CombineXunitXml
-            OutputFile="$(artifactPath)\Xunit.xml"
-            InputFiles="$(artifactPath)\$(coreTestFile).xunit.xml;$(artifactPath)\$(ninjectTestFile).xunit.xml;$(artifactPath)\$(structureMapTestFile).xunit.xml;$(artifactPath)\$(unityTestFile).xunit.xml;$(artifactPath)\$(windsorTestFile).xunit.xml"
-        />
-        <NCoverExplorer
-            ToolPath="$(nCoverPath)"
-            ProjectName="$(coreFile)"
-            ReportType="ModuleClassFunctionSummary"
-            XmlReportName="$(artifactPath)\NCover.xml"
-            ShowExcluded="False"
-            SatisfactoryCoverage="95"
-            MinimumCoverage="90"
-            FailMinimum="True"
-            FailCombinedMinimum="True"
-            Sort="Name"
-            Exclusions="$(nCoverExclusions)"
-            CoverageFiles="$(artifactPath)\$(coreFile)-coverage.xml;$(artifactPath)\$(ninjectFile)-coverage.xml;$(artifactPath)\$(structureMapFile)-coverage.xml;$(artifactPath)\$(unityFile)-coverage.xml;$(artifactPath)\$(windsorFile)-coverage.xml"
-        />
-        <CallTarget Targets="NCoverCleanup"/>
-        <OnError ExecuteTargets="NCoverCleanup"/>
-    </Target>
-
-    <Target Name="NCoverCleanup">
-        <Delete Files="$(artifactPath)\$(coreTestFile).xunit.xml;$(artifactPath)\$(ninjectTestFile).xunit.xml;$(artifactPath)\$(structureMapTestFile).xunit.xml;$(artifactPath)\$(unityTestFile).xunit.xml;$(artifactPath)\$(windsorTestFile).xunit.xml"/>
-        <Delete Files="$(artifactPath)\$(coreFile)-coverage.log;$(artifactPath)\$(ninjectFile)-coverage.log;$(artifactPath)\$(structureMapFile)-coverage.log;$(artifactPath)\$(unityFile)-coverage.log;$(artifactPath)\$(windsorFile)-coverage.log"/>
-        <Delete Files="$(artifactPath)\$(coreFile)-coverage.xml;$(artifactPath)\$(ninjectFile)-coverage.xml;$(artifactPath)\$(structureMapFile)-coverage.xml;$(artifactPath)\$(unityFile)-coverage.xml;$(artifactPath)\$(windsorFile)-coverage.xml"/>
     </Target>
 
     <Target Name="Deploy">
