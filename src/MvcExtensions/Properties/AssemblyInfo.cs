@@ -9,9 +9,7 @@ using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
-using System.Security;
 
-[assembly: AllowPartiallyTrustedCallers]
 [assembly: AssemblyTitle("MvcExtensions 2.0")]
 [assembly: AssemblyProduct("MvcExtensions 2.0")]
 [assembly: CLSCompliant(true)]
