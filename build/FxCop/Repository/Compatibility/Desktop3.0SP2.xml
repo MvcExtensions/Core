@@ -2,7 +2,7 @@
 <CompatibilityEntry Name=".NET Framework 3.0 Service Pack 2"
                     Platform="Desktop" 
                     Version="3.0.2" 
-                    Priority="3020">
+                    Priority="3520">
 
   <Member>Microsoft.Build.Tasks.Windows.MarkupCompilePass1.#get_SplashScreen()</Member>
   <Member>Microsoft.Build.Tasks.Windows.MarkupCompilePass1.#set_SplashScreen(Microsoft.Build.Framework.ITaskItem[])</Member>

@@ -26,6 +26,7 @@
       <Word>tk</Word>
       <Word>tw</Word>
       <Word>val</Word>      
+      <Word>meth</Word>      
     </Unrecognized>
     <!--
       This is a list of case-insensitive words that do not exist in the dictionary
@@ -50,6 +51,7 @@
       <Word>atan</Word>
       <Word>baml</Word>
       <Word>bcl</Word>
+      <Word>bidi</Word>
       <Word>bindable</Word>
       <Word>bitrate</Word>
       <Word>blittable</Word>
@@ -75,6 +77,7 @@
       <Word>cmd</Word>
       <Word>cmdlet</Word>
       <Word>cmdlets</Word>
+      <Word>cng</Word>
       <Word>comparand</Word>
       <Word>concat</Word>
       <Word>config</Word>
@@ -96,12 +99,15 @@
       <Word>deserialized</Word>
       <Word>deserializing</Word>
       <Word>dhcp</Word>
+      <Word>diffie</Word>
       <Word>discardable</Word>
       <Word>dll</Word>
       <Word>dns</Word>
       <Word>documentable</Word>
+      <Word>dsa</Word>
       <Word>dsig</Word>
       <Word>dtd</Word>
+      <Word>dtds</Word>
       <Word>em</Word>
       <Word>email</Word>
       <Word>emails</Word>
@@ -111,6 +117,8 @@
       <Word>enqueue</Word>
       <Word>enum</Word>
       <Word>enums</Word>
+      <Word>equatable</Word>
+      <Word>eventing</Word>
       <Word>expando</Word>
       <Word>finalizer</Word>
       <Word>finalizers</Word>
@@ -118,6 +126,9 @@
       <Word>fixups</Word>
       <Word>formattable</Word>
       <Word>func</Word>
+      <Word>fxcop</Word>
+      <Word>gac</Word>
+      <Word>goto</Word>
       <Word>guid</Word>
       <Word>guids</Word>
       <Word>hashtable</Word>
@@ -125,12 +136,15 @@
       <Word>hashtable's</Word>
       <Word>hdc</Word>
       <Word>hijri</Word>
+      <Word>hmac</Word>         <!-- Hash Message Authentication Code -->      
       <Word>href</Word>
+      <Word>idn</Word>
       <Word>iis</Word>
       <Word>il</Word>
       <Word>ime</Word>
       <Word>initializer</Word>
       <Word>initializers</Word>
+      <Word>inlining</Word>
       <Word>int</Word>
       <Word>interop</Word>
       <Word>intrinsics</Word>
@@ -138,6 +152,9 @@
       <Word>iterator</Word>
       <Word>iterators</Word>
       <Word>jit</Word>
+      <Word>json</Word>         <!-- JavaScript Object Notation -->
+      <Word>lcid</Word>
+      <Word>lcids</Word>
       <Word>ldap</Word>
       <Word>linq</Word>
       <Word>localhost</Word>
@@ -171,12 +188,16 @@
       <Word>ntfs</Word>
       <Word>ntlm</Word>
       <Word>nullable</Word>
+      <Word>numerics</Word>
       <Word>obj</Word>
       <Word>odbc</Word>
       <Word>overridable</Word>
       <Word>pageable</Word>
+      <Word>partitioner</Word>
+      <Word>partitioners</Word>
       <Word>parameterless</Word>
       <Word>pdb</Word>
+      <Word>persister</Word>
       <Word>persistable</Word>
       <Word>playlist</Word>
       <Word>pragma</Word>
@@ -201,9 +222,12 @@
       <Word>rethrows</Word>
       <Word>rijndael</Word>
       <Word>rpc</Word>
+      <Word>rsa</Word>
       <Word>rtc</Word>
+      <Word>runspace</Word>
       <Word>rva</Word>
       <Word>sdl</Word>
+      <Word>saml</Word>             <!-- Security Assertion Markup Language -->
       <Word>searchspace</Word>
       <Word>searchspaces</Word>
       <Word>seekable</Word>
@@ -216,12 +240,15 @@
       <Word>specifier</Word>
       <Word>specifiers</Word>
       <Word>spline</Word>
+      <Word>sortable</Word>
       <Word>sql</Word>
+      <Word>sddl</Word>         <!-- Security Description Definition Language -->      
       <Word>ssl</Word>
       <Word>sta</Word>
       <Word>stickies</Word>
       <Word>struct</Word>
       <Word>structs</Word>
+      <Word>stylesheet</Word>
       <Word>subaddress</Word>
       <Word>subaddresses</Word>
       <Word>subclass</Word>
@@ -251,8 +278,14 @@
       <Word>tuples</Word>
       <Word>udp</Word>
       <Word>udt</Word>
+      <Word>unbox</Word>
       <Word>unboxing</Word>
+      <Word>unc</Word>
       <Word>uncategorize</Word>
+      <Word>uncheck</Word>
+      <Word>unchecked</Word>
+      <Word>unchecking</Word>
+      <Word>unescape</Word>
       <Word>unindent</Word>
       <Word>uninitialize</Word>
       <Word>uninitialized</Word>
@@ -274,6 +307,11 @@
       <Word>utf</Word>
       <Word>validator</Word>
       <Word>vsa</Word>
+      <Word>virtualize</Word>
+      <Word>virtualizes</Word>
+      <Word>virtualizing</Word>
+      <Word>visualizer</Word>
+      <Word>visualizers</Word>
       <Word>weblog</Word>
       <Word>wiki</Word>
       <Word>wcf</Word>
@@ -302,6 +340,9 @@
       -->
       <Term PreferredAlternate="EnterpriseServices">complus</Term>
       <Term PreferredAlternate="Canceled">cancelled</Term>
+      <Term PreferredAlternate="Canceling">cancelling</Term>
+      <Term PreferredAlternate="Cancellation">cancelation</Term>
+      <Term PreferredAlternate="Cancellations">cancelations</Term>
       <Term PreferredAlternate="Indexes">indices</Term>
       <Term PreferredAlternate="LogOn">login</Term>
       <Term PreferredAlternate="LogOff">logout</Term>
@@ -340,6 +381,9 @@
         compound word (for example 'WhiteSpace') and its discrete alternate (for example 
         'Whitespace').
       -->
+      <Term CompoundAlternate="DataBind">databind</Term>
+      <Term CompoundAlternate="DataBinds">databinds</Term>
+      <Term CompoundAlternate="DataBinding">databinding</Term>
       <Term CompoundAlternate="DataStore">datastore</Term>
       <Term CompoundAlternate="DataStores">datastores</Term>
       <Term CompoundAlternate="DataSet">dataset</Term>
@@ -372,6 +416,8 @@
       <Term CompoundAlternate="FieldNames">fieldnames</Term>
       <Term CompoundAlternate="PathName">pathname</Term>
       <Term CompoundAlternate="PathNames">pathnames</Term>
+      <Term CompoundAlternate="AssemblyName">assemblyname</Term>
+      <Term CompoundAlternate="AssemblyNames">assemblynames</Term>
       <Term CompoundAlternate="WhiteSpace">whitespace</Term>
       <Term CompoundAlternate="WhiteSpaces">whitespaces</Term>
       <Term CompoundAlternate="LogOn">logon</Term>
@@ -382,6 +428,8 @@
       <Term CompoundAlternate="SignIns">signins</Term>
       <Term CompoundAlternate="SignOut">signout</Term>
       <Term CompoundAlternate="SignOuts">signouts</Term>
+      <Term CompoundAlternate="StyleSheet">stylesheet</Term>
+      <Term CompoundAlternate="StyleSheets">stylesheets</Term>
       <Term CompoundAlternate="FrontEnd">frontend</Term>
       <Term CompoundAlternate="FrontEnds">frontends</Term>
       <Term CompoundAlternate="BackEnd">backend</Term>
@@ -414,6 +462,13 @@
       <Term CompoundAlternate="QWords">qwords</Term>
       <Term CompoundAlternate="KeySet">keyset</Term>
       <Term CompoundAlternate="KeySets">keysets</Term>
+      <Term CompoundAlternate="CodeBase">codebase</Term>
+      <Term CompoundAlternate="CodeBases">codebases</Term>
+      <Term CompoundAlternate="GridLine">gridline</Term>
+      <Term CompoundAlternate="GridLines">gridlines</Term>
+      <Term CompoundAlternate="OpCode">opcode</Term>
+      <Term CompoundAlternate="OpCodes">opcodes</Term>
+      <Term CompoundAlternate="FxCop">fxcop</Term>
     </Compound>
     <DiscreteExceptions>
       <!--
@@ -454,14 +509,23 @@
       <Term>tooltip</Term>
       <Term>tooltips</Term>
       <Term>indispose</Term>
+      <Term>webhost</Term>
+      <Term>webhosts</Term>
+      <Term>preshow</Term>
+      <Term>superfast</Term>
+      <Term>goto</Term>       <!-- GoTo -->
+      <Term>endpoint</Term>   <!-- Prevalent usage of both casings in System.Net and System.ServiceModel -->
+      <Term>strongbox</Term>
     </DiscreteExceptions>
   </Words>
   <Acronyms>
     <CasingExceptions>
+      <Acronym>Pv</Acronym>   <!-- IPv4, IPv6 -->
       <Acronym>Pi</Acronym>
       <Acronym>Na</Acronym>   <!-- NaN -->
       <Acronym>NESW</Acronym> <!-- North East South West -->
       <Acronym>NWSE</Acronym> <!-- North West South East -->
+      <Acronym>Op</Acronym>   <!-- OpCode -->
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

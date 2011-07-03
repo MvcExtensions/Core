@@ -2,7 +2,7 @@
 <CompatibilityEntry Name=".NET Framework 2.0 Service Pack 2"
                     Platform="Desktop" 
                     Version="2.0.2" 
-                    Priority="3015">
+                    Priority="3515">
 
   <Member>System.String.#Compare(System.String,System.String,System.Globalization.CultureInfo,System.Globalization.CompareOptions)</Member>
   <Member>System.String.#Compare(System.String,System.Int32,System.String,System.Int32,System.Int32,System.Globalization.CultureInfo,System.Globalization.CompareOptions)</Member>
