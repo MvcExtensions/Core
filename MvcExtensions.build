@@ -4,6 +4,7 @@
     
     <PropertyGroup>
       <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
+      <nugetPath>$(MSBuildProjectDirectory)\Build\NuGet\</nugetPath>
     </PropertyGroup>
     <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
 
@@ -224,5 +225,11 @@
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
         <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).zip" Flatten="true" ZipLevel="9"/>
+
+        <Exec Command="$(nugetPath)nuget pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
+        <Exec Command="$(nugetPath)nuget pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
+        <Exec Command="$(nugetPath)nuget pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
+        <Exec Command="$(nugetPath)nuget pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
+        <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
     </Target>
 </Project>

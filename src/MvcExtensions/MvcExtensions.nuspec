@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MvcExtensions</id>
+    <version>0.0.0.0</version>
+    <title>MvcExtensions.Windsor</title>
+    <authors>Kazi Manzur Rashid, hazzik</authors>
+    <owners>Kazi Manzur Rashid, hazzik</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ASP.NET MVC Extensions is framework developed on top of ASP.NET MVC extensibility point, which allows your IoC Container to rule everywhere.</description>
+  </metadata>
+  <files>
+    <file src="MvcExtensions.dll" target="lib\net40\MvcExtensions.dll" />
+    <file src="MvcExtensions.xml" target="lib\net40\MvcExtensions.xml" />
+  </files>
+</package>
