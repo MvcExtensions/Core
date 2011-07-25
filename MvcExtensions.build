@@ -230,7 +230,7 @@
         <CreateItem Include="$(MSBuildProjectDirectory)\..\license.txt">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
-        <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).zip" Flatten="true" ZipLevel="9"/>
+        <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(Version).zip" Flatten="true" ZipLevel="9"/>
 
         <Exec Command="$(nugetPath)nuget pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
         <Exec Command="$(nugetPath)nuget pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
