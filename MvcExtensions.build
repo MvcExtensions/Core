@@ -238,4 +238,11 @@
         <Exec Command="$(nugetPath)nuget pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
         <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
+    <Target Name="Publish">
+        <Exec Command="$(nugetPath)push $(artifactPath)\$(coreFile).$(Version).nupkg" />
+        <Exec Command="$(nugetPath)push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
+        <Exec Command="$(nugetPath)push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
+        <Exec Command="$(nugetPath)push $(artifactPath)\$(unityFile).$(Version).nupkg" />
+        <Exec Command="$(nugetPath)push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
+    </Target>
 </Project>
