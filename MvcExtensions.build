@@ -239,10 +239,10 @@
         <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
     <Target Name="Publish">
-        <Exec Command="push $(artifactPath)\$(coreFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(unityFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
+        <Exec Command="push $(artifactPath)\$(coreFile).$(Version).nupkg" EnvironmentVariables="NUGET_API_KEY=$(NUGET_API_KEY)"/>
+        <Exec Command="push $(artifactPath)\$(ninjectFile).$(Version).nupkg" EnvironmentVariables="NUGET_API_KEY=$(NUGET_API_KEY)"/>
+        <Exec Command="push $(artifactPath)\$(structureMapFile).$(Version).nupkg" EnvironmentVariables="NUGET_API_KEY=$(NUGET_API_KEY)"/>
+        <Exec Command="push $(artifactPath)\$(unityFile).$(Version).nupkg" EnvironmentVariables="NUGET_API_KEY=$(NUGET_API_KEY)"/>
+        <Exec Command="push $(artifactPath)\$(windsorFile).$(Version).nupkg" EnvironmentVariables="NUGET_API_KEY=$(NUGET_API_KEY)"/>
     </Target>
 </Project>
