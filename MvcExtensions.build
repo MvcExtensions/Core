@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Full" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
-    
     <PropertyGroup>
-      <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
-      <nugetPath>$(MSBuildProjectDirectory)\Build\NuGet\</nugetPath>
+        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">9999</BUILD_NUMBER>
+        <Version>2.0.0.$(BUILD_NUMBER)</Version>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
     </PropertyGroup>
+
     <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
-
-    <PropertyGroup Condition="'$(Condition)' == ''">
-        <Configuration>Release</Configuration>
-    </PropertyGroup>
+    <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
 
     <PropertyGroup>
+        <nugetPath>$(MSBuildProjectDirectory)\Build\NuGet\</nugetPath>
         <artifactPath>$(MSBuildProjectDirectory)\..\Drops</artifactPath>
-        <nuPackPath>$(MSBuildProjectDirectory)\NuPack</nuPackPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
 
         <solution>$(MSBuildProjectDirectory)\MvcExtensions.sln</solution>
@@ -130,6 +128,14 @@
     </Target>
 
     <Target Name="Build">
+        <AssemblyInfo CodeLanguage="CS"
+	          OutputFile="SharedFiles\CommonAssemblyInfo.cs"
+            AssemblyCompany="Kazi Manzur Rashid"
+            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011"
+            ComVisible="false"
+            AssemblyVersion="$(Version)"
+            AssemblyFileVersion="$(Version)"/>
+
         <MSBuild Projects="$(core)" Targets="Build" Properties="Configuration=$(Configuration)"/>
         <MSBuild Projects="$(coreTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
         <MSBuild Projects="$(ninject)" Targets="Build" Properties="Configuration=$(Configuration)"/>
@@ -226,10 +232,10 @@
         </CreateItem>
         <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).zip" Flatten="true" ZipLevel="9"/>
 
-        <Exec Command="$(nugetPath)nuget pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
-        <Exec Command="$(nugetPath)nuget pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
-        <Exec Command="$(nugetPath)nuget pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
-        <Exec Command="$(nugetPath)nuget pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
-        <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version 2.0.0.0" />
+        <Exec Command="$(nugetPath)nuget pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nugetPath)nuget pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nugetPath)nuget pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nugetPath)nuget pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
 </Project>
