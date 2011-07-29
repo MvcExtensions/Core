@@ -28,22 +28,22 @@ namespace MvcExtensions
 
         private static void MergeOrdered(FilterInfo mergedFilters, FilterInfo decoratedFilters, FilterInfo registeredFilters)
         {
-            Merge(decoratedFilters.AuthorizationFilters, registeredFilters.AuthorizationFilters, IsFilterAttriute)
+            Merge(decoratedFilters.AuthorizationFilters, registeredFilters.AuthorizationFilters, IsFilterAttribute)
                 .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IAuthorizationFilter>().Each(filter => mergedFilters.AuthorizationFilters.Add(filter));
 
-            Merge(decoratedFilters.ActionFilters, registeredFilters.ActionFilters, IsFilterAttriute)
+            Merge(decoratedFilters.ActionFilters, registeredFilters.ActionFilters, IsFilterAttribute)
                 .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IActionFilter>().Each(filter => mergedFilters.ActionFilters.Add(filter));
 
-            Merge(decoratedFilters.ResultFilters, registeredFilters.ResultFilters, IsFilterAttriute)
+            Merge(decoratedFilters.ResultFilters, registeredFilters.ResultFilters, IsFilterAttribute)
                 .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IResultFilter>().Each(filter => mergedFilters.ResultFilters.Add(filter));
 
-            Merge(decoratedFilters.ExceptionFilters, registeredFilters.ExceptionFilters, IsFilterAttriute)
+            Merge(decoratedFilters.ExceptionFilters, registeredFilters.ExceptionFilters, IsFilterAttribute)
                 .Cast<IMvcFilter>()
                 .OrderBy(filter => filter.Order)
                 .Cast<IExceptionFilter>().Each(filter => mergedFilters.ExceptionFilters.Add(filter));
@@ -51,16 +51,16 @@ namespace MvcExtensions
 
         private static void MergeUnordered(FilterInfo mergedFilters, FilterInfo decoratedFilters, FilterInfo registeredFilters)
         {
-            Merge(decoratedFilters.AuthorizationFilters, registeredFilters.AuthorizationFilters, IsNonFilterAttriute)
+            Merge(decoratedFilters.AuthorizationFilters, registeredFilters.AuthorizationFilters, IsNonFilterAttribute)
                 .Reverse().Each(filter => mergedFilters.AuthorizationFilters.Insert(0, filter));
 
-            Merge(decoratedFilters.ActionFilters, registeredFilters.ActionFilters, IsNonFilterAttriute)
+            Merge(decoratedFilters.ActionFilters, registeredFilters.ActionFilters, IsNonFilterAttribute)
                 .Reverse().Each(filter => mergedFilters.ActionFilters.Insert(0, filter));
 
-            Merge(decoratedFilters.ResultFilters, registeredFilters.ResultFilters, IsNonFilterAttriute)
+            Merge(decoratedFilters.ResultFilters, registeredFilters.ResultFilters, IsNonFilterAttribute)
                 .Reverse().Each(filter => mergedFilters.ResultFilters.Insert(0, filter));
 
-            Merge(decoratedFilters.ExceptionFilters, registeredFilters.ExceptionFilters, IsNonFilterAttriute)
+            Merge(decoratedFilters.ExceptionFilters, registeredFilters.ExceptionFilters, IsNonFilterAttribute)
                 .Reverse().Each(filter => mergedFilters.ExceptionFilters.Insert(0, filter));
         }
 
@@ -69,12 +69,12 @@ namespace MvcExtensions
             return source1.Where(filter).Concat(source2.Where(filter));
         }
 
-        private static bool IsFilterAttriute<TFilter>(TFilter filter)
+        private static bool IsFilterAttribute<TFilter>(TFilter filter)
         {
             return KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
 
-        private static bool IsNonFilterAttriute<TFilter>(TFilter filter)
+        private static bool IsNonFilterAttribute<TFilter>(TFilter filter)
         {
             return !KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
@@ -91,7 +91,7 @@ namespace MvcExtensions
 
         private static void Inject<TFilter>(IServiceInjector container, ICollection<object> injectedFilters, IEnumerable<TFilter> filters) where TFilter : class
         {
-            foreach (TFilter filter in filters.Where(filter => IsFilterAttriute(filter) && !injectedFilters.Contains(filter)))
+            foreach (TFilter filter in filters.Where(filter => IsFilterAttribute(filter) && !injectedFilters.Contains(filter)))
             {
                 container.Inject(filter);
                 injectedFilters.Add(filter);

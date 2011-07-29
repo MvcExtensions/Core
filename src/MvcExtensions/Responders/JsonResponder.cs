@@ -17,9 +17,9 @@ namespace MvcExtensions
     /// </summary>
     public class JsonResponder : SerializableResponder
     {
-        private static readonly Func<JavaScriptSerializer> defaultSerializerFactgory = () => new JavaScriptSerializer();
+        private static readonly Func<JavaScriptSerializer> defaultSerializerFactory = () => new JavaScriptSerializer();
 
-        private Func<JavaScriptSerializer> serializerFactgory;
+        private Func<JavaScriptSerializer> serializerFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JsonResponder"/> class.
@@ -43,10 +43,10 @@ namespace MvcExtensions
         public Func<JavaScriptSerializer> SerializerFactory
         {
             [DebuggerStepThrough]
-            get { return serializerFactgory ?? defaultSerializerFactgory; }
+            get { return serializerFactory ?? defaultSerializerFactory; }
 
             [DebuggerStepThrough]
-            set { serializerFactgory = value; }
+            set { serializerFactory = value; }
         }
 
         /// <summary>
