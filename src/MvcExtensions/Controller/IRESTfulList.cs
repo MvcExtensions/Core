@@ -12,7 +12,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines an interface to list resource in RESTFul way.
     /// </summary>
-    public interface IRESTFullList
+    public interface IRESTFulList
     {
         /// <summary>
         /// List the resources.

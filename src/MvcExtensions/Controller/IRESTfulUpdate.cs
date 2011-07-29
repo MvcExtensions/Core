@@ -12,7 +12,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines an interface to update resource in RESTFul way.
     /// </summary>
-    public interface IRESTFullUpdate<in TKey>
+    public interface IRESTFulUpdate<in TKey>
     {
         /// <summary>
         /// Shows the edit form to update resource.

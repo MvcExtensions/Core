@@ -17,7 +17,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a constraint which is used to ensure the RESTFul actions conditions are meet.
     /// </summary>
-    public class RESTFullActionConstraint : IRouteConstraint
+    public class RESTFulActionConstraint : IRouteConstraint
     {
         /// <summary>
         /// The Default Id parameter
@@ -29,19 +29,19 @@ namespace MvcExtensions
         private readonly IEnumerable<string> verbs;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RESTFullActionConstraint"/> class.
+        /// Initializes a new instance of the <see cref="RESTFulActionConstraint"/> class.
         /// </summary>
         /// <param name="httpVerb">The HTTP verb.</param>
-        public RESTFullActionConstraint(HttpVerbs httpVerb) : this(httpVerb, false)
+        public RESTFulActionConstraint(HttpVerbs httpVerb) : this(httpVerb, false)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RESTFullActionConstraint"/> class.
+        /// Initializes a new instance of the <see cref="RESTFulActionConstraint"/> class.
         /// </summary>
         /// <param name="httpVerb">The HTTP verb.</param>
         /// <param name="requiresId">if set to <c>true</c> [requires id].</param>
-        public RESTFullActionConstraint(HttpVerbs httpVerb, bool requiresId)
+        public RESTFulActionConstraint(HttpVerbs httpVerb, bool requiresId)
         {
             HttpVerbs = httpVerb;
             RequiresId = requiresId;

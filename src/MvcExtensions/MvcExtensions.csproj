@@ -112,11 +112,11 @@
     <Compile Include="BootstrapperTask\RegisterViews.cs" />
     <Compile Include="Controller\ActionController.cs" />
     <Compile Include="Controller\ControllerActivatorMappingExtensions.cs" />
-    <Compile Include="Controller\IRESTFullCreate.cs" />
-    <Compile Include="Controller\IRESTFullDestroy.cs" />
-    <Compile Include="Controller\IRESTFullDetails.cs" />
-    <Compile Include="Controller\IRESTFullList.cs" />
-    <Compile Include="Controller\IRESTFullUpdate.cs" />
+    <Compile Include="Controller\IRESTFulCreate.cs" />
+    <Compile Include="Controller\IRESTFulDestroy.cs" />
+    <Compile Include="Controller\IRESTFulDetails.cs" />
+    <Compile Include="Controller\IRESTFulList.cs" />
+    <Compile Include="Controller\IRESTFulUpdate.cs" />
     <Compile Include="ExtensionMethod\ActionResultExtensions.cs" />
     <Compile Include="ExtensionMethod\RouteDataExtensions.cs" />
     <Compile Include="ExtensionMethod\RouteExtensions.cs" />
@@ -140,7 +140,7 @@
     <Compile Include="Responders\ResponderContext.cs" />
     <Compile Include="Responders\SerializableResponder.cs" />
     <Compile Include="Responders\XmlResponder.cs" />
-    <Compile Include="Routing\RESTFullActionConstraint.cs" />
+    <Compile Include="Routing\RESTFulActionConstraint.cs" />
     <Compile Include="TypeContainers\TypeMappingRegistry.cs" />
     <Compile Include="Controller\ActionInvokerMappingExtensions.cs" />
     <Compile Include="Controller\ControllerActionInvokerHelper.cs" />

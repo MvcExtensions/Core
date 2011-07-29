@@ -13,7 +13,7 @@ namespace MvcExtensions
     /// Defines an interface to destroy resource in RESTFul way.
     /// </summary>
     /// <typeparam name="TKey">The type of the key.</typeparam>
-    public interface IRESTFullDestroy<in TKey>
+    public interface IRESTFulDestroy<in TKey>
     {
         /// <summary>
         /// Destroys the specified id.

@@ -10,21 +10,16 @@ namespace MvcExtensions
     using System.Web.Mvc;
 
     /// <summary>
-    /// Defines an interface to create resource in RESTFul way.
+    /// Defines an interface to show resource in RESTFul way.
     /// </summary>
-    public interface IRESTFullCreate
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    public interface IRESTFulDetails<in TKey>
     {
         /// <summary>
-        /// Shows the form to create new resource.
+        /// Shows the resource.
         /// </summary>
+        /// <param name="id">The id.</param>
         /// <returns></returns>
-        ActionResult New();
-
-        /// <summary>
-        /// Creates the specified fields.
-        /// </summary>
-        /// <param name="fields">The fields.</param>
-        /// <returns></returns>
-        ActionResult Create(FormCollection fields);
+        ActionResult Show(TKey id);
     }
 }
