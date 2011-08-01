@@ -21,6 +21,18 @@ namespace MvcExtensions
         /// Sorts the specified types.
         /// </summary>
         /// <param name="types">The types.</param>
+        /// <returns></returns>
+        public static IEnumerable<string> Sort(string types) 
+        {
+            return string.IsNullOrEmpty(types) ?
+                Enumerable.Empty<string>() :
+                Sort(types.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries), false);
+        }
+
+        /// <summary>
+        /// Sorts the specified types.
+        /// </summary>
+        /// <param name="types">The types.</param>
         /// <param name="defective">if set to <c>true</c> [defective].</param>
         /// <returns></returns>
         public static IEnumerable<string> Sort(IEnumerable<string> types, bool defective)

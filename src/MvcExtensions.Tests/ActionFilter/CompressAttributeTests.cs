@@ -86,7 +86,7 @@ namespace MvcExtensions.Tests
             httpContext.Verify(c => c.Response.AppendHeader(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
         }
 
-        [Fact(Skip = "for build debug")]
+        [Fact]
         public void Should_be_able_to_compress()
         {
             var httpContext = new Mock<HttpContextBase>();

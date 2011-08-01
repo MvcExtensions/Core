@@ -40,7 +40,7 @@ namespace MvcExtensions
             // more info http://www.gethifi.com/blog/webkit-team-admits-accept-header-error
             bool isDefectiveBrowser = instance.Request.Browser.IsBrowser("chrome") || instance.Request.Browser.IsBrowser("safari");
 
-            string preferedAcceptEncoding = QValueSorter.Sort(httpRequest.AcceptTypes, isDefectiveBrowser).FirstOrDefault();
+            string preferedAcceptEncoding = QValueSorter.Sort(httpRequest.Headers["Accept-Encoding"]).FirstOrDefault();
 
             if (string.IsNullOrEmpty(preferedAcceptEncoding))
             {
