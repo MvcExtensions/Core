@@ -34,12 +34,6 @@ namespace MvcExtensions
                 return;
             }
 
-            // No explicit format is specified, so we have to detect the format from the 
-            // accepted mime types.
-            // Webkit sends wrongly ordered accept types, so we have to identify it
-            // more info http://www.gethifi.com/blog/webkit-team-admits-accept-header-error
-            bool isDefectiveBrowser = instance.Request.Browser.IsBrowser("chrome") || instance.Request.Browser.IsBrowser("safari");
-
             string preferedAcceptEncoding = QValueSorter.Sort(httpRequest.Headers["Accept-Encoding"]).FirstOrDefault();
 
             if (string.IsNullOrEmpty(preferedAcceptEncoding))
