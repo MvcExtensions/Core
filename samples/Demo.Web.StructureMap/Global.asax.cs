@@ -12,7 +12,8 @@
                         .Include<RegisterControllers>()
                         .Include<ConfigureFilters>()
                         .Include<ConfigureModelBinders>()
-                        .Include<RegisterRoutes>();
+                        .Include<RegisterRoutes>()
+                        .Include<RegisterActionInvokers>();
         }
     }
 }

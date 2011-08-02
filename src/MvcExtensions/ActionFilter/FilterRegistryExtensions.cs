@@ -338,7 +338,7 @@ namespace MvcExtensions
 
         private static IEnumerable<Func<IMvcFilter>> CreateFilterFactories(IFilterRegistry registry, params Type[] filterTypes)
         {
-            return filterTypes.Select(filterType => new Func<IMvcFilter>(() => registry.Container.GetService(filterType) as IMvcFilter));
+            return filterTypes.Select(filterType => new Func<IMvcFilter>(() => registry.Container.GetService(filterType) as IMvcFilter)).ToArray();
         }
 
         private static IEnumerable<Func<IMvcFilter>> CreateAndConfigureFilterFactory<TFilter>(IFilterRegistry registry, Action<TFilter> configureFilter) where TFilter : IMvcFilter
