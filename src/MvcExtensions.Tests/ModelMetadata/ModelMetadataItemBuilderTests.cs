@@ -29,6 +29,20 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_be_able_to_set_order()
+        {
+            builder.Order(123);
+
+            Assert.Equal(123, item.Order);
+        }
+
+        [Fact]
+        public void Order_is_null_by_default()
+        {
+            Assert.Null(item.Order);
+        }
+
+        [Fact]
         public void Should_be_able_to_set_short_display_name()
         {
             builder.ShortDisplayName("foo");

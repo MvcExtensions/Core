@@ -434,6 +434,17 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Sets the order
+        /// </summary>
+        /// <param name="value">The order</param>
+        /// <returns></returns>
+        public TItemBuilder Order(int value)
+        {
+            Item.Order = value;
+            return This;
+        }
+
+        /// <summary>
         /// Marks the value as required.
         /// </summary>
         /// <param name="errorMessage">The error message.</param>

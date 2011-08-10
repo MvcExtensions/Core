@@ -164,5 +164,15 @@ namespace MvcExtensions
             get;
             private set;
         }
+
+        /// <summary>
+        /// Gets or sets the order.
+        /// </summary>
+        /// <value>The order</value>
+        public int? Order
+        {
+            get;
+            set;
+        }
     }
 }

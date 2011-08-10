@@ -89,8 +89,8 @@ namespace MvcExtensions
             }
 
             PropertyDescriptor propertyDescriptor = TypeDescriptor.GetProperties(containerType)
-                                                                  .Cast<PropertyDescriptor>()
-                                                                  .FirstOrDefault(property => property.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
+                .Cast<PropertyDescriptor>()
+                .FirstOrDefault(property => property.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
 
             if (propertyDescriptor == null)
             {
@@ -176,7 +176,12 @@ namespace MvcExtensions
                 metadata.ShowForEdit = !metadata.IsReadOnly;
             }
 
-            IModelMetadataFormattableItem formattableItem = metadataItem as IModelMetadataFormattableItem;
+            if (metadataItem.Order.HasValue)
+            {
+                metadata.Order = metadataItem.Order.Value;
+            }
+
+            var formattableItem = metadataItem as IModelMetadataFormattableItem;
 
             if (formattableItem != null)
             {
@@ -191,7 +196,7 @@ namespace MvcExtensions
                 }
             }
 
-            StringMetadataItem stringMetadataItem = metadataItem as StringMetadataItem;
+            var stringMetadataItem = metadataItem as StringMetadataItem;
 
             if (stringMetadataItem != null)
             {
