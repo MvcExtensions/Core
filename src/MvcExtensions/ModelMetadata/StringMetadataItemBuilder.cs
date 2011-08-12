@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
@@ -464,7 +465,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual StringMetadataItemBuilder MinimumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            StringLengthValidationMetadata stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+            var stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
             stringLengthValidation.Minimum = length;
             stringLengthValidation.ErrorMessage = errorMessage;
@@ -477,6 +478,83 @@ namespace MvcExtensions
         private RegularExpressionValidationMetadata GetExpressionValidation()
         {
             return Item.GetValidation<RegularExpressionValidationMetadata>();
+        }
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder AsDropDownList(string viewDataKey)
+        {
+            return AsDropDownList(viewDataKey, (Func<string>)null);
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder AsDropDownList(string viewDataKey, string optionLabel)
+        {
+            return AsDropDownList(viewDataKey, () => optionLabel);
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder AsDropDownList(string viewDataKey, Func<string> optionLabel)
+        {
+            return AsDropDownList(viewDataKey, optionLabel, "DropDownList");
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <param name="template">The template.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder AsDropDownList(string viewDataKey, string optionLabel, string template)
+        {
+            return AsDropDownList(viewDataKey, () => optionLabel, template);
+        }
+
+        /// <summary>
+        /// Marks the value to render as DropDownList element in edit mode.
+        /// </summary>
+        /// <param name="viewDataKey">The view data key.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <param name="template">The template.</param>
+        /// <returns></returns>
+        public StringMetadataItemBuilder AsDropDownList(string viewDataKey, Func<string> optionLabel, string template)
+        {
+            return HtmlSelect(template, viewDataKey, optionLabel);
+        }
+        /// <summary>
+        /// Render the value using the specified template.
+        /// </summary>
+        /// <param name="templateName">Name of the template.</param>
+        /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{T}"/>.</param>
+        /// <param name="optionLabel">The option label.</param>
+        /// <returns></returns>
+        protected virtual StringMetadataItemBuilder HtmlSelect(string templateName, string viewDataKey, Func<string> optionLabel)
+        {
+            var selectableElementSetting = Item.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
+
+            selectableElementSetting.ViewDataKey = viewDataKey;
+
+            if (optionLabel != null)
+            {
+                selectableElementSetting.OptionLabel = optionLabel;
+            }
+
+            Item.TemplateName = templateName;
+
+            return this;
         }
     }
 }
