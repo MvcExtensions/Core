@@ -10,7 +10,6 @@ namespace MvcExtensions
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System.Linq.Expressions;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
