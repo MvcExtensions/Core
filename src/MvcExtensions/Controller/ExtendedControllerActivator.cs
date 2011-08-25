@@ -85,7 +85,7 @@ namespace MvcExtensions
 
             Controller controller = activator != null ?
                                     activator.Create(requestContext, controllerType) as Controller :
-                                    (Container.GetService(controllerType) ?? Activator.CreateInstance(controllerType)) as Controller;
+                                    (Container.GetService(controllerType) ?? Activator.CreateInstance(controllerType, true)) as Controller;
 
             if (controller != null)
             {
