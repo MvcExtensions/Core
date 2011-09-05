@@ -11,6 +11,7 @@
   </metadata>
   <files>
     <file src="MvcExtensions.dll" target="lib\net40\MvcExtensions.dll" />
+    <file src="MvcExtensions.pdb" target="lib\net40\MvcExtensions.pdb" />
     <file src="MvcExtensions.xml" target="lib\net40\MvcExtensions.xml" />
   </files>
 </package>
