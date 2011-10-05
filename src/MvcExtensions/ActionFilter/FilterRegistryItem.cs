@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -16,25 +17,21 @@ namespace MvcExtensions
     /// </summary>
     public abstract class FilterRegistryItem
     {
+        private readonly FilterScope filterScope;
+
+        private readonly IEnumerable<Func<IMvcFilter>> filters;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FilterRegistryItem"/> class.
         /// </summary>
         /// <param name="filters">The filters.</param>
-        protected FilterRegistryItem(IEnumerable<Func<IMvcFilter>> filters)
+        /// <param name="filterScope"></param>
+        protected FilterRegistryItem(IEnumerable<Func<IMvcFilter>> filters, FilterScope filterScope)
         {
             Invariant.IsNotNull(filters, "filters");
 
-            Filters = filters;
-        }
-
-        /// <summary>
-        /// Gets or sets the filter factories.
-        /// </summary>
-        /// <value>The filters.</value>
-        public IEnumerable<Func<IMvcFilter>> Filters
-        {
-            get;
-            protected set;
+            this.filters = filters;
+            this.filterScope = filterScope;
         }
 
         /// <summary>
@@ -46,5 +43,15 @@ namespace MvcExtensions
         /// <c>true</c> if the specified controller context is matching; otherwise, <c>false</c>.
         /// </returns>
         public abstract bool IsMatching(ControllerContext controllerContext, ActionDescriptor actionDescriptor);
+
+        /// <summary>
+        /// Get the <see cref="Filter"/> metadatas
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Filter> GetFilters()
+        {
+            return filters.Select(x => x())
+                .Select(x => new Filter(x, filterScope, x.Order));
+        }
     }
 }

@@ -110,51 +110,12 @@ namespace MvcExtensions
             Invariant.IsNotNull(controllerContext, "controllerContext");
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");
 
-            IList<IMvcFilter> authorizationFilters = new List<IMvcFilter>();
-            IList<IMvcFilter> actionFilters = new List<IMvcFilter>();
-            IList<IMvcFilter> resultFilters = new List<IMvcFilter>();
-            IList<IMvcFilter> exceptionFiltes = new List<IMvcFilter>();
+            var filters = Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
+                .SelectMany(item => item.GetFilters())
+                .OrderBy(x => x.Order)
+                .ToArray();
 
-            foreach (IEnumerable<IMvcFilter> filters in Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
-                                                             .Select(item => item.Filters.Select(filter => filter()).ToList())
-                                                             .ToList())
-            {
-                filters.OfType<IAuthorizationFilter>()
-                    .Cast<IMvcFilter>()
-                    .Each(authorizationFilters.Add);
-
-                filters.OfType<IActionFilter>()
-                    .Cast<IMvcFilter>()
-                    .Each(actionFilters.Add);
-
-                filters.OfType<IResultFilter>()
-                    .Cast<IMvcFilter>()
-                    .Each(resultFilters.Add);
-
-                filters.OfType<IExceptionFilter>()
-                    .Cast<IMvcFilter>()
-                    .Each(exceptionFiltes.Add);
-            }
-
-            FilterInfo filterInfo = new FilterInfo();
-
-            authorizationFilters.OrderBy(filter => filter.Order)
-                                .Cast<IAuthorizationFilter>()
-                                .Each(filter => filterInfo.AuthorizationFilters.Add(filter));
-
-            actionFilters.OrderBy(filter => filter.Order)
-                         .Cast<IActionFilter>()
-                         .Each(filter => filterInfo.ActionFilters.Add(filter));
-
-            resultFilters.OrderBy(filter => filter.Order)
-                         .Cast<IResultFilter>()
-                         .Each(filter => filterInfo.ResultFilters.Add(filter));
-
-            exceptionFiltes.OrderBy(filter => filter.Order)
-                           .Cast<IExceptionFilter>()
-                           .Each(filter => filterInfo.ExceptionFilters.Add(filter));
-
-            return filterInfo;
+            return new FilterInfo(filters);
         }
 
         private static IEnumerable<Func<IMvcFilter>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)

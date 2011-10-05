@@ -25,11 +25,12 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="filters">The filters.</param>
-        public FilterRegistryActionItem(Expression<Action<TController>> action, IEnumerable<Func<IMvcFilter>> filters) : base(filters)
+        public FilterRegistryActionItem(Expression<Action<TController>> action, IEnumerable<Func<IMvcFilter>> filters) 
+            : base(filters, FilterScope.Action)
         {
             Invariant.IsNotNull(action, "action");
 
-            MethodCallExpression methodCall = action.Body as MethodCallExpression;
+            var methodCall = action.Body as MethodCallExpression;
 
             if ((methodCall == null) || !KnownTypes.ActionResultType.IsAssignableFrom(methodCall.Method.ReturnType))
             {
@@ -51,7 +52,7 @@ namespace MvcExtensions
         {
             if ((controllerContext != null) && (actionDescriptor != null))
             {
-                ReflectedActionDescriptor matchingDescriptor = actionDescriptor as ReflectedActionDescriptor;
+                var matchingDescriptor = actionDescriptor as ReflectedActionDescriptor;
 
                 return (matchingDescriptor != null) ?
                        reflectedActionDescriptor.MethodInfo == matchingDescriptor.MethodInfo :
