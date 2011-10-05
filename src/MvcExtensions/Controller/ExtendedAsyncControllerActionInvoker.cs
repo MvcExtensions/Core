@@ -47,10 +47,11 @@ namespace MvcExtensions
             Invariant.IsNotNull(controllerContext, "controllerContext");
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");
 
-            FilterInfo decoratedFilters = base.GetFilters(controllerContext, actionDescriptor);
-            FilterInfo registeredFilters = Container.GetService<IFilterRegistry>().Matching(controllerContext, actionDescriptor);
+            FilterInfo filters = base.GetFilters(controllerContext, actionDescriptor);
 
-            return ControllerActionInvokerHelper.Merge(Container, decoratedFilters, registeredFilters);
+            ControllerActionInvokerHelper.Inject(Container, filters);
+
+            return filters;
         }
     }
 }

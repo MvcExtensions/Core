@@ -17,7 +17,7 @@ namespace MvcExtensions
     /// <summary>
     /// The default filter registry which supports fluent registration.
     /// </summary>
-    public class FilterRegistry : IFilterRegistry
+    public class FilterRegistry : IFilterRegistry, IFilterProvider
     {
         private readonly IList<FilterRegistryItem> items;
 
@@ -110,12 +110,28 @@ namespace MvcExtensions
             Invariant.IsNotNull(controllerContext, "controllerContext");
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");
 
+            var filters = GetFilters(controllerContext, actionDescriptor);
+
+            return new FilterInfo(filters);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that contains all the <see cref="T:System.Web.Mvc.IFilterProvider"/> instances in the service locator.
+        /// </summary>
+        /// <returns>
+        /// The enumerator that contains all the <see cref="T:System.Web.Mvc.IFilterProvider"/> instances in the service locator.
+        /// </returns>
+        /// <param name="controllerContext">The controller context.</param><param name="actionDescriptor">The action descriptor.</param>
+        public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+        {
             var filters = Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
                 .SelectMany(item => item.GetFilters())
                 .OrderBy(x => x.Order)
                 .ToArray();
 
-            return new FilterInfo(filters);
+            filters.Each(Container.Inject);
+
+            return filters;
         }
 
         private static IEnumerable<Func<IMvcFilter>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)

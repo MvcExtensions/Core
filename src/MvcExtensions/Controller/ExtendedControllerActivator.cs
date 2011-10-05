@@ -97,12 +97,12 @@ namespace MvcExtensions
                 }
                 else
                 {
-                    actionInvokerType = controller is IAsyncController ?
-                                        KnownTypes.AsyncActionInvokerType :
-                                        KnownTypes.SyncActionInvokerType;
+                    actionInvokerType = controller is IAsyncController
+                                            ? KnownTypes.AsyncActionInvokerType
+                                            : KnownTypes.SyncActionInvokerType;
                 }
 
-                IActionInvoker actionInvoker = Container.GetService(actionInvokerType) as IActionInvoker;
+                var actionInvoker = Container.GetService(actionInvokerType) as IActionInvoker;
 
                 if (actionInvoker != null)
                 {

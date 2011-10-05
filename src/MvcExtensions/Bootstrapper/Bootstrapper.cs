@@ -197,6 +197,7 @@ namespace MvcExtensions
             adapter.RegisterInstance<RouteCollection>(RouteTable.Routes)
                    .RegisterInstance<IBuildManager>(BuildManager)
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
+                   .RegisterAsSingleton<IFilterProvider, FilterRegistry>()
                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
 
             BuildManager.ConcreteTypes
