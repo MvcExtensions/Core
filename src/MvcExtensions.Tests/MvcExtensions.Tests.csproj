@@ -113,7 +113,6 @@
     <Compile Include="Bootstrapper\BootstrapperTests.cs" />
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
-    <Compile Include="Controller\ExtendedControllerActionInvokerTests.cs" />
     <Compile Include="ExtendedMvcApplicationTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />

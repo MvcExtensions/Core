@@ -38,8 +38,8 @@ namespace MvcExtensions.Tests
             registry.Register<DummyFilter1>(CreateTypeCatalog());
 
             Assert.Equal(2, registry.PublicItems.Count());
-            Assert.Equal(1, registry.PublicItems[0].GetFilters().Count());
-            Assert.Equal(1, registry.PublicItems[1].GetFilters().Count());
+            Assert.Equal(1, registry.PublicItems[0].BuildFilters().Count());
+            Assert.Equal(1, registry.PublicItems[1].BuildFilters().Count());
         }
 
         [Fact]
@@ -58,13 +58,13 @@ namespace MvcExtensions.Tests
             var item1 = registry.PublicItems[0];
             var item2 = registry.PublicItems[1];
 
-            Assert.Equal(1, item1.GetFilters().Count());
+            Assert.Equal(1, item1.BuildFilters().Count());
 
             var filter1 = Assert.IsType<DummyFilter2>(GetInstance(item1, 0));
             Assert.Equal(10, filter1.IntegerProperty);
             Assert.Equal("foo", filter1.StringProperty);
 
-            Assert.Equal(1, item2.GetFilters().Count());
+            Assert.Equal(1, item2.BuildFilters().Count());
             var filter2 = Assert.IsType<DummyFilter2>(GetInstance(item2, 0));
             Assert.Equal(10, filter2.IntegerProperty);
             Assert.Equal("foo", filter2.StringProperty);
@@ -76,8 +76,8 @@ namespace MvcExtensions.Tests
             registry.Register<DummyFilter1, DummyFilter2>(CreateTypeCatalog());
 
             Assert.Equal(2, registry.PublicItems.Count());
-            Assert.Equal(2, registry.PublicItems[0].GetFilters().Count());
-            Assert.Equal(2, registry.PublicItems[1].GetFilters().Count());
+            Assert.Equal(2, registry.PublicItems[0].BuildFilters().Count());
+            Assert.Equal(2, registry.PublicItems[1].BuildFilters().Count());
         }
 
         [Fact]
@@ -86,8 +86,8 @@ namespace MvcExtensions.Tests
             registry.Register<DummyFilter1, DummyFilter2, DummyFilter3>(CreateTypeCatalog());
 
             Assert.Equal(2, registry.PublicItems.Count());
-            Assert.Equal(3, registry.PublicItems[0].GetFilters().Count());
-            Assert.Equal(3, registry.PublicItems[1].GetFilters().Count());
+            Assert.Equal(3, registry.PublicItems[0].BuildFilters().Count());
+            Assert.Equal(3, registry.PublicItems[1].BuildFilters().Count());
         }
 
         [Fact]
@@ -96,8 +96,8 @@ namespace MvcExtensions.Tests
             registry.Register<DummyFilter1, DummyFilter2, DummyFilter3, DummyFilter4>(CreateTypeCatalog());
 
             Assert.Equal(2, registry.PublicItems.Count());
-            Assert.Equal(4, registry.PublicItems[0].GetFilters().Count());
-            Assert.Equal(4, registry.PublicItems[1].GetFilters().Count());
+            Assert.Equal(4, registry.PublicItems[0].BuildFilters().Count());
+            Assert.Equal(4, registry.PublicItems[1].BuildFilters().Count());
         }
 
         [Fact]
@@ -114,7 +114,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1>();
 
-            Assert.Equal(1, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(1, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace MvcExtensions.Tests
 
             var item = (FilterRegistryControllerItem<Dummy1Controller>)registry.PublicItems[0];
 
-            Assert.Equal(1, item.GetFilters().Count());
+            Assert.Equal(1, item.BuildFilters().Count());
             var filter = Assert.IsType<DummyFilter2>(GetInstance(item, 0));
             Assert.Equal(10, filter.IntegerProperty);
             Assert.Equal("foo", filter.StringProperty);
@@ -139,7 +139,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2>();
 
-            Assert.Equal(2, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(2, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -147,7 +147,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2, DummyFilter3>();
 
-            Assert.Equal(3, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(3, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2, DummyFilter3, DummyFilter4>();
 
-            Assert.Equal(4, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(4, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -163,7 +163,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1>(c => c.Index());
 
-            Assert.Equal(1, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(1, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -179,7 +179,7 @@ namespace MvcExtensions.Tests
 
             var item = (FilterRegistryActionItem<Dummy1Controller>)registry.PublicItems[0];
 
-            Assert.Equal(1, item.GetFilters().Count());
+            Assert.Equal(1, item.BuildFilters().Count());
             var filter3 = Assert.IsType<DummyFilter3>(GetInstance(item, 0));
             Assert.Equal(10, filter3.LongProperty);
             Assert.Equal(100, filter3.DecimalProperty);
@@ -190,7 +190,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2>(c => c.Index());
 
-            Assert.Equal(2, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(2, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -198,7 +198,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2, DummyFilter3>(c => c.Index());
 
-            Assert.Equal(3, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(3, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -206,7 +206,7 @@ namespace MvcExtensions.Tests
         {
             registry.Register<Dummy1Controller, DummyFilter1, DummyFilter2, DummyFilter3, DummyFilter4>(c => c.Index());
 
-            Assert.Equal(4, registry.PublicItems[0].GetFilters().Count());
+            Assert.Equal(4, registry.PublicItems[0].BuildFilters().Count());
         }
 
         [Fact]
@@ -247,7 +247,7 @@ namespace MvcExtensions.Tests
 
         private static object GetInstance(FilterRegistryItem item, int index)
         {
-            return item.GetFilters().ElementAt(index).Instance;
+            return item.BuildFilters().ElementAt(index).Instance;
         }
 
         private sealed class FilterRegistryTestDouble : FilterRegistry

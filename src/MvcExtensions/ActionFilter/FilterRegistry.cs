@@ -125,7 +125,7 @@ namespace MvcExtensions
         public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
             var filters = Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))
-                .SelectMany(item => item.GetFilters())
+                .SelectMany(item => item.BuildFilters())
                 .OrderBy(x => x.Order)
                 .ToArray();
 

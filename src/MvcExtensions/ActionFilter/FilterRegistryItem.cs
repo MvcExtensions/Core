@@ -48,7 +48,7 @@ namespace MvcExtensions
         /// Get the <see cref="Filter"/> metadatas
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Filter> GetFilters()
+        public IEnumerable<Filter> BuildFilters()
         {
             return filters.Select(x => x())
                 .Select(x => new Filter(x, filterScope, x.Order));

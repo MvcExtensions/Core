@@ -13,11 +13,6 @@ namespace MvcExtensions
 
     internal static class ControllerActionInvokerHelper
     {
-        private static bool IsFilterAttribute<TFilter>(TFilter filter)
-        {
-            return KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
-        }
-
         public static void Inject(IServiceInjector container, FilterInfo filters)
         {
             ICollection<object> injectedFilters = new HashSet<object>();
@@ -26,6 +21,11 @@ namespace MvcExtensions
             Inject(container, injectedFilters, filters.ActionFilters);
             Inject(container, injectedFilters, filters.ResultFilters);
             Inject(container, injectedFilters, filters.ExceptionFilters);
+        }
+
+        private static bool IsFilterAttribute<TFilter>(TFilter filter)
+        {
+            return KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
 
         private static void Inject<TFilter>(IServiceInjector container, ICollection<object> injectedFilters, IEnumerable<TFilter> filters) 
