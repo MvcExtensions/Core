@@ -60,14 +60,5 @@ namespace MvcExtensions
         IFilterRegistry Register<TController, TFilter>(Expression<Action<TController>> action, IEnumerable<Func<TFilter>> filters)
             where TController : Controller
             where TFilter : IMvcFilter;
-
-        /// <summary>
-        /// Returns the matching filters for the given controller action.
-        /// </summary>
-        /// <param name="controllerContext">The controller context.</param>
-        /// <param name="actionDescriptor">The action descriptor.</param>
-        /// <returns></returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        FilterInfo Matching(ControllerContext controllerContext, ActionDescriptor actionDescriptor);
     }
 }

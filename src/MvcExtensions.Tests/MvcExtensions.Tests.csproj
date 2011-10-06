@@ -87,6 +87,7 @@
     </Compile>
     <Compile Include="ActionFilter\CompressAttributeTests.cs" />
     <Compile Include="ActionFilter\ExtendedAuthorizeAttributeTests.cs" />
+    <Compile Include="ActionFilter\FilterProviderTests.cs" />
     <Compile Include="ActionFilter\ViewDataTempDataTransferAttributeTests.cs" />
     <Compile Include="ActionFilter\ExportViewDataToTempDataAttributeTests.cs" />
     <Compile Include="ActionFilter\ImportViewDataFromTempDataAttributeTests.cs" />

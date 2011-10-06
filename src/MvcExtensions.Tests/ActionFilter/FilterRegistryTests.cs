@@ -209,32 +209,6 @@ namespace MvcExtensions.Tests
             Assert.Equal(4, registry.PublicItems[0].BuildFilters().Count());
         }
 
-        [Fact]
-        public void Matching_should_return_matched_filters()
-        {
-            var controllerContext = new ControllerContext
-                                        {
-                                            Controller = new Dummy1Controller()
-                                        };
-
-            var controllerDescriptor = new Mock<ControllerDescriptor>();
-            controllerDescriptor.SetupGet(cd => cd.ControllerName).Returns("Dummy1");
-
-            var actionDescriptor = new Mock<ActionDescriptor>();
-            actionDescriptor.SetupGet(ad => ad.ControllerDescriptor).Returns(controllerDescriptor.Object);
-            actionDescriptor.SetupGet(ad => ad.ActionName).Returns("Index");
-
-            registry.Register<Dummy1Controller, DummyFilter1, DummyFilter4>();
-            registry.Register<Dummy1Controller, DummyFilter2, DummyFilter3>(c => c.Index());
-
-            var filters = registry.Matching(controllerContext, actionDescriptor.Object);
-
-            Assert.IsType<DummyFilter1>(filters.AuthorizationFilters[0]);
-            Assert.IsType<DummyFilter2>(filters.ActionFilters[0]);
-            Assert.IsType<DummyFilter3>(filters.ResultFilters[0]);
-            Assert.IsType<DummyFilter4>(filters.ExceptionFilters[0]);
-        }
-
         private static TypeCatalog CreateTypeCatalog()
         {
             var catalog = new TypeCatalog();
