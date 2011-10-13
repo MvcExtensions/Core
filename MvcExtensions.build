@@ -5,13 +5,10 @@
         <Version>2.0.0.$(BUILD_NUMBER)</Version>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
-    </PropertyGroup>
 
-    <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
-    <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
+        <xunit>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunit>
+        <nuget>$(MSBuildProjectDirectory)\Build\NuGet\nuget</nuget>
 
-    <PropertyGroup>
-        <nugetPath>$(MSBuildProjectDirectory)\Build\NuGet\</nugetPath>
         <artifactPath>$(MSBuildProjectDirectory)\..\Drops</artifactPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
 
@@ -19,39 +16,27 @@
 
         <corePath>$(MSBuildProjectDirectory)\MvcExtensions</corePath>
         <coreFile>MvcExtensions</coreFile>
-        <core>$(corePath)\$(coreFile).csproj</core>
-        <coreTestPath>$(MSBuildProjectDirectory)\MvcExtensions.Tests</coreTestPath>
-        <coreTestFile>MvcExtensions.Tests</coreTestFile>
-        <coreTest>$(coreTestPath)\$(coreTestFile).csproj</coreTest>
 
         <ninjectPath>$(MSBuildProjectDirectory)\MvcExtensions.Ninject</ninjectPath>
         <ninjectFile>MvcExtensions.Ninject</ninjectFile>
-        <ninject>$(ninjectPath)\$(ninjectFile).csproj</ninject>
-        <ninjectTestPath>$(MSBuildProjectDirectory)\MvcExtensions.Ninject.Tests</ninjectTestPath>
-        <ninjectTestFile>MvcExtensions.Ninject.Tests</ninjectTestFile>
-        <ninjectTest>$(ninjectTestPath)\$(ninjectTestFile).csproj</ninjectTest>
 
         <structureMapPath>$(MSBuildProjectDirectory)\MvcExtensions.StructureMap</structureMapPath>
         <structureMapFile>MvcExtensions.StructureMap</structureMapFile>
-        <structureMap>$(structureMapPath)\$(structureMapFile).csproj</structureMap>
-        <structureMapTestPath>$(MSBuildProjectDirectory)\MvcExtensions.StructureMap.Tests</structureMapTestPath>
-        <structureMapTestFile>MvcExtensions.StructureMap.Tests</structureMapTestFile>
-        <structureMapTest>$(structureMapTestPath)\$(structureMapTestFile).csproj</structureMapTest>
 
         <unityPath>$(MSBuildProjectDirectory)\MvcExtensions.Unity</unityPath>
         <unityFile>MvcExtensions.Unity</unityFile>
-        <unity>$(unityPath)\$(unityFile).csproj</unity>
-        <unityTestPath>$(MSBuildProjectDirectory)\MvcExtensions.Unity.Tests</unityTestPath>
-        <unityTestFile>MvcExtensions.Unity.Tests</unityTestFile>
-        <unityTest>$(unityTestPath)\$(unityTestFile).csproj</unityTest>
 
         <windsorPath>$(MSBuildProjectDirectory)\MvcExtensions.Windsor</windsorPath>
         <windsorFile>MvcExtensions.Windsor</windsorFile>
-        <windsor>$(windsorPath)\$(windsorFile).csproj</windsor>
-        <windsorTestPath>$(MSBuildProjectDirectory)\MvcExtensions.Windsor.Tests</windsorTestPath>
-        <windsorTestFile>MvcExtensions.Windsor.Tests</windsorTestFile>
-        <windsorTest>$(windsorTestPath)\$(windsorTestFile).csproj</windsorTest>
+
+        <foolproofPath>$(MSBuildProjectDirectory)\MvcExtensions.Foolproof</foolproofPath>
+        <foolproofFile>MvcExtensions.Foolproof</foolproofFile>
     </PropertyGroup>
+
+    <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
+    <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
+    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\StyleCop\Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
+    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
 
     <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;CodeCoverage;Deploy"/>
 
@@ -60,51 +45,41 @@
     </Target>
 
     <Target Name="Clean">
-        <MSBuild Projects="$(core)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(coreTest)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(ninject)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(ninjectTest)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(structureMap)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(structureMapTest)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(unity)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(unityTest)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(windsor)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(windsorTest)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
+        <MSBuild Projects="$(solution)" Targets="Clean" Properties="Configuration=$(Configuration)"/>
     </Target>
 
-    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\StyleCop\Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
     <Target Name="StyleCop">
         <CreateItem Include="$(corePath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(coreTestPath)\**\*.cs">
+        <CreateItem Include="$(corePath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
         <CreateItem Include="$(ninjectPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(ninjectTestPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(ninjectTestPath)\**\*.cs">
+        <CreateItem Include="$(ninjectPath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
         <CreateItem Include="$(structureMapPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(structureMapTestPath)\**\*.cs">
+        <CreateItem Include="$(structureMapPath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
         <CreateItem Include="$(unityPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(unityTestPath)\**\*.cs">
+        <CreateItem Include="$(unityPath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
         <CreateItem Include="$(windsorPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(windsorTestPath)\**\*.cs">
+        <CreateItem Include="$(windsorPath).Tests\**\*.cs">
+            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+        </CreateItem>
+        <CreateItem Include="$(foolproofPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
         <StyleCopTask
@@ -121,7 +96,7 @@
     <Target Name="Simian">
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\Simian\simian.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot;"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot; -includes=&quot;$(foolproofPath)/**/*.cs&quot;"
             IgnoreExitCode="true"
             WorkingDirectory="$(MSBuildProjectDirectory)"
         />
@@ -136,16 +111,7 @@
             AssemblyVersion="$(Version)"
             AssemblyFileVersion="$(Version)"/>
 
-        <MSBuild Projects="$(core)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(coreTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(ninject)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(ninjectTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(structureMap)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(structureMapTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(unity)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(unityTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(windsor)" Targets="Build" Properties="Configuration=$(Configuration)"/>
-        <MSBuild Projects="$(windsorTest)" Targets="Build" Properties="Configuration=$(Configuration)"/>
+        <MSBuild Projects="$(solution)" Targets="Build" Properties="Configuration=$(Configuration)"/>
     </Target>
 
     <Target Name="FxCop">
@@ -155,7 +121,7 @@
         </PropertyGroup>
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\FxCop\Xml\FxCopReport.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /f:&quot;$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).dll&quot; /f:&quot;$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).dll&quot; /f:&quot;$(unityPath)\bin\$(Configuration)\$(unityFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /f:&quot;$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).dll&quot; /f:&quot;$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).dll&quot; /f:&quot;$(unityPath)\bin\$(Configuration)\$(unityFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(foolproofFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
             IgnoreExitCode="true"
         />
         <XmlRead XmlFileName="$(fxCopOutput)" XPath="string(count(//Issue))" ContinueOnError="True">
@@ -164,50 +130,45 @@
         <Error Text="FxCop encountered $(fxCopTotalErrors) rule violations" Condition="$(fxCopTotalErrors) &gt; 0"/>
     </Target>
 
-    <PropertyGroup>
-        <xunitConsolePath>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunitConsolePath>
-    </PropertyGroup>
-    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
-    
     <Target Name="CodeCoverage">
       <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunitConsolePath)"
-        TargetArgs="&quot;$(coreTestPath)\bin\$(Configuration)\$(coreTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreTestFile).xunit.xml&quot;"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(corePath).Tests\bin\$(Configuration)\$(coreFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreFile).Tests.xunit.xml&quot;"
         Output="$(artifactPath)\$(coreFile)-coverage.xml"
         Include="[$(coreFile)]*"
         Exclude="[*.Test]*"
       />
       <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunitConsolePath)"
-        TargetArgs="&quot;$(ninjectTestPath)\bin\$(Configuration)\$(ninjectTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(ninjectTestFile).xunit.xml&quot;"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(ninjectPath).Tests\bin\$(Configuration)\$(ninjectFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(ninjectFile).Tests.xunit.xml&quot;"
         Output="$(artifactPath)\$(ninjectFile)-coverage.xml"
         Include="[$(ninjectFile)]*"
         Exclude="[*.Test]*"
       />
       <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunitConsolePath)"
-        TargetArgs="&quot;$(structureMapTestPath)\bin\$(Configuration)\$(structureMapTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(structureMapTestFile).xunit.xml&quot;"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(structureMapPath).Tests\bin\$(Configuration)\$(structureMapFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(structureMapFile).Tests.xunit.xml&quot;"
         Output="$(artifactPath)\$(structureMapFile)-coverage.xml"
         Include="[$(structureMapFile)]*"
         Exclude="[*.Test]*"      
       />
       <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunitConsolePath)"
-        TargetArgs="&quot;$(unityTestPath)\bin\$(Configuration)\$(unityTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(unityTestFile).xunit.xml&quot;"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(unityPath).Tests\bin\$(Configuration)\$(unityFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(unityFile).Tests.xunit.xml&quot;"
         Output="$(artifactPath)\$(unityFile)-coverage.xml"
         Include="[$(unityFile)]*"
         Exclude="[*.Test]*"
       />
       <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunitConsolePath)"
-        TargetArgs="&quot;$(windsorTestPath)\bin\$(Configuration)\$(windsorTestFile).dll&quot; /noshadow /xml &quot;$(artifactPath)\$(windsorTestFile).xunit.xml&quot;"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(windsorPath).Tests\bin\$(Configuration)\$(windsorFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(windsorFile).Tests.xunit.xml&quot;"
         Output="$(artifactPath)\$(windsorFile)-coverage.xml"
         Include="[$(windsorFile)]*"
         Exclude="[*.Test]*"
       />
       <CombineXunitXml
         OutputFile="$(artifactPath)\Xunit.xml"
-        InputFiles="$(artifactPath)\$(coreTestFile).xunit.xml;$(artifactPath)\$(ninjectTestFile).xunit.xml;$(artifactPath)\$(structureMapTestFile).xunit.xml;$(artifactPath)\$(unityTestFile).xunit.xml;$(artifactPath)\$(windsorTestFile).xunit.xml"
+        InputFiles="$(artifactPath)\$(coreFile).Tests.xunit.xml;$(artifactPath)\$(ninjectFile).Tests.xunit.xml;$(artifactPath)\$(structureMapFile).Tests.xunit.xml;$(artifactPath)\$(unityFile).Tests.xunit.xml;$(artifactPath)\$(windsorFile).Tests.xunit.xml"
         />
     </Target>
 
@@ -227,22 +188,28 @@
         <CreateItem Include="$(windsorPath)\bin\$(Configuration)\$(windsorFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
+        <CreateItem Include="$(foolproofPath)\bin\$(Configuration)\$(foolproofFile).*">
+            <Output TaskParameter="Include" ItemName="zipFiles"/>
+        </CreateItem>
         <CreateItem Include="$(MSBuildProjectDirectory)\..\license.txt">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
         <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(Version).zip" Flatten="true" ZipLevel="9"/>
 
-        <Exec Command="$(nugetPath)nuget pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nugetPath)nuget pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nugetPath)nuget pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nugetPath)nuget pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nugetPath)nuget pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(foolproofPath)\$(foolproofFile).nuspec /basepath $(foolproofPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
+    
     <Target Name="Publish">
         <Exec Command="push $(artifactPath)\$(coreFile).$(Version).nupkg"/>
         <Exec Command="push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(unityFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
+        <Exec Command="push $(artifactPath)\$(foolproofFile).$(Version).nupkg" />
     </Target>
 </Project>
