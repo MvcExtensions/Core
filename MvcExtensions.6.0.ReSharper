@@ -61,7 +61,15 @@
     </HTML>
     <JavaScript>
       <FormatSettings />
-      <Naming2 />
+      <Naming2>
+        <UserRule Name="JS_LOCAL_VARIABLE" Inspect="True" Prefix="" Suffix="" Style="aaBb" />
+        <UserRule Name="JS_FUNCTION" Inspect="True" Prefix="" Suffix="" Style="aaBb" />
+        <UserRule Name="JS_PARAMETER" Inspect="True" Prefix="" Suffix="" Style="aaBb" />
+        <UserRule Name="JS_LABEL" Inspect="True" Prefix="" Suffix="" Style="aaBb" />
+        <UserRule Name="JS_GLOBAL_VARIABLE" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+        <UserRule Name="JS_OBJECT_PROPERTY_OF_FUNCTION" Inspect="True" Prefix="" Suffix="" Style="aaBb" />
+        <UserRule Name="JS_CONSTRUCTOR" Inspect="True" Prefix="" Suffix="" Style="AaBb" />
+      </Naming2>
     </JavaScript>
     <VB>
       <FormatSettings>
@@ -83,7 +91,7 @@
     <Xaml>
       <Naming2 />
     </Xaml>
-    <FileHeader Region="Copyright"><![CDATA[Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+    <FileHeader Region="Copyright"><![CDATA[Copyright (c) 2009 - 2011, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>.
 This source is subject to the Microsoft Public License. 
 See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 All other rights reserved.]]></FileHeader>
