@@ -18,7 +18,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as DropDownList element in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{T}"/>.</param>
         /// <returns></returns>
         public static TItemBuilder AsDropDownList<TItemBuilder, TItem>(this ModelMetadataItemBuilder<TItem, TItemBuilder> self, string viewDataKey)
@@ -31,7 +31,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as DropDownList element in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
@@ -45,7 +45,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as DropDownList element in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as DropDownList element in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
@@ -74,7 +74,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as DropDownList element in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
@@ -89,7 +89,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as ListBox in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <returns></returns>
         public static TItemBuilder AsListBox<TItemBuilder, TItem>(this ModelMetadataItemBuilder<TItem, TItemBuilder> self, string viewDataKey)
@@ -102,7 +102,7 @@ namespace MvcExtensions
         /// <summary>
         /// Marks the value to render as ListBox in edit mode.
         /// </summary>
-        /// <param name="self"></param>
+        /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
