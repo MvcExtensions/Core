@@ -10,9 +10,9 @@ namespace MvcExtensions
     using System;
     using System.Web.Mvc;
 
-    ///<summary>
+    /// <summary>
     /// Defines a class which is used  resolve model binder for a give type.
-    ///</summary>
+    /// </summary>
     public class ExtendedModelBinderProvider : IModelBinderProvider
     {
         /// <summary>
