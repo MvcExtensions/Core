@@ -1,1 +1,1 @@
-@%~dp0nuget.exe push %* %NUGET_API_KEY%
+@%~dp0nuget.exe %* %NUGET_API_KEY%
