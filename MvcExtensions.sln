@@ -4,10 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles", "{1AA92940-0B90-42B2-8E7B-A85F6248FB94}"
 	ProjectSection(SolutionItems) = preProject
 		build.bat = build.bat
+		build.noncover.bat = build.noncover.bat
 		SharedFiles\CodeAnalysisDictionary.xml = SharedFiles\CodeAnalysisDictionary.xml
 		SharedFiles\CommonAssemblyInfo.cs = SharedFiles\CommonAssemblyInfo.cs
 		..\license.txt = ..\license.txt
 		MvcExtensions.build = MvcExtensions.build
+		MvcExtensions.noncover.build = MvcExtensions.noncover.build
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{49678BD9-5D80-4CA7-A366-47B96EAE5383}"
@@ -39,6 +41,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Windsor", "MvcExtensions.Windsor\MvcExtensions.Windsor.csproj", "{21DE407E-18C5-40CB-BC4E-C7EE1B209DDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Windsor.Tests", "MvcExtensions.Windsor.Tests\MvcExtensions.Windsor.Tests.csproj", "{5AB70A39-B770-4046-BA9A-017AADA68762}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Autofac", "Autofac", "{F6CEF334-686A-4DD3-9324-A650FF86529A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Autofac", "MvcExtensions.Autofac\MvcExtensions.Autofac.csproj", "{823B2936-B18A-4FFE-B838-A6C74EC881B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Autofac.Tests", "MvcExtensions.Autofac.Tests\MvcExtensions.Autofac.Tests.csproj", "{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +115,18 @@ Global
 		{5AB70A39-B770-4046-BA9A-017AADA68762}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AB70A39-B770-4046-BA9A-017AADA68762}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AB70A39-B770-4046-BA9A-017AADA68762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.AutomatedRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.AutomatedRelease|Any CPU.Build.0 = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,5 +142,7 @@ Global
 		{2A4A447D-0519-480F-8793-49D03E8F139A} = {2FEEFD7B-0848-472A-B95F-DD789A2C1222}
 		{21DE407E-18C5-40CB-BC4E-C7EE1B209DDB} = {E401B3C3-E914-4779-9914-23A280FDD506}
 		{5AB70A39-B770-4046-BA9A-017AADA68762} = {E401B3C3-E914-4779-9914-23A280FDD506}
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6} = {F6CEF334-686A-4DD3-9324-A650FF86529A}
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D} = {F6CEF334-686A-4DD3-9324-A650FF86529A}
 	EndGlobalSection
 EndGlobal
