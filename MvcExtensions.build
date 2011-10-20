@@ -215,22 +215,22 @@
         </CreateItem>
         <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(Version).zip" Flatten="true" ZipLevel="9"/>
 
-        <Exec Command="$(nuget) pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(autofacPath)\$(autofacFile).nuspec /basepath $(autofacPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget) pack $(foolproofPath)\$(foolproofFile).nuspec /basepath $(foolproofPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(autofacPath)\$(autofacFile).nuspec /basepath $(autofacPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(foolproofPath)\$(foolproofFile).nuspec /basepath $(foolproofPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
     
     <Target Name="Publish">
-        <Exec Command="push $(artifactPath)\$(coreFile).$(Version).nupkg"/>
-        <Exec Command="push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(unityFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(autofacFile).$(Version).nupkg" />
-        <Exec Command="push $(artifactPath)\$(foolproofFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(coreFile).$(Version).nupkg"/>
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(unityFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(autofacFile).$(Version).nupkg" />
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(foolproofFile).$(Version).nupkg" />
     </Target>
 </Project>
