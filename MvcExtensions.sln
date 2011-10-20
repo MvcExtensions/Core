@@ -4,10 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles", "{1AA92940-0B90-42B2-8E7B-A85F6248FB94}"
 	ProjectSection(SolutionItems) = preProject
 		build.bat = build.bat
+		build.noncover.bat = build.noncover.bat
 		SharedFiles\CodeAnalysisDictionary.xml = SharedFiles\CodeAnalysisDictionary.xml
 		SharedFiles\CommonAssemblyInfo.cs = SharedFiles\CommonAssemblyInfo.cs
 		..\license.txt = ..\license.txt
 		MvcExtensions.build = MvcExtensions.build
+		MvcExtensions.noncover.build = MvcExtensions.noncover.build
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{49678BD9-5D80-4CA7-A366-47B96EAE5383}"
@@ -43,6 +45,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ValidationAdapters", "ValidationAdapters", "{92785AF1-C272-4795-99F3-A2B21CA9A394}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Foolproof", "MvcExtensions.Foolproof\MvcExtensions.Foolproof.csproj", "{7F5AD1CB-0B14-4BEC-A5F2-631CFE045732}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Autofac", "Autofac", "{F6CEF334-686A-4DD3-9324-A650FF86529A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Autofac", "MvcExtensions.Autofac\MvcExtensions.Autofac.csproj", "{823B2936-B18A-4FFE-B838-A6C74EC881B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Autofac.Tests", "MvcExtensions.Autofac.Tests\MvcExtensions.Autofac.Tests.csproj", "{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
