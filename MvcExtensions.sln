@@ -4,7 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles", "{1AA92940-0B90-42B2-8E7B-A85F6248FB94}"
 	ProjectSection(SolutionItems) = preProject
 		build.bat = build.bat
-		build.noncover.bat = build.noncover.bat
 		SharedFiles\CodeAnalysisDictionary.xml = SharedFiles\CodeAnalysisDictionary.xml
 		SharedFiles\CommonAssemblyInfo.cs = SharedFiles\CommonAssemblyInfo.cs
 		..\license.txt = ..\license.txt
@@ -102,6 +101,14 @@ Global
 		{7F5AD1CB-0B14-4BEC-A5F2-631CFE045732}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F5AD1CB-0B14-4BEC-A5F2-631CFE045732}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F5AD1CB-0B14-4BEC-A5F2-631CFE045732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +125,8 @@ Global
 		{21DE407E-18C5-40CB-BC4E-C7EE1B209DDB} = {E401B3C3-E914-4779-9914-23A280FDD506}
 		{5AB70A39-B770-4046-BA9A-017AADA68762} = {E401B3C3-E914-4779-9914-23A280FDD506}
 		{7F5AD1CB-0B14-4BEC-A5F2-631CFE045732} = {92785AF1-C272-4795-99F3-A2B21CA9A394}
+		{823B2936-B18A-4FFE-B838-A6C74EC881B6} = {F6CEF334-686A-4DD3-9324-A650FF86529A}
+		{2CA93CC1-CEEC-4F52-A686-1D0ED02C408D} = {F6CEF334-686A-4DD3-9324-A650FF86529A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35

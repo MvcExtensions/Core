@@ -29,6 +29,9 @@
         <windsorPath>$(MSBuildProjectDirectory)\MvcExtensions.Windsor</windsorPath>
         <windsorFile>MvcExtensions.Windsor</windsorFile>
 
+        <autofacPath>$(MSBuildProjectDirectory)\MvcExtensions.Autofac</autofacPath>
+        <autofacFile>MvcExtensions.Autofac</autofacFile>
+
         <foolproofPath>$(MSBuildProjectDirectory)\MvcExtensions.Foolproof</foolproofPath>
         <foolproofFile>MvcExtensions.Foolproof</foolproofFile>
     </PropertyGroup>
@@ -79,6 +82,12 @@
         <CreateItem Include="$(windsorPath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
+        <CreateItem Include="$(autofacPath)\**\*.cs">
+            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+        </CreateItem>
+        <CreateItem Include="$(autofacPath).Tests\**\*.cs">
+            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+        </CreateItem>
         <CreateItem Include="$(foolproofPath)\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
@@ -96,7 +105,7 @@
     <Target Name="Simian">
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\Simian\simian.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot; -includes=&quot;$(foolproofPath)/**/*.cs&quot;"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot; -includes=&quot;$(autofacPath)/**/*.cs&quot; -includes=&quot;$(foolproofPath)/**/*.cs&quot;"
             IgnoreExitCode="true"
             WorkingDirectory="$(MSBuildProjectDirectory)"
         />
@@ -121,7 +130,7 @@
         </PropertyGroup>
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\FxCop\Xml\FxCopReport.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /f:&quot;$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).dll&quot; /f:&quot;$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).dll&quot; /f:&quot;$(unityPath)\bin\$(Configuration)\$(unityFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(foolproofFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /f:&quot;$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).dll&quot; /f:&quot;$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).dll&quot; /f:&quot;$(unityPath)\bin\$(Configuration)\$(unityFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(autofacPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(autofacPath)\bin\$(Configuration)\$(foolproofFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
             IgnoreExitCode="true"
         />
         <XmlRead XmlFileName="$(fxCopOutput)" XPath="string(count(//Issue))" ContinueOnError="True">
@@ -166,6 +175,13 @@
         Include="[$(windsorFile)]*"
         Exclude="[*.Test]*"
       />
+      <PartCover ToolPath="$(PartCoverTasksPath)"
+        Target="$(xunit)"
+        TargetArgs="&quot;$(autofacPath).Tests\bin\$(Configuration)\$(autofacFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(autofacFile).Tests.xunit.xml&quot;"
+        Output="$(artifactPath)\$(autofacFile)-coverage.xml"
+        Include="[$(autofacFile)]*"
+        Exclude="[*.Test]*"
+      />
       <CombineXunitXml
         OutputFile="$(artifactPath)\Xunit.xml"
         InputFiles="$(artifactPath)\$(coreFile).Tests.xunit.xml;$(artifactPath)\$(ninjectFile).Tests.xunit.xml;$(artifactPath)\$(structureMapFile).Tests.xunit.xml;$(artifactPath)\$(unityFile).Tests.xunit.xml;$(artifactPath)\$(windsorFile).Tests.xunit.xml"
@@ -188,6 +204,9 @@
         <CreateItem Include="$(windsorPath)\bin\$(Configuration)\$(windsorFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
+        <CreateItem Include="$(autofacPath)\bin\$(Configuration)\$(windsorFile).*">
+            <Output TaskParameter="Include" ItemName="zipFiles"/>
+        </CreateItem>
         <CreateItem Include="$(foolproofPath)\bin\$(Configuration)\$(foolproofFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
@@ -201,6 +220,7 @@
         <Exec Command="$(nuget) pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
         <Exec Command="$(nuget) pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
         <Exec Command="$(nuget) pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget) pack $(autofacPath)\$(autofacFile).nuspec /basepath $(autofacPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
         <Exec Command="$(nuget) pack $(foolproofPath)\$(foolproofFile).nuspec /basepath $(foolproofPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
     
@@ -210,6 +230,7 @@
         <Exec Command="push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(unityFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
+        <Exec Command="push $(artifactPath)\$(autofacFile).$(Version).nupkg" />
         <Exec Command="push $(artifactPath)\$(foolproofFile).$(Version).nupkg" />
     </Target>
 </Project>
