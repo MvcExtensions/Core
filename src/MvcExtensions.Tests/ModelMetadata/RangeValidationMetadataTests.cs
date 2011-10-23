@@ -21,5 +21,19 @@ namespace MvcExtensions.Tests
 
             Assert.NotNull(validator);
         }
+
+        [Fact]
+        public void Should_be_able_to_create_validator_for_nullable_type()
+        {
+            var metadata = new RangeValidationMetadata<int?>
+                               {
+                                   Minimum = 100,
+                                   Maximum = 500
+                               };
+            var validator = metadata.CreateValidator(CreateMetadata(), new ControllerContext());
+
+            Assert.NotNull(validator);
+            Assert.DoesNotThrow(() => validator.GetClientValidationRules());
+        }
     }
 }

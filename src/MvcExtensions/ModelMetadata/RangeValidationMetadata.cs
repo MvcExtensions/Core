@@ -7,7 +7,9 @@
 
 namespace MvcExtensions
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -44,9 +46,25 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var attribute = new RangeAttribute(typeof(TValueType), Minimum.ToString(), Maximum.ToString());
+            var attribute = new RangeAttribute(UnwrapNullable(typeof(TValueType)), Minimum.ToString(), Maximum.ToString());
             PopulateErrorMessage(attribute);
             return new RangeAttributeAdapter(modelMetadata, context, attribute);
+        }
+
+        private static Type UnwrapNullable(Type type)
+        {
+            Invariant.IsNotNull(type, "type");
+
+            return IsNullable(type)
+                       ? type.GetGenericArguments().First()
+                       : type;
+        }
+
+        private static bool IsNullable(Type type)
+        {
+            Invariant.IsNotNull(type, "type");
+
+            return type.IsGenericType && type.GetGenericTypeDefinition().Equals(typeof(Nullable<>));
         }
     }
 }

@@ -8,8 +8,6 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="ValueType"/> type.
@@ -161,7 +159,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual ValueTypeMetadataItemBuilder<TValueType> Range(TValueType minimum, TValueType maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            RangeValidationMetadata<TValueType> rangeValidation = Item.GetValidationOrCreateNew<RangeValidationMetadata<TValueType>>();
+            var rangeValidation = Item.GetValidationOrCreateNew<RangeValidationMetadata<TValueType>>();
 
             rangeValidation.Minimum = minimum;
             rangeValidation.Maximum = maximum;
