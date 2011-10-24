@@ -17,7 +17,7 @@ namespace MvcExtensions
     public abstract class ExtendedMvcApplication : HttpApplication
     {
         private static readonly object syncLock = new object();
-        private static IBootstrapper bootstrapper;
+        private static volatile IBootstrapper bootstrapper;
 
         /// <summary>
         /// Gets the bootstrapper.

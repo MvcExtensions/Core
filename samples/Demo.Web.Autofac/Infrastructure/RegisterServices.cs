@@ -1,15 +1,14 @@
 namespace Demo.Web.Autofac
 {
-    using ContainerBuilder = global::Autofac.ContainerBuilder;
-    using Module = global::Autofac.Module;
-    using RegisterExtension = global::Autofac.RegistrationExtensions;
+    using MvcExtensions.Autofac;
+    using global::Autofac;
 
     public class RegisterServices : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            RegisterExtension.RegisterType<InMemoryDatabasae>(builder).As<IDatabase>();
-            RegisterExtension.RegisterGeneric(builder, typeof(Repository<>)).As(typeof(IRepository<>));
+            builder.RegisterType<InMemoryDatabasae>().As<IDatabase>().InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof (Repository<>)).As(typeof (IRepository<>));
 
             base.Load(builder);
         }
