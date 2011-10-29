@@ -27,14 +27,14 @@ namespace MvcExtensions.Tests
 
             adapter = new Mock<ContainerAdapter>();
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
-            adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => factories.Add((ValueProviderFactory)Activator.CreateInstance(t2)));
+            adapter.Setup(a => a.RegisterType(It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((Type t1, Type t2, LifetimeType lt) => factories.Add((ValueProviderFactory)Activator.CreateInstance(t2)));
             adapter.Setup(a => a.GetServices(typeof(ValueProviderFactory))).Returns(() => factories);
         }
 
         [Fact]
         public void Should_register_available_value_provider_factories()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient)).Verifiable();
 
             new RegisterValueProviderFactories(adapter.Object).Execute();
 
@@ -50,7 +50,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(typeof(ValueProviderFactory), typeof(DummyValueProviderFactory), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyValueProviderFactory : ValueProviderFactory

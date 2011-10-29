@@ -26,7 +26,7 @@ namespace MvcExtensions.Tests
         {
             var instance = new object();
 
-            registrar.Setup(r => r.RegisterInstance(null, typeof(object), instance));
+            registrar.Setup(r => r.RegisterInstance(typeof(object), instance));
 
             registrar.Object.RegisterInstance<object>(instance);
 
@@ -38,7 +38,7 @@ namespace MvcExtensions.Tests
         {
             var instance = new object();
 
-            registrar.Setup(r => r.RegisterInstance(null, typeof(object), instance));
+            registrar.Setup(r => r.RegisterInstance(typeof(object), instance));
 
             registrar.Object.RegisterInstance(instance);
 
@@ -48,7 +48,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_as_per_request()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.PerRequest));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.PerRequest));
 
             registrar.Object.RegisterAsPerRequest<object>();
 
@@ -58,7 +58,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_as_per_request()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.PerRequest));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.PerRequest));
 
             registrar.Object.RegisterAsPerRequest<IServiceRegistrar, ServiceRegistrar>();
 
@@ -68,7 +68,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_type_as_per_request()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.PerRequest));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.PerRequest));
 
             registrar.Object.RegisterAsPerRequest(typeof(object));
 
@@ -78,7 +78,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_type_as_per_request()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.PerRequest));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.PerRequest));
 
             registrar.Object.RegisterAsPerRequest(typeof(IServiceRegistrar), typeof(ServiceRegistrar));
 
@@ -88,7 +88,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_as_singleton()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.Singleton));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.Singleton));
 
             registrar.Object.RegisterAsSingleton<object>();
 
@@ -98,7 +98,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_as_singleton()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Singleton));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Singleton));
 
             registrar.Object.RegisterAsSingleton<IServiceRegistrar, ServiceRegistrar>();
 
@@ -108,7 +108,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_type_as_singleton()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.Singleton));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.Singleton));
 
             registrar.Object.RegisterAsSingleton(typeof(object));
 
@@ -118,7 +118,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_type_as_singleton()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Singleton));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Singleton));
 
             registrar.Object.RegisterAsSingleton(typeof(IServiceRegistrar), typeof(ServiceRegistrar));
 
@@ -128,7 +128,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_as_transient()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.Transient));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.Transient));
 
             registrar.Object.RegisterAsTransient<object>();
 
@@ -138,7 +138,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_as_transient()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Transient));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Transient));
 
             registrar.Object.RegisterAsTransient<IServiceRegistrar, ServiceRegistrar>();
 
@@ -148,7 +148,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_implementation_type_as_transient()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(object), typeof(object), LifetimeType.Transient));
+            registrar.Setup(r => r.RegisterType(typeof(object), typeof(object), LifetimeType.Transient));
 
             registrar.Object.RegisterAsTransient(typeof(object));
 
@@ -158,7 +158,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_service_type_as_transient()
         {
-            registrar.Setup(r => r.RegisterType(null, typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Transient));
+            registrar.Setup(r => r.RegisterType(typeof(IServiceRegistrar), typeof(ServiceRegistrar), LifetimeType.Transient));
 
             registrar.Object.RegisterAsTransient(typeof(IServiceRegistrar), typeof(ServiceRegistrar));
 
@@ -167,12 +167,12 @@ namespace MvcExtensions.Tests
 
         private sealed class ServiceRegistrar : IServiceRegistrar
         {
-            public IServiceRegistrar RegisterType(string key, Type serviceType, Type implementationType, LifetimeType lifetime)
+            public IServiceRegistrar RegisterType(Type serviceType, Type implementationType, LifetimeType lifetime)
             {
                 return null;
             }
 
-            public IServiceRegistrar RegisterInstance(string key, Type serviceType, object instance)
+            public IServiceRegistrar RegisterInstance(Type serviceType, object instance)
             {
                 return null;
             }

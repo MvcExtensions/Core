@@ -8,7 +8,7 @@ namespace Demo.Web.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<InMemoryDatabasae>().As<IDatabase>().InstancePerHttpRequest();
-            builder.RegisterGeneric(typeof (Repository<>)).As(typeof (IRepository<>));
+            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>));
 
             base.Load(builder);
         }

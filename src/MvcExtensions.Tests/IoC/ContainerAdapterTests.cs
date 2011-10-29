@@ -42,12 +42,12 @@ namespace MvcExtensions.Tests
         {
             public bool Disposed { get; private set; }
 
-            public override IServiceRegistrar RegisterType(string key, Type serviceType, Type implementationType, LifetimeType lifetime)
+            public override IServiceRegistrar RegisterType(Type serviceType, Type implementationType, LifetimeType lifetime)
             {
                 return null;
             }
 
-            public override IServiceRegistrar RegisterInstance(string key, Type serviceType, object instance)
+            public override IServiceRegistrar RegisterInstance(Type serviceType, object instance)
             {
                 return null;
             }
@@ -56,7 +56,7 @@ namespace MvcExtensions.Tests
             {
             }
 
-            protected override object DoGetService(Type serviceType, string key)
+            protected override object DoGetService(Type serviceType)
             {
                 return null;
             }

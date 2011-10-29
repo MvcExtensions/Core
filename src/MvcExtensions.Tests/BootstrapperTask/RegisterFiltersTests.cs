@@ -29,7 +29,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_action_filters()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient)).Verifiable();
 
             new RegisterFilters(adapter.Object).Execute();
 
@@ -45,7 +45,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(typeof(DummyFilter), typeof(DummyFilter), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyFilter : IMvcFilter

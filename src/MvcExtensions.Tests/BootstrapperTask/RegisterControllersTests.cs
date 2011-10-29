@@ -28,7 +28,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_controllers()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(DummyController), typeof(DummyController), LifetimeType.Transient)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(DummyController), typeof(DummyController), LifetimeType.Transient)).Verifiable();
 
             new RegisterControllers(adapter.Object).Execute();
 
@@ -44,7 +44,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(DummyController), typeof(DummyController), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(typeof(DummyController), typeof(DummyController), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyController : Controller

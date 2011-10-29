@@ -31,8 +31,8 @@ namespace MvcExtensions.Tests
             perRequestTasksRegistry = new Mock<IPerRequestTasksRegistry>();
             adapter = new Mock<ContainerAdapter>();
 
-            adapter.Setup(a => a.RegisterType(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
-            adapter.Setup(a => a.RegisterInstance(It.IsAny<string>(), It.IsAny<Type>(), It.IsAny<object>())).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterType(It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterInstance(It.IsAny<Type>(), It.IsAny<object>())).Returns(adapter.Object);
 
             bootstrapper = new BootstrapperTestDouble(adapter, buildManager.Object, bootstrapperTasksRegistry.Object, perRequestTasksRegistry.Object);
         }
@@ -77,7 +77,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_route_collection()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(RouteCollection), RouteTable.Routes)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(RouteCollection), RouteTable.Routes)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -87,7 +87,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_build_manager()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(IBuildManager), buildManager.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(IBuildManager), buildManager.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -97,7 +97,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_registrar()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceRegistrar), adapter.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(IServiceRegistrar), adapter.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -107,7 +107,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_service_locator()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(IDependencyResolver), adapter.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(IDependencyResolver), adapter.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -117,7 +117,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_injector()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(IServiceInjector), adapter.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(IServiceInjector), adapter.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -127,7 +127,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_adapter()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(ContainerAdapter), adapter.Object)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(ContainerAdapter), adapter.Object)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -137,7 +137,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_action_invoker_registry()
         {
-            adapter.Setup(a => a.RegisterInstance(null, typeof(TypeMappingRegistry<Controller, IActionInvoker>), It.IsAny<object>())).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterInstance(typeof(TypeMappingRegistry<Controller, IActionInvoker>), It.IsAny<object>())).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -147,7 +147,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_filter_registry_as_singleton()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(IFilterRegistry), typeof(FilterRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterType(typeof(IFilterRegistry), typeof(FilterRegistry), LifetimeType.Singleton)).Returns(adapter.Object);
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -157,7 +157,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_value_provider_factories_as_singleton()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(ValueProviderFactoryCollection), typeof(ValueProviderFactoryCollection), LifetimeType.Singleton)).Returns(adapter.Object);
+            adapter.Setup(a => a.RegisterType(typeof(ValueProviderFactoryCollection), typeof(ValueProviderFactoryCollection), LifetimeType.Singleton)).Returns(adapter.Object);
 
             Assert.NotNull(bootstrapper.Adapter);
 
@@ -171,7 +171,7 @@ namespace MvcExtensions.Tests
 
             buildManager.Setup(bm => bm.ConcreteTypes).Returns(new[] { task.GetType() });
 
-            adapter.Setup(a => a.RegisterType(null, task.GetType(), task.GetType(), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
+            adapter.Setup(a => a.RegisterType(task.GetType(), task.GetType(), LifetimeType.Singleton)).Returns(adapter.Object).Verifiable();
 
             Assert.NotNull(bootstrapper.Adapter);
 

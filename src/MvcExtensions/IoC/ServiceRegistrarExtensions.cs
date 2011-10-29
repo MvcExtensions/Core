@@ -27,7 +27,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterInstance(null, typeof(TService), service);
+            return instance.RegisterInstance(typeof(TService), service);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterInstance(null, service.GetType(), service);
+            return instance.RegisterInstance(service.GetType(), service);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterType(null, serviceType, implementationType, LifetimeType.PerRequest);
+            return instance.RegisterType(serviceType, implementationType, LifetimeType.PerRequest);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterType(null, serviceType, implementationType, LifetimeType.Singleton);
+            return instance.RegisterType(serviceType, implementationType, LifetimeType.Singleton);
         }
 
         /// <summary>
@@ -197,14 +197,14 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterType(null, serviceType, implementationType, LifetimeType.Transient);
+            return instance.RegisterType(serviceType, implementationType, LifetimeType.Transient);
         }
 
         private static IServiceRegistrar RegisterType<TService, TImplementation>(this IServiceRegistrar instance, LifetimeType lifetime) where TImplementation : TService where TService : class
         {
             Invariant.IsNotNull(instance, "instance");
 
-            return instance.RegisterType(null, typeof(TService), typeof(TImplementation), lifetime);
+            return instance.RegisterType(typeof(TService), typeof(TImplementation), lifetime);
         }
     }
 }

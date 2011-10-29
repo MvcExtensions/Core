@@ -29,7 +29,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_action_invokers()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(DummyActionInvoker), typeof(DummyActionInvoker), LifetimeType.Transient)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(DummyActionInvoker), typeof(DummyActionInvoker), LifetimeType.Transient)).Verifiable();
 
             new RegisterActionInvokers(adapter.Object).Execute();
 
@@ -45,7 +45,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyActionInvoker : IActionInvoker

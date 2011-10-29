@@ -29,7 +29,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_register_available_model_binders()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(DummyModelBinder), typeof(DummyModelBinder), LifetimeType.Transient)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(DummyModelBinder), typeof(DummyModelBinder), LifetimeType.Transient)).Verifiable();
 
             new RegisterModelBinders(adapter.Object).Execute();
 
@@ -45,7 +45,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(DummyModelBinder), typeof(DummyModelBinder), LifetimeType.Transient), Times.Never());
+            adapter.Verify(a => a.RegisterType(typeof(DummyModelBinder), typeof(DummyModelBinder), LifetimeType.Transient), Times.Never());
         }
 
         private sealed class DummyModelBinder : IModelBinder

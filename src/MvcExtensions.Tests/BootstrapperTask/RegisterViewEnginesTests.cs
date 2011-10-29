@@ -27,14 +27,14 @@ namespace MvcExtensions.Tests
 
             adapter = new Mock<ContainerAdapter>();
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
-            adapter.Setup(a => a.RegisterType(null, It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((string k, Type t1, Type t2, LifetimeType lt) => viewEngines.Add((IViewEngine)Activator.CreateInstance(t2)));
+            adapter.Setup(a => a.RegisterType(It.IsAny<Type>(), It.IsAny<Type>(), LifetimeType.Singleton)).Callback((Type t1, Type t2, LifetimeType lt) => viewEngines.Add((IViewEngine)Activator.CreateInstance(t2)));
             adapter.Setup(a => a.GetServices(typeof(IViewEngine))).Returns(() => viewEngines);
         }
 
         [Fact]
         public void Should_register_available_view_engines()
         {
-            adapter.Setup(a => a.RegisterType(null, typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton)).Verifiable();
+            adapter.Setup(a => a.RegisterType(typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton)).Verifiable();
 
             new RegisterViewEngines(adapter.Object).Execute();
 
@@ -50,7 +50,7 @@ namespace MvcExtensions.Tests
 
             registration.Execute();
 
-            adapter.Verify(a => a.RegisterType(null, typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton), Times.Never());
+            adapter.Verify(a => a.RegisterType(typeof(IViewEngine), typeof(DummyViewEngine), LifetimeType.Singleton), Times.Never());
         }
 
         private sealed class DummyViewEngine : IViewEngine

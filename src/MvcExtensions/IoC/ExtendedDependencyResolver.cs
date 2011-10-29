@@ -28,7 +28,7 @@ namespace MvcExtensions
         {
             try
             {
-                return DoGetService(serviceType, null);
+                return DoGetService(serviceType);
             }
             catch (Exception e)
             {
@@ -63,9 +63,8 @@ namespace MvcExtensions
         /// Gets the service.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
-        /// <param name="key">The key.</param>
         /// <returns></returns>
-        protected abstract object DoGetService(Type serviceType, string key);
+        protected abstract object DoGetService(Type serviceType);
 
         /// <summary>
         /// Gets the services.
