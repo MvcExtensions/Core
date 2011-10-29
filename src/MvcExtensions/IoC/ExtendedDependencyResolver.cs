@@ -9,8 +9,6 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -26,18 +24,7 @@ namespace MvcExtensions
         /// <returns>The requested object.</returns>
         public virtual object GetService(Type serviceType)
         {
-            try
-            {
-                return DoGetService(serviceType);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-                
-                // Eat the exception, the ASP.NET MVC Framework expects a null service when the underlying container
-                // cannot resolve.
-                return null;
-            }
+            return DoGetService(serviceType);
         }
 
         /// <summary>
@@ -47,16 +34,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public virtual IEnumerable<object> GetServices(Type serviceType)
         {
-            try
-            {
-                return DoGetServices(serviceType);
-            }
-            catch (Exception)
-            {
-                // Eat the exception, the ASP.NET MVC Framework expects an empty enumerable when the underlying container
-                // cannot resolve.
-                return Enumerable.Empty<object>();
-            }
+            return DoGetServices(serviceType);
         }
 
         /// <summary>
