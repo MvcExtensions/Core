@@ -8,7 +8,7 @@ namespace Demo.Web.Unity
     {
         public void Load(IUnityContainer container)
         {
-            container.RegisterType<IDatabase, InMemoryDatabasae>(new PerRequestLifetimeManager())
+            container.RegisterType<IDatabase, InMemoryDatabase>(new PerRequestLifetimeManager())
                      .RegisterType(typeof(IRepository<>), typeof(Repository<>), new PerRequestLifetimeManager());
         }
     }

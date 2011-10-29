@@ -8,7 +8,7 @@ namespace Demo.Web.Windsor
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IDatabase>().ImplementedBy<InMemoryDatabasae>().LifeStyle.PerWebRequest)
+            container.Register(Component.For<IDatabase>().ImplementedBy<InMemoryDatabase>().LifeStyle.PerWebRequest)
                      .Register(Component.For(typeof(IRepository<>)).ImplementedBy(typeof(Repository<>)).LifeStyle.PerWebRequest);
         }
     }

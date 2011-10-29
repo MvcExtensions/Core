@@ -6,7 +6,7 @@ namespace Demo.Web.StructureMap
     {
         public RegisterServices()
         {
-            For<IDatabase>().HttpContextScoped().Use<InMemoryDatabasae>();
+            For<IDatabase>().HttpContextScoped().Use<InMemoryDatabase>();
             For(typeof(IRepository<>)).HttpContextScoped().Use(typeof(Repository<>));
         }
     }

@@ -101,7 +101,7 @@
     <Compile Include="Models\EntityBase.cs" />
     <Compile Include="Infrastructure\EntityConverter.cs" />
     <Compile Include="Models\IDatabase.cs" />
-    <Compile Include="Models\InMemoryDatabasae.cs" />
+    <Compile Include="Models\InMemoryDatabase.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\ModelExtensions.cs" />
     <Compile Include="Models\Product.cs" />

@@ -3,7 +3,7 @@ namespace Demo.Web
     using System;
     using System.Collections.Generic;
 
-    public class InMemoryDatabasae : IDatabase
+    public class InMemoryDatabase : IDatabase
     {
         private static readonly IDictionary<Type, object> dataStore = BuildDatabase();
 
@@ -60,7 +60,7 @@ namespace Demo.Web
 
         private static IList<Product> BuildProducts(IList<Category> categoris, IList<Supplier> suppliers)
         {
-            Random rnd = new Random();
+            var rnd = new Random();
             IList<Product> products = new List<Product>();
 
             for (int i = 1; i <= 20; i++)
