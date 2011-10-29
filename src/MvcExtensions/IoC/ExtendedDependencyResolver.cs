@@ -26,20 +26,9 @@ namespace MvcExtensions
         /// <returns>The requested object.</returns>
         public virtual object GetService(Type serviceType)
         {
-            return GetService(serviceType, null);
-        }
-
-        /// <summary>
-        /// Gets the service.
-        /// </summary>
-        /// <param name="serviceType">Type of the service.</param>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
-        public virtual object GetService(Type serviceType, string key)
-        {
             try
             {
-                return DoGetService(serviceType, key);
+                return DoGetService(serviceType, null);
             }
             catch (Exception e)
             {

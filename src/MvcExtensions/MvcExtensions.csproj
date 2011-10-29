@@ -160,7 +160,6 @@
     <Compile Include="ExtensionMethod\ViewDataDictionaryExtensions.cs" />
     <Compile Include="Helper\Culture.cs" />
     <Compile Include="IoC\ContainerAdapter.cs" />
-    <Compile Include="IoC\ExtendedDependencyResolverExtensions.cs" />
     <Compile Include="IoC\IServiceRegistrar.cs" />
     <Compile Include="IoC\LifetimeType.cs" />
     <Compile Include="IoC\ExtendedDependencyResolver.cs" />
