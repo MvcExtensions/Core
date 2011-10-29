@@ -23,7 +23,7 @@ namespace MvcExtensions
         /// <param name="service">The service.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterInstance<TService>(this IServiceRegistrar instance, object service)
+        public static IServiceRegistrar RegisterInstance<TService>(this IServiceRegistrar instance, TService service)
         {
             Invariant.IsNotNull(instance, "instance");
 
