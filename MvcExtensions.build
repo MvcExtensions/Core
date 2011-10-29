@@ -204,7 +204,7 @@
         <CreateItem Include="$(windsorPath)\bin\$(Configuration)\$(windsorFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
-        <CreateItem Include="$(autofacPath)\bin\$(Configuration)\$(windsorFile).*">
+        <CreateItem Include="$(autofacPath)\bin\$(Configuration)\$(autofacFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
         <CreateItem Include="$(foolproofPath)\bin\$(Configuration)\$(foolproofFile).*">
