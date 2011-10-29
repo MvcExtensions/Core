@@ -8,34 +8,14 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Diagnostics;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class which acts as an adapter for IoC Container.
     /// </summary>
-    public abstract class ContainerAdapter : ExtendedDependencyResolver, IServiceRegistrar, IServiceInjector, IDisposable
+    public abstract class ContainerAdapter : Disposable, IServiceRegistrar, IServiceInjector, IDependencyResolver
     {
-        private bool disposed;
-
-        /// <summary>
-        /// Releases unmanaged resources and performs other cleanup operations before the
-        /// <see cref="ContainerAdapter"/> is reclaimed by garbage collection.
-        /// </summary>
-        [DebuggerStepThrough]
-        ~ContainerAdapter()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         /// <summary>
         /// Registers the service and its implementation with the lifetime behavior.
         /// </summary>
@@ -60,22 +40,17 @@ namespace MvcExtensions
         public abstract void Inject(object instance);
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources
+        /// Gets the service.
         /// </summary>
-        protected virtual void DisposeCore()
-        {
-        }
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
+        public abstract object GetService(Type serviceType);
 
-        [DebuggerStepThrough]
-        private void Dispose(bool disposing)
-        {
-            if (!disposed && disposing)
-            {
-                disposed = true;
-                DisposeCore();
-            }
-
-            disposed = true;
-        }
+        /// <summary>
+        /// Gets the services.
+        /// </summary>
+        /// <param name="serviceType">Type of the service.</param>
+        /// <returns></returns>
+        public abstract IEnumerable<object> GetServices(Type serviceType);
     }
 }

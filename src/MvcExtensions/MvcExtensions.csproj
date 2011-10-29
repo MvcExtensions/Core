@@ -162,7 +162,6 @@
     <Compile Include="IoC\ContainerAdapter.cs" />
     <Compile Include="IoC\IServiceRegistrar.cs" />
     <Compile Include="IoC\LifetimeType.cs" />
-    <Compile Include="IoC\ExtendedDependencyResolver.cs" />
     <Compile Include="IoC\ServiceRegistrarExtensions.cs" />
     <Compile Include="BuildManager\BuildManagerWrapper.cs" />
     <Compile Include="BuildManager\IBuildManager.cs" />
