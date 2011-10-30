@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="string"/> type.
     /// </summary>
-    public class StringMetadataItemBuilder : ModelMetadataItemBuilder<ModelMetadataItem, StringMetadataItemBuilder>
+    public class StringMetadataItemBuilder : ModelMetadataItemBuilder<StringMetadataItemBuilder>
     {
         private static string emailExpression = @"^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$";
         private static string emailErrorMessage = ExceptionMessages.InvalidEmailAddressFormat;

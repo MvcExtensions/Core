@@ -14,13 +14,14 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class to fluently configure metadata.
     /// </summary>
-    public abstract class ModelMetadataItemBuilder<TItem, TItemBuilder> : IFluentSyntax where TItem : ModelMetadataItem where TItemBuilder : ModelMetadataItemBuilder<TItem, TItemBuilder>
+    public abstract class ModelMetadataItemBuilder<TItemBuilder> : IFluentSyntax 
+        where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TItem,TItemBuilder}"/> class.
+        /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TItemBuilder}"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        protected ModelMetadataItemBuilder(TItem item)
+        protected ModelMetadataItemBuilder(ModelMetadataItem item)
         {
             Invariant.IsNotNull(item, "item");
 
@@ -32,7 +33,7 @@ namespace MvcExtensions
         /// </summary>
         /// <value>The item.</value>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public TItem Item
+        public ModelMetadataItem Item
         {
             [EditorBrowsable(EditorBrowsableState.Never)]
             get;
@@ -454,7 +455,7 @@ namespace MvcExtensions
         {
             Item.IsRequired = true;
 
-            RequiredValidationMetadata requiredValidation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
+            var requiredValidation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
 
             requiredValidation.ErrorMessage = errorMessage;
             requiredValidation.ErrorMessageResourceType = errorMessageResourceType;
@@ -473,7 +474,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected virtual TItemBuilder Compare(string otherProperty, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            CompareValidationMetadata compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
+            var compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
 
             compareValidation.OtherProperty = otherProperty;
             compareValidation.ErrorMessage = errorMessage;

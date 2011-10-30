@@ -11,7 +11,7 @@ namespace MvcExtensions
     /// Defines a class to fluently configure metadata of a model.
     /// </summary>
     /// <typeparam name="TModel">The type of the model.</typeparam>
-    public class ObjectMetadataItemBuilder<TModel> : ModelMetadataItemBuilder<ModelMetadataItem, ObjectMetadataItemBuilder<TModel>>
+    public class ObjectMetadataItemBuilder<TModel> : ModelMetadataItemBuilder<ObjectMetadataItemBuilder<TModel>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectMetadataItemBuilder&lt;TModel&gt;"/> class.

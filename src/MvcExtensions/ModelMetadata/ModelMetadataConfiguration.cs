@@ -19,9 +19,10 @@ namespace MvcExtensions
     /// </summary>
     public abstract class ModelMetadataConfiguration<TModel> : IModelMetadataConfiguration, IFluentSyntax where TModel : class
     {
-        private readonly Type modelType = typeof(TModel);
         private readonly IDictionary<string, ModelMetadataItem> configurations = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+        private readonly Type modelType = typeof(TModel);
 
+        #region IModelMetadataConfiguration Members
         /// <summary>
         /// Gets the type of the model.
         /// </summary>
@@ -29,10 +30,7 @@ namespace MvcExtensions
         public Type ModelType
         {
             [DebuggerStepThrough, EditorBrowsable(EditorBrowsableState.Never)]
-            get
-            {
-                return modelType;
-            }
+            get { return modelType; }
         }
 
         /// <summary>
@@ -42,11 +40,9 @@ namespace MvcExtensions
         public virtual IDictionary<string, ModelMetadataItem> Configurations
         {
             [DebuggerStepThrough, EditorBrowsable(EditorBrowsableState.Never)]
-            get
-            {
-                return configurations;
-            }
+            get { return configurations; }
         }
+        #endregion
 
         /// <summary>
         /// Configures the string value.
@@ -55,7 +51,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected StringMetadataItemBuilder Configure(Expression<Func<TModel, string>> expression)
         {
-            return new StringMetadataItemBuilder(Append<ModelMetadataItem, string>(expression));
+            return new StringMetadataItemBuilder(Append(expression));
         }
 
         /// <summary>
@@ -65,7 +61,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected BooleanMetadataItemBuilder Configure(Expression<Func<TModel, bool>> expression)
         {
-            return new BooleanMetadataItemBuilder(Append<ModelMetadataItem, bool>(expression));
+            return new BooleanMetadataItemBuilder(Append(expression));
         }
 
         /// <summary>
@@ -75,7 +71,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected BooleanMetadataItemBuilder Configure(Expression<Func<TModel, bool?>> expression)
         {
-            return new BooleanMetadataItemBuilder(Append<ModelMetadataItem, bool?>(expression));
+            return new BooleanMetadataItemBuilder(Append(expression));
         }
 
         /// <summary>
@@ -85,7 +81,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<DateTime> Configure(Expression<Func<TModel, DateTime>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<DateTime>(Append<ModelMetadataItem, DateTime>(expression));
+            return new ValueTypeMetadataItemBuilder<DateTime>(Append(expression));
         }
 
         /// <summary>
@@ -95,7 +91,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<DateTime?> Configure(Expression<Func<TModel, DateTime?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<DateTime?>(Append<ModelMetadataItem, DateTime?>(expression));
+            return new ValueTypeMetadataItemBuilder<DateTime?>(Append(expression));
         }
 
         /// <summary>
@@ -105,7 +101,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<byte> Configure(Expression<Func<TModel, byte>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<byte>(Append<ModelMetadataItem, byte>(expression));
+            return new ValueTypeMetadataItemBuilder<byte>(Append(expression));
         }
 
         /// <summary>
@@ -115,7 +111,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<byte?> Configure(Expression<Func<TModel, byte?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<byte?>(Append<ModelMetadataItem, byte?>(expression));
+            return new ValueTypeMetadataItemBuilder<byte?>(Append(expression));
         }
 
         /// <summary>
@@ -125,7 +121,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<short> Configure(Expression<Func<TModel, short>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<short>(Append<ModelMetadataItem, short>(expression));
+            return new ValueTypeMetadataItemBuilder<short>(Append(expression));
         }
 
         /// <summary>
@@ -135,7 +131,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<short?> Configure(Expression<Func<TModel, short?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<short?>(Append<ModelMetadataItem, short?>(expression));
+            return new ValueTypeMetadataItemBuilder<short?>(Append(expression));
         }
 
         /// <summary>
@@ -145,7 +141,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<int> Configure(Expression<Func<TModel, int>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<int>(Append<ModelMetadataItem, int>(expression));
+            return new ValueTypeMetadataItemBuilder<int>(Append(expression));
         }
 
         /// <summary>
@@ -155,7 +151,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<int?> Configure(Expression<Func<TModel, int?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<int?>(Append<ModelMetadataItem, int?>(expression));
+            return new ValueTypeMetadataItemBuilder<int?>(Append(expression));
         }
 
         /// <summary>
@@ -165,7 +161,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<long> Configure(Expression<Func<TModel, long>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<long>(Append<ModelMetadataItem, long>(expression));
+            return new ValueTypeMetadataItemBuilder<long>(Append(expression));
         }
 
         /// <summary>
@@ -175,7 +171,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<long?> Configure(Expression<Func<TModel, long?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<long?>(Append<ModelMetadataItem, long?>(expression));
+            return new ValueTypeMetadataItemBuilder<long?>(Append(expression));
         }
 
         /// <summary>
@@ -185,7 +181,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<float> Configure(Expression<Func<TModel, float>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<float>(Append<ModelMetadataItem, float>(expression));
+            return new ValueTypeMetadataItemBuilder<float>(Append(expression));
         }
 
         /// <summary>
@@ -195,7 +191,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<float?> Configure(Expression<Func<TModel, float?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<float?>(Append<ModelMetadataItem, float?>(expression));
+            return new ValueTypeMetadataItemBuilder<float?>(Append(expression));
         }
 
         /// <summary>
@@ -205,7 +201,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<double> Configure(Expression<Func<TModel, double>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<double>(Append<ModelMetadataItem, double>(expression));
+            return new ValueTypeMetadataItemBuilder<double>(Append(expression));
         }
 
         /// <summary>
@@ -215,7 +211,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<double?> Configure(Expression<Func<TModel, double?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<double?>(Append<ModelMetadataItem, double?>(expression));
+            return new ValueTypeMetadataItemBuilder<double?>(Append(expression));
         }
 
         /// <summary>
@@ -225,7 +221,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<decimal> Configure(Expression<Func<TModel, decimal>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<decimal>(Append<ModelMetadataItem, decimal>(expression));
+            return new ValueTypeMetadataItemBuilder<decimal>(Append(expression));
         }
 
         /// <summary>
@@ -235,7 +231,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ValueTypeMetadataItemBuilder<decimal?> Configure(Expression<Func<TModel, decimal?>> expression)
         {
-            return new ValueTypeMetadataItemBuilder<decimal?>(Append<ModelMetadataItem, decimal?>(expression));
+            return new ValueTypeMetadataItemBuilder<decimal?>(Append(expression));
         }
 
         /// <summary>
@@ -246,7 +242,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ObjectMetadataItemBuilder<TValue> Configure<TValue>(Expression<Func<TModel, TValue>> expression)
         {
-            return new ObjectMetadataItemBuilder<TValue>(Append<ModelMetadataItem, TValue>(expression));
+            return new ObjectMetadataItemBuilder<TValue>(Append(expression));
         }
 
         /// <summary>
@@ -257,7 +253,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ObjectMetadataItemBuilder<TValue> Configure<TValue>(string property)
         {
-            return new ObjectMetadataItemBuilder<TValue>(Append<ModelMetadataItem>(property));
+            return new ObjectMetadataItemBuilder<TValue>(Append(property));
         }
 
         /// <summary>
@@ -267,28 +263,27 @@ namespace MvcExtensions
         /// <returns></returns>
         protected ObjectMetadataItemBuilder<object> Configure(string property)
         {
-            return new ObjectMetadataItemBuilder<object>(Append<ModelMetadataItem>(property));
+            return new ObjectMetadataItemBuilder<object>(Append(property));
         }
 
         /// <summary>
         /// Appends the specified configuration.
         /// </summary>
-        /// <typeparam name="TItem">The type of the item.</typeparam>
         /// <typeparam name="TType">The type of the type.</typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        protected virtual TItem Append<TItem, TType>(Expression<Func<TModel, TType>> expression) where TItem : ModelMetadataItem, new()
+        protected virtual ModelMetadataItem Append<TType>(Expression<Func<TModel, TType>> expression)
         {
             Invariant.IsNotNull(expression, "expression");
 
-            return Append<TItem>(ExpressionHelper.GetExpressionText(expression));
+            return Append(ExpressionHelper.GetExpressionText(expression));
         }
 
-        private TItem Append<TItem>(string property) where TItem : ModelMetadataItem, new()
+        private ModelMetadataItem Append(string property)
         {
             Invariant.IsNotNull(property, "property");
 
-            var item = new TItem();
+            var item = new ModelMetadataItem();
 
             configurations[property] = item;
 

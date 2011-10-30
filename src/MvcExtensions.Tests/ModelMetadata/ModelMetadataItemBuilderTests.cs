@@ -262,7 +262,7 @@ namespace MvcExtensions.Tests
         {
         }
 
-        private sealed class ModelMetadataItemBuilderTestDouble : ModelMetadataItemBuilder<ModelMetadataItemTestDouble, ModelMetadataItemBuilderTestDouble>
+        private sealed class ModelMetadataItemBuilderTestDouble : ModelMetadataItemBuilder<ModelMetadataItemBuilderTestDouble>
         {
             public ModelMetadataItemBuilderTestDouble(ModelMetadataItemTestDouble item) : base(item)
             {
