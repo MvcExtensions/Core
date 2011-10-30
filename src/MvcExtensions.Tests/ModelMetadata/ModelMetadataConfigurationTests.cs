@@ -153,6 +153,13 @@ namespace MvcExtensions.Tests
             Assert.NotNull(configuration.PublicConfigure(x => x.ObjectProperty));
         }
 
+        [Fact]
+        public void Should_be_able_to_override_configuration()
+        {
+            Assert.NotNull(configuration.PublicConfigure(x => x.ObjectProperty));
+            Assert.NotNull(configuration.PublicConfigure(x => x.ObjectProperty));
+        }
+
         private sealed class DummyObject
         {
             public string StringProperty { get; set; }

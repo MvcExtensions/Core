@@ -262,8 +262,9 @@ namespace MvcExtensions
 
             string property = ExpressionHelper.GetExpressionText(expression);
 
-            TItem item = new TItem();
-            configurations.Add(property, item);
+            var item = new TItem();
+
+            configurations[property] = item;
 
             return item;
         }
