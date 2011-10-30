@@ -131,6 +131,7 @@
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
+    <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
     <Compile Include="Responders\IResponder.cs" />
@@ -219,12 +220,9 @@
     <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\ModelMetadataRegistry.cs" />
     <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\ObjectMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
     <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
     <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\BooleanMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />
     <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />

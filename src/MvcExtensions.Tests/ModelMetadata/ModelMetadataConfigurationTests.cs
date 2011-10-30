@@ -205,102 +205,102 @@ namespace MvcExtensions.Tests
 
         private sealed class DummyObjectConfiguration : ModelMetadataConfiguration<DummyObject>
         {
-            public StringMetadataItemBuilder PublicConfigure(Expression<Func<DummyObject, string>> expression)
+            public ModelMetadataItemBuilder<string> PublicConfigure(Expression<Func<DummyObject, string>> expression)
             {
                 return Configure(expression);
             }
 
-            public BooleanMetadataItemBuilder PublicConfigure(Expression<Func<DummyObject, bool>> expression)
+            public ModelMetadataItemBuilder<bool> PublicConfigure(Expression<Func<DummyObject, bool>> expression)
             {
                 return Configure(expression);
             }
 
-            public BooleanMetadataItemBuilder PublicConfigure(Expression<Func<DummyObject, bool?>> expression)
+            public ModelMetadataItemBuilder<bool?> PublicConfigure(Expression<Func<DummyObject, bool?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<DateTime> PublicConfigure(Expression<Func<DummyObject, DateTime>> expression)
+            public ModelMetadataItemBuilder<DateTime> PublicConfigure(Expression<Func<DummyObject, DateTime>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<DateTime?> PublicConfigure(Expression<Func<DummyObject, DateTime?>> expression)
+            public ModelMetadataItemBuilder<DateTime?> PublicConfigure(Expression<Func<DummyObject, DateTime?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<byte> PublicConfigure(Expression<Func<DummyObject, byte>> expression)
+            public ModelMetadataItemBuilder<byte> PublicConfigure(Expression<Func<DummyObject, byte>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<byte?> PublicConfigure(Expression<Func<DummyObject, byte?>> expression)
+            public ModelMetadataItemBuilder<byte?> PublicConfigure(Expression<Func<DummyObject, byte?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<short> PublicConfigure(Expression<Func<DummyObject, short>> expression)
+            public ModelMetadataItemBuilder<short> PublicConfigure(Expression<Func<DummyObject, short>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<short?> PublicConfigure(Expression<Func<DummyObject, short?>> expression)
+            public ModelMetadataItemBuilder<short?> PublicConfigure(Expression<Func<DummyObject, short?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<int> PublicConfigure(Expression<Func<DummyObject, int>> expression)
+            public ModelMetadataItemBuilder<int> PublicConfigure(Expression<Func<DummyObject, int>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<int?> PublicConfigure(Expression<Func<DummyObject, int?>> expression)
+            public ModelMetadataItemBuilder<int?> PublicConfigure(Expression<Func<DummyObject, int?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<long> PublicConfigure(Expression<Func<DummyObject, long>> expression)
+            public ModelMetadataItemBuilder<long> PublicConfigure(Expression<Func<DummyObject, long>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<long?> PublicConfigure(Expression<Func<DummyObject, long?>> expression)
+            public ModelMetadataItemBuilder<long?> PublicConfigure(Expression<Func<DummyObject, long?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<float> PublicConfigure(Expression<Func<DummyObject, float>> expression)
+            public ModelMetadataItemBuilder<float> PublicConfigure(Expression<Func<DummyObject, float>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<float?> PublicConfigure(Expression<Func<DummyObject, float?>> expression)
+            public ModelMetadataItemBuilder<float?> PublicConfigure(Expression<Func<DummyObject, float?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<double> PublicConfigure(Expression<Func<DummyObject, double>> expression)
+            public ModelMetadataItemBuilder<double> PublicConfigure(Expression<Func<DummyObject, double>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<double?> PublicConfigure(Expression<Func<DummyObject, double?>> expression)
+            public ModelMetadataItemBuilder<double?> PublicConfigure(Expression<Func<DummyObject, double?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<decimal> PublicConfigure(Expression<Func<DummyObject, decimal>> expression)
+            public ModelMetadataItemBuilder<decimal> PublicConfigure(Expression<Func<DummyObject, decimal>> expression)
             {
                 return Configure(expression);
             }
 
-            public ValueTypeMetadataItemBuilder<decimal?> PublicConfigure(Expression<Func<DummyObject, decimal?>> expression)
+            public ModelMetadataItemBuilder<decimal?> PublicConfigure(Expression<Func<DummyObject, decimal?>> expression)
             {
                 return Configure(expression);
             }
 
-            public ObjectMetadataItemBuilder<object> PublicConfigure(Expression<Func<DummyObject, object>> expression)
+            public ModelMetadataItemBuilder<object> PublicConfigure(Expression<Func<DummyObject, object>> expression)
             {
                 return Configure(expression);
             }

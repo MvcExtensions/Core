@@ -11,13 +11,13 @@ namespace MvcExtensions.Tests
 
     public class ModelMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItemTestDouble item;
-        private readonly ModelMetadataItemBuilderTestDouble builder;
+        private readonly ModelMetadataItem item;
+        private readonly ModelMetadataItemBuilder<object> builder;
 
         public ModelMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItemTestDouble();
-            builder = new ModelMetadataItemBuilderTestDouble(item);
+            item = new ModelMetadataItem();
+            builder = new ModelMetadataItemBuilder<object>(item);
         }
 
         [Fact]
@@ -256,17 +256,6 @@ namespace MvcExtensions.Tests
             builder.Watermark("enter your value...");
 
             Assert.Equal("enter your value...", item.Watermark());
-        }
-
-        private sealed class ModelMetadataItemTestDouble : ModelMetadataItem
-        {
-        }
-
-        private sealed class ModelMetadataItemBuilderTestDouble : ModelMetadataItemBuilder<ModelMetadataItemBuilderTestDouble>
-        {
-            public ModelMetadataItemBuilderTestDouble(ModelMetadataItemTestDouble item) : base(item)
-            {
-            }
         }
     }
 }

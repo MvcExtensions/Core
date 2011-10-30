@@ -17,7 +17,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_currency_with_decimal()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<decimal>(item);
+            var builder = new ModelMetadataItemBuilder<decimal>(item);
 
             builder.FormatAsCurrency();
 
@@ -29,7 +29,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_currency_with_nullable_decimal()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<decimal?>(item);
+            var builder = new ModelMetadataItemBuilder<decimal?>(item);
 
             builder.FormatAsCurrency();
 
@@ -41,7 +41,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_date_with_date_time()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<DateTime>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime>(item);
 
             builder.FormatAsDateOnly();
 
@@ -53,7 +53,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_date_with_nullable_date_time()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<DateTime?>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime?>(item);
 
             builder.FormatAsDateOnly();
 
@@ -65,7 +65,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_time_with_date_time()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<DateTime>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime>(item);
 
             builder.FormatAsTimeOnly();
 
@@ -77,7 +77,7 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_format_as_time_with_nullable_date_time()
         {
             var item = new ModelMetadataItem();
-            var builder = new ValueTypeMetadataItemBuilder<DateTime?>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime?>(item);
 
             builder.FormatAsTimeOnly();
 

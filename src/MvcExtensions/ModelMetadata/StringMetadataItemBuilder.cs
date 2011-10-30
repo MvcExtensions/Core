@@ -8,28 +8,18 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
 
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="string"/> type.
     /// </summary>
-    public class StringMetadataItemBuilder : ModelMetadataItemBuilder<StringMetadataItemBuilder>
+    public static class StringMetadataItemBuilder
     {
         private static string emailExpression = @"^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$";
         private static string emailErrorMessage = ExceptionMessages.InvalidEmailAddressFormat;
 
         private static string urlExpression = @"(ftp|http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?";
         private static string urlErrorMessage = ExceptionMessages.InvalidUrlFormat;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StringMetadataItemBuilder"/> class.
-        /// </summary>
-        /// <param name="item">The item.</param>
-        public StringMetadataItemBuilder(ModelMetadataItem item) : base(item)
-        {
-        }
 
         /// <summary>
         /// Gets or sets the email expression.
@@ -148,336 +138,274 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the format in display mode.
-        /// </summary>
-        /// <param name="format">The value.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder DisplayFormat(string format)
-        {
-            return DisplayFormat(() => format);
-        }
-
-        /// <summary>
-        /// Sets the format in display mode.
-        /// </summary>
-        /// <param name="format">The value.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder DisplayFormat(Func<string> format)
-        {
-            Item.DisplayFormat = format;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the format in edit mode.
-        /// </summary>
-        /// <param name="format">The format.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder EditFormat(string format)
-        {
-            return EditFormat(() => format);
-        }
-
-        /// <summary>
-        /// Sets the format in edit mode.
-        /// </summary>
-        /// <param name="format">The format.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder EditFormat(Func<string> format)
-        {
-            Item.EditFormat = format;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sets format for both display and edit mode.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder Format(string value)
-        {
-            return Format(() => value);
-        }
-
-        /// <summary>
-        /// Sets format for both display and edit mode.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder Format(Func<string> value)
-        {
-            Item.DisplayFormat = Item.EditFormat = value;
-
-            return this;
-        }
-
-        /// <summary>
-        /// Indicates to apply format in edit mode.
-        /// </summary>
-        /// <returns></returns>
-        public StringMetadataItemBuilder ApplyFormatInEditMode()
-        {
-            Item.ApplyFormatInEditMode = true;
-
-            return this;
-        }
-
-        /// <summary>
         /// Indicates that the value would appear as email address in display mode.
         /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
-        public StringMetadataItemBuilder AsEmail()
+        public static ModelMetadataItemBuilder<string> AsEmail(this ModelMetadataItemBuilder<string> self)
         {
-            Template("EmailAddress");
+            self.Template("EmailAddress");
 
-            if (GetExpressionValidation() != null)
+            if (self.Item.GetValidation<RegularExpressionValidationMetadata>() != null)
             {
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression);
             }
 
-            return Expression(EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>)null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
+            return Expression(self, EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>)null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
         }
 
         /// <summary>
         /// Indicates that the value would appear as raw html in display mode, so no encoding will be performed.
         /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
-        public StringMetadataItemBuilder AsHtml()
+        public static ModelMetadataItemBuilder<string> AsHtml(this ModelMetadataItemBuilder<string> self)
         {
-            return Template("Html");
+            return self.Template("Html");
         }
 
         /// <summary>
         /// Indicates that the value would appear as url in display mode.
         /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
-        public StringMetadataItemBuilder AsUrl()
+        public static ModelMetadataItemBuilder<string> AsUrl(this ModelMetadataItemBuilder<string> self)
         {
-            Template("Url");
+            self.Template("Url");
 
-            if (GetExpressionValidation() != null)
+            if (self.Item.GetValidation<RegularExpressionValidationMetadata>() != null)
             {
                 throw new InvalidOperationException(ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression);
             }
 
-            return Expression(UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>)null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
+            return Expression(self, UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>)null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
         }
 
         /// <summary>
         /// Marks the value to render as text area element in edit mode.
         /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
-        public StringMetadataItemBuilder AsMultilineText()
+        public static ModelMetadataItemBuilder<string> AsMultilineText(this ModelMetadataItemBuilder<string> self)
         {
-            return Template("MultilineText");
+            return self.Template("MultilineText");
         }
 
         /// <summary>
         /// Marks the value to render as password element in edit mode.
         /// </summary>
+        /// <param name="self"></param>
         /// <returns></returns>
-        public StringMetadataItemBuilder AsPassword()
+        public static ModelMetadataItemBuilder<string> AsPassword(this ModelMetadataItemBuilder<string> self)
         {
-            return Template("Password");
+            return self.Template("Password");
         }
 
         /// <summary>
         /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="pattern">The pattern.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder Expression(string pattern)
+        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern)
         {
-            return Expression(pattern, null, null, null);
+            return Expression(self, pattern, null, null, null);
         }
 
         /// <summary>
         /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
-        /// <param name="pattern">The pattern.</param>
-        /// <param name="errorMessage">The error message.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder Expression(string pattern, string errorMessage)
-        {
-            return Expression(pattern, () => errorMessage);
-        }
-
-        /// <summary>
-        /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
-        /// </summary>
+        /// <param name="self"></param>
         /// <param name="pattern">The pattern.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder Expression(string pattern, Func<string> errorMessage)
+        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, string errorMessage)
         {
-            return Expression(pattern, errorMessage, null, null);
+            return Expression(self, pattern, () => errorMessage);
         }
 
         /// <summary>
         /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
+        /// <param name="pattern">The pattern.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage)
+        {
+            return Expression(self, pattern, errorMessage, null, null);
+        }
+
+        /// <summary>
+        /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="self"></param>
         /// <param name="pattern">The pattern.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder Expression(string pattern, Type errorMessageResourceType, string errorMessageResourceName)
+        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            return Expression(pattern, null, errorMessageResourceType, errorMessageResourceName);
+            return Expression(self, pattern, null, errorMessageResourceType, errorMessageResourceName);
         }
 
         /// <summary>
         /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MaximumLength(int length)
+        public static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length)
         {
-            return MaximumLength(length, null, null, null);
+            return MaximumLength(self, length, null, null, null);
         }
 
         /// <summary>
         /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
-        /// <param name="length">The length.</param>
-        /// <param name="errorMessage">The error message.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder MaximumLength(int length, string errorMessage)
-        {
-            return MaximumLength(length, () => errorMessage);
-        }
-
-        /// <summary>
-        /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
-        /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MaximumLength(int length, Func<string> errorMessage)
+        public static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length, string errorMessage)
         {
-            return MaximumLength(length, errorMessage, null, null);
+            return MaximumLength(self, length, () => errorMessage);
         }
 
         /// <summary>
         /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
+        {
+            return MaximumLength(self, length, errorMessage, null, null);
+        }
+
+        /// <summary>
+        /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MaximumLength(int length, Type errorMessageResourceType, string errorMessageResourceName)
+        public static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            return MaximumLength(length, null, errorMessageResourceType, errorMessageResourceName);
+            return MaximumLength(self, length, null, errorMessageResourceType, errorMessageResourceName);
         }
 
         /// <summary>
         /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MinimumLength(int length)
+        public static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length)
         {
-            return MinimumLength(length, null, null, null);
+            return MinimumLength(self, length, null, null, null);
         }
 
         /// <summary>
         /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
-        /// <param name="length">The length.</param>
-        /// <param name="errorMessage">The error message.</param>
-        /// <returns></returns>
-        public StringMetadataItemBuilder MinimumLength(int length, string errorMessage)
-        {
-            return MinimumLength(length, () => errorMessage);
-        }
-
-        /// <summary>
-        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
-        /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MinimumLength(int length, Func<string> errorMessage)
+        public static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length, string errorMessage)
         {
-            return MinimumLength(length, errorMessage, null, null);
+            return MinimumLength(self, length, () => errorMessage);
         }
 
         /// <summary>
         /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
+        /// <param name="length">The length.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
+        {
+            return MinimumLength(self, length, errorMessage, null, null);
+        }
+
+        /// <summary>
+        /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public StringMetadataItemBuilder MinimumLength(int length, Type errorMessageResourceType, string errorMessageResourceName)
+        public static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            return MinimumLength(length, null, errorMessageResourceType, errorMessageResourceName);
+            return MinimumLength(self, length, null, errorMessageResourceType, errorMessageResourceName);
         }
 
         /// <summary>
         /// Sets the regular expression that the value must match, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="pattern">The pattern.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual StringMetadataItemBuilder Expression(string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        private static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            RegularExpressionValidationMetadata regularExpressionValidation = Item.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
+            RegularExpressionValidationMetadata regularExpressionValidation = self.Item.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
             
             regularExpressionValidation.Pattern = pattern;
             regularExpressionValidation.ErrorMessage = errorMessage;
             regularExpressionValidation.ErrorMessageResourceType = errorMessageResourceType;
             regularExpressionValidation.ErrorMessageResourceName = errorMessageResourceName;
 
-            return this;
+            return self;
         }
 
         /// <summary>
         /// Sets the maximum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual StringMetadataItemBuilder MaximumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        private static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            StringLengthValidationMetadata stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+            StringLengthValidationMetadata stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
             stringLengthValidation.Maximum = length;
             stringLengthValidation.ErrorMessage = errorMessage;
             stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
             stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
 
-            return this;
+            return self;
         }
 
         /// <summary>
         /// Sets the minimum length of the value, this comes into action when is <code>Required</code> is <code>true</code>.
         /// </summary>
+        /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        protected virtual StringMetadataItemBuilder MinimumLength(int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        private static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var stringLengthValidation = Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+            var stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
             stringLengthValidation.Minimum = length;
             stringLengthValidation.ErrorMessage = errorMessage;
             stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
             stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
 
-            return this;
-        }
-
-        private RegularExpressionValidationMetadata GetExpressionValidation()
-        {
-            return Item.GetValidation<RegularExpressionValidationMetadata>();
+            return self;
         }
     }
 }

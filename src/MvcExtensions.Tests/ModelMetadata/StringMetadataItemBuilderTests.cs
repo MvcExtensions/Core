@@ -14,12 +14,12 @@ namespace MvcExtensions.Tests
     public class StringMetadataItemBuilderTests
     {
         private readonly ModelMetadataItem item;
-        private readonly StringMetadataItemBuilder builder;
+        private readonly ModelMetadataItemBuilder<string> builder;
 
         public StringMetadataItemBuilderTests()
         {
             item = new ModelMetadataItem();
-            builder = new StringMetadataItemBuilder(item);
+            builder = new ModelMetadataItemBuilder<string>(item);
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Setting_as_email_should_throw_exception_when_there_is_an_active_expression_validation()
         {
-            builder.AsUrl();
+            StringMetadataItemBuilder.AsUrl(builder);
 
             Assert.Throws<InvalidOperationException>(() => builder.AsEmail());
         }
@@ -123,7 +123,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_as_html()
         {
-            builder.AsHtml();
+            StringMetadataItemBuilder.AsHtml(builder);
 
             Assert.Equal("Html", item.TemplateName);
         }
@@ -131,7 +131,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_as_url()
         {
-            builder.AsUrl();
+            StringMetadataItemBuilder.AsUrl(builder);
 
             Assert.Equal("Url", item.TemplateName);
             Assert.NotEmpty(item.Validations);
@@ -142,13 +142,13 @@ namespace MvcExtensions.Tests
         {
             builder.AsEmail();
 
-            Assert.Throws<InvalidOperationException>(() => builder.AsUrl());
+            Assert.Throws<InvalidOperationException>(() => StringMetadataItemBuilder.AsUrl(builder));
         }
 
         [Fact]
         public void Should_be_able_to_set_as_multiline_text()
         {
-            builder.AsMultilineText();
+            StringMetadataItemBuilder.AsMultilineText(builder);
 
             Assert.Equal("MultilineText", item.TemplateName);
         }
@@ -156,7 +156,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_as_password()
         {
-            builder.AsPassword();
+            StringMetadataItemBuilder.AsPassword(builder);
 
             Assert.Equal("Password", item.TemplateName);
         }
@@ -164,7 +164,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_expression()
         {
-            builder.Expression("foo");
+            StringMetadataItemBuilder.Expression(builder, "foo");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -172,7 +172,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_expression_with_text_message()
         {
-            builder.Expression("foo", "Value must match the pattern");
+            StringMetadataItemBuilder.Expression(builder, "foo", "Value must match the pattern");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -180,7 +180,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_expression_with_type_and_resource_name()
         {
-            builder.Expression("foo", typeof(object), "foo");
+            StringMetadataItemBuilder.Expression(builder, "foo", typeof(object), "foo");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -188,7 +188,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_maximum_length()
         {
-            builder.MaximumLength(24);
+            StringMetadataItemBuilder.MaximumLength(builder, 24);
 
             Assert.NotEmpty(item.Validations);
         }
@@ -196,7 +196,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_maximum_length_with_text_message()
         {
-            builder.MaximumLength(24, "Value must be less than or equal to 24 characters.");
+            StringMetadataItemBuilder.MaximumLength(builder, 24, "Value must be less than or equal to 24 characters.");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -204,7 +204,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_maximum_length_with_type_and_resource_name()
         {
-            builder.MaximumLength(24, typeof(object), "foo");
+            StringMetadataItemBuilder.MaximumLength(builder, 24, typeof(object), "foo");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -212,7 +212,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_minimum_length()
         {
-            builder.MinimumLength(24);
+            StringMetadataItemBuilder.MinimumLength(builder, 24);
 
             Assert.NotEmpty(item.Validations);
         }
@@ -220,7 +220,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_minimum_length_with_text_message()
         {
-            builder.MinimumLength(24, "Value must be grater than or equal to 24 characters.");
+            StringMetadataItemBuilder.MinimumLength(builder, 24, "Value must be grater than or equal to 24 characters.");
 
             Assert.NotEmpty(item.Validations);
         }
@@ -228,7 +228,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_set_minimum_length_with_type_and_resource_name()
         {
-            builder.MinimumLength(24, typeof(object), "foo");
+            StringMetadataItemBuilder.MinimumLength(builder, 24, typeof(object), "foo");
 
             Assert.NotEmpty(item.Validations);
         }

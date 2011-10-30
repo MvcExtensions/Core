@@ -11,7 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
 
     /// <summary>
-    /// Extensions for <see cref="ModelMetadataItemBuilder{TItemBuilder}"/> which add AsDropDownList and AsListBox methods 
+    /// Extensions for <see cref="ModelMetadataItemBuilder{TValue}"/> which add AsDropDownList and AsListBox methods 
     /// </summary>
     public static class HtmlSelectModelMetadataItemBuilderExtensions
     {
@@ -21,8 +21,7 @@ namespace MvcExtensions
         /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{T}"/>.</param>
         /// <returns></returns>
-        public static TItemBuilder AsDropDownList<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
         {
             return self.AsDropDownList(viewDataKey, (Func<string>)null);
         }
@@ -34,8 +33,7 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        public static TItemBuilder AsDropDownList<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey, string optionLabel)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel)
         {
             return self.AsDropDownList(viewDataKey, () => optionLabel);
         }
@@ -47,8 +45,7 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        public static TItemBuilder AsDropDownList<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey, Func<string> optionLabel)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel)
         {
             return self.AsDropDownList(viewDataKey, optionLabel, "DropDownList");
         }
@@ -61,8 +58,7 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static TItemBuilder AsDropDownList<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey, string optionLabel, string template)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel, string template)
         {
             return self.AsDropDownList(viewDataKey, () => optionLabel, template);
         }
@@ -75,8 +71,7 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static TItemBuilder AsDropDownList<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey, Func<string> optionLabel, string template)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel, string template)
         {
             return HtmlSelect(self, template, viewDataKey, optionLabel);
         }
@@ -87,8 +82,7 @@ namespace MvcExtensions
         /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <returns></returns>
-        public static TItemBuilder AsListBox<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
         {
             return self.AsListBox(viewDataKey, "ListBox");
         }
@@ -100,14 +94,12 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static TItemBuilder AsListBox<TItemBuilder>(this ModelMetadataItemBuilder<TItemBuilder> self, string viewDataKey, string template)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string template)
         {
             return HtmlSelect(self, template, viewDataKey, null);
         }
 
-        private static TItemBuilder HtmlSelect<TItemBuilder>(ModelMetadataItemBuilder<TItemBuilder> self, string templateName, string viewDataKey, Func<string> optionLabel)
-            where TItemBuilder : ModelMetadataItemBuilder<TItemBuilder>
+        private static ModelMetadataItemBuilder<TValue> HtmlSelect<TValue>(ModelMetadataItemBuilder<TValue> self, string templateName, string viewDataKey, Func<string> optionLabel)
         {
             var selectableElementSetting = self.Item.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
 
@@ -120,7 +112,7 @@ namespace MvcExtensions
 
             self.Item.TemplateName = templateName;
 
-            return (TItemBuilder)self;
+            return self;
         }
     }
 }

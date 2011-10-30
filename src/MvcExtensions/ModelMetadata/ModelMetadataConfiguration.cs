@@ -45,204 +45,14 @@ namespace MvcExtensions
         #endregion
 
         /// <summary>
-        /// Configures the string value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected StringMetadataItemBuilder Configure(Expression<Func<TModel, string>> expression)
-        {
-            return new StringMetadataItemBuilder(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the boolean value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected BooleanMetadataItemBuilder Configure(Expression<Func<TModel, bool>> expression)
-        {
-            return new BooleanMetadataItemBuilder(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable boolean value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected BooleanMetadataItemBuilder Configure(Expression<Func<TModel, bool?>> expression)
-        {
-            return new BooleanMetadataItemBuilder(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the datetime value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<DateTime> Configure(Expression<Func<TModel, DateTime>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<DateTime>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable datetime value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<DateTime?> Configure(Expression<Func<TModel, DateTime?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<DateTime?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the byte value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<byte> Configure(Expression<Func<TModel, byte>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<byte>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable byte value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<byte?> Configure(Expression<Func<TModel, byte?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<byte?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the short value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<short> Configure(Expression<Func<TModel, short>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<short>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable short value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<short?> Configure(Expression<Func<TModel, short?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<short?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the integer value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<int> Configure(Expression<Func<TModel, int>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<int>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable integer value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<int?> Configure(Expression<Func<TModel, int?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<int?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the long value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<long> Configure(Expression<Func<TModel, long>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<long>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable long value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<long?> Configure(Expression<Func<TModel, long?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<long?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the float value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<float> Configure(Expression<Func<TModel, float>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<float>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable float value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<float?> Configure(Expression<Func<TModel, float?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<float?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the double value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<double> Configure(Expression<Func<TModel, double>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<double>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable double value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<double?> Configure(Expression<Func<TModel, double?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<double?>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the decimal value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<decimal> Configure(Expression<Func<TModel, decimal>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<decimal>(Append(expression));
-        }
-
-        /// <summary>
-        /// Configures the nullable decimal value.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        protected ValueTypeMetadataItemBuilder<decimal?> Configure(Expression<Func<TModel, decimal?>> expression)
-        {
-            return new ValueTypeMetadataItemBuilder<decimal?>(Append(expression));
-        }
-
-        /// <summary>
         /// Configures the specified value.
         /// </summary>
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        protected ObjectMetadataItemBuilder<TValue> Configure<TValue>(Expression<Func<TModel, TValue>> expression)
+        protected ModelMetadataItemBuilder<TValue> Configure<TValue>(Expression<Func<TModel, TValue>> expression)
         {
-            return new ObjectMetadataItemBuilder<TValue>(Append(expression));
+            return new ModelMetadataItemBuilder<TValue>(Append(expression));
         }
 
         /// <summary>
@@ -251,9 +61,9 @@ namespace MvcExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="property">The expression.</param>
         /// <returns></returns>
-        protected ObjectMetadataItemBuilder<TValue> Configure<TValue>(string property)
+        protected ModelMetadataItemBuilder<TValue> Configure<TValue>(string property)
         {
-            return new ObjectMetadataItemBuilder<TValue>(Append(property));
+            return new ModelMetadataItemBuilder<TValue>(Append(property));
         }
 
         /// <summary>
@@ -261,9 +71,9 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="property">The expression.</param>
         /// <returns></returns>
-        protected ObjectMetadataItemBuilder<object> Configure(string property)
+        protected ModelMetadataItemBuilder<object> Configure(string property)
         {
-            return new ObjectMetadataItemBuilder<object>(Append(property));
+            return new ModelMetadataItemBuilder<object>(Append(property));
         }
 
         /// <summary>
