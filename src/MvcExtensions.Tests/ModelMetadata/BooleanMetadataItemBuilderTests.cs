@@ -14,7 +14,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_create()
         {
-            var builder = new BooleanMetadataItemBuilder(new BooleanMetadataItem());
+            var builder = new BooleanMetadataItemBuilder(new ModelMetadataItem());
 
             Assert.NotNull(builder);
         }

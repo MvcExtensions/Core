@@ -196,7 +196,7 @@ namespace MvcExtensions
                 }
             }
 
-            var stringMetadataItem = metadataItem as StringMetadataItem;
+            var stringMetadataItem = metadataItem as ModelMetadataItem;
 
             if (stringMetadataItem != null)
             {

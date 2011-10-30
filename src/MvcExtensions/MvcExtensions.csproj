@@ -219,15 +219,11 @@
     <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\ModelMetadataRegistry.cs" />
     <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\ValueTypeMetadataItem.cs" />
     <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\ObjectMetadataItem.cs" />
     <Compile Include="ModelMetadata\ObjectMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
     <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\StringMetadataItem.cs" />
     <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\BooleanMetadataItem.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilder.cs" />
     <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />

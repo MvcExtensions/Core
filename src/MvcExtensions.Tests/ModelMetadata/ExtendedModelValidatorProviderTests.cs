@@ -35,7 +35,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void GetValidators_should_return_validators_when_metadata_is_extended_metadata()
         {
-            var builder = new StringMetadataItemBuilder(new StringMetadataItem());
+            var builder = new StringMetadataItemBuilder(new ModelMetadataItem());
 
             builder.Required().AsEmail();
 

@@ -10,13 +10,13 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="bool"/> type.
     /// </summary>
-    public class BooleanMetadataItemBuilder : ModelMetadataItemBuilder<BooleanMetadataItem, BooleanMetadataItemBuilder>
+    public class BooleanMetadataItemBuilder : ModelMetadataItemBuilder<ModelMetadataItem, BooleanMetadataItemBuilder>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BooleanMetadataItemBuilder"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        public BooleanMetadataItemBuilder(BooleanMetadataItem item) : base(item)
+        public BooleanMetadataItemBuilder(ModelMetadataItem item) : base(item)
         {
         }
     }

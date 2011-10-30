@@ -13,12 +13,12 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class that is used to store metadata.
     /// </summary>
-    public abstract class ModelMetadataItem
+    public class ModelMetadataItem : IModelMetadataFormattableItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMetadataItem"/> class.
         /// </summary>
-        protected ModelMetadataItem()
+        public ModelMetadataItem()
         {
             ShowForDisplay = true;
             Validations = new List<IModelValidationMetadata>();
@@ -170,6 +170,50 @@ namespace MvcExtensions
         /// </summary>
         /// <value>The order</value>
         public int? Order
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the display format.
+        /// </summary>
+        /// <value>The display format.</value>
+        public Func<string> DisplayFormat
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets the edit format.
+        /// </summary>
+        /// <value>The edit format.</value>
+        public Func<string> EditFormat
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to apply format in edit mode.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [apply format in edit mode]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ApplyFormatInEditMode
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the value would be converted to null when the value is empty string.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if [convert empty string to null]; otherwise, <c>false</c>.
+        /// </value>
+        public bool ConvertEmptyStringToNull
         {
             get;
             set;

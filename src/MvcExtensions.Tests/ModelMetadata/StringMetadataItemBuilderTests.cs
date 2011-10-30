@@ -13,12 +13,12 @@ namespace MvcExtensions.Tests
 
     public class StringMetadataItemBuilderTests
     {
-        private readonly StringMetadataItem item;
+        private readonly ModelMetadataItem item;
         private readonly StringMetadataItemBuilder builder;
 
         public StringMetadataItemBuilderTests()
         {
-            item = new StringMetadataItem();
+            item = new ModelMetadataItem();
             builder = new StringMetadataItemBuilder(item);
         }
 

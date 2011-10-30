@@ -93,7 +93,7 @@ namespace MvcExtensions.Tests
         [InlineData(true, true, true, false, false, null, null, null, null, null, null, null, null)]
         public void Should_return_metadata_with_same_value_as_model_meta_data_item(bool hideSurroundingHtml, bool isReadOnly, bool isRequired, bool showForEdit, bool applyFormatInEditMode, string displayName, string shortDisplayName, string template, string description, string nullDisplayText, string watermark, string displayFormat, string editFormat)
         {
-            var metadataItem = new StringMetadataItem { HideSurroundingHtml = hideSurroundingHtml, IsReadOnly = isReadOnly, IsRequired = isRequired, ShowForEdit = showForEdit, ApplyFormatInEditMode = applyFormatInEditMode, TemplateName = template };
+            var metadataItem = new ModelMetadataItem { HideSurroundingHtml = hideSurroundingHtml, IsReadOnly = isReadOnly, IsRequired = isRequired, ShowForEdit = showForEdit, ApplyFormatInEditMode = applyFormatInEditMode, TemplateName = template };
 
             if (displayName != null)
             {

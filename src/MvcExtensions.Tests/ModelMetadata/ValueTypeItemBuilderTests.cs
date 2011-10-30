@@ -11,12 +11,12 @@ namespace MvcExtensions.Tests
 
     public class ValueTypeItemBuilderTests
     {
-        private readonly ValueTypeMetadataItem item;
+        private readonly ModelMetadataItem item;
         private readonly ValueTypeMetadataItemBuilder<int> builder;
 
         public ValueTypeItemBuilderTests()
         {
-            item = new ValueTypeMetadataItem();
+            item = new ModelMetadataItem();
             builder = new ValueTypeMetadataItemBuilder<int>(item);
         }
 

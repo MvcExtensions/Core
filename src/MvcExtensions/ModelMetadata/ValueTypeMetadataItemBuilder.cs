@@ -13,13 +13,13 @@ namespace MvcExtensions
     /// Defines a class to fluently configure metadata of a <seealso cref="ValueType"/> type.
     /// </summary>
     /// <typeparam name="TValueType">The type of the value type.</typeparam>
-    public class ValueTypeMetadataItemBuilder<TValueType> : ModelMetadataItemBuilder<ValueTypeMetadataItem, ValueTypeMetadataItemBuilder<TValueType>>
+    public class ValueTypeMetadataItemBuilder<TValueType> : ModelMetadataItemBuilder<ModelMetadataItem, ValueTypeMetadataItemBuilder<TValueType>>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ValueTypeMetadataItemBuilder&lt;TValueType&gt;"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        public ValueTypeMetadataItemBuilder(ValueTypeMetadataItem item) : base(item)
+        public ValueTypeMetadataItemBuilder(ModelMetadataItem item) : base(item)
         {
         }
 
