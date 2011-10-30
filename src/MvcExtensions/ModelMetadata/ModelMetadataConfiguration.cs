@@ -250,6 +250,27 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Configures the specified value.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="property">The expression.</param>
+        /// <returns></returns>
+        protected ObjectMetadataItemBuilder<TValue> Configure<TValue>(string property)
+        {
+            return new ObjectMetadataItemBuilder<TValue>(Append<ObjectMetadataItem>(property));
+        }
+
+        /// <summary>
+        /// Configures the specified value.
+        /// </summary>
+        /// <param name="property">The expression.</param>
+        /// <returns></returns>
+        protected ObjectMetadataItemBuilder<object> Configure(string property)
+        {
+            return new ObjectMetadataItemBuilder<object>(Append<ObjectMetadataItem>(property));
+        }
+
+        /// <summary>
         /// Appends the specified configuration.
         /// </summary>
         /// <typeparam name="TItem">The type of the item.</typeparam>
@@ -260,7 +281,12 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(expression, "expression");
 
-            string property = ExpressionHelper.GetExpressionText(expression);
+            return Append<TItem>(ExpressionHelper.GetExpressionText(expression));
+        }
+
+        private TItem Append<TItem>(string property) where TItem : ModelMetadataItem, new()
+        {
+            Invariant.IsNotNull(property, "property");
 
             var item = new TItem();
 
