@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Defines a class to store all the metadata of the models.
@@ -59,11 +60,8 @@ namespace MvcExtensions
         /// <returns></returns>
         public ModelMetadataItem GetModelMetadata(Type modelType)
         {
-            Invariant.IsNotNull(modelType, "modelType");
-
-            ModelMetadataRegistryItem item;
-
-            return mappings.TryGetValue(modelType, out item) ? item.ClassMetadata : null;
+            var item = GetModelMetadataRegistryItem(modelType);
+            return item != null ? item.ClassMetadata : null;
         }
 
         /// <summary>
@@ -76,16 +74,17 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            ModelMetadataRegistryItem item;
-
-            if (!mappings.TryGetValue(modelType, out item))
+            ModelMetadataRegistryItem item = GetModelMetadataRegistryItem(modelType);
+            if (item == null)
             {
                 return null;
             }
 
             ModelMetadataItem propertyMetadata;
 
-            return item.PropertiesMetadata.TryGetValue(propertyName, out propertyMetadata) ? propertyMetadata : null;
+            return item.PropertiesMetadata.TryGetValue(propertyName, out propertyMetadata)
+                       ? propertyMetadata
+                       : null;
         }
 
         /// <summary>
@@ -97,9 +96,8 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            ModelMetadataRegistryItem item;
-
-            return mappings.TryGetValue(modelType, out item) ? item.PropertiesMetadata : null;
+            ModelMetadataRegistryItem item = GetModelMetadataRegistryItem(modelType);
+            return item == null ? null : item.PropertiesMetadata;
         }
 
         private ModelMetadataRegistryItem GetOrCreate(Type modelType)
@@ -115,6 +113,26 @@ namespace MvcExtensions
             return item;
         }
 
+        private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
+        {
+            Invariant.IsNotNull(modelType, "modelType");
+
+            ModelMetadataRegistryItem item;
+
+            if (mappings.TryGetValue(modelType, out item))
+            {
+                return item;
+            }
+
+            item = mappings
+                .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
+                .OrderBy(x => x.Key, new TypeInheritanceComparer())
+                .Select(x => x.Value)
+                .FirstOrDefault();
+
+            return item;
+        }
+
         private sealed class ModelMetadataRegistryItem
         {
             public ModelMetadataRegistryItem()
@@ -125,6 +143,14 @@ namespace MvcExtensions
             public ModelMetadataItem ClassMetadata { get; set; }
 
             public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
+        }
+
+        private sealed class TypeInheritanceComparer : IComparer<Type>
+        {
+            public int Compare(Type x, Type y)
+            {
+                return x == y ? 0 : (x.IsAssignableFrom(y) ? 1 : -1);
+            }
         }
     }
 }

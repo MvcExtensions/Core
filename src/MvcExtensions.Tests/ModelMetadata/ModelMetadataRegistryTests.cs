@@ -8,7 +8,6 @@
 namespace MvcExtensions.Tests
 {
     using System.Collections.Generic;
-
     using Moq;
     using Xunit;
 
@@ -32,6 +31,28 @@ namespace MvcExtensions.Tests
         }
 
         [Fact]
+        public void Should_get_model_of_derived_type()
+        {
+            var modelMetadata = new Mock<ModelMetadataItem>();
+
+            registry.RegisterModel(typeof(object), modelMetadata.Object);
+
+            Assert.Same(modelMetadata.Object, registry.GetModelMetadata(typeof(string)));
+        }
+
+        [Fact]
+        public void Should_get_model_of_closest_derived_type()
+        {
+            var grandParentMetadata = new Mock<ModelMetadataItem>();
+            var parentMetadata = new Mock<ModelMetadataItem>();
+
+            registry.RegisterModel(typeof(DummyGrandParent), grandParentMetadata.Object);
+            registry.RegisterModel(typeof(DummyParent), parentMetadata.Object);
+
+            Assert.Same(parentMetadata.Object, registry.GetModelMetadata(typeof(Dummy)));
+        }
+
+        [Fact]
         public void Should_be_able_to_register_model_properties()
         {
             var properties = new Dictionary<string, ModelMetadataItem>
@@ -42,7 +63,7 @@ namespace MvcExtensions.Tests
 
             registry.RegisterModelProperties(typeof(object), properties);
 
-            var returndedProperties = registry.GetModelPropertiesMetadata(typeof(object));
+            IDictionary<string, ModelMetadataItem> returndedProperties = registry.GetModelPropertiesMetadata(typeof(object));
 
             Assert.True(returndedProperties.ContainsKey("foo"));
             Assert.True(returndedProperties.ContainsKey("bar"));
@@ -60,7 +81,7 @@ namespace MvcExtensions.Tests
 
             registry.RegisterModelProperties(typeof(object), properties);
 
-            var returnedeMetadata = registry.GetModelPropertyMetadata(typeof(object), "foo");
+            ModelMetadataItem returnedeMetadata = registry.GetModelPropertyMetadata(typeof(object), "foo");
 
             Assert.Same(modelMetadata.Object, returnedeMetadata);
         }
@@ -70,5 +91,23 @@ namespace MvcExtensions.Tests
         {
             Assert.Null(registry.GetModelPropertyMetadata(typeof(object), "foo"));
         }
+
+        #region Nested type: Dummy
+        private class Dummy : DummyParent
+        {
+        }
+        #endregion
+
+        #region Nested type: DummyGrandParent
+        private class DummyGrandParent
+        {
+        }
+        #endregion
+
+        #region Nested type: DummyParent
+        private class DummyParent : DummyGrandParent
+        {
+        }
+        #endregion
     }
 }
