@@ -1,7 +1,7 @@
 namespace Demo.Web.Autofac
 {
+    using MvcExtensions.Autofac;
     using global::Autofac;
-    using global::Autofac.Integration.Mvc;
 
     public class RegisterServices : Module
     {

@@ -81,8 +81,8 @@ namespace MvcExtensions
         /// </summary>
         public void Application_End()
         {
-            Bootstrapper.DisposeBootstrapperTasks();
             OnEnd();
+            Bootstrapper.DisposeBootstrapperTasks();
         }
 
         /// <summary>

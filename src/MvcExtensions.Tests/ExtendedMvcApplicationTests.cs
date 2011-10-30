@@ -140,7 +140,7 @@ namespace MvcExtensions.Tests
 
         public class ExtendedMvcApplicationTestDouble : ExtendedMvcApplication
         {
-            private IBootstrapper bootstrapper;
+            private readonly IBootstrapper bootstrapper;
 
             public ExtendedMvcApplicationTestDouble(IBootstrapper bootstrapper)
             {
