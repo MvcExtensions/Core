@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("Kazi Manzur Rashid")]
 [assembly: AssemblyCopyright("Copyright © Kazi Manzur Rashid 2009-2011")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.1.9999")]
-[assembly: AssemblyFileVersion("2.0.1.9999")]
+[assembly: AssemblyVersion("2.5.0.9999")]
+[assembly: AssemblyFileVersion("2.5.0.9999")]
 
 

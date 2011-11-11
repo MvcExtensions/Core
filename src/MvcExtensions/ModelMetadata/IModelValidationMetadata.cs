@@ -7,7 +7,6 @@
 
 namespace MvcExtensions
 {
-    using System;
     using System.Web.Mvc;
 
     /// <summary>
@@ -15,36 +14,6 @@ namespace MvcExtensions
     /// </summary>
     public interface IModelValidationMetadata
     {
-        /// <summary>
-        /// Gets or sets the error message.
-        /// </summary>
-        /// <value>The error message.</value>
-        Func<string> ErrorMessage
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the type of the error message resource.
-        /// </summary>
-        /// <value>The type of the error message resource.</value>
-        Type ErrorMessageResourceType
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Gets or sets the name of the error message resource.
-        /// </summary>
-        /// <value>The name of the error message resource.</value>
-        string ErrorMessageResourceName
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// Creates the validator.
         /// </summary>

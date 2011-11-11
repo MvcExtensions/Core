@@ -10,6 +10,10 @@ namespace MvcExtensions
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
@@ -242,7 +246,7 @@ namespace MvcExtensions
         {
             Item.IsRequired = false;
 
-            RequiredValidationMetadata requiredValidation = Item.GetValidation<RequiredValidationMetadata>();
+            var requiredValidation = Item.GetValidation<RequiredValidationMetadata>();
 
             if (requiredValidation != null)
             {
@@ -521,6 +525,66 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>()
+            where TValidator : ModelValidator
+        {
+            return CustomValidation<TValidator>(v => { });
+        }
+
+        /// <summary>
+        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="configure">The configuration</param>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Action<TValidator> configure)
+            where TValidator : ModelValidator
+        {
+            return CustomValidation(CreateFactory<TValidator>(), configure);
+        }
+
+        /// <summary>
+        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="validator"></param>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(TValidator validator) 
+            where TValidator : ModelValidator
+        {
+            return CustomValidation((m, c) => validator);
+        }
+
+        /// <summary>
+        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory) 
+            where TValidator : ModelValidator
+        {
+            return CustomValidation(factory, v => { });
+        }
+
+        /// <summary>
+        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <param name="configure">The configuration</param>
+        /// <returns></returns>
+        protected virtual ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
+            where TValidator : ModelValidator
+        {
+            var validation = Item.GetValidationOrCreateNew<CustomValidationValidationMetadata<TValidator>>();
+            
+            validation.Factory = factory;
+            validation.Configure = configure;
+
+            return this;
+        }
+
+        /// <summary>
         /// Marks the value as required.
         /// </summary>
         /// <param name="errorMessage">The error message.</param>
@@ -531,11 +595,11 @@ namespace MvcExtensions
         {
             Item.IsRequired = true;
 
-            var requiredValidation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
+            var validation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
 
-            requiredValidation.ErrorMessage = errorMessage;
-            requiredValidation.ErrorMessageResourceType = errorMessageResourceType;
-            requiredValidation.ErrorMessageResourceName = errorMessageResourceName;
+            validation.ErrorMessage = errorMessage;
+            validation.ErrorMessageResourceType = errorMessageResourceType;
+            validation.ErrorMessageResourceName = errorMessageResourceName;
 
             return This;
         }
@@ -558,6 +622,24 @@ namespace MvcExtensions
             compareValidation.ErrorMessageResourceName = errorMessageResourceName;
 
             return This;
+        }
+
+        private static Func<ModelMetadata, ControllerContext, TValidator> CreateFactory<TValidator>() where TValidator : ModelValidator
+        {
+            var validatorType = typeof(TValidator);
+            ConstructorInfo constructor = validatorType
+                .GetConstructor(new[] { typeof(ModelMetadata), typeof(ControllerContext) });
+
+            if (constructor == null)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The constructor of {0} that takes an ModelMetadata and ControllerContext as a parameters is not available.", validatorType));
+            }
+
+            var modelMetadata = Expression.Parameter(typeof(ModelMetadata));
+            var controllerContext = Expression.Parameter(typeof(ControllerContext));
+            var @new = Expression.New(constructor, modelMetadata, controllerContext);
+
+            return Expression.Lambda<Func<ModelMetadata, ControllerContext, TValidator>>(@new, modelMetadata, controllerContext).Compile();
         }
     }
 }
