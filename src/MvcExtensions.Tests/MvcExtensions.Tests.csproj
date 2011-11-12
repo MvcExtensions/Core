@@ -121,7 +121,6 @@
     <Compile Include="ModelMetadata\ExtendedModelValidatorProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProviderTests.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedValidatorTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataConfigurationTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBaseTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBuilderTests.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="ModelMetadata\StringLengthValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\StringMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\ValidationMetadataTestsBase.cs" />
-    <Compile Include="ModelMetadata\ValidatorTestsBase.cs" />
     <Compile Include="ModelMetadata\ValueTypeItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensionsTests.cs" />
     <Compile Include="Routing\EnumConstraintTests.cs" />

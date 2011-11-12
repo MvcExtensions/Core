@@ -130,8 +130,10 @@
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\CustomValidationValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
     <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
+    <Compile Include="ModelMetadata\ExtendedValidator.cs" />
     <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
@@ -230,7 +232,6 @@
     <Compile Include="ModelMetadata\ExtendedModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
     <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
-    <Compile Include="ModelMetadata\ExtendedValidator.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
     <Compile Include="View\ViewPageTypeMappingRegistryExtensions.cs" />
     <Compile Include="View\ExtendedViewPageActivator.cs" />

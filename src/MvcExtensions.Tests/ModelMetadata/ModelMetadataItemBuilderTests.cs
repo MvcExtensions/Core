@@ -254,7 +254,6 @@ namespace MvcExtensions.Tests
         public void Should_be_able_to_set_watermark()
         {
             builder.Watermark("enter your value...");
-
             Assert.Equal("enter your value...", item.Watermark());
         }
     }

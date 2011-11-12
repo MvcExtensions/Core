@@ -525,8 +525,58 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// Sets the delegate based custom validation for value.
         /// </summary>
+        /// <param name="validator">The validator delegate.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation(Func<TValue, bool> validator, string errorMessage = null)
+        {
+            return CustomValidation((controllerContext, value) => validator(value), errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the delegate based custom validation for value.
+        /// </summary>
+        /// <param name="validator">The validator delegate.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation(Func<TValue, bool> validator, Func<string> errorMessage)
+        {
+            return CustomValidation((controllerContext, value) => validator(value), errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the delegate based custom validation for value.
+        /// </summary>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation(Func<ControllerContext, TValue, bool> validator, string errorMessage = null)
+        {
+            var message = string.IsNullOrEmpty(errorMessage)
+                              ? "The {0} value is invalid."
+                              : errorMessage;
+
+            return CustomValidation(validator, () => message);
+        }
+
+        /// <summary>
+        /// Sets the delegate based custom validation for value.
+        /// </summary>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> CustomValidation(Func<ControllerContext, TValue, bool> validator, Func<string> errorMessage)
+        {
+            Invariant.IsNotNull(errorMessage, "errorMessage");
+
+            return CustomValidation((m, c) => new DelegateBasedValidator(m, c, (controllerContext, o) => validator(controllerContext, (TValue) o))
+                                                  {
+                                                      ErrorMessage = errorMessage()
+                                                  });
+        }
+
+        /// <summary>
+        /// Sets the <typeparamref name="TValidator"/> to validate value.
+        /// </summary>
+        /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>()
             where TValidator : ModelValidator
@@ -535,8 +585,9 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// Sets the <typeparamref name="TValidator"/> to validate value.
         /// </summary>
+        /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Action<TValidator> configure)
@@ -546,9 +597,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// Sets the <typeparamref name="TValidator"/> to validate value.
         /// </summary>
-        /// <param name="validator"></param>
+        /// <typeparam name="TValidator">The type of validator</typeparam>
+        /// <param name="validator">The instance of validator</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(TValidator validator) 
             where TValidator : ModelValidator
@@ -557,9 +609,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// Sets the <typeparamref name="TValidator"/> to validate value.
         /// </summary>
-        /// <param name="factory"></param>
+        /// <typeparam name="TValidator">The type of validator</typeparam>
+        /// <param name="factory">The factory used to build validator</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory) 
             where TValidator : ModelValidator
@@ -568,9 +621,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the CustomValidation of value, this comes into action when is <code>Required</code> is <code>true</code>.
+        /// Sets the <typeparamref name="TValidator"/> to validate value.
         /// </summary>
-        /// <param name="factory"></param>
+        /// <typeparam name="TValidator">The type of validator</typeparam>
+        /// <param name="factory">The factory used to build validator</param>
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
         protected virtual ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
