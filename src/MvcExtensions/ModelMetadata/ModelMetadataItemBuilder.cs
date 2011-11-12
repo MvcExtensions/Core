@@ -567,7 +567,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(errorMessage, "errorMessage");
 
-            return CustomValidation((m, c) => new DelegateBasedValidator(m, c, (controllerContext, o) => validator(controllerContext, (TValue) o))
+            return CustomValidation((m, c) => new DelegateBasedValidator(m, c, (controllerContext, o) => validator(controllerContext, (TValue)o))
                                                   {
                                                       ErrorMessage = errorMessage()
                                                   });
