@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles"
 		SharedFiles\CommonAssemblyInfo.cs = SharedFiles\CommonAssemblyInfo.cs
 		..\license.txt = ..\license.txt
 		MvcExtensions.build = MvcExtensions.build
+		SharedFiles\MvcExtensions.snk = SharedFiles\MvcExtensions.snk
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{49678BD9-5D80-4CA7-A366-47B96EAE5383}"
