@@ -7,7 +7,7 @@ namespace MvcExtensions
     /// Represents a class to store custom validation metadata.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class CustomValidationValidationMetadata<T> : IModelValidationMetadata
+    public class CustomValidationMetadata<T> : IModelValidationMetadata
         where T : ModelValidator
     {
         /// <summary>

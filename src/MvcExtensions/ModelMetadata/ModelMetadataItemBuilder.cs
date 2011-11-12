@@ -630,7 +630,7 @@ namespace MvcExtensions
         protected virtual ModelMetadataItemBuilder<TValue> CustomValidation<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
             where TValidator : ModelValidator
         {
-            var validation = Item.GetValidationOrCreateNew<CustomValidationValidationMetadata<TValidator>>();
+            var validation = Item.GetValidationOrCreateNew<CustomValidationMetadata<TValidator>>();
             
             validation.Factory = factory;
             validation.Configure = configure;
