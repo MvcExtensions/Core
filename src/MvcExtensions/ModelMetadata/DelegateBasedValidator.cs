@@ -1,14 +1,16 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Globalization;
     using System.Web.Mvc;
 
     /// <summary>
     /// Allow to validate value with delegate based validation
     /// </summary>
-    public class DelegateBasedValidator : ExtendedValidator
+    public class DelegateBasedValidator : ModelValidator
     {
-        private readonly Func<ControllerContext, object, bool> validator;
+        private readonly Func<object, object, bool> validator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DelegateBasedValidator"/> class.
@@ -16,20 +18,36 @@ namespace MvcExtensions
         /// <param name="metadata">The model metadata</param>
         /// <param name="controllerContext">The controller context</param>
         /// <param name="validator">The validator</param>
-        public DelegateBasedValidator(ModelMetadata metadata, ControllerContext controllerContext, Func<ControllerContext, object, bool> validator)
+        public DelegateBasedValidator(ModelMetadata metadata, ControllerContext controllerContext, Func<object, object, bool> validator)
             : base(metadata, controllerContext)
         {
             this.validator = validator;
         }
 
         /// <summary>
-        /// Validates the object.
+        /// Gets or sets the error message.
         /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns><c>true</c> if the specified value is valid; otherwise, <c>false</c></returns>
-        protected override bool ValidateCore(object value)
+        /// <value>The error message.</value>
+        public string ErrorMessage
         {
-            return validator(ControllerContext, value);
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// When implemented in a derived class, validates the object.
+        /// </summary>
+        /// <param name="container">The container.</param>
+        /// <returns>A list of validation results.</returns>
+        public override sealed IEnumerable<ModelValidationResult> Validate(object container)
+        {
+            if (!validator(container, Metadata.Model))
+            {
+                yield return new ModelValidationResult
+                                 {
+                                     Message = string.Format(CultureInfo.CurrentCulture, ErrorMessage, Metadata.GetDisplayName())
+                                 };
+            }
         }
     }
 }

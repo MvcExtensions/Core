@@ -133,7 +133,6 @@
     <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
     <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
-    <Compile Include="ModelMetadata\ExtendedValidator.cs" />
     <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
