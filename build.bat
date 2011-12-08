@@ -1,9 +1,7 @@
-if "%1%" == "" goto release
-%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild MvcExtensions.build /t:Full /p:Configuration=%1 /m:2
-goto end
+set msbuild=%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild
+set configuration=%1
+if "%configuration%" == "" set configuration=Release
 
-:release
-%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild MvcExtensions.build /t:Full /p:Configuration=release /m:2
+%msbuild% MvcExtensions.build /t:Full /p:Configuration=%configuration% /m:2
 
-:end
 pause

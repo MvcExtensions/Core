@@ -9,12 +9,12 @@
         <xunit>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunit>
         <nuget>$(MSBuildProjectDirectory)\Build\NuGet\nuget</nuget>
 
-        <artifactPath>$(MSBuildProjectDirectory)\..\Drops</artifactPath>
+        <artifactPath>$(MSBuildProjectDirectory)\Drops</artifactPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
 
         <solution>$(MSBuildProjectDirectory)\MvcExtensions.sln</solution>
 
-        <corePath>$(MSBuildProjectDirectory)\MvcExtensions</corePath>
+        <corePath>$(MSBuildProjectDirectory)\src\MvcExtensions</corePath>
         <coreFile>MvcExtensions</coreFile>
 
         <ninjectPath>$(MSBuildProjectDirectory)\MvcExtensions.Ninject</ninjectPath>
@@ -113,7 +113,7 @@
 
     <Target Name="Build">
         <AssemblyInfo CodeLanguage="CS"
-	          OutputFile="SharedFiles\CommonAssemblyInfo.cs"
+	          OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="Kazi Manzur Rashid"
             AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011"
             ComVisible="false"
@@ -147,90 +147,21 @@
         Include="[$(coreFile)]*"
         Exclude="[*.Test]*"
       />
-      <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunit)"
-        TargetArgs="&quot;$(ninjectPath).Tests\bin\$(Configuration)\$(ninjectFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(ninjectFile).Tests.xunit.xml&quot;"
-        Output="$(artifactPath)\$(ninjectFile)-coverage.xml"
-        Include="[$(ninjectFile)]*"
-        Exclude="[*.Test]*"
-      />
-      <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunit)"
-        TargetArgs="&quot;$(structureMapPath).Tests\bin\$(Configuration)\$(structureMapFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(structureMapFile).Tests.xunit.xml&quot;"
-        Output="$(artifactPath)\$(structureMapFile)-coverage.xml"
-        Include="[$(structureMapFile)]*"
-        Exclude="[*.Test]*"      
-      />
-      <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunit)"
-        TargetArgs="&quot;$(unityPath).Tests\bin\$(Configuration)\$(unityFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(unityFile).Tests.xunit.xml&quot;"
-        Output="$(artifactPath)\$(unityFile)-coverage.xml"
-        Include="[$(unityFile)]*"
-        Exclude="[*.Test]*"
-      />
-      <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunit)"
-        TargetArgs="&quot;$(windsorPath).Tests\bin\$(Configuration)\$(windsorFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(windsorFile).Tests.xunit.xml&quot;"
-        Output="$(artifactPath)\$(windsorFile)-coverage.xml"
-        Include="[$(windsorFile)]*"
-        Exclude="[*.Test]*"
-      />
-      <PartCover ToolPath="$(PartCoverTasksPath)"
-        Target="$(xunit)"
-        TargetArgs="&quot;$(autofacPath).Tests\bin\$(Configuration)\$(autofacFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(autofacFile).Tests.xunit.xml&quot;"
-        Output="$(artifactPath)\$(autofacFile)-coverage.xml"
-        Include="[$(autofacFile)]*"
-        Exclude="[*.Test]*"
-      />
-      <CombineXunitXml
-        OutputFile="$(artifactPath)\Xunit.xml"
-        InputFiles="$(artifactPath)\$(coreFile).Tests.xunit.xml;$(artifactPath)\$(ninjectFile).Tests.xunit.xml;$(artifactPath)\$(structureMapFile).Tests.xunit.xml;$(artifactPath)\$(unityFile).Tests.xunit.xml;$(artifactPath)\$(windsorFile).Tests.xunit.xml"
-        />
     </Target>
 
     <Target Name="Deploy">
         <CreateItem Include="$(corePath)\bin\$(Configuration)\$(coreFile).*">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
-        <CreateItem Include="$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(unityPath)\bin\$(Configuration)\$(unityFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(windsorPath)\bin\$(Configuration)\$(windsorFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(autofacPath)\bin\$(Configuration)\$(autofacFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(foolproofPath)\bin\$(Configuration)\$(foolproofFile).*">
-            <Output TaskParameter="Include" ItemName="zipFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(MSBuildProjectDirectory)\..\license.txt">
+        <CreateItem Include="$(MSBuildProjectDirectory)\license.txt">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
         <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(Version).zip" Flatten="true" ZipLevel="9"/>
 
         <Exec Command="$(nuget).exe pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(ninjectPath)\$(ninjectFile).nuspec /basepath $(ninjectPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(structureMapPath)\$(structureMapFile).nuspec /basepath $(structureMapPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(unityPath)\$(unityFile).nuspec /basepath $(unityPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(windsorPath)\$(windsorFile).nuspec /basepath $(windsorPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(autofacPath)\$(autofacFile).nuspec /basepath $(autofacPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
-        <Exec Command="$(nuget).exe pack $(foolproofPath)\$(foolproofFile).nuspec /basepath $(foolproofPath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
     </Target>
     
     <Target Name="Publish">
         <Exec Command="$(nuget).cmd push $(artifactPath)\$(coreFile).$(Version).nupkg"/>
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(ninjectFile).$(Version).nupkg" />
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(structureMapFile).$(Version).nupkg" />
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(unityFile).$(Version).nupkg" />
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(windsorFile).$(Version).nupkg" />
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(autofacFile).$(Version).nupkg" />
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(foolproofFile).$(Version).nupkg" />
     </Target>
 </Project>
