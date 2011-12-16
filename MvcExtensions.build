@@ -16,24 +16,6 @@
 
         <corePath>$(MSBuildProjectDirectory)\src\MvcExtensions</corePath>
         <coreFile>MvcExtensions</coreFile>
-
-        <ninjectPath>$(MSBuildProjectDirectory)\MvcExtensions.Ninject</ninjectPath>
-        <ninjectFile>MvcExtensions.Ninject</ninjectFile>
-
-        <structureMapPath>$(MSBuildProjectDirectory)\MvcExtensions.StructureMap</structureMapPath>
-        <structureMapFile>MvcExtensions.StructureMap</structureMapFile>
-
-        <unityPath>$(MSBuildProjectDirectory)\MvcExtensions.Unity</unityPath>
-        <unityFile>MvcExtensions.Unity</unityFile>
-
-        <windsorPath>$(MSBuildProjectDirectory)\MvcExtensions.Windsor</windsorPath>
-        <windsorFile>MvcExtensions.Windsor</windsorFile>
-
-        <autofacPath>$(MSBuildProjectDirectory)\MvcExtensions.Autofac</autofacPath>
-        <autofacFile>MvcExtensions.Autofac</autofacFile>
-
-        <foolproofPath>$(MSBuildProjectDirectory)\MvcExtensions.Foolproof</foolproofPath>
-        <foolproofFile>MvcExtensions.Foolproof</foolproofFile>
     </PropertyGroup>
 
     <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
@@ -58,39 +40,6 @@
         <CreateItem Include="$(corePath).Tests\**\*.cs">
             <Output TaskParameter="Include" ItemName="styleCopFiles"/>
         </CreateItem>
-        <CreateItem Include="$(ninjectPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(ninjectPath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(structureMapPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(structureMapPath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(unityPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(unityPath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(windsorPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(windsorPath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(autofacPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(autofacPath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(foolproofPath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
         <StyleCopTask
             ProjectFullPath="$(solution)"
             SourceFiles="@(styleCopFiles)"
@@ -105,7 +54,7 @@
     <Target Name="Simian">
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\Simian\simian.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot; -includes=&quot;$(ninjectPath)/**/*.cs&quot; -includes=&quot;$(structureMapPath)/**/*.cs&quot; -includes=&quot;$(unityPath)/**/*.cs&quot; -includes=&quot;$(windsorPath)/**/*.cs&quot; -includes=&quot;$(autofacPath)/**/*.cs&quot; -includes=&quot;$(foolproofPath)/**/*.cs&quot;"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\Simian\simian-2.2.24.exe&quot; -formatter=xml:&quot;$(artifactPath)\Simian.xml&quot; -reportDuplicateText+ -includes=&quot;$(corePath)/**/*.cs&quot;"
             IgnoreExitCode="true"
             WorkingDirectory="$(MSBuildProjectDirectory)"
         />
@@ -114,8 +63,8 @@
     <Target Name="Build">
         <AssemblyInfo CodeLanguage="CS"
 	          OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
-            AssemblyCompany="Kazi Manzur Rashid"
-            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011"
+            AssemblyCompany="MvcExtensions"
+            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011, hazzik 2011"
             ComVisible="false"
             AssemblyVersion="$(Version)"
             AssemblyFileVersion="$(Version)"/>
@@ -130,7 +79,7 @@
         </PropertyGroup>
         <Copy SourceFiles="$(MSBuildProjectDirectory)\Build\FxCop\Xml\FxCopReport.xsl" DestinationFolder="$(artifactPath)"/>
         <Exec
-            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /f:&quot;$(ninjectPath)\bin\$(Configuration)\$(ninjectFile).dll&quot; /f:&quot;$(structureMapPath)\bin\$(Configuration)\$(structureMapFile).dll&quot; /f:&quot;$(unityPath)\bin\$(Configuration)\$(unityFile).dll&quot; /f:&quot;$(windsorPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(autofacPath)\bin\$(Configuration)\$(windsorFile).dll&quot; /f:&quot;$(autofacPath)\bin\$(Configuration)\$(foolproofFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
+            Command="&quot;$(MSBuildProjectDirectory)\Build\FxCop\FxCopCmd.exe&quot; /f:&quot;$(corePath)\bin\$(Configuration)\$(coreFile).dll&quot; /d:&quot;$(referencePath)\AspNetMvc&quot; /d:&quot;$(referencePath)\Autofac&quot; /d:&quot;$(referencePath)\Castle&quot; /d:&quot;$(referencePath)\Ninject&quot; /d:&quot;$(referencePath)\PnP&quot; /d:&quot;$(referencePath)\StructureMap&quot; /dic:&quot;$(MSBuildProjectDirectory)\SharedFiles\CodeAnalysisDictionary.xml&quot; /o:&quot;$(fxCopOutput)&quot; /oxsl:&quot;FxCopReport.xsl&quot; /to:0 /fo /gac /igc /q"
             IgnoreExitCode="true"
         />
         <XmlRead XmlFileName="$(fxCopOutput)" XPath="string(count(//Issue))" ContinueOnError="True">

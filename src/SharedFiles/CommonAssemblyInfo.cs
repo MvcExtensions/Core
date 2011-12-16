@@ -13,8 +13,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Kazi Manzur Rashid")]
-[assembly: AssemblyCopyright("Copyright © Kazi Manzur Rashid 2009-2011")]
+[assembly: AssemblyCompany("MvcExtensions")]
+[assembly: AssemblyCopyright("Copyright © Kazi Manzur Rashid 2009-2011, hazzik 2011")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("2.5.0.9999")]
 [assembly: AssemblyFileVersion("2.5.0.9999")]
