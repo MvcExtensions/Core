@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Full" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">2.5.0.9999</BUILD_NUMBER>
-        <Version>$(BUILD_NUMBER)</Version>
+        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">2.5.0</BUILD_NUMBER>
+        <SemVer>$(BUILD_NUMBER)</SemVer>
+        <Version>$([System.Text.RegularExpressions.Regex]::Match($(BUILD_NUMBER), `\d+.\d+.\d+`)).0</Version>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
 
@@ -62,12 +63,13 @@
 
     <Target Name="Build">
         <AssemblyInfo CodeLanguage="CS"
-	          OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
+	        OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="MvcExtensions"
             AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011, hazzik 2011"
             ComVisible="false"
             AssemblyVersion="$(Version)"
-            AssemblyFileVersion="$(Version)"/>
+            AssemblyFileVersion="$(Version)"
+            AssemblyInformationalVersion="$(SemVer)"/>
 
         <MSBuild Projects="$(solution)" Targets="Build" Properties="Configuration=$(Configuration)"/>
     </Target>
@@ -105,12 +107,12 @@
         <CreateItem Include="$(MSBuildProjectDirectory)\license.txt">
             <Output TaskParameter="Include" ItemName="zipFiles"/>
         </CreateItem>
-        <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(Version).zip" Flatten="true" ZipLevel="9"/>
+        <Zip Files="@(zipFiles)" ZipFileName="$(artifactPath)\$(coreFile).$(SemVer).zip" Flatten="true" ZipLevel="9"/>
 
-        <Exec Command="$(nuget).exe pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(Version)" />
+        <Exec Command="$(nuget).exe pack $(corePath)\$(coreFile).nuspec /basepath $(corePath)\bin\$(Configuration) /outputdirectory $(artifactPath) /version $(SemVer)" />
     </Target>
     
     <Target Name="Publish">
-        <Exec Command="$(nuget).cmd push $(artifactPath)\$(coreFile).$(Version).nupkg"/>
+        <Exec Command="$(nuget).cmd push $(artifactPath)\$(coreFile).$(SemVer).nupkg"/>
     </Target>
 </Project>
