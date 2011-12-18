@@ -116,6 +116,7 @@
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
     <Compile Include="ExtendedMvcApplicationTests.cs" />
+    <Compile Include="ModelMetadata\BehaviorTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\CompositeModelValidatorProviderTests.cs" />

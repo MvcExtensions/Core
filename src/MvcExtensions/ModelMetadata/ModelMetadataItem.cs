@@ -13,7 +13,7 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a base class that is used to store metadata.
     /// </summary>
-    public class ModelMetadataItem : IModelMetadataFormattableItem
+    public class ModelMetadataItem
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMetadataItem"/> class.
@@ -213,7 +213,7 @@ namespace MvcExtensions
         /// <value>
         /// <c>true</c> if [convert empty string to null]; otherwise, <c>false</c>.
         /// </value>
-        public bool ConvertEmptyStringToNull
+        public bool? ConvertEmptyStringToNull
         {
             get;
             set;

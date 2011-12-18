@@ -191,7 +191,10 @@ namespace MvcExtensions
                 metadata.EditFormatString = metadataItem.EditFormat();
             }
 
-            metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull;
+            if (metadataItem.ConvertEmptyStringToNull.HasValue)
+            {
+                metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
+            }
         }
 
         private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)

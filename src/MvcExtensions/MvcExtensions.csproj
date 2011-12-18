@@ -222,7 +222,6 @@
     <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
     <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
-    <Compile Include="ModelMetadata\IModelMetadataFormattableItem.cs" />
     <Compile Include="ModelMetadata\IModelMetadataRegistry.cs" />
     <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
     <Compile Include="ModelMetadata\StringLengthValidationMetadata.cs" />
