@@ -181,27 +181,17 @@ namespace MvcExtensions
                 metadata.Order = metadataItem.Order.Value;
             }
 
-            var formattableItem = metadataItem as IModelMetadataFormattableItem;
-
-            if (formattableItem != null)
+            if (metadataItem.DisplayFormat != null)
             {
-                if (formattableItem.DisplayFormat != null)
-                {
-                    metadata.DisplayFormatString = formattableItem.DisplayFormat();
-                }
-
-                if (formattableItem.ApplyFormatInEditMode && metadata.ShowForEdit && formattableItem.EditFormat != null)
-                {
-                    metadata.EditFormatString = formattableItem.EditFormat();
-                }
+                metadata.DisplayFormatString = metadataItem.DisplayFormat();
             }
 
-            var stringMetadataItem = metadataItem as ModelMetadataItem;
-
-            if (stringMetadataItem != null)
+            if (metadataItem.ApplyFormatInEditMode && metadata.ShowForEdit && metadataItem.EditFormat != null)
             {
-                metadata.ConvertEmptyStringToNull = stringMetadataItem.ConvertEmptyStringToNull;
+                metadata.EditFormatString = metadataItem.EditFormat();
             }
+
+            metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull;
         }
 
         private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
