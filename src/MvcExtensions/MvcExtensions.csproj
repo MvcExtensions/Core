@@ -136,12 +136,16 @@
     <Compile Include="Helper\RouteValuesHelpers.cs" />
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
+    <Compile Include="ModelMetadata\IModelValidationMetadataBuilder.cs" />
+    <Compile Include="ModelMetadata\RemoteModelValidationMetadataBuilder.cs" />
+    <Compile Include="ModelMetadata\RemoteValidationMetadata.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
     <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
     <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
     <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
+    <Compile Include="ModelMetadata\ModelValidationMetadataBuilder.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
     <Compile Include="Responders\IResponder.cs" />

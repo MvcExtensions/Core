@@ -256,5 +256,22 @@ namespace MvcExtensions.Tests
             builder.Watermark("enter your value...");
             Assert.Equal("enter your value...", item.Watermark());
         }
+
+        [Fact]
+        public void NewValidationSintax()
+        {
+            builder.AddValidation(Validation.Remote()
+                                      .Controller("Email")
+                                      .Action("Check")
+                                      .ErrorMessage("Invalid email"));
+        }
+    }
+
+    public class Validation
+    {
+        public static RemoteModelValidationMetadataBuilder Remote()
+        {
+            return new RemoteModelValidationMetadataBuilder();
+        }
     }
 }

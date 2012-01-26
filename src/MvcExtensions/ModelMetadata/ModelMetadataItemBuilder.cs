@@ -704,5 +704,10 @@ namespace MvcExtensions
 
             return Expression.Lambda<Func<ModelMetadata, ControllerContext, TValidator>>(@new, modelMetadata, controllerContext).Compile();
         }
+
+        public ModelMetadataItemBuilder<TValue> AddValidation(IModelValidationMetadataBuilder validation)
+        {
+            return this;
+        }
     }
 }
