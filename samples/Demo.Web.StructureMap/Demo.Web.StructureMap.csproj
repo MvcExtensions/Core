@@ -40,8 +40,14 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MvcExtensions">
+      <HintPath>..\packages\MvcExtensions.2.5.0-rc8000\lib\net40\MvcExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcExtensions.StructureMap">
+      <HintPath>..\packages\MvcExtensions.StructureMap.2.5.0-rc8000\lib\net40\MvcExtensions.StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
-      <HintPath>..\..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
+      <HintPath>..\packages\structuremap.2.6.3\lib\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
@@ -54,7 +60,7 @@
     <Reference Include="System.Web.Routing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\SharedFiles\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\src\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -67,14 +73,6 @@
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MvcExtensions.StructureMap\MvcExtensions.StructureMap.csproj">
-      <Project>{7CB6A974-A4C1-4C44-A880-C344A2B16539}</Project>
-      <Name>MvcExtensions.StructureMap</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MvcExtensions\MvcExtensions.csproj">
-      <Project>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</Project>
-      <Name>MvcExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Demo.Web.Common\Demo.Web.Common.csproj">
       <Project>{0BB027BB-9BD2-410A-AEB2-B12B82D37D2D}</Project>
       <Name>Demo.Web.Common</Name>

@@ -41,10 +41,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core">
-      <HintPath>..\..\packages\Castle.Core.2.5.2\lib\NET35\Castle.Core.dll</HintPath>
+      <HintPath>..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.FactorySupport">
+      <HintPath>..\packages\Castle.FactorySupportFacility.3.0.0.4001\lib\net40\Castle.Facilities.FactorySupport.dll</HintPath>
     </Reference>
     <Reference Include="Castle.Windsor">
-      <HintPath>..\..\packages\Castle.Windsor.2.5.4\lib\NET35\Castle.Windsor.dll</HintPath>
+      <HintPath>..\packages\Castle.Windsor.3.0.0.4001\lib\net40\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcExtensions">
+      <HintPath>..\packages\MvcExtensions.2.5.0-rc8000\lib\net40\MvcExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcExtensions.Windsor">
+      <HintPath>..\packages\MvcExtensions.Windsor3.2.5.0-rc8000\lib\net40\MvcExtensions.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>True</SpecificVersion>
@@ -55,9 +64,10 @@
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\SharedFiles\CommonAssemblyInfo.cs">
+    <Compile Include="..\..\src\SharedFiles\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Global.asax.cs">
@@ -70,14 +80,6 @@
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MvcExtensions.Windsor\MvcExtensions.Windsor.csproj">
-      <Project>{21DE407E-18C5-40CB-BC4E-C7EE1B209DDB}</Project>
-      <Name>MvcExtensions.Windsor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MvcExtensions\MvcExtensions.csproj">
-      <Project>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</Project>
-      <Name>MvcExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Demo.Web.Common\Demo.Web.Common.csproj">
       <Project>{0BB027BB-9BD2-410A-AEB2-B12B82D37D2D}</Project>
       <Name>Demo.Web.Common</Name>
