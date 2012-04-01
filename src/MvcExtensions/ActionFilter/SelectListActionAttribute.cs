@@ -8,6 +8,8 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -54,15 +56,53 @@ namespace MvcExtensions
             destination.TemplateInfo.HtmlFieldPrefix = source.TemplateInfo.HtmlFieldPrefix;
         }
 
+        private static Type ExtractGenericInterface(Type queryType, Type interfaceType)
+        {
+            Func<Type, bool> predicate =
+                t =>
+                    {
+                        if (t.IsGenericType)
+                        {
+                            return t.GetGenericTypeDefinition() == interfaceType;
+                        }
+
+                        return false;
+                    };
+
+            if (predicate(queryType))
+            {
+                return queryType;
+            }
+
+            return queryType.GetInterfaces().FirstOrDefault(predicate);
+        }
+
         private static object GetAttemptedValue(ViewDataDictionary viewData)
         {
             ModelState modelState;
             if (viewData.ModelState.TryGetValue(viewData.ModelMetadata.PropertyName, out modelState) && modelState.Value != null)
             {
-                return modelState.Value.ConvertTo(viewData.ModelMetadata.ModelType, null);
+                return modelState.Value.ConvertTo(GetModelType(viewData.ModelMetadata.ModelType), null);
             }
 
             return null;
+        }
+
+        private static Type GetModelType(Type type)
+        {
+            if (type.IsArray)
+            {
+                return type;
+            }
+
+            var enumerableType = ExtractGenericInterface(type, typeof(IEnumerable<>));
+            if (enumerableType == null)
+            {
+                return type;
+            }
+
+            var elementType = enumerableType.GetGenericArguments()[0];
+            return elementType.MakeArrayType();
         }
 
         private static object GetSelectedValue(ControllerContext context)
