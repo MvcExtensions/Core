@@ -137,6 +137,7 @@
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBuilderRenderActionExtensions.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataRegistrator.cs" />
     <Compile Include="ModelMetadata\RenderActionSettingExtensions.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />

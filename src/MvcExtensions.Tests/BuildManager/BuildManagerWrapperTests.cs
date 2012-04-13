@@ -13,10 +13,17 @@ namespace MvcExtensions.Tests
 
     public class BuildManagerWrapperTests
     {
+        readonly BuildManagerWrapper buildManagerWrapper;
+
+        public BuildManagerWrapperTests()
+        {
+            buildManagerWrapper = new BuildManagerWrapper();
+        }
+
         [Fact]
         public void Current_should_not_be_null()
         {
-            Assert.NotNull(BuildManagerWrapper.Current);
+            Assert.NotNull(buildManagerWrapper);
         }
 
         [Fact]
@@ -26,7 +33,7 @@ namespace MvcExtensions.Tests
 
             try
             {
-                var assemblies = BuildManagerWrapper.Current.Assemblies;
+                var assemblies = buildManagerWrapper.Assemblies;
             }
             catch (Exception e)
             {
@@ -43,7 +50,7 @@ namespace MvcExtensions.Tests
 
             try
             {
-                var publicTypes = BuildManagerWrapper.Current.PublicTypes;
+                var publicTypes = buildManagerWrapper.PublicTypes;
             }
             catch (Exception e)
             {
@@ -60,7 +67,7 @@ namespace MvcExtensions.Tests
 
             try
             {
-                var concreteTypes = BuildManagerWrapper.Current.ConcreteTypes;
+                var concreteTypes = buildManagerWrapper.ConcreteTypes;
             }
             catch (Exception e)
             {

@@ -126,6 +126,7 @@
     <Compile Include="ModelMetadata\ModelMetadataConfigurationTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBaseTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBuilderTests.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataRegistratorTests.cs" />
     <Compile Include="ModelMetadata\ModelMetadataRegistryTests.cs" />
     <Compile Include="ModelMetadata\ObjectMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\RangeValidationMetadataTests.cs" />
