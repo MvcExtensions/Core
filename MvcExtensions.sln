@@ -25,6 +25,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38967F
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.FluentMetadata", "src\MvcExtensions.FluentMetadata\MvcExtensions.FluentMetadata.csproj", "{30C4E9A3-8D35-4869-8179-008CF09C8D36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.FluentMetadata.Tests", "src\MvcExtensions.FluentMetadata.Tests\MvcExtensions.FluentMetadata.Tests.csproj", "{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{C421EA3B-E104-41A4-97C6-E2FFAFD8D967}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C421EA3B-E104-41A4-97C6-E2FFAFD8D967}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C421EA3B-E104-41A4-97C6-E2FFAFD8D967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C4E9A3-8D35-4869-8179-008CF09C8D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C4E9A3-8D35-4869-8179-008CF09C8D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C4E9A3-8D35-4869-8179-008CF09C8D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C4E9A3-8D35-4869-8179-008CF09C8D36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,8 +58,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{36D776AA-6B96-4D33-B7B5-7F4A5376DD37} = {49678BD9-5D80-4CA7-A366-47B96EAE5383}
 		{C421EA3B-E104-41A4-97C6-E2FFAFD8D967} = {49678BD9-5D80-4CA7-A366-47B96EAE5383}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35
+		{30C4E9A3-8D35-4869-8179-008CF09C8D36} = {49678BD9-5D80-4CA7-A366-47B96EAE5383}
+		{43FF7E51-3D24-44FB-8E62-EAC9B5025DFF} = {49678BD9-5D80-4CA7-A366-47B96EAE5383}
 	EndGlobalSection
 EndGlobal

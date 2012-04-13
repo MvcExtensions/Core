@@ -21,7 +21,6 @@ namespace MvcExtensions
     public abstract class Bootstrapper : Disposable, IBootstrapper
     {
         private readonly object syncLock = new object();
-
         private volatile ContainerAdapter container;
 
         /// <summary>
@@ -46,41 +45,25 @@ namespace MvcExtensions
         /// <summary>
         /// Current bootstrapper
         /// </summary>
-        public static IBootstrapper Current 
-        { 
-            get; 
-            protected set; 
-        }
+        public static IBootstrapper Current { get; protected set; }
 
         /// <summary>
         /// Gets  the build manager.
         /// </summary>
         /// <value>The build manager.</value>
-        public IBuildManager BuildManager
-        {
-            get;
-            private set;
-        }
+        public IBuildManager BuildManager { get; private set; }
 
         /// <summary>
         /// Gets the bootstrapper task registry.
         /// </summary>
         /// <value>The bootstrapper tasks.</value>
-        public IBootstrapperTasksRegistry BootstrapperTasks
-        {
-            get;
-            private set;
-        }
+        public IBootstrapperTasksRegistry BootstrapperTasks { get; private set; }
 
         /// <summary>
         /// Gets the per request task registry.
         /// </summary>
         /// <value>The per request tasks.</value>
-        public IPerRequestTasksRegistry PerRequestTasks
-        {
-            get;
-            private set;
-        }
+        public IPerRequestTasksRegistry PerRequestTasks { get; private set; }
 
         /// <summary>
         /// Gets the container.
@@ -146,11 +129,6 @@ namespace MvcExtensions
         protected abstract ContainerAdapter CreateAdapter();
 
         /// <summary>
-        /// Loads the container specific modules.
-        /// </summary>
-        protected abstract void LoadModules();
-
-        /// <summary>
         /// Disposes the resources.
         /// </summary>
         protected override void DisposeCore()
@@ -161,6 +139,30 @@ namespace MvcExtensions
             }
 
             container.Dispose();
+        }
+
+        /// <summary>
+        /// Loads the container specific modules.
+        /// </summary>
+        protected abstract void LoadModules();
+
+        private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
+        {
+            foreach (var task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
+            {
+                task.Dispose();
+            }
+        }
+
+        private ContainerAdapter CreateAndSetCurrent()
+        {
+            var adapter = CreateAdapter();
+
+            Register(adapter);
+
+            DependencyResolver.SetResolver(adapter);
+
+            return adapter;
         }
 
         private void Execute<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
@@ -195,21 +197,12 @@ namespace MvcExtensions
             }
         }
 
-        private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
-        {
-            foreach (var task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
-            {
-                task.Dispose();
-            }
-        }
-
         private void Register(ContainerAdapter adapter)
         {
             adapter.RegisterInstance(RouteTable.Routes)
                 .RegisterInstance(BuildManager)
                 .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
-                .RegisterAsSingleton<IFilterProvider, FilterProvider>()
-                .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
+                .RegisterAsSingleton<IFilterProvider, FilterProvider>();
 
             BuildManager.ConcreteTypes
                 .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))
@@ -229,17 +222,6 @@ namespace MvcExtensions
                 .RegisterInstance(new TypeMappingRegistry<Controller, IControllerActivator>())
                 .RegisterInstance(new TypeMappingRegistry<IView, IViewPageActivator>())
                 .RegisterInstance(new TypeMappingRegistry<object, IModelBinder>());
-        }
-
-        private ContainerAdapter CreateAndSetCurrent()
-        {
-            var adapter = CreateAdapter();
-
-            Register(adapter);
-
-            DependencyResolver.SetResolver(adapter);
-
-            return adapter;
         }
 
         /// <summary>

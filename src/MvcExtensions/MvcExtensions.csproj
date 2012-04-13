@@ -73,10 +73,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\references\AspNetMvc3\System.Web.Mvc.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Routing">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -117,6 +114,7 @@
     <Compile Include="BootstrapperTask\RegisterControllerActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterFilters.cs" />
     <Compile Include="BootstrapperTask\RegisterModelBinderProvider.cs" />
+    <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
     <Compile Include="BootstrapperTask\RegisterViewPageActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterViews.cs" />
     <Compile Include="Controller\ActionController.cs" />
@@ -131,27 +129,11 @@
     <Compile Include="ExtensionMethod\RouteExtensions.cs" />
     <Compile Include="Flash\FlashHtmlExtensions.cs" />
     <Compile Include="Flash\FlashStorage.cs" />
-    <Compile Include="Helper\ExpressionVisitorHelper.cs" />
     <Compile Include="Helper\KnownActionNames.cs" />
     <Compile Include="Helper\KnownMimeTypes.cs" />
     <Compile Include="Helper\RouteValuesHelpers.cs" />
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemBuilderRenderActionExtensions.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\AbstractRemoteValidationConfigurator.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\IRemoteValidationConfigurator.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationConfigurator.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationExtensions.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\RenderActionSettingExtensions.cs" />
-    <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
-    <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
-    <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
-    <Compile Include="ModelMetadata\RenderActionSetting.cs" />
-    <Compile Include="ActionFilter\SelectListActionAttribute.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
     <Compile Include="Responders\IResponder.cs" />
@@ -187,7 +169,6 @@
     <Compile Include="BuildManager\BuildManagerWrapper.cs" />
     <Compile Include="BuildManager\IBuildManager.cs" />
     <Compile Include="Abstraction\Task.cs" />
-    <Compile Include="ModelMetadata\CompositeModelValidatorProvider.cs" />
     <Compile Include="PerRequestTask\PerRequestTasksRegistry.cs" />
     <Compile Include="PerRequestTask\IPerRequestTasksRegistry.cs" />
     <Compile Include="Routing\EnumConstraint.cs" />
@@ -228,36 +209,19 @@
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
     </Compile>
     <Compile Include="BootstrapperTask\RegisterValueProviderFactories.cs" />
-    <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
-    <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
-    <Compile Include="ModelMetadata\IModelMetadataRegistry.cs" />
-    <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\StringLengthValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItem.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataRegistry.cs" />
-    <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
-    <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />
-    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelValidatorProvider.cs" />
-    <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelMetadataProvider.cs" />
     <Compile Include="View\ViewPageTypeMappingRegistryExtensions.cs" />
     <Compile Include="View\ExtendedViewPageActivator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />
+    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml">
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionMessages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -281,6 +245,12 @@
     <None Include="..\SharedFiles\MvcExtensions.snk">
       <Link>MvcExtensions.snk</Link>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MvcExtensions.FluentMetadata\MvcExtensions.FluentMetadata.csproj">
+      <Project>{30C4E9A3-8D35-4869-8179-008CF09C8D36}</Project>
+      <Name>MvcExtensions.FluentMetadata</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />

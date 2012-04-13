@@ -43,7 +43,5 @@ namespace MvcExtensions
         public static readonly Type ActionResultType = typeof(ActionResult);
 
         public static readonly Type ValueProviderFactoryType = typeof(ValueProviderFactory);
-
-        public static readonly Type ModelMetadataConfigurationType = typeof(IModelMetadataConfiguration);
     }
 }

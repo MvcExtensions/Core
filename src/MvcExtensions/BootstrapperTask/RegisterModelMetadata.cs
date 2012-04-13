@@ -7,9 +7,6 @@
 
 namespace MvcExtensions
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Web.Mvc;
 
     /// <summary>
@@ -44,25 +41,13 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            IEnumerable<Type> concreteTypes = Container.GetService<IBuildManager>().ConcreteTypes;
-
-            concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
-                         .Each(type => Container.RegisterAsTransient(KnownTypes.ModelMetadataConfigurationType, type));
-
-            IEnumerable<IModelMetadataConfiguration> configurations = Container.GetServices<IModelMetadataConfiguration>();
-
-            IModelMetadataRegistry registry = Container.GetService<IModelMetadataRegistry>();
-
-            configurations.Each(configuration => registry.RegisterModelProperties(configuration.ModelType, configuration.Configurations));
-
-            IList<ModelValidatorProvider> validatorProviders = new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
-            validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
-            CompositeModelValidatorProvider compositeModelValidatorProvider = new CompositeModelValidatorProvider(validatorProviders.ToArray());
-
-            ModelMetadataProviders.Current = new ExtendedModelMetadataProvider(registry);
-            ModelValidatorProviders.Providers.Clear();
-            ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
-
+            var assemblies = Container.GetService<IBuildManager>().Assemblies;
+            ConfigurationsScanner
+                .GetMetadataClasses(assemblies)
+                .ForEach(r => Container.RegisterAsTransient(r.InterfaceType, r.MetadataConfigurationType));
+            FluentMetadataConfiguration
+                .ConstructMetadataUsing(() => Container.GetServices<IModelMetadataConfiguration>())
+                .Register();
             return TaskContinuation.Continue;
         }
     }
