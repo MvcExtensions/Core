@@ -26,6 +26,6 @@ How do I get started?
 --------------------------------
 Check out the [getting started guide](/MvcExtensions/Core/wiki/Getting-started-with-MvcExtensions).
 
-Licence
+License
 --------------------------------
 [Microsoft Public License (Ms-PL)](http://www.opensource.org/licenses/MS-PL)
