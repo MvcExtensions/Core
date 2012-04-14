@@ -15,6 +15,7 @@ First, [install NuGet](http://docs.nuget.org/docs/start-here/installing-nuget). 
     PM> Install-Package MvcExtensions
 
 [MvcExtensions Core](http://nuget.org/List/Packages/MvcExtensions) requires one of following IoC adapter:
+
 * [MvcExtensions Autofac Adapter](http://nuget.org/List/Packages/MvcExtensions.Autofac)
 * [MvcExtensions Windsor Adapter](http://nuget.org/List/Packages/MvcExtensions.Windsor)
 * [MvcExtensions StructureMap Adapter](http://nuget.org/List/Packages/MvcExtensions.StructureMap)
