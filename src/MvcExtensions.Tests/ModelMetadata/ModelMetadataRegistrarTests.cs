@@ -15,14 +15,14 @@ namespace MvcExtensions.Tests
 
     using Xunit;
 
-    public class ModelMetadataRegistratorTests
+    public class ModelMetadataRegistrarTests
     {
         private readonly Mock<IModelMetadataRegistry> registry;
         private readonly Mock<IDependencyResolver> resolver;
         private readonly Mock<IBuildManager> buildManager;
-        private readonly ModelMetadataRegistrator registrator;
+        private readonly ModelMetadataRegistrar registrar;
 
-        public ModelMetadataRegistratorTests()
+        public ModelMetadataRegistrarTests()
         {
             ModelMetadataProviders.Current = new DataAnnotationsModelMetadataProvider();
             ModelValidatorProviders.Providers.Clear();
@@ -31,7 +31,7 @@ namespace MvcExtensions.Tests
             registry = new Mock<IModelMetadataRegistry>();
             resolver = new Mock<IDependencyResolver>();
 
-            registrator = new ModelMetadataRegistrator(buildManager.Object);
+            registrar = new ModelMetadataRegistrar(buildManager.Object);
 
             var configuration1 = new Mock<IModelMetadataConfiguration>();
             var configuration2 = new Mock<IModelMetadataConfiguration>();
@@ -57,8 +57,8 @@ namespace MvcExtensions.Tests
             int registeredTransients = 0;
             int registeredSingletons = 0;
 
-            registrator.RegisterMetadataTypes((s, i) => { registeredTransients++; }, (s, i) => { registeredSingletons++; });
-            registrator.RegisterMetadataProviders(resolver.Object);
+            registrar.RegisterMetadataTypes((s, i) => { registeredTransients++; }, (s, i) => { registeredSingletons++; });
+            registrar.RegisterMetadataProviders(resolver.Object);
 
             Assert.Equal(2, registeredTransients);
             Assert.Equal(1, registeredSingletons);
@@ -69,14 +69,14 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_model_metadata_and_validation_provider_via_singleton_instance()
         {
-            Assert.NotNull(ModelMetadataRegistrator.Current);
+            Assert.NotNull(ModelMetadataRegistrar.Current);
         }
 
         [Fact]
-        public void Should_be_able_to_register_model_metadata_and_validation_provider_via_singleton_instance_only_once()
+        public void Should_be_able_to_register_model_metadata_types_only_once()
         {
-            registrator.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
-            Assert.ThrowsDelegate action = () => registrator.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
+            registrar.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
+            Assert.ThrowsDelegate action = () => registrar.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
 
             Assert.Throws<InvalidOperationException>(action);
         }

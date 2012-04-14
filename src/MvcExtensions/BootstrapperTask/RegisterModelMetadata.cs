@@ -44,7 +44,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            var metadataRegistrator = new ModelMetadataRegistrator(Container.GetService<IBuildManager>());
+            var metadataRegistrator = new ModelMetadataRegistrar(Container.GetService<IBuildManager>());
             metadataRegistrator
                 .RegisterMetadataTypes(
                     (serviceType, implementationType) => Container.RegisterAsTransient(serviceType, implementationType),

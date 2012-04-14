@@ -15,16 +15,16 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="ModelMetadataProvider"/>.
     /// </summary>
-    public class ModelMetadataRegistrator
+    public class ModelMetadataRegistrar
     {
         private static readonly object locker = new object();
-        private static volatile ModelMetadataRegistrator current;
+        private static volatile ModelMetadataRegistrar current;
         private readonly IBuildManager buildManager;
 
         /// <summary>
         /// Ctor
         /// </summary>
-        public ModelMetadataRegistrator(IBuildManager buildManager)
+        public ModelMetadataRegistrar(IBuildManager buildManager)
         {
             this.buildManager = buildManager;
         }
@@ -33,7 +33,7 @@ namespace MvcExtensions
         /// Singleton instance to simplify provider registration 
         /// without using bootstraping features of MvcExtensions
         /// </summary>
-        public static ModelMetadataRegistrator Current
+        public static ModelMetadataRegistrar Current
         {
             get
             {
@@ -43,7 +43,7 @@ namespace MvcExtensions
                     {
                         if (current == null)
                         {
-                            current = new ModelMetadataRegistrator(new BuildManagerWrapper());
+                            current = new ModelMetadataRegistrar(new BuildManagerWrapper());
                         }
                     }
                 }
