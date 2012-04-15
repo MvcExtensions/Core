@@ -46,7 +46,7 @@ namespace MvcExtensions
         {
             Func<Type, bool> filter = type => KnownTypes.ModelBinderType.IsAssignableFrom(type) &&
                                               type.Assembly != KnownAssembly.AspNetMvcAssembly &&
-                                              !IgnoredTypes.Any(ignoredType => ignoredType == type);
+                                              !IgnoredTypes.Contains(type);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes

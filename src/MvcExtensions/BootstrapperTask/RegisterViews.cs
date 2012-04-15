@@ -46,7 +46,7 @@ namespace MvcExtensions
             Func<Type, bool> filter = type => KnownTypes.ViewType.IsAssignableFrom(type) &&
                                               type.Assembly != KnownAssembly.AspNetMvcAssembly &&
                                               !type.Assembly.GetName().Name.Equals(KnownAssembly.AspNetMvcFutureAssemblyName, StringComparison.OrdinalIgnoreCase) &&
-                                              !IgnoredTypes.Any(ignoredType => ignoredType == type);
+                                              !IgnoredTypes.Contains(type);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes

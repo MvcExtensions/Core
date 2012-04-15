@@ -44,7 +44,8 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) && !IgnoredTypes.Any(ignoredType => ignoredType == type);
+            Func<Type, bool> filter = type => KnownTypes.ActionInvokerType.IsAssignableFrom(type) &&
+                                              !IgnoredTypes.Contains(type);
 
             Container.GetService<IBuildManager>()
                      .ConcreteTypes
