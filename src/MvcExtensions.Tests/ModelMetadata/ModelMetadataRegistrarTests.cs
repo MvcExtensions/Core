@@ -15,7 +15,7 @@ namespace MvcExtensions.Tests
 
     using Xunit;
 
-    public class ModelMetadataRegistrarTests
+    public class ModelMetadataRegistrarTests : IDisposable
     {
         private readonly Mock<IModelMetadataRegistry> registry;
         private readonly Mock<IDependencyResolver> resolver;
@@ -31,7 +31,7 @@ namespace MvcExtensions.Tests
             registry = new Mock<IModelMetadataRegistry>();
             resolver = new Mock<IDependencyResolver>();
 
-            registrar = new ModelMetadataRegistrar(buildManager.Object);
+            registrar = new ModelMetadataRegistrar(resolver.Object);
 
             var configuration1 = new Mock<IModelMetadataConfiguration>();
             var configuration2 = new Mock<IModelMetadataConfiguration>();
@@ -54,31 +54,10 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_register_model_metadata_and_validation_provider()
         {
-            int registeredTransients = 0;
-            int registeredSingletons = 0;
+            registrar.RegisterMetadataProviders();
 
-            registrar.RegisterMetadataTypes((s, i) => { registeredTransients++; }, (s, i) => { registeredSingletons++; });
-            registrar.RegisterMetadataProviders(resolver.Object);
-
-            Assert.Equal(2, registeredTransients);
-            Assert.Equal(1, registeredSingletons);
             Assert.IsType<ExtendedModelMetadataProvider>(ModelMetadataProviders.Current);
             Assert.IsType<CompositeModelValidatorProvider>(ModelValidatorProviders.Providers[0]);
-        }
-
-        [Fact]
-        public void Should_be_able_to_register_model_metadata_and_validation_provider_via_singleton_instance()
-        {
-            Assert.NotNull(ModelMetadataRegistrar.Current);
-        }
-
-        [Fact]
-        public void Should_be_able_to_register_model_metadata_types_only_once()
-        {
-            registrar.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
-            Assert.ThrowsDelegate action = () => registrar.RegisterMetadataTypes((s, i) => {  }, (s, i) => {  });
-
-            Assert.Throws<InvalidOperationException>(action);
         }
     }
 }

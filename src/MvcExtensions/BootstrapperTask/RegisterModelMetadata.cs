@@ -44,13 +44,12 @@ namespace MvcExtensions
         /// <returns></returns>
         public override TaskContinuation Execute()
         {
-            var metadataRegistrator = new ModelMetadataRegistrar(Container.GetService<IBuildManager>());
-            metadataRegistrator
-                .RegisterMetadataTypes(
-                    (serviceType, implementationType) => Container.RegisterAsTransient(serviceType, implementationType),
-                    (serviceType, implementationType) => Container.RegisterAsSingleton(serviceType, implementationType));
+            IEnumerable<Type> concreteTypes = Container.GetService<IBuildManager>().ConcreteTypes;
 
-            metadataRegistrator.RegisterMetadataProviders(Container);
+            concreteTypes.Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
+                         .Each(type => Container.RegisterAsTransient(KnownTypes.ModelMetadataConfigurationType, type));
+
+            Container.GetService<IModelMetadataRegistrar>().RegisterMetadataProviders();
 
             return TaskContinuation.Continue;
         }

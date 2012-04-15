@@ -20,7 +20,7 @@ namespace MvcExtensions
     public abstract class Bootstrapper : Disposable, IBootstrapper
     {
         private readonly object syncLock = new object();
-        private ContainerAdapter container;
+        private volatile ContainerAdapter container;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Bootstrapper"/> class.
@@ -196,6 +196,7 @@ namespace MvcExtensions
         {
             adapter.RegisterInstance(RouteTable.Routes)
                    .RegisterInstance(BuildManager)
+                   .RegisterAsTransient<IModelMetadataRegistrar, ModelMetadataRegistrar>()
                    .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                    .RegisterAsSingleton<IFilterProvider, FilterProvider>()
                    .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();

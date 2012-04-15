@@ -7,7 +7,6 @@
 
 namespace MvcExtensions
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
@@ -15,77 +14,25 @@ namespace MvcExtensions
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="ModelMetadataProvider"/>.
     /// </summary>
-    public class ModelMetadataRegistrar
+    public class ModelMetadataRegistrar : IModelMetadataRegistrar
     {
-        private static readonly object locker = new object();
-        private static volatile ModelMetadataRegistrar current;
-        private readonly IBuildManager buildManager;
+        private readonly IDependencyResolver dependencyResolver;
 
         /// <summary>
         /// Ctor
         /// </summary>
-        public ModelMetadataRegistrar(IBuildManager buildManager)
+        /// <param name="dependencyResolver"></param>
+        public ModelMetadataRegistrar(IDependencyResolver dependencyResolver)
         {
-            this.buildManager = buildManager;
-        }
-
-        /// <summary>
-        /// Singleton instance to simplify provider registration 
-        /// without using bootstraping features of MvcExtensions
-        /// </summary>
-        public static ModelMetadataRegistrar Current
-        {
-            get
-            {
-                if (current == null)
-                {
-                    lock (locker)
-                    {
-                        if (current == null)
-                        {
-                            current = new ModelMetadataRegistrar(new BuildManagerWrapper());
-                        }
-                    }
-                }
-                return current;
-            }
-        }
-
-        private bool MetadataRegistered
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// Register all ModelMetadata types with IoC container
-        /// </summary>
-        /// <param name="registerTransient">Needs to register component as transient via IoC: first type is service type, second one is implementation</param>
-        /// <param name="registerAsSingleton">Needs to register component as singleton via IoC: first type is service type, second one is implementation</param>
-        public void RegisterMetadataTypes(Action<Type, Type> registerTransient, Action<Type, Type> registerAsSingleton)
-        {
-            if (MetadataRegistered)
-            {
-                throw new InvalidOperationException("Metadata types have been already registered.");
-            }
-            IEnumerable<Type> concreteTypes = buildManager.ConcreteTypes;
-            concreteTypes
-                .Where(type => KnownTypes.ModelMetadataConfigurationType.IsAssignableFrom(type))
-                .Each(type => registerTransient(KnownTypes.ModelMetadataConfigurationType, type));
-
-            registerAsSingleton(typeof(IModelMetadataRegistry), typeof(ModelMetadataRegistry));
-            MetadataRegistered = true;
+            this.dependencyResolver = dependencyResolver;
         }
 
         /// <summary>
         /// Registers metadata provider
         /// </summary>
         /// <returns></returns>
-        public void RegisterMetadataProviders(IDependencyResolver dependencyResolver)
+        public void RegisterMetadataProviders()
         {
-            if (!MetadataRegistered)
-                throw new ApplicationException("Register metadata types before register providers.");
-
             IEnumerable<IModelMetadataConfiguration> configurations = dependencyResolver.GetServices<IModelMetadataConfiguration>();
 
             var registry = dependencyResolver.GetService<IModelMetadataRegistry>();
@@ -99,9 +46,6 @@ namespace MvcExtensions
             ModelMetadataProviders.Current = new ExtendedModelMetadataProvider(registry);
             ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
-
-            // clean up current instance to release build manager (we need it only for app starting stage)
-            current = null;
         }
     }
 }

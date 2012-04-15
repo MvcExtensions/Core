@@ -136,6 +136,7 @@
     <Compile Include="Helper\RouteValuesHelpers.cs" />
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataRegistrar.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBuilderRenderActionExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataRegistrar.cs" />
     <Compile Include="ModelMetadata\RenderActionSettingExtensions.cs" />
@@ -248,7 +249,9 @@
     <Compile Include="View\ExtendedViewPageActivator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml" />
+    <CodeAnalysisDictionary Include="..\SharedFiles\CodeAnalysisDictionary.xml">
+      <SubType>Designer</SubType>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionMessages.resx">

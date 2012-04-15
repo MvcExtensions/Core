@@ -49,6 +49,7 @@ namespace MvcExtensions.Tests
 
             adapter.Setup(a => a.RegisterType(It.IsAny<Type>(), It.IsAny<Type>(), It.IsAny<LifetimeType>())).Returns(adapter.Object);
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
+            adapter.Setup(a => a.GetService(typeof(IModelMetadataRegistrar))).Returns(new ModelMetadataRegistrar(adapter.Object));
             adapter.Setup(a => a.GetService(typeof(IModelMetadataRegistry))).Returns(registry.Object);
             adapter.Setup(a => a.GetServices(typeof(IModelMetadataConfiguration))).Returns(new[] { configuration1.Object, configuration2.Object });
 
