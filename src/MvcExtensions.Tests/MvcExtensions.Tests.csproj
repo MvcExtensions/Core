@@ -55,6 +55,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
@@ -130,6 +131,8 @@
     <Compile Include="ModelMetadata\ObjectMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\RangeValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\RegularExpressionValidationMetadataTests.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteModelMetadataItemBuilderTests.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\RequiredValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\StringLengthValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\StringMetadataItemBuilderTests.cs" />
