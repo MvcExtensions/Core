@@ -1,5 +1,5 @@
 ﻿#region Copyright
-// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>, AlexBar <abarbashin@gmail.com>.
+// Copyright (c) 2009 - 2011, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -25,10 +25,7 @@ namespace MvcExtensions
         private readonly Type errorMessageResourceType;
         private string httpMethod;
 
-        internal RemoteValidationConfigurator(ModelMetadataItemBuilder<TValue> modelMetadataItemBuilder,
-                                    Func<string> errorMessage,
-                                    string errorMessageResourceName,
-                                    Type errorMessageResourceType)
+        internal RemoteValidationConfigurator(ModelMetadataItemBuilder<TValue> modelMetadataItemBuilder, Func<string> errorMessage, string errorMessageResourceName, Type errorMessageResourceType)
         {
             this.errorMessage = errorMessage;
             this.errorMessageResourceName = errorMessageResourceName;
@@ -62,7 +59,8 @@ namespace MvcExtensions
         /// <param name="areaName">The name of area</param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName = null) where TController : IController
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName = null)
+            where TController : IController
         {
             var methodCall = (MethodCallExpression)action.Body;
             var parameters = methodCall.Method.GetParameters();
@@ -81,7 +79,8 @@ namespace MvcExtensions
         /// <param name="areaName"> </param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName, IEnumerable<string> additionalFields) where TController : IController
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName, IEnumerable<string> additionalFields)
+            where TController : IController
         {
             CreateRemoteValidation(action, areaName, null, additionalFields);
             return this;
@@ -94,7 +93,8 @@ namespace MvcExtensions
         /// <param name="additionalFields"> </param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, IEnumerable<string> additionalFields) where TController : IController
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, IEnumerable<string> additionalFields)
+            where TController : IController
         {
             CreateRemoteValidation(action, null, null, additionalFields);
             return this;
@@ -174,7 +174,7 @@ namespace MvcExtensions
             CreateRemoteValidation(controller, action, areaName, null, additionalFields);
             return this;
         }
-     
+
         /// <summary>
         /// Register Remote validator by the route name
         /// </summary>
@@ -197,29 +197,31 @@ namespace MvcExtensions
             return this;
         }
 
-
-        private void CreateRemoteValidation<TController, TParam>(Expression<Func<TController, Func<TParam, ActionResult>>> action,
-                                                                   string areaName, string routeName,
-                                                                   IEnumerable<string> additionalFields) where TController : IController
+        private static string Capitalize(string name)
         {
-            string controller = typeof(TController).Name.Replace("Controller", "");
-            string name = new ExpressionVisitorHelper().GetMethod(action).Name;
+            return name.Length > 1 ? name[0].ToString(CultureInfo.InvariantCulture).ToUpper() + name.Substring(1) : name.ToUpper();
+        }
+
+        private void CreateRemoteValidation<TController, TParam>(Expression<Func<TController, Func<TParam, ActionResult>>> action, string areaName, string routeName, IEnumerable<string> additionalFields)
+            where TController : IController
+        {
+            var controller = typeof(TController).Name.Replace("Controller", string.Empty);
+            var name = new ExpressionVisitorHelper().GetMethod(action).Name;
             CreateRemoteValidation(controller, name, areaName, routeName, additionalFields);
         }
 
-        private void CreateRemoteValidation<TController>(Expression<Func<TController, ActionResult>> action,
-                                                                   string areaName, string routeName,
-                                                                   IEnumerable<string> additionalFields) where TController : IController
+        private void CreateRemoteValidation<TController>(Expression<Func<TController, ActionResult>> action, string areaName, string routeName, IEnumerable<string> additionalFields)
+            where TController : IController
         {
-            string controller = typeof(TController).Name.Replace("Controller", "");
+            var controller = typeof(TController).Name.Replace("Controller", string.Empty);
             var methodCall = (MethodCallExpression)action.Body;
-            string actionName = methodCall.Method.Name;
+            var actionName = methodCall.Method.Name;
             CreateRemoteValidation(controller, actionName, areaName, routeName, additionalFields);
         }
 
         private void CreateRemoteValidation(string controller, string action, string areaName, string routeName, IEnumerable<string> additionalFields)
         {
-            ModelMetadataItemBuilder<TValue> self = Core.ModelMetadataItemBuilder;
+            var self = Core.ModelMetadataItemBuilder;
             var validation = self.Item.GetValidationOrCreateNew<RemoteValidationMetadata>();
 
             validation.ErrorMessage = errorMessage;
@@ -227,18 +229,11 @@ namespace MvcExtensions
             validation.Controller = controller;
             validation.RouteName = routeName;
             validation.Area = areaName;
-            string fields = string.Join(",", additionalFields);
+            var fields = string.Join(",", additionalFields);
             validation.AdditionalFields = string.Join(",", fields);
             validation.HttpMethod = httpMethod;
             validation.ErrorMessageResourceType = errorMessageResourceType;
             validation.ErrorMessageResourceName = errorMessageResourceName;
         }
-
-        private static string Capitalize(string name)
-        {
-            return name.Length > 1 ? name[0].ToString(CultureInfo.InvariantCulture).ToUpper() + name.Substring(1) : name.ToUpper();
-        }
     }
-
-
 }

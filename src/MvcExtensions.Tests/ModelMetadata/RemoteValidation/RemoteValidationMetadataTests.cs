@@ -15,7 +15,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_create_validator()
         {
-            var metadata = new RemoteValidationMetadata { RouteName = "someroute"};
+            var metadata = new RemoteValidationMetadata { RouteName = "someroute" };
             var validator = metadata.CreateValidator(CreateMetadata(), new ControllerContext());
 
             Assert.NotNull(validator);
@@ -24,7 +24,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_create_validator_with_contrller_and_action()
         {
-            var metadata = new RemoteValidationMetadata { Action = "action", Controller = "controller"};
+            var metadata = new RemoteValidationMetadata { Action = "action", Controller = "controller" };
             var validator = metadata.CreateValidator(CreateMetadata(), new ControllerContext());
 
             Assert.NotNull(validator);

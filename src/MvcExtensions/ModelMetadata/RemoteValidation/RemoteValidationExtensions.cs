@@ -10,7 +10,6 @@ namespace MvcExtensions
     using System;
 
     /// <summary>
-    /// 
     /// </summary>
     public static class RemoteValidationExtensions
     {
@@ -21,8 +20,7 @@ namespace MvcExtensions
         /// <param name="configure"></param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self,
-                                                                      Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure)
+        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self, Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure)
         {
             return Remote(self, configure, null, null, null);
         }
@@ -35,8 +33,7 @@ namespace MvcExtensions
         /// <param name="errorMessage"></param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self,
-                                                                      Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, string errorMessage)
+        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self, Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, string errorMessage)
         {
             return Remote(self, configure, () => errorMessage);
         }
@@ -49,8 +46,7 @@ namespace MvcExtensions
         /// <param name="errorMessage"></param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self,
-                                                                      Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, Func<string> errorMessage)
+        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self, Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, Func<string> errorMessage)
         {
             return Remote(self, configure, errorMessage, null, null);
         }
@@ -64,16 +60,12 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType"></param>
         /// <typeparam name="TValue"></typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self,
-                                                                      Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, string errorMessageResourceName,
-                                                                      Type errorMessageResourceType)
+        public static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self, Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, string errorMessageResourceName, Type errorMessageResourceType)
         {
             return Remote(self, configure, null, errorMessageResourceName, errorMessageResourceType);
         }
 
-        private static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self,
-                                                                       Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, Func<string> errorMessage, string errorMessageResourceName,
-                                                                       Type errorMessageResourceType)
+        private static ModelMetadataItemBuilder<TValue> Remote<TValue>(this ModelMetadataItemBuilder<TValue> self, Func<RemoteValidationConfigurator<TValue>, AbstractRemoteValidationConfigurator<TValue>> configure, Func<string> errorMessage, string errorMessageResourceName, Type errorMessageResourceType)
         {
             var settings = new RemoteValidationConfigurator<TValue>(self, errorMessage, errorMessageResourceName, errorMessageResourceType);
             var configurator = (IRemoteValidationConfigurator<TValue>)configure(settings);

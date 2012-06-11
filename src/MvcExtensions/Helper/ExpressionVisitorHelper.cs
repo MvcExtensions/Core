@@ -88,6 +88,7 @@ namespace MvcExtensions
             {
                 properties.Add(node.Member.Name);
             }
+
             return base.VisitMember(node);
         }
     }
