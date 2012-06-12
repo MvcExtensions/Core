@@ -24,7 +24,7 @@
     <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\StyleCop\Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
     <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
 
-    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;CodeCoverage;Deploy"/>
+    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;Tests;Deploy"/>
 
     <Target Name="Init">
         <MakeDir Directories="$(artifactPath)" Condition="!Exists('$(artifactPath)')"/>
@@ -65,7 +65,7 @@
         <AssemblyInfo CodeLanguage="CS"
 	        OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="MvcExtensions"
-            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011, hazzik 2011"
+            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012"
             ComVisible="false"
             AssemblyVersion="$(Version)"
             AssemblyFileVersion="$(Version)"
@@ -98,6 +98,10 @@
         Include="[$(coreFile)]*"
         Exclude="[*.Test]*"
       />
+    </Target>
+
+    <Target Name="Tests">
+      <Exec Command="$(xunit) &quot;$(corePath).Tests\bin\$(Configuration)\$(coreFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreFile).Tests.xunit.xml&quot;" />
     </Target>
 
     <Target Name="Deploy">
