@@ -131,6 +131,7 @@
     <Compile Include="ExtensionMethod\RouteExtensions.cs" />
     <Compile Include="Flash\FlashHtmlExtensions.cs" />
     <Compile Include="Flash\FlashStorage.cs" />
+    <Compile Include="Helper\ExpressionVisitorHelper.cs" />
     <Compile Include="Helper\KnownActionNames.cs" />
     <Compile Include="Helper\KnownMimeTypes.cs" />
     <Compile Include="Helper\RouteValuesHelpers.cs" />
@@ -139,6 +140,11 @@
     <Compile Include="ModelMetadata\IModelMetadataRegistrar.cs" />
     <Compile Include="ModelMetadata\ModelMetadataItemBuilderRenderActionExtensions.cs" />
     <Compile Include="ModelMetadata\ModelMetadataRegistrar.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\AbstractRemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\IRemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationExtensions.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationMetadata.cs" />
     <Compile Include="ModelMetadata\RenderActionSettingExtensions.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />

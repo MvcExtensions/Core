@@ -15,7 +15,7 @@ namespace MvcExtensions
     /// </summary>
     public abstract class IgnorableTypesBootstrapperTask<TBootstrapperTask, TIgnoreType> : BootstrapperTask where TBootstrapperTask : IgnorableTypesBootstrapperTask<TBootstrapperTask, TIgnoreType> where TIgnoreType : class
     {
-        private readonly ICollection<Type> ignoredTypes = new List<Type>();
+        private readonly ICollection<Type> ignoredTypes = new HashSet<Type>();
 
         /// <summary>
         /// Gets the ignored types.
