@@ -7,7 +7,7 @@
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
 
-        <xunit>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunit>
+        <xunit>$(MSBuildProjectDirectory)\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe</xunit>
         <nuget>$(MSBuildProjectDirectory)\.nuget\nuget</nuget>
 
         <artifactPath>$(MSBuildProjectDirectory)\Drops</artifactPath>
@@ -22,7 +22,7 @@
     <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
     <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
     <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\StyleCop\Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
-    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
+    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\packages\xunit.runners.1.9.1\tools\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
 
     <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;Tests;Deploy"/>
 
@@ -63,7 +63,7 @@
 
     <Target Name="Build">
         <AssemblyInfo CodeLanguage="CS"
-	        OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
+            OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="MvcExtensions"
             AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012"
             ComVisible="false"
