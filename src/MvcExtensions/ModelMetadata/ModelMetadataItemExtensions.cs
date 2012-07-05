@@ -24,7 +24,7 @@ namespace MvcExtensions
         public static TValidationMetadata GetValidationOrCreateNew<TValidationMetadata>(this ModelMetadataItem item)
             where TValidationMetadata : class, IModelValidationMetadata, new()
         {
-            TValidationMetadata validation = item.GetValidation<TValidationMetadata>();
+            var validation = item.GetValidation<TValidationMetadata>();
 
             if (validation == null)
             {
@@ -57,7 +57,7 @@ namespace MvcExtensions
         public static TSetting GetAdditionalSettingOrCreateNew<TSetting>(this ModelMetadataItem item)
             where TSetting : class, IModelMetadataAdditionalSetting, new()
         {
-            TSetting setting = item.GetAdditionalSetting<TSetting>();
+            var setting = item.GetAdditionalSetting<TSetting>();
 
             if (setting == null)
             {
