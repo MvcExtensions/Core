@@ -32,7 +32,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_iterate_public_type_of_assemblies()
         {
-            var assemblies = new[] { typeof(ExtendedMvcApplication).Assembly, GetType().Assembly };
+            var assemblies = new[] { typeof(Bootstrapper).Assembly, GetType().Assembly };
 
             Assert.NotEmpty(assemblies.PublicTypes());
         }
@@ -46,7 +46,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_be_able_to_iterate_concrete_type_of_assemblies()
         {
-            var assemblies = new[] { typeof(ExtendedMvcApplication).Assembly, GetType().Assembly };
+            var assemblies = new[] { typeof(Bootstrapper).Assembly, GetType().Assembly };
 
             Assert.NotEmpty(assemblies.ConcreteTypes());
         }

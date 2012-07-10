@@ -217,7 +217,6 @@
     <Compile Include="ExtensionMethod\EnumerableExtensions.cs" />
     <Compile Include="ExtensionMethod\TypeExtensions.cs" />
     <Compile Include="Controller\ExtendedControllerActionInvoker.cs" />
-    <Compile Include="ExtendedMvcApplication.cs" />
     <Compile Include="Helper\Invariant.cs" />
     <Compile Include="Helper\KnownTypes.cs" />
     <Compile Include="Helper\IFluentSyntax.cs" />
