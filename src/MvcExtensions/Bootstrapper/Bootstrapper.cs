@@ -260,11 +260,11 @@ namespace MvcExtensions
                 {
                     if (initializeModuleCount++ == 0)
                     {
-                        context.BeginRequest += (sender, args) => Current.ExecutePerRequestTasks();
-                        context.EndRequest += (sender, args) => Current.DisposePerRequestTasks();
                         Current.ExecuteBootstrapperTasks();
                     }
                 }
+                context.BeginRequest += (sender, args) => Current.ExecutePerRequestTasks();
+                context.EndRequest += (sender, args) => Current.DisposePerRequestTasks();
             }
 
             /// <summary>
