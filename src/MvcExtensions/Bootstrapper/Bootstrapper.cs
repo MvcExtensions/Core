@@ -263,6 +263,7 @@ namespace MvcExtensions
                         Current.ExecuteBootstrapperTasks();
                     }
                 }
+
                 context.BeginRequest += (sender, args) => Current.ExecutePerRequestTasks();
                 context.EndRequest += (sender, args) => Current.DisposePerRequestTasks();
             }
