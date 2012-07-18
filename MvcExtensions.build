@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Full" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">2.5.0</BUILD_NUMBER>
+        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">3.0.0</BUILD_NUMBER>
         <SemVer>$(BUILD_NUMBER)</SemVer>
         <Version>$([System.Text.RegularExpressions.Regex]::Match($(BUILD_NUMBER), `\d+.\d+.\d+`)).0</Version>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
