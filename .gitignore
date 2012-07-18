@@ -21,3 +21,7 @@ Sample/Demo.Web.*/Scripts/
 Sample/Demo.Web.*/Content/
 pull/
 packages/
+samples/Demo.Web.*/Views/
+samples/Demo.Web.*/Scripts/
+samples/Demo.Web.*/Content/
+
