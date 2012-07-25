@@ -6,6 +6,9 @@ properties {
 	$buildNumber = "3.0.0"
 	$version = "$buildNumber.0"
 	$semVer = $buildNumber
+	$xunit = "$ProjectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe"
+	$corePath = "$ProjectDir\src\MvcExtensions"
+	$coreFile = "MvcExtensions"
 }
 
 task default -depends Full
@@ -13,7 +16,7 @@ task default -depends Full
 task Full -depends Init, Clean, Build
 
 task Init {
-	if(Test-Path $artifactPath) {
+	if(-not(Test-Path $artifactPath)) {
 		md $artifactPath
 	}
 }
@@ -33,6 +36,10 @@ task Build {
 
 task Clean {
 	exec { msbuild $solution /t:Clean /p:Configuration=$configuration /m }
+}
+
+task Tests -depends Init {
+	exec { & $xunit "$corePath.Tests\bin\$configuration\$coreFile.Tests.dll" /noshadow /xml $artifactPath\$coreFile.Tests.xunit.xml }
 }
 
 #https://github.com/ayende/rhino-mocks/blob/master/psake_ext.ps1
