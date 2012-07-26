@@ -43,6 +43,10 @@ task Tests -depends Init {
 	exec { & $xunit "$corePath.Tests\bin\$configuration\$coreFile.Tests.dll" /noshadow /xml $artifactPath\$coreFile.Tests.xunit.xml }
 }
 
+task Deploy {
+	exec { & "${nuget}.exe" pack $corePath\$coreFile.nuspec /basepath $corePath\bin\$configuration /outputdirectory $artifactPath /version $semVer }
+}
+
 task Publish {
 	exec { & "${nuget}.cmd" push $artifactPath\$coreFile.$semVer.nupkg }
 }
