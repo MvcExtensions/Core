@@ -1,14 +1,15 @@
 properties {
-	$ProjectDir = Resolve-Path "."
-	$solution = "$ProjectDir\MvcExtensions.sln"
+	$projectDir = Resolve-Path "."
+	$solution = "$projectDir\MvcExtensions.sln"
 	$configuration = "Debug"
-	$artifactPath = "$ProjectDir\Drops"
+	$artifactPath = "$projectDir\Drops"
 	$buildNumber = "3.0.0"
 	$version = "$buildNumber.0"
 	$semVer = $buildNumber
-	$xunit = "$ProjectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe"
-	$corePath = "$ProjectDir\src\MvcExtensions"
+	$xunit = "$projectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe"
+	$corePath = "$projectDir\src\MvcExtensions"
 	$coreFile = "MvcExtensions"
+	$nuget = "$projectDir\.nuget\nuget"
 }
 
 task default -depends Full
@@ -23,7 +24,7 @@ task Init {
 
 task Build {
 	Generate-Assembly-Info `
-        -outputFile "$ProjectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
+        -outputFile "$projectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
         -company "MvcExtensions" `
         -copyright "Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012" `
         -comVisible "false" `
@@ -40,6 +41,10 @@ task Clean {
 
 task Tests -depends Init {
 	exec { & $xunit "$corePath.Tests\bin\$configuration\$coreFile.Tests.dll" /noshadow /xml $artifactPath\$coreFile.Tests.xunit.xml }
+}
+
+task Publish {
+	exec { & "${nuget}.cmd" push $artifactPath\$coreFile.$semVer.nupkg }
 }
 
 #https://github.com/ayende/rhino-mocks/blob/master/psake_ext.ps1
