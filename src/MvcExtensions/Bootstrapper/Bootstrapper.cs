@@ -196,10 +196,8 @@ namespace MvcExtensions
         {
             adapter.RegisterInstance(RouteTable.Routes)
                 .RegisterInstance(BuildManager)
-                   .RegisterAsTransient<IModelMetadataRegistrar, ModelMetadataRegistrar>()
                 .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
-                .RegisterAsSingleton<IFilterProvider, FilterProvider>()
-                .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
+                .RegisterAsSingleton<IFilterProvider, FilterProvider>();
 
             BuildManager.ConcreteTypes
                 .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))

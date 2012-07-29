@@ -13,7 +13,7 @@ namespace MvcExtensions.Tests
 
     public class BuildManagerWrapperTests
     {
-        readonly BuildManagerWrapper buildManagerWrapper;
+        private readonly BuildManagerWrapper buildManagerWrapper;
 
         public BuildManagerWrapperTests()
         {
