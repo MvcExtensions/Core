@@ -9,7 +9,6 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
@@ -199,7 +198,7 @@ namespace MvcExtensions
 
         private static string Capitalize(string name)
         {
-            return name.Length > 1 ? name[0].ToString(CultureInfo.InvariantCulture).ToUpper() + name.Substring(1) : name.ToUpper();
+            return name.Length > 1 ? char.ToUpperInvariant(name[0]) + name.Substring(1) : name.ToUpper();
         }
 
         private void CreateRemoteValidation<TController, TParam>(Expression<Func<TController, Func<TParam, ActionResult>>> action, string areaName, string routeName, IEnumerable<string> additionalFields)
@@ -229,8 +228,7 @@ namespace MvcExtensions
             validation.Controller = controller;
             validation.RouteName = routeName;
             validation.Area = areaName;
-            var fields = string.Join(",", additionalFields);
-            validation.AdditionalFields = string.Join(",", fields);
+            validation.AdditionalFields = string.Join(",", additionalFields);
             validation.HttpMethod = httpMethod;
             validation.ErrorMessageResourceType = errorMessageResourceType;
             validation.ErrorMessageResourceName = errorMessageResourceName;

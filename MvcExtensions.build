@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Full" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">2.5.0</BUILD_NUMBER>
+        <BUILD_NUMBER Condition="'$(BUILD_NUMBER)' == ''">3.0.0</BUILD_NUMBER>
         <SemVer>$(BUILD_NUMBER)</SemVer>
         <Version>$([System.Text.RegularExpressions.Regex]::Match($(BUILD_NUMBER), `\d+.\d+.\d+`)).0</Version>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <PartCoverTasksPath>$(MSBuildProjectDirectory)\Build\PartCover\</PartCoverTasksPath>
 
-        <xunit>$(MSBuildProjectDirectory)\Build\Xunit\xunit.console.clr4.x86.exe</xunit>
-        <nuget>$(MSBuildProjectDirectory)\Build\NuGet\nuget</nuget>
+        <xunit>$(MSBuildProjectDirectory)\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe</xunit>
+        <nuget>$(MSBuildProjectDirectory)\.nuget\nuget</nuget>
 
         <artifactPath>$(MSBuildProjectDirectory)\Drops</artifactPath>
         <referencePath>$(MSBuildProjectDirectory)\References</referencePath>
@@ -22,9 +22,9 @@
     <Import Project="$(MSBuildProjectDirectory)\Build\PartCover\PartCover.MSBuild.Targets"/>
     <Import Project="$(MSBuildProjectDirectory)\Build\CommunityTasks\MSBuild.Community.Tasks.Targets"/>
     <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\StyleCop\Microsoft.StyleCop.dll" TaskName="StyleCopTask"/>
-    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\Build\Xunit\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
+    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\packages\xunit.runners.1.9.1\tools\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.CombineXunitXml"/>
 
-    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;CodeCoverage;Deploy"/>
+    <Target Name="Full" DependsOnTargets="Init;Clean;StyleCop;Simian;Build;FxCop;Tests;Deploy"/>
 
     <Target Name="Init">
         <MakeDir Directories="$(artifactPath)" Condition="!Exists('$(artifactPath)')"/>
@@ -63,9 +63,9 @@
 
     <Target Name="Build">
         <AssemblyInfo CodeLanguage="CS"
-	        OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
+            OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="MvcExtensions"
-            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2011, hazzik 2011"
+            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012"
             ComVisible="false"
             AssemblyVersion="$(Version)"
             AssemblyFileVersion="$(Version)"
@@ -98,6 +98,10 @@
         Include="[$(coreFile)]*"
         Exclude="[*.Test]*"
       />
+    </Target>
+
+    <Target Name="Tests">
+      <Exec Command="$(xunit) &quot;$(corePath).Tests\bin\$(Configuration)\$(coreFile).Tests.dll&quot; /noshadow /xml &quot;$(artifactPath)\$(coreFile).Tests.xunit.xml&quot;" />
     </Target>
 
     <Target Name="Deploy">

@@ -6,7 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles"
 		build.bat = build.bat
 		src\SharedFiles\CodeAnalysisDictionary.xml = src\SharedFiles\CodeAnalysisDictionary.xml
 		src\SharedFiles\CommonAssemblyInfo.cs = src\SharedFiles\CommonAssemblyInfo.cs
-		InstallPackages.bat = InstallPackages.bat
 		license.txt = license.txt
 		MvcExtensions.build = MvcExtensions.build
 		src\SharedFiles\MvcExtensions.snk = src\SharedFiles\MvcExtensions.snk
@@ -17,6 +16,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions", "src\MvcExtensions\MvcExtensions.csproj", "{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcExtensions.Tests", "src\MvcExtensions.Tests\MvcExtensions.Tests.csproj", "{C421EA3B-E104-41A4-97C6-E2FFAFD8D967}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{38967FA6-9DC3-406C-AB4E-7B5D8450377A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
