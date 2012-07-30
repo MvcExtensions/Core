@@ -44,7 +44,11 @@ task Tests -depends Init {
 }
 
 task Deploy {
-	exec { & "${nuget}.exe" pack $corePath\$coreFile.nuspec /basepath $corePath\bin\$configuration /outputdirectory $artifactPath /version $semVer }
+	Import-Module ".\build\PScx"
+	$files = @("$projectDir\license.txt")
+	Get-ChildItem -Path "$corePath\bin\$configuration" | Where-Object { $_.name -match "$coreFile.*" } | ForEach-Object { $files += $_.FullName }
+	Write-Zip -Path $files -OutputPath "$artifactPath\$coreFile.$semVer.zip" -level 9
+	#exec { & "${nuget}.exe" pack $corePath\$coreFile.nuspec /basepath $corePath\bin\$configuration /outputdirectory $artifactPath /version $semVer }
 }
 
 task Publish {
