@@ -10,6 +10,7 @@ properties {
 	$corePath = "$projectDir\src\MvcExtensions"
 	$coreFile = "MvcExtensions"
 	$nuget = "$projectDir\.nuget\nuget"
+	$referencePath = "$projectDir\References"
 }
 
 task default -depends Full
@@ -19,6 +20,34 @@ task Full -depends Init, Clean, Build
 task Init {
 	if(-not(Test-Path $artifactPath)) {
 		md $artifactPath
+	}
+}
+
+task FxCop {
+	$fxCopOutput = "$artifactPath\FxCop.xml"
+	$fxCopTotalErrors = 0
+
+	Copy-Item $projectDir\Build\FxCop\Xml\FxCopReport.xsl $artifactPath
+
+	exec { & "$projectDir\Build\FxCop\FxCopCmd.exe" `
+		/f:"$corePath\bin\$configuration\$coreFile.dll" `
+		/d:"$referencePath\AspNetMvc" `
+		/d:"$referencePath\Autofac" `
+		/d:"$referencePath\Castle" `
+		/d:"$referencePath\Ninject" `
+		/d:"$referencePath\PnP" `
+		/d:"$referencePath\StructureMap" `
+		/dic:"$projectDir\src\SharedFiles\CodeAnalysisDictionary.xml" `
+		/o:"$fxCopOutput" `
+		/oxsl:"FxCopReport.xsl" `
+		/to:0 /fo /gac /igc /q
+	}
+
+	[xml]$xd = Get-Content $fxCopOutput
+	$nodelist = $xd.selectnodes("//Issue")
+	$fxCopTotalErrors = $nodelist.Count
+	if($fxCopTotalErrors -gt 0){
+		Write-Host "FxCop encountered $fxCopTotalErrors rule violations"
 	}
 }
 
