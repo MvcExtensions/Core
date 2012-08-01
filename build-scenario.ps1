@@ -51,6 +51,14 @@ task FxCop {
 	}
 }
 
+task Simian {
+	Copy-Item $projectDir\Build\Simian\simian.xsl $artifactPath
+	& "$projectDir\Build\Simian\simian-2.2.24.exe" `
+		-formatter=xml:"$artifactPath\Simian.xml" `
+		-reportDuplicateText+ `
+		"$corePath\**\*.cs"
+}
+
 task Build {
 	Generate-Assembly-Info `
         -outputFile "$projectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
@@ -77,7 +85,7 @@ task Deploy {
 	$files = @("$projectDir\license.txt")
 	Get-ChildItem -Path "$corePath\bin\$configuration" | Where-Object { $_.name -match "$coreFile.*" } | ForEach-Object { $files += $_.FullName }
 	Write-Zip -Path $files -OutputPath "$artifactPath\$coreFile.$semVer.zip" -level 9
-	#exec { & "${nuget}.exe" pack $corePath\$coreFile.nuspec /basepath $corePath\bin\$configuration /outputdirectory $artifactPath /version $semVer }
+	exec { & "${nuget}.exe" pack $corePath\$coreFile.nuspec /basepath $corePath\bin\$configuration /outputdirectory $artifactPath /version $semVer }
 }
 
 task Publish {
