@@ -11,6 +11,7 @@ properties {
 	$coreFile = "MvcExtensions"
 	$nuget = "$projectDir\.nuget\nuget"
 	$referencePath = "$projectDir\References"
+	$coverageRunner = "$projectDir\build\PartCover\partcover.exe"
 }
 
 task default -depends Full
@@ -74,6 +75,11 @@ task Build {
 
 task Clean {
 	exec { msbuild $solution /t:Clean /p:Configuration=$configuration /m }
+}
+
+task CodeCoverage {	
+	Copy-Item $projectDir\Build\PartCover\partcover.xml $artifactPath
+	exec { & $coverageRunner --register --settings $artifactPath\partcover.xml --output $artifactPath\$coreFile-coverage.xml }
 }
 
 task Tests -depends Init {
