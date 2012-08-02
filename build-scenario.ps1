@@ -12,6 +12,7 @@ properties {
 	$nuget = "$projectDir\.nuget\nuget"
 	$referencePath = "$projectDir\References"
 	$coverageRunner = "$projectDir\build\PartCover\partcover.exe"
+	$styleCop = "$projectDir\build\StyleCop\StyleCopCLI.exe"
 }
 
 task default -depends Full
@@ -26,6 +27,11 @@ task Init {
 
 task Clean {
 	exec { msbuild $solution /t:Clean /p:Configuration=$configuration /m }
+}
+
+#http://sourceforge.net/projects/stylecopcli/
+task StyleCop {
+	exec { & $styleCop -sln "$solution" -out "$artifactPath\StyleCop.xml" }
 }
 
 task Simian {
