@@ -24,6 +24,31 @@ task Init {
 	}
 }
 
+task Clean {
+	exec { msbuild $solution /t:Clean /p:Configuration=$configuration /m }
+}
+
+task Simian {
+	Copy-Item $projectDir\Build\Simian\simian.xsl $artifactPath
+	& "$projectDir\Build\Simian\simian-2.2.24.exe" `
+		-formatter=xml:"$artifactPath\Simian.xml" `
+		-reportDuplicateText+ `
+		"$corePath\**\*.cs"
+}
+
+task Build {
+	Generate-Assembly-Info `
+        -outputFile "$projectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
+        -company "MvcExtensions" `
+        -copyright "Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012" `
+        -comVisible "false" `
+        -version $version `
+        -fileVersion $version `
+        -informationalVersion $semVer
+
+	exec { msbuild $solution /t:Build /p:Configuration=$configuration /m }
+}
+
 task FxCop {
 	$fxCopOutput = "$artifactPath\FxCop.xml"
 	$fxCopTotalErrors = 0
@@ -50,31 +75,6 @@ task FxCop {
 	if($fxCopTotalErrors -gt 0){
 		Write-Host "FxCop encountered $fxCopTotalErrors rule violations"
 	}
-}
-
-task Simian {
-	Copy-Item $projectDir\Build\Simian\simian.xsl $artifactPath
-	& "$projectDir\Build\Simian\simian-2.2.24.exe" `
-		-formatter=xml:"$artifactPath\Simian.xml" `
-		-reportDuplicateText+ `
-		"$corePath\**\*.cs"
-}
-
-task Build {
-	Generate-Assembly-Info `
-        -outputFile "$projectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
-        -company "MvcExtensions" `
-        -copyright "Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012" `
-        -comVisible "false" `
-        -version $version `
-        -fileVersion $version `
-        -informationalVersion $semVer
-
-	exec { msbuild $solution /t:Build /p:Configuration=$configuration /m }
-}
-
-task Clean {
-	exec { msbuild $solution /t:Clean /p:Configuration=$configuration /m }
 }
 
 task CodeCoverage {	
