@@ -17,7 +17,7 @@ properties {
 
 task default -depends Full
 
-task Full -depends Init, Clean, Build
+task Full -depends Init, Clean, StyleCop, Simian, Build, FxCop, Tests, Deploy
 
 task Init {
 	if(-not(Test-Path $artifactPath)) {
@@ -31,7 +31,7 @@ task Clean {
 
 #http://sourceforge.net/projects/stylecopcli/
 task StyleCop {
-	exec { & $styleCop -sln "$solution" -out "$artifactPath\StyleCop.xml" }
+	& $styleCop -sln "$solution" -out "$artifactPath\StyleCop.xml"
 }
 
 task Simian {
