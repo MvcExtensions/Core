@@ -31,6 +31,6 @@ License
 --------------------------------
 [Microsoft Public License (Ms-PL)](http://www.opensource.org/licenses/MS-PL)
 
-OurSponsors
+Our Sponsors
 --------------------------------
 [ReSharper](http://www.jetbrains.com/resharper/)
