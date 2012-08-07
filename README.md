@@ -30,3 +30,7 @@ Check out the [getting started guide](/MvcExtensions/Core/wiki/Getting-started-w
 License
 --------------------------------
 [Microsoft Public License (Ms-PL)](http://www.opensource.org/licenses/MS-PL)
+
+OurSponsors
+--------------------------------
+[ReSharper](http://www.jetbrains.com/resharper/)
