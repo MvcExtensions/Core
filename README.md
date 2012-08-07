@@ -33,4 +33,4 @@ License
 
 Our Sponsors
 --------------------------------
-[ReSharper](http://www.jetbrains.com/resharper/)
+[ReSharper](http://www.jetbrains.com/resharper/) - ReSharper is a renowned productivity tool that makes Microsoft Visual Studio a much better IDE. Thousands of .NET developers worldwide wonder how they’ve ever lived without ReSharper’s code inspections, automated refactorings, blazing fast navigation, and coding assistance.
