@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
+// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -11,7 +11,6 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
-    using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -21,7 +20,6 @@ namespace MvcExtensions
     public abstract class Bootstrapper : Disposable, IBootstrapper
     {
         private readonly object syncLock = new object();
-
         private volatile ContainerAdapter container;
 
         /// <summary>
@@ -41,15 +39,6 @@ namespace MvcExtensions
             BuildManager = buildManager;
             BootstrapperTasks = bootstrapperTasks;
             PerRequestTasks = perRequestTasks;
-        }
-
-        /// <summary>
-        /// Current bootstrapper
-        /// </summary>
-        public static IBootstrapper Current 
-        { 
-            get; 
-            protected set; 
         }
 
         /// <summary>
@@ -165,9 +154,9 @@ namespace MvcExtensions
 
         private void Execute<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
-            var shouldSkip = false;
+            bool shouldSkip = false;
 
-            foreach (var taskConfiguration in tasks)
+            foreach (KeyValuePair<Type, Action<object>> taskConfiguration in tasks)
             {
                 if (shouldSkip)
                 {
@@ -175,7 +164,7 @@ namespace MvcExtensions
                     continue;
                 }
 
-                var task = (TTask)Adapter.GetService(taskConfiguration.Key);
+                TTask task = (TTask)Adapter.GetService(taskConfiguration.Key);
 
                 Debug.Assert(task != null, "Task should be not null");
 
@@ -184,7 +173,7 @@ namespace MvcExtensions
                     taskConfiguration.Value(task);
                 }
 
-                var continuation = task.Execute();
+                TaskContinuation continuation = task.Execute();
 
                 if (continuation == TaskContinuation.Break)
                 {
@@ -197,7 +186,7 @@ namespace MvcExtensions
 
         private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
-            foreach (var task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
+            foreach (TTask task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
             {
                 task.Dispose();
             }
@@ -207,6 +196,7 @@ namespace MvcExtensions
         {
             adapter.RegisterInstance(RouteTable.Routes)
                 .RegisterInstance(BuildManager)
+                   .RegisterAsTransient<IModelMetadataRegistrar, ModelMetadataRegistrar>()
                 .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
                 .RegisterAsSingleton<IFilterProvider, FilterProvider>()
                 .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
@@ -233,54 +223,13 @@ namespace MvcExtensions
 
         private ContainerAdapter CreateAndSetCurrent()
         {
-            var adapter = CreateAdapter();
+            ContainerAdapter adapter = CreateAdapter();
 
             Register(adapter);
 
             DependencyResolver.SetResolver(adapter);
 
             return adapter;
-        }
-
-        /// <summary>
-        /// The bootstrapper module
-        /// </summary>
-        public class Module : IHttpModule
-        {
-            private static readonly object lockSync = new object();
-            private static int initializeModuleCount;
-
-            /// <summary>
-            /// Initializes a module and prepares it to handle requests.
-            /// </summary>
-            /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application </param>
-            public void Init(HttpApplication context)
-            {
-                lock (lockSync)
-                {
-                    if (initializeModuleCount++ == 0)
-                    {
-                        Current.ExecuteBootstrapperTasks();
-                    }
-                }
-
-                context.BeginRequest += (sender, args) => Current.ExecutePerRequestTasks();
-                context.EndRequest += (sender, args) => Current.DisposePerRequestTasks();
-            }
-
-            /// <summary>
-            /// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.
-            /// </summary>
-            public void Dispose()
-            {
-                lock (lockSync)
-                {
-                    if (--initializeModuleCount == 0)
-                    {
-                        Current.DisposeBootstrapperTasks();
-                    }
-                }
-            }
         }
     }
 }
