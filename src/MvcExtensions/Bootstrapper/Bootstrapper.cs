@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
 
@@ -39,6 +40,15 @@ namespace MvcExtensions
             BuildManager = buildManager;
             BootstrapperTasks = bootstrapperTasks;
             PerRequestTasks = perRequestTasks;
+        }
+
+        /// <summary>
+        /// Current bootstrapper
+        /// </summary>
+        public static IBootstrapper Current 
+        { 
+            get; 
+            protected set; 
         }
 
         /// <summary>
@@ -154,9 +164,9 @@ namespace MvcExtensions
 
         private void Execute<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
-            bool shouldSkip = false;
+            var shouldSkip = false;
 
-            foreach (KeyValuePair<Type, Action<object>> taskConfiguration in tasks)
+            foreach (var taskConfiguration in tasks)
             {
                 if (shouldSkip)
                 {
@@ -164,7 +174,7 @@ namespace MvcExtensions
                     continue;
                 }
 
-                TTask task = (TTask)Adapter.GetService(taskConfiguration.Key);
+                var task = (TTask)Adapter.GetService(taskConfiguration.Key);
 
                 Debug.Assert(task != null, "Task should be not null");
 
@@ -173,7 +183,7 @@ namespace MvcExtensions
                     taskConfiguration.Value(task);
                 }
 
-                TaskContinuation continuation = task.Execute();
+                var continuation = task.Execute();
 
                 if (continuation == TaskContinuation.Break)
                 {
@@ -186,7 +196,7 @@ namespace MvcExtensions
 
         private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
-            foreach (TTask task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
+            foreach (var task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
             {
                 task.Dispose();
             }
@@ -221,13 +231,54 @@ namespace MvcExtensions
 
         private ContainerAdapter CreateAndSetCurrent()
         {
-            ContainerAdapter adapter = CreateAdapter();
+            var adapter = CreateAdapter();
 
             Register(adapter);
 
             DependencyResolver.SetResolver(adapter);
 
             return adapter;
+        }
+
+        /// <summary>
+        /// The bootstrapper module
+        /// </summary>
+        public class Module : IHttpModule
+        {
+            private static readonly object lockSync = new object();
+            private static int initializeModuleCount;
+
+            /// <summary>
+            /// Initializes a module and prepares it to handle requests.
+            /// </summary>
+            /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application </param>
+            public void Init(HttpApplication context)
+            {
+                lock (lockSync)
+                {
+                    if (initializeModuleCount++ == 0)
+                    {
+                        Current.ExecuteBootstrapperTasks();
+                    }
+                }
+
+                context.BeginRequest += (sender, args) => Current.ExecutePerRequestTasks();
+                context.EndRequest += (sender, args) => Current.DisposePerRequestTasks();
+            }
+
+            /// <summary>
+            /// Disposes of the resources (other than memory) used by the module that implements <see cref="T:System.Web.IHttpModule"/>.
+            /// </summary>
+            public void Dispose()
+            {
+                lock (lockSync)
+                {
+                    if (--initializeModuleCount == 0)
+                    {
+                        Current.DisposeBootstrapperTasks();
+                    }
+                }
+            }
         }
     }
 }
