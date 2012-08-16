@@ -123,44 +123,11 @@
   <data name="TheExpressionMustBeAValidControllerAction" xml:space="preserve">
     <value>The expression must be a valid controller action.</value>
   </data>
-  <data name="ThePropertyNameOfTypeCouldNotBeFound" xml:space="preserve">
-    <value>The property {0}.{1} could not be found.</value>
-  </data>
-  <data name="CannotApplyUrlWhenThereIsAnActiveExpression" xml:space="preserve">
-    <value>Cannot apply url when there is an active expression.</value>
-  </data>
-  <data name="CannotApplyEmailWhenThereIsAnActiveExpression" xml:space="preserve">
-    <value>Cannot apply email when there is an active expression.</value>
-  </data>
-  <data name="InvalidEmailAddressFormat" xml:space="preserve">
-    <value>Invalid email address format.</value>
-  </data>
-  <data name="InvalidUrlFormat" xml:space="preserve">
-    <value>Invalid url format.</value>
-  </data>
   <data name="IsNotATargetType" xml:space="preserve">
     <value>"{0}" is not a "{1}" type.</value>
   </data>
   <data name="JsonGet" xml:space="preserve">
     <value>This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet.</value>
-  </data>
-  <data name="CannotHaveMoreThanOneModelBinderForTheSameModelType" xml:space="preserve">
-    <value>Cannot have more than one model binder "{0}" for the same model type "{1}".</value>
-  </data>
-  <data name="MustBeAValidClass" xml:space="preserve">
-    <value>"{0}" must be a valid class.</value>
-  </data>
-  <data name="InvalidControllerTypeTypeMustBeAInheritedFromController" xml:space="preserve">
-    <value>Invalid controller type. Type must be a inherited from "Controller".</value>
-  </data>
-  <data name="InvalidActionInvokerTypeTypeMustImplementIActionInvoker" xml:space="preserve">
-    <value>Invalid action invoker type. Type must implement "IActionInvoker".</value>
-  </data>
-  <data name="ActivateAllExceptionMessage" xml:space="preserve">
-    <value>Activation error occurred while trying to get all instances of type {0}.</value>
-  </data>
-  <data name="ActivationExceptionMessage" xml:space="preserve">
-    <value>Activation error occurred while trying to get instance of type {0}, key "{1}".</value>
   </data>
   <data name="IncorrectTypeMustBeDescended" xml:space="preserve">
     <value>Incorrect type, it must be descended of "{0}".</value>

@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
+// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -21,7 +21,6 @@ namespace MvcExtensions
     public abstract class Bootstrapper : Disposable, IBootstrapper
     {
         private readonly object syncLock = new object();
-
         private volatile ContainerAdapter container;
 
         /// <summary>
@@ -208,8 +207,7 @@ namespace MvcExtensions
             adapter.RegisterInstance(RouteTable.Routes)
                 .RegisterInstance(BuildManager)
                 .RegisterAsSingleton<IFilterRegistry, FilterRegistry>()
-                .RegisterAsSingleton<IFilterProvider, FilterProvider>()
-                .RegisterAsSingleton<IModelMetadataRegistry, ModelMetadataRegistry>();
+                .RegisterAsSingleton<IFilterProvider, FilterProvider>();
 
             BuildManager.ConcreteTypes
                 .Where(type => KnownTypes.BootstrapperTaskType.IsAssignableFrom(type))

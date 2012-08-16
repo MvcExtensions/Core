@@ -128,6 +128,7 @@ namespace MvcExtensions.Tests
             Assert.False(actionItem.IsMatching(controllerContext, actionDescriptor.Object));
         }
 
+        // ReSharper disable Mvc.ViewNotResolved
         private sealed class FakeController : Controller
         {
             public ActionResult Index()
@@ -151,5 +152,7 @@ namespace MvcExtensions.Tests
                 return View();
             }
         }
+
+        // ReSharper restore Mvc.ViewNotResolved
     }
 }

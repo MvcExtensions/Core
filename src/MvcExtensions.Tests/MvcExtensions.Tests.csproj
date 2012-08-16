@@ -101,6 +101,7 @@
     <Compile Include="ActionResult\ExtendedJsonResultTests.cs" />
     <Compile Include="BootstrapperTask\ConfigurableTypeMappingBaseTests.cs" />
     <Compile Include="BootstrapperTask\RegisterActionInvokersTests.cs" />
+    <Compile Include="BootstrapperTask\RegisterModelMetadataTests.cs" />
     <Compile Include="BootstrapperTask\RegisterValueProviderFactoriesTests.cs" />
     <Compile Include="BootstrapperTask\RegisterControllersTests.cs" />
     <Compile Include="BootstrapperTask\RegisterFiltersTests.cs" />
@@ -113,33 +114,10 @@
     <Compile Include="Helper\QValueSorterTests.cs" />
     <Compile Include="IoC\ContainerAdapterTests.cs" />
     <Compile Include="IoC\ServiceRegistrarExtensionsTests.cs" />
-    <Compile Include="BootstrapperTask\RegisterModelMetadataTests.cs" />
     <Compile Include="BuildManager\BuildManagerWrapperTests.cs" />
     <Compile Include="Bootstrapper\BootstrapperTests.cs" />
     <Compile Include="Abstraction\DisposableTests.cs" />
     <Compile Include="ExtensionMethod\EnumerableExtensionsTests.cs" />
-    <Compile Include="ModelMetadata\BehaviorTests.cs" />
-    <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\CompositeModelValidatorProviderTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelValidatorProviderTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelMetadataProviderTests.cs" />
-    <Compile Include="ModelMetadata\ExtendedModelMetadataTests.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataConfigurationTests.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemBaseTests.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\ModelMetadataRegistryTests.cs" />
-    <Compile Include="ModelMetadata\ObjectMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\RangeValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\RegularExpressionValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\RemoteModelMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\RequiredValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\StringLengthValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\StringMetadataItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\ValidationMetadataTestsBase.cs" />
-    <Compile Include="ModelMetadata\ValueTypeItemBuilderTests.cs" />
-    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensionsTests.cs" />
     <Compile Include="Routing\EnumConstraintTests.cs" />
     <Compile Include="Routing\GuidConstraintTests.cs" />
     <Compile Include="Routing\PositiveIntegerConstraintTests.cs" />
@@ -162,6 +140,10 @@
     <Compile Include="TypeCatalog\TypeCatalogTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MvcExtensions.FluentMetadata\MvcExtensions.FluentMetadata.csproj">
+      <Project>{30C4E9A3-8D35-4869-8179-008CF09C8D36}</Project>
+      <Name>MvcExtensions.FluentMetadata</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MvcExtensions\MvcExtensions.csproj">
       <Project>{36D776AA-6B96-4D33-B7B5-7F4A5376DD37}</Project>
       <Name>MvcExtensions</Name>
