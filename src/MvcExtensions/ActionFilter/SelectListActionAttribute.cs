@@ -90,7 +90,7 @@ namespace MvcExtensions
 
         private static Type GetModelType(Type type)
         {
-            if (type.IsArray)
+            if (type.IsArray || type == typeof(string))
             {
                 return type;
             }
