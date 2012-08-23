@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Diagnostics;
+    using System.Globalization;
 
     /// <summary>
     /// Defines a utility class to validate method arguments.
@@ -25,7 +26,7 @@ namespace MvcExtensions
         {
             if (value == null)
             {
-                throw new ArgumentNullException(parameterName, string.Format(Culture.CurrentUI, ExceptionMessages.CannotBeNull, parameterName));
+                throw new ArgumentNullException(parameterName, string.Format(CultureInfo.CurrentUICulture, ExceptionMessages.CannotBeNull, parameterName));
             }
         }
     }

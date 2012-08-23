@@ -164,6 +164,151 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{30C4E9A3-8D35-4869-8179-008CF09C8D36}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MvcExtensions</RootNamespace>
+    <AssemblyName>MvcExtensions.FluentMetadata</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\MvcExtensions.FluentMetadata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\MvcExtensions.FluentMetadata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\SharedFiles\MvcExtensions.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SharedFiles\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="ActionFilter\SelectListActionAttribute.cs" />
+    <Compile Include="ExceptionMessages.Designer.cs">
+      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helper\AssemblyExtensions.cs" />
+    <Compile Include="Helper\ExpressionVisitorHelper.cs" />
+    <Compile Include="Helper\Invariant.cs" />
+    <Compile Include="Helper\Maybe.cs" />
+    <Compile Include="Helper\StringUtils.cs" />
+    <Compile Include="Helper\TypeExtensions.cs" />
+    <Compile Include="Localization\ConventionSettings.cs" />
+    <Compile Include="Localization\DisplayAttributeTransformer.cs" />
+    <Compile Include="Localization\DisplayNameTransformer.cs" />
+    <Compile Include="Localization\FluentModelMetadataTransformer.cs" />
+    <Compile Include="Localization\TransformerCore.cs" />
+    <Compile Include="Localization\ValidationAttributeTransformer.cs" />
+    <Compile Include="Localization\MetadataConventionsAttribute.cs" />
+    <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
+    <Compile Include="Providers\CompositeModelValidatorProvider.cs" />
+    <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
+    <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
+    <Compile Include="Providers\ConventionalDataAnnotationsModelMetadataProvider.cs" />
+    <Compile Include="Providers\ExtendedModelMetadataProvider.cs" />
+    <Compile Include="Providers\ExtendedModelValidatorProvider.cs" />
+    <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataAdditionalSetting.cs" />
+    <Compile Include="ModelMetadata\IModelMetadataConfiguration.cs" />
+    <Compile Include="Registration\ConfigurationsScanner.cs" />
+    <Compile Include="Registration\ConfigurationsScanResult.cs" />
+    <Compile Include="Registration\From.cs" />
+    <Compile Include="Registration\IMetadataConstruction.cs" />
+    <Compile Include="Registration\IModelMetadataRegistry.cs" />
+    <Compile Include="ModelMetadata\IModelValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataConfiguration.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItem.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemBuilderRenderActionExtensions.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemExtensions.cs" />
+    <Compile Include="ModelMetadata\ModelMetadataItemSelectableElementSetting.cs" />
+    <Compile Include="Registration\IRegistrar.cs" />
+    <Compile Include="Registration\ModelMetadataRegistrar.cs" />
+    <Compile Include="Registration\ModelMetadataRegistry.cs" />
+    <Compile Include="ModelMetadata\ModelValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\RangeMetadataItemBuilderExtensions.cs" />
+    <Compile Include="ModelMetadata\RangeValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\RegularExpressionValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\AbstractRemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\IRemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationConfigurator.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationExtensions.cs" />
+    <Compile Include="ModelMetadata\RemoteValidation\RemoteValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\RenderActionSetting.cs" />
+    <Compile Include="ModelMetadata\RenderActionSettingExtensions.cs" />
+    <Compile Include="ModelMetadata\RequiredValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\StringLengthValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\StringMetadataItemBuilder.cs" />
+    <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registration\FluentMetadataConfiguration.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ExceptionMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SharedFiles\MvcExtensions.snk">
+      <Link>MvcExtensions.snk</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\SharedFiles\CodeAnalysisDictionary.xml">
+      <Link>CodeAnalysisDictionary.xml</Link>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

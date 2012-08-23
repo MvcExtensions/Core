@@ -14,7 +14,7 @@ namespace MvcExtensions.FluentMetadata.Tests
     using Xunit;
     using Xunit.Extensions;
 
-    public class ExtendedModelMetadataProviderTests
+    public class ExtendedModelMetadataProviderTests 
     {
         private readonly Mock<IModelMetadataRegistry> registry;
         private readonly ExtendedModelMetadataProvider provider;

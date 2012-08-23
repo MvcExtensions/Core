@@ -31,12 +31,12 @@ namespace MvcExtensions
         /// <summary>
         /// Creates the validator.
         /// </summary>
-        /// <param name="modelMetadata">The model metadata.</param>
+        /// <param name="metadata">The model metadata.</param>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public ModelValidator CreateValidator(ExtendedModelMetadata modelMetadata, ControllerContext context)
+        public ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context)
         {
-            var validator = Factory(modelMetadata, context);
+            var validator = Factory(metadata, context);
             Configure(validator);
             return validator;
         }
