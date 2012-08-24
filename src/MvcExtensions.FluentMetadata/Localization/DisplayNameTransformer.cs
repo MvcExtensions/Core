@@ -15,6 +15,11 @@ namespace MvcExtensions
     public class DisplayNameTransformer : TransformerCore
     {
         /// <summary>
+        /// If true, upper case property name won't be splitted
+        /// </summary>
+        public static bool DisableNameProcessing { get; set; }
+
+        /// <summary>
         /// Process display attibute
         /// </summary>
         /// <param name="metadata"></param>
@@ -22,7 +27,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(metadata, "metadata");
 
-            if (metadata.DisplayName == null || metadata.DisplayName == metadata.PropertyName)
+            if (!DisableNameProcessing && (metadata.DisplayName == null || metadata.DisplayName == metadata.PropertyName))
             {
                 metadata.DisplayName = metadata.PropertyName.SplitUpperCaseToString();
             }
