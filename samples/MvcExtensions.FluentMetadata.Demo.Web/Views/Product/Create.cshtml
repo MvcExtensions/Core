@@ -1,0 +1,20 @@
+@model MvcExtensions.FluentMetadata.Demo.Web.ProductEditModel
+@{
+    ViewBag.Title = LocalizedTexts.Create;
+}
+<h2>@LocalizedTexts.Create
+</h2>
+@Html.ValidationSummary(false, LocalizedTexts.CreateValidationSummary)
+@using (Html.BeginForm())
+{
+    <fieldset>
+        <legend></legend>
+        @Html.EditorForModel()
+        <p>
+            <input type="submit" value="@LocalizedTexts.Create " />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink(LocalizedTexts.BackToList, "Index")
+</div>

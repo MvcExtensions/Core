@@ -1,0 +1,15 @@
+@model MvcExtensions.FluentMetadata.Demo.Web.ProductDisplayModel
+  
+@{
+    ViewBag.Title = LocalizedTexts.Details;
+}         
+
+<h2>@LocalizedTexts.Details</h2>
+<fieldset>
+    @Html.DisplayForModel()
+</fieldset>
+<p>
+    @Html.ActionLink(LocalizedTexts.Edit, "Edit", new { id = Model.Id }) |
+    @Html.ActionLink(LocalizedTexts.Delete, "Delete", new { id = Model.Id }) |
+    @Html.ActionLink(LocalizedTexts.BackToList, "Index")
+</p>

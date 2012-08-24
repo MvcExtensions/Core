@@ -1,0 +1,33 @@
+﻿@{
+    Func<ModelMetadata, bool> shouldShow = metadata =>
+                                           metadata.ShowForEdit
+                                           && !ViewData.TemplateInfo.Visited(metadata);
+}
+@if (ViewData.TemplateInfo.TemplateDepth > 5)
+{
+    @(Model == null ?
+                        ViewData.ModelMetadata.NullDisplayText :
+                                                                   ViewData.ModelMetadata.SimpleDisplayText)
+}
+else
+{
+    foreach (var prop in ViewData.ModelMetadata.Properties.Where(shouldShow))
+    {
+        if (prop.HideSurroundingHtml)
+        {
+            @Html.Editor(prop.PropertyName)
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(Html.Label(prop.PropertyName).ToHtmlString()) == false)
+            {
+                <div class="display-label">
+                    @Html.Label(prop.PropertyName) 
+                </div>
+            }
+            <div class="display-field">
+                @Html.Display(prop.PropertyName)  
+            </div>
+        }
+    }
+}

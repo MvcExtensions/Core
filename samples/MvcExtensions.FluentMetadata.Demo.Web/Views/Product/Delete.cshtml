@@ -1,0 +1,16 @@
+@model MvcExtensions.FluentMetadata.Demo.Web.ProductDisplayModel
+@{
+    ViewBag.Title = LocalizedTexts.Delete;
+}
+<h2>@LocalizedTexts.Delete</h2>
+
+@using (Html.BeginForm())
+{
+    @string.Format("{0} {1}?", Html.Raw(LocalizedTexts.DeletePrompt), Model.Name)
+    <br />
+    <br />
+    <input type="submit" value="@LocalizedTexts.Delete "/>
+}
+<p>
+    @Html.ActionLink(LocalizedTexts.BackToList, "Index")
+</p>
