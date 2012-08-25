@@ -70,6 +70,11 @@ namespace MvcExtensions
         /// <exception cref="InvalidOperationException"></exception>
         public static string GetResourceValueByPropertyLookup(this Type resourceType, string key)
         {
+            if (string.IsNullOrEmpty(key))
+            {
+                return null;
+            }
+
             PropertyInfo property = resourceType.GetProperty(key, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             if (property != null)
             {

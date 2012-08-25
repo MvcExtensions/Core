@@ -33,117 +33,41 @@ namespace MvcExtensions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="displayAttribute"></param>
+        /// <param name="attr"></param>
         /// <param name="containerType"></param>
         /// <param name="propertyName"></param>
         /// <param name="defaultResourceType"></param>
-        public void Transform(DisplayAttribute displayAttribute, Type containerType, string propertyName, Type defaultResourceType)
+        public void Transform(DisplayAttribute attr, Type containerType, string propertyName, Type defaultResourceType)
         {
-            Invariant.IsNotNull(displayAttribute, "displayAttribute");
+            Invariant.IsNotNull(attr, "displayAttribute");
 
-            // ensure resource type
-            displayAttribute.ResourceType = displayAttribute.ResourceType ?? defaultResourceType;
-
-            if (displayAttribute.ResourceType == null)
+            var resourceType = attr.ResourceType ?? defaultResourceType;
+            if (resourceType == null)
             {
                 return;
             }
 
-            // ensure resource name
-            var displayAttributeName = GetDisplayAttributeName(containerType, propertyName, displayAttribute);
-            if (displayAttributeName != null)
-            {
-                displayAttribute.Name = displayAttributeName;
-            }
-
-            // store resource
-            var resourceType = displayAttribute.ResourceType;
-            if (!displayAttribute.ResourceType.HasProperty(displayAttribute.Name))
-            {
-                displayAttribute.ResourceType = null;
-            }
-
-            LocalizeDisplayAttributeValues(displayAttribute, resourceType, containerType, propertyName);
-        }
-
-        private static string GetDisplayAttributeName(Type containerType, string propertyName, DisplayAttribute displayAttribute)
-        {
-            if (containerType != null && string.IsNullOrEmpty(displayAttribute.Name))
-            {
-                // check to see that resource key exists.
-                var resourceKey = GetResourceKey(containerType, propertyName);
-                var hasResource = HasResourceValue(displayAttribute.ResourceType, resourceKey);
-                return hasResource ? resourceKey : propertyName;
-            }
-
-            return null;
-        }
-        
-        private static void LocalizeDisplayAttributeValues(DisplayAttribute displayAttribute, Type resourceType, Type containerType, string propertyName)
-        {
+            // reset resource and manually set values
+            attr.ResourceType = null;
             var resourceKey = GetResourceKey(containerType, propertyName);
-            if (displayAttribute.ResourceType == null)
-            {
-                if (displayAttribute.Description == null)
-                {
-                    displayAttribute.Description = RetrieveValue(resourceType, resourceKey + DescriptionSuffix, propertyName + DescriptionSuffix);
-                }
 
-                if (displayAttribute.ShortName == null)
-                {
-                    displayAttribute.ShortName = RetrieveValue(resourceType, resourceKey + ShortDisplayNameSuffix, propertyName + ShortDisplayNameSuffix);
-                }
-
-                if (displayAttribute.Prompt == null)
-                {
-                    displayAttribute.Prompt = RetrieveValue(resourceType, resourceKey + PromptSuffix, propertyName + PromptSuffix);
-                }
-            }
-            else
-            {
-                if (displayAttribute.Description == null)
-                {
-                    var descriptionKey = resourceKey + DescriptionSuffix;
-                    if (displayAttribute.ResourceType.HasProperty(descriptionKey))
-                    {
-                        displayAttribute.Description = descriptionKey;
-                    }
-                    else if (displayAttribute.ResourceType.HasProperty(propertyName + DescriptionSuffix))
-                    {
-                        displayAttribute.Description = propertyName + DescriptionSuffix;
-                    }
-                }
-
-                if (displayAttribute.ShortName == null)
-                {
-                    var shortNameKey = resourceKey + ShortDisplayNameSuffix;
-                    if (displayAttribute.ResourceType.HasProperty(shortNameKey))
-                    {
-                        displayAttribute.ShortName = shortNameKey;
-                    }
-                    else if (displayAttribute.ResourceType.HasProperty(propertyName + ShortDisplayNameSuffix))
-                    {
-                        displayAttribute.ShortName = propertyName + ShortDisplayNameSuffix;
-                    }
-                }
-
-                if (displayAttribute.Prompt == null)
-                {
-                    var promptKey = resourceKey + PromptSuffix;
-                    if (displayAttribute.ResourceType.HasProperty(promptKey))
-                    {
-                        displayAttribute.Prompt = promptKey;
-                    }
-                    else if (displayAttribute.ResourceType.HasProperty(propertyName + PromptSuffix))
-                    {
-                        displayAttribute.Prompt = propertyName + PromptSuffix;
-                    }
-                }
-            }
+            // retrieve values
+            attr.Name = GetValue(resourceType, attr.Name, resourceKey, propertyName);
+            attr.Description = GetValue(resourceType, attr.Description, resourceKey + DescriptionSuffix, propertyName + DescriptionSuffix);
+            attr.ShortName = GetValue(resourceType, attr.ShortName, resourceKey + ShortDisplayNameSuffix, propertyName + ShortDisplayNameSuffix);
+            attr.Prompt = GetValue(resourceType, attr.Prompt, resourceKey + PromptSuffix, propertyName + PromptSuffix);
+            attr.GroupName = GetValue(resourceType, attr.GroupName, null, null); // leave original behaviour
         }
 
-        private static string RetrieveValue(Type resourceType, string key, string propertyName)
+        private static string GetValue(Type resourceType, string propertyValue, string key, string propertyName)
         {
+            if (propertyValue != null)
+            {
+                // try to mathc value in resources. If it's not found, return user-defined name
+                return resourceType.GetResourceValueByPropertyLookup(propertyValue) ?? propertyValue;
+            }
+
+            // match by className_propertyName, and then by propertyName only
             return resourceType.GetResourceValueByPropertyLookup(key) ?? resourceType.GetResourceValueByPropertyLookup(propertyName);
         }
     }
