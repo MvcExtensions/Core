@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Globalization;
     using System.Reflection;
 
     /// <summary>
@@ -58,6 +59,43 @@ namespace MvcExtensions
             }
 
             return type.GetProperty(propertyName, BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public) != null;
+        }
+
+        /// <summary>
+        /// Get resource value by property lookup
+        /// </summary>
+        /// <param name="resourceType"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public static string GetResourceValueByPropertyLookup(this Type resourceType, string key)
+        {
+            PropertyInfo property = resourceType.GetProperty(key, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+            if (property != null)
+            {
+                MethodInfo getMethod = property.GetGetMethod(true);
+                if (getMethod == null || !getMethod.IsAssembly && !getMethod.IsPublic)
+                {
+                    property = null;
+                }
+
+            }
+
+            if (property == null)
+            {
+                return null;
+            }
+
+            if (property.PropertyType != typeof(string))
+            {
+                throw new InvalidOperationException(
+                    string.Format(
+                        CultureInfo.CurrentCulture,
+                        ExceptionMessages.ResourcePropertyNotStringType,
+                        new object[] { property.Name, resourceType.FullName }));
+            }
+
+            return (string)property.GetValue(null, null);
         }
     }
 }

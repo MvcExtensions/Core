@@ -35,7 +35,7 @@ namespace MvcExtensions
         protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
         {
             List<Attribute> newAttributes = null;
-            if (ConventionSettings.ConventionsActive)
+            if (ConventionSettings.ConventionsActive && containerType != null && !string.IsNullOrEmpty(propertyName))
             {
                 var defaultResourceType = ConventionSettings.GetDefaultResourceType(containerType);
 

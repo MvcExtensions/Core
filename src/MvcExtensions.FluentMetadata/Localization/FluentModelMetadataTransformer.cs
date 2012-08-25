@@ -7,7 +7,9 @@
 
 namespace MvcExtensions
 {
-    using System.Resources;
+    using System;
+    using System.Globalization;
+    using System.Reflection;
     using System.Web.Mvc;
 
     /// <summary>
@@ -35,37 +37,38 @@ namespace MvcExtensions
 
             // flent configuration does not have ResourceType, so get it from type
             var resourceType = ConventionSettings.GetDefaultResourceType(containerType);
-            if (resourceType != null)
+            var propertyName = metadata.PropertyName;
+            if (resourceType != null && !string.IsNullOrEmpty(propertyName))
             {
-                var rm = new ResourceManager(resourceType);
-                var propertyName = metadata.PropertyName;
-
                 var key = GetResourceKey(containerType, propertyName);
                 if (metadata.DisplayName == null)
                 {
-                    metadata.DisplayName = RetriveResourceValue(rm, key, propertyName);
+                    metadata.DisplayName = RetrieveValue(resourceType, key, propertyName);
                 }
 
                 if (metadata.ShortDisplayName == null)
                 {
-                    metadata.ShortDisplayName = RetriveResourceValue(rm, key + ShortDisplayNameSuffix, propertyName + ShortDisplayNameSuffix);
+                    metadata.ShortDisplayName = RetrieveValue(resourceType, key + ShortDisplayNameSuffix, propertyName + ShortDisplayNameSuffix);
                 }
 
                 if (metadata.Watermark == null)
                 {
-                    metadata.Watermark = RetriveResourceValue(rm, key + PromptSuffix, propertyName + PromptSuffix);
+                    metadata.Watermark = RetrieveValue(resourceType, key + PromptSuffix, propertyName + PromptSuffix);
                 }
 
                 if (metadata.Description == null)
                 {
-                    metadata.Description = RetriveResourceValue(rm, key + DescriptionSuffix, propertyName + DescriptionSuffix);
+                    metadata.Description = RetrieveValue(resourceType, key + DescriptionSuffix, propertyName + DescriptionSuffix);
                 }
             }
         }
 
-        private static string RetriveResourceValue(ResourceManager rm, string key, string propertyName)
+        private static string RetrieveValue(Type resourceType, string key, string propertyName)
         {
-            return rm.GetString(key) ?? rm.GetString(propertyName);
+            return resourceType.GetResourceValueByPropertyLookup(key) ?? resourceType.GetResourceValueByPropertyLookup(propertyName);
         }
+
+
+       
     }
 }

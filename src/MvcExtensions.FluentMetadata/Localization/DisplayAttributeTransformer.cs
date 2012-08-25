@@ -9,7 +9,6 @@ namespace MvcExtensions
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Resources;
 
     /// <summary>
     /// 
@@ -25,11 +24,6 @@ namespace MvcExtensions
         /// 
         /// </summary>
         protected const string ShortDisplayNameSuffix = "_ShortName";
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected const string GroupNameSuffix = "_GroupName";
 
         /// <summary>
         /// 
@@ -90,26 +84,19 @@ namespace MvcExtensions
             var resourceKey = GetResourceKey(containerType, propertyName);
             if (displayAttribute.ResourceType == null)
             {
-                var rm = new ResourceManager(resourceType);
-
                 if (displayAttribute.Description == null)
                 {
-                    displayAttribute.Description = rm.GetString(resourceKey + DescriptionSuffix) ?? rm.GetString(propertyName + DescriptionSuffix);
+                    displayAttribute.Description = RetrieveValue(resourceType, resourceKey + DescriptionSuffix, propertyName + DescriptionSuffix);
                 }
 
                 if (displayAttribute.ShortName == null)
                 {
-                    displayAttribute.ShortName = rm.GetString(resourceKey + ShortDisplayNameSuffix) ?? rm.GetString(propertyName + ShortDisplayNameSuffix);
+                    displayAttribute.ShortName = RetrieveValue(resourceType, resourceKey + ShortDisplayNameSuffix, propertyName + ShortDisplayNameSuffix);
                 }
 
                 if (displayAttribute.Prompt == null)
                 {
-                    displayAttribute.Prompt = rm.GetString(resourceKey + PromptSuffix) ?? rm.GetString(propertyName + PromptSuffix);
-                }
-
-                if (displayAttribute.GroupName == null)
-                {
-                    displayAttribute.GroupName = rm.GetString(resourceKey + GroupNameSuffix) ?? rm.GetString(propertyName + GroupNameSuffix);
+                    displayAttribute.Prompt = RetrieveValue(resourceType, resourceKey + PromptSuffix, propertyName + PromptSuffix);
                 }
             }
             else
@@ -152,20 +139,12 @@ namespace MvcExtensions
                         displayAttribute.Prompt = propertyName + PromptSuffix;
                     }
                 }
-
-                if (displayAttribute.GroupName == null)
-                {
-                    var groupNameKey = resourceKey + GroupNameSuffix;
-                    if (displayAttribute.ResourceType.HasProperty(groupNameKey))
-                    {
-                        displayAttribute.GroupName = groupNameKey;
-                    }
-                    else if (displayAttribute.ResourceType.HasProperty(propertyName + GroupNameSuffix))
-                    {
-                        displayAttribute.GroupName = propertyName + GroupNameSuffix;
-                    }
-                }
             }
+        }
+
+        private static string RetrieveValue(Type resourceType, string key, string propertyName)
+        {
+            return resourceType.GetResourceValueByPropertyLookup(key) ?? resourceType.GetResourceValueByPropertyLookup(propertyName);
         }
     }
 }
