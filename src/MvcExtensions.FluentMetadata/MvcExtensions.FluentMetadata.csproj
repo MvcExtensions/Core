@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\AssemblyExtensions.cs" />
+    <Compile Include="Helper\DisplayAttributeExtensions.cs" />
     <Compile Include="Helper\ExpressionVisitorHelper.cs" />
     <Compile Include="Helper\Invariant.cs" />
     <Compile Include="Helper\Maybe.cs" />

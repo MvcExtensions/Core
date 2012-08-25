@@ -61,8 +61,8 @@ namespace MvcExtensions
                         }
                     }
 
-                    // ensure we have DisplayAttribute
-                    displayAttribute = displayAttribute ?? new DisplayAttribute();
+                    // ensure DisplayAttribute and clone existing
+                    displayAttribute = displayAttribute.Copy() ?? new DisplayAttribute();
                   
                     DisplayAttributeTransformer.Value.Transform(displayAttribute, containerType, propertyName, defaultResourceType);
                     newAttributes.Add(displayAttribute);
