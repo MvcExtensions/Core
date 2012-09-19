@@ -1,9 +1,13 @@
+Framework 4.0
+
 properties {
+	if ($buildNumber -eq $null) {
+		$buildNumber = "3.0.0"
+	}
 	$projectDir = Resolve-Path "."
 	$solution = "$projectDir\MvcExtensions.sln"
 	$configuration = "Debug"
 	$artifactPath = "$projectDir\Drops"
-	$buildNumber = "3.0.0"
 	$version = "$buildNumber.0"
 	$semVer = $buildNumber
 	$xunit = "$projectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.exe"
