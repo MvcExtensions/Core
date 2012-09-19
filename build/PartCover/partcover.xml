@@ -1,0 +1,8 @@
+<PartCoverSettings>
+  <Target>.\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.x86.exe</Target>
+  <TargetWorkDir></TargetWorkDir>
+  <TargetArgs>.src\MvcExtensions.Tests\bin\debug\MvcExtensions.Tests.dll /noshadow /xml .\Drops\MvcExtensions.Tests.xunit.xml</TargetArgs>
+  <DisableFlattenDomains>True</DisableFlattenDomains>
+  <Rule>+[$(coreFile)]*</Rule>
+  <Rule>-[*.Test]*</Rule>
+</PartCoverSettings>
