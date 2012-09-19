@@ -46,14 +46,14 @@ namespace MvcExtensions
         {
             return AssemblyContainingType(typeof(T));
         }
-        
+
         /// <summary>
         /// Register configuration types from current assembly
         /// </summary>
         /// <returns></returns>
         public static IEnumerable<Assembly> ThisAssembly()
         {
-            return new [] {Assembly.GetCallingAssembly()};
+            return new[] { Assembly.GetCallingAssembly() };
         }
     }
 }

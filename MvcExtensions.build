@@ -35,19 +35,19 @@
     </Target>
 
     <Target Name="StyleCop">
-        <CreateItem Include="$(corePath)\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-	<CreateItem Include="$(corePath).Metadata\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-	<CreateItem Include="$(corePath).Metadata.Bootstrapping\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <CreateItem Include="$(corePath).Tests\**\*.cs">
-            <Output TaskParameter="Include" ItemName="styleCopFiles"/>
-        </CreateItem>
-        <StyleCopTask
+      <CreateItem Include="$(corePath)\**\*.cs">
+          <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+      </CreateItem>
+      <CreateItem Include="$(corePath).Tests\**\*.cs">
+          <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+      </CreateItem>
+      <CreateItem Include="$(corePath).FluentMetadata\**\*.cs">
+        <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+      </CreateItem>
+      <CreateItem Include="$(corePath).FluentMetadata.Tests\**\*.cs">
+        <Output TaskParameter="Include" ItemName="styleCopFiles"/>
+      </CreateItem>
+      <StyleCopTask
             ProjectFullPath="$(solution)"
             SourceFiles="@(styleCopFiles)"
             ForceFullAnalysis="true"

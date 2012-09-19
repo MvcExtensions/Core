@@ -16,15 +16,13 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         public FromTests()
         {
-            
             currentAssembly = GetType().Assembly;
         }
 
         [Fact]
-        public void Show_return_types_from_this_assembly()
+        public void Show_return_types_from_assembly_containing_generic_type()
         {
-            var assemblies = From.ThisAssembly();
-            
+            var assemblies = From.AssemblyContainingType<FromTests>();
             Assert.Contains(currentAssembly, assemblies);
         }
 
@@ -36,9 +34,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Show_return_types_from_assembly_containing_generic_type()
+        public void Show_return_types_from_this_assembly()
         {
-            var assemblies = From.AssemblyContainingType<FromTests>();
+            var assemblies = From.ThisAssembly();
+
             Assert.Contains(currentAssembly, assemblies);
         }
     }

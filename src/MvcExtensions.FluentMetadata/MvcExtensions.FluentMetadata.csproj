@@ -125,6 +125,7 @@
     <None Include="..\SharedFiles\MvcExtensions.snk">
       <Link>MvcExtensions.snk</Link>
     </None>
+    <None Include="MvcExtensions.FluentMetadata.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\SharedFiles\CodeAnalysisDictionary.xml">

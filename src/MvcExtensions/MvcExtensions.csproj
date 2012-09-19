@@ -245,6 +245,7 @@
     <None Include="..\SharedFiles\MvcExtensions.snk">
       <Link>MvcExtensions.snk</Link>
     </None>
+    <None Include="MvcExtensions.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MvcExtensions.FluentMetadata\MvcExtensions.FluentMetadata.csproj">

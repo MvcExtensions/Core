@@ -15,28 +15,11 @@ namespace MvcExtensions.FluentMetadata.Tests
     public class ConfigurationsScannerTests
     {
         [Fact]
-        public void Should_find_configurations_for_types()
+        public void Should_be_able_to_go_over_types_via_foreach()
         {
             var scanner =
                 new ConfigurationsScanner(
                     new[]
-                        {
-                            typeof(DummyModel1MetadataConfiguration),
-                            typeof(DummyModel2MetadataConfiguration)
-                        });
-    
-            var results = scanner.Select(r => r.MetadataConfigurationType).ToList();
-
-            Assert.Contains(typeof(DummyModel1MetadataConfiguration), results);
-            Assert.Contains(typeof(DummyModel2MetadataConfiguration), results);
-        }
-
-        [Fact]
-        public void Should_be_able_to_go_over_types_via_foreach()
-        {
-            var scanner =
-               new ConfigurationsScanner(
-                   new[]
                         {
                             typeof(DummyModel1MetadataConfiguration),
                             typeof(DummyModel2MetadataConfiguration)
@@ -49,30 +32,28 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_not_find_non_public_configurations_for_types()
+        public void Should_find_configurations_for_types()
         {
             var scanner =
-               new ConfigurationsScanner(
-                   new[]
+                new ConfigurationsScanner(
+                    new[]
                         {
                             typeof(DummyModel1MetadataConfiguration),
-                            typeof(DummyModel2MetadataConfiguration),
-                            typeof(DummyModel3PrivateMetadataConfiguration)
+                            typeof(DummyModel2MetadataConfiguration)
                         });
 
             var results = scanner.Select(r => r.MetadataConfigurationType).ToList();
 
-            Assert.DoesNotContain(typeof(DummyModel3PrivateMetadataConfiguration), results);
             Assert.Contains(typeof(DummyModel1MetadataConfiguration), results);
             Assert.Contains(typeof(DummyModel2MetadataConfiguration), results);
         }
-        
+
         [Fact]
         public void Should_not_find_internal_configurations_for_types()
         {
             var scanner =
-               new ConfigurationsScanner(
-                   new[]
+                new ConfigurationsScanner(
+                    new[]
                         {
                             typeof(DummyModel1MetadataConfiguration),
                             typeof(DummyModel2MetadataConfiguration),
@@ -90,8 +71,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_not_find_nested_public_configurations_for_internal_class()
         {
             var scanner =
-               new ConfigurationsScanner(
-                   new[]
+                new ConfigurationsScanner(
+                    new[]
                         {
                             typeof(InternalConfigurationsScannerTestsData.DummyModel5MetadataConfiguration)
                         });
@@ -99,6 +80,25 @@ namespace MvcExtensions.FluentMetadata.Tests
             var results = scanner.Select(r => r.MetadataConfigurationType).ToList();
 
             Assert.DoesNotContain(typeof(DummyModel4InternalMetadataConfiguration), results);
+        }
+
+        [Fact]
+        public void Should_not_find_non_public_configurations_for_types()
+        {
+            var scanner =
+                new ConfigurationsScanner(
+                    new[]
+                        {
+                            typeof(DummyModel1MetadataConfiguration),
+                            typeof(DummyModel2MetadataConfiguration),
+                            typeof(DummyModel3PrivateMetadataConfiguration)
+                        });
+
+            var results = scanner.Select(r => r.MetadataConfigurationType).ToList();
+
+            Assert.DoesNotContain(typeof(DummyModel3PrivateMetadataConfiguration), results);
+            Assert.Contains(typeof(DummyModel1MetadataConfiguration), results);
+            Assert.Contains(typeof(DummyModel2MetadataConfiguration), results);
         }
 
         public class DummyModel1
@@ -121,29 +121,27 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
         }
 
-        private class DummyModel3PrivateMetadataConfiguration : ModelMetadataConfiguration<DummyModel3Private>
+        public class DummyModel4Internal
         {
         }
 
-        public class DummyModel4Internal
+        internal class InternalConfigurationsScannerTestsData
+        {
+            public class DummyModel5
+            {
+            }
+
+            public class DummyModel5MetadataConfiguration : ModelMetadataConfiguration<DummyModel5>
+            {
+            }
+        }
+
+        private class DummyModel3PrivateMetadataConfiguration : ModelMetadataConfiguration<DummyModel3Private>
         {
         }
 
         private class DummyModel4InternalMetadataConfiguration : ModelMetadataConfiguration<DummyModel4Internal>
         {
         }
-
-        
     }
-    internal class InternalConfigurationsScannerTestsData
-    {
-        public class DummyModel5
-        {
-        }
-
-        public class DummyModel5MetadataConfiguration : ModelMetadataConfiguration<DummyModel5>
-        {
-        }
-    }
-   
 }
