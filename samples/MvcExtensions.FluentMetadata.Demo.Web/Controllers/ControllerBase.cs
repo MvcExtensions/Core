@@ -44,7 +44,9 @@ namespace MvcExtensions.FluentMetadata.Demo.Web
                 }
             }
 
-            culture = culture ?? "en";
+            if (string.IsNullOrEmpty(culture))
+                culture = "en";
+
             RouteData.Values[CultureKey] = culture;
 
             ViewBag.Culture = culture;
