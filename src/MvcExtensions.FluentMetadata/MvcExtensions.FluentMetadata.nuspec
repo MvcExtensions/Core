@@ -1,20 +1,17 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>MvcExtensions</id>
+    <id>MvcExtensions.FluentMetadata</id>
     <version>0.0.0.0</version>
-    <title>MvcExtensions</title>
+    <title>MvcExtensions.FluentMetadata</title>
     <authors>Kazi Manzur Rashid, hazzik</authors>
     <owners>Kazi Manzur Rashid, hazzik</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>ASP.NET MVC Extensions is framework developed on top of ASP.NET MVC extensibility point, which allows your IoC Container to rule everywhere.</description>
-    <dependencies>
-      <dependency id="MvcExtensions.FluentMetadata" version="[3.0, 3.1)" />
-    </dependencies>
   </metadata>
   <files>
-    <file src="MvcExtensions.dll" target="lib\net40\MvcExtensions.dll" />
-    <file src="MvcExtensions.pdb" target="lib\net40\MvcExtensions.pdb" />
-    <file src="MvcExtensions.xml" target="lib\net40\MvcExtensions.xml" />
+    <file src="MvcExtensions.FluentMetadata.dll" target="lib\net40\MvcExtensions.FluentMetadata.dll" />
+    <file src="MvcExtensions.FluentMetadata.pdb" target="lib\net40\MvcExtensions.FluentMetadata.pdb" />
+    <file src="MvcExtensions.FluentMetadata.xml" target="lib\net40\MvcExtensions.FluentMetadata.xml" />
   </files>
 </package>
