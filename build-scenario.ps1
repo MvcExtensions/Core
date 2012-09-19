@@ -8,7 +8,7 @@ properties {
 	$solution = "$projectDir\MvcExtensions.sln"
 	$configuration = "Debug"
 	$artifactPath = "$projectDir\Drops"
-	$version = "$buildNumber.0"
+	$version = [System.Text.RegularExpressions.Regex]::Match($buildNumber, "\d+.\d+.\d+").ToString() + ".0"
 	$semVer = $buildNumber
 	$xunit = "$projectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.exe"
 	$projects = @("MvcExtensions", "MvcExtensions.FluentMetadata")
