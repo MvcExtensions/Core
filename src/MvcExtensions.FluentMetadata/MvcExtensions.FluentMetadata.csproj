@@ -87,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionFilter\SelectListActionAttribute.cs" />
+    <Compile Include="Conventions\DefaultPropertyMetadataConvention.cs" />
+    <Compile Include="Conventions\IPropertyMetadataConvention.cs" />
+    <Compile Include="Conventions\MetadataMergeExtensions.cs" />
     <Compile Include="ExceptionMessages.Designer.cs">
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
       <DesignTime>True</DesignTime>

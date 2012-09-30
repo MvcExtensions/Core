@@ -18,6 +18,16 @@ namespace MvcExtensions
     {
         private readonly IDictionary<Type, ModelMetadataRegistryItem> mappings = new Dictionary<Type, ModelMetadataRegistryItem>();
 
+        internal ICollection<IPropertyMetadataConvention> Conventions { get; set; }
+
+        /// <summary>
+        /// Create a class to store all the metadata of the models.
+        /// </summary>
+        public ModelMetadataRegistry()
+        {
+            Conventions = new List<IPropertyMetadataConvention>();
+        }
+
         /// <summary>
         /// Registers the model type metadata.
         /// </summary>
@@ -112,26 +122,64 @@ namespace MvcExtensions
 
             return item;
         }
-
+        
         private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
             ModelMetadataRegistryItem item;
 
-            if (mappings.TryGetValue(modelType, out item))
+            if (!mappings.TryGetValue(modelType, out item))
             {
-                return item;
+                item = mappings
+                    .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
+                    .OrderBy(x => x.Key, new TypeInheritanceComparer())
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
             }
 
-            item = mappings
-                .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
-                .OrderBy(x => x.Key, new TypeInheritanceComparer())
-                .Select(x => x.Value)
-                .FirstOrDefault();
+            SetMetadataByConvenstions(modelType, item);
 
             return item;
         }
+
+        private void SetMetadataByConvenstions(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (item == null || item.IsConventionsSet)
+            {
+                return;
+            }
+
+            lock (this)
+            {
+                if (item.IsConventionsSet)
+                {
+                    return;
+                }
+
+                var properties = modelType.GetProperties();
+                foreach (var convention in Conventions)
+                {
+                    var metadataConvention = convention;
+                    foreach (var pi in properties.Where(metadataConvention.CanBeAccepted))
+                    {
+                        ModelMetadataItem metadataItem;
+                        if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
+                        {
+                            metadataItem = new ModelMetadataItem();
+                            item.PropertiesMetadata.Add(pi.Name, metadataItem);
+                        }
+
+                        var conventionMetadata = convention.CreateMetadataRules();
+
+                        conventionMetadata.MergeTo(metadataItem);
+                    }
+                }
+
+                item.IsConventionsSet = true;
+            }
+        }
+
 
         private sealed class ModelMetadataRegistryItem
         {
@@ -139,6 +187,8 @@ namespace MvcExtensions
             {
                 PropertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
             }
+
+            internal bool IsConventionsSet { get; set; }
 
             public ModelMetadataItem ClassMetadata { get; set; }
 
