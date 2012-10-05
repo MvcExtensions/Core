@@ -21,7 +21,8 @@ First, [install NuGet](http://docs.nuget.org/docs/start-here/installing-nuget). 
 * [MvcExtensions Windsor 3 Adapter](http://nuget.org/List/Packages/MvcExtensions.Windsor3)
 * [MvcExtensions StructureMap Adapter](http://nuget.org/List/Packages/MvcExtensions.StructureMap)
 * [MvcExtensions Unity Adapter](http://nuget.org/List/Packages/MvcExtensions.Unity)
-* [MvcExtensions Ninject Adapter](http://nuget.org/List/Packages/MvcExtensions.Ninject)
+* [MvcExtensions Ninject 2.2 Adapter](http://nuget.org/List/Packages/MvcExtensions.Ninject)
+* [MvcExtensions Ninject 3 Adapter](http://nuget.org/List/Packages/MvcExtensions.Ninject3)
 
 How do I get started?
 --------------------------------
