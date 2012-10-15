@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to compress the response with the client supported algorithm.
@@ -38,7 +39,7 @@ namespace MvcExtensions
         /// Called after an action result executes.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        public void OnResultExecuted(ResultExecutedContext filterContext)
+        public void OnResultExecuted([NotNull] ResultExecutedContext filterContext)
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 

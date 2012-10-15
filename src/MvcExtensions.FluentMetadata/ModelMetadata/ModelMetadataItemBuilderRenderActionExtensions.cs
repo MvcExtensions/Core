@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Extensions for <see cref="ModelMetadataItemBuilder{TValue}"/> which add RenderAction methods.
@@ -42,7 +43,7 @@ namespace MvcExtensions
         /// <param name="actionName">The name of the action which should be rendered.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName)
         {
             return RenderAction(self, html => html.Action(actionName));
         }
@@ -55,7 +56,7 @@ namespace MvcExtensions
         /// <param name="controllerName">The name of the controller that contains the action.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, string controllerName)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName));
         }
@@ -68,7 +69,7 @@ namespace MvcExtensions
         /// <param name="routeValues">An object that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, object routeValues)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, object routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, routeValues));
         }
@@ -82,7 +83,7 @@ namespace MvcExtensions
         /// <param name="routeValues">An object that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, string controllerName, object routeValues)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
         }
@@ -95,7 +96,7 @@ namespace MvcExtensions
         /// <param name="routeValues">A dictionary that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, RouteValueDictionary routeValues)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, RouteValueDictionary routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, routeValues));
         }
@@ -109,7 +110,7 @@ namespace MvcExtensions
         /// <param name="routeValues">A dictionary that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, string controllerName, RouteValueDictionary routeValues)
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, RouteValueDictionary routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
         }

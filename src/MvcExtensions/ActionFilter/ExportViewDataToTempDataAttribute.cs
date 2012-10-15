@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an attribute which is used to copy viewdata in tempdata.
@@ -29,7 +30,7 @@ namespace MvcExtensions
         /// Called after the action method executes.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        public override void OnActionExecuted(ActionExecutedContext filterContext)
+        public override void OnActionExecuted([NotNull] ActionExecutedContext filterContext)
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 

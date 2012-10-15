@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Web;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class which is used to create custom authorization.
@@ -20,7 +21,7 @@ namespace MvcExtensions
         /// Called when authorization is required.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        public virtual void OnAuthorization(AuthorizationContext filterContext)
+        public virtual void OnAuthorization([NotNull] AuthorizationContext filterContext)
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 

@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// RemoteValidationConfigurator class implements methods to configure remote validation
@@ -59,7 +60,7 @@ namespace MvcExtensions
         /// <param name="areaName">The name of area</param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName = null)
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, [AspMvcArea]string areaName = null)
             where TController : IController
         {
             var methodCall = (MethodCallExpression)action.Body;
@@ -79,7 +80,7 @@ namespace MvcExtensions
         /// <param name="areaName"> </param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, string areaName, IEnumerable<string> additionalFields)
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, ActionResult>> action, [AspMvcArea]string areaName, IEnumerable<string> additionalFields)
             where TController : IController
         {
             CreateRemoteValidation(action, areaName, null, additionalFields);
@@ -119,7 +120,7 @@ namespace MvcExtensions
         /// <param name="areaName">The name of area</param>
         /// <typeparam name="TController">Target controller to find the action</typeparam>
         /// <returns><see cref="AbstractRemoteValidationConfigurator{TValue}"/></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, Func<TValue, ActionResult>>> action, string areaName)
+        public AbstractRemoteValidationConfigurator<TValue> For<TController>(Expression<Func<TController, Func<TValue, ActionResult>>> action, [AspMvcArea]string areaName)
             where TController : IController
         {
             CreateRemoteValidation(action, areaName, null, Enumerable.Empty<string>());
@@ -132,7 +133,7 @@ namespace MvcExtensions
         /// <param name="controller">The name of controller</param>
         /// <param name="action">The name of action</param>
         /// <returns><see cref="AbstractRemoteValidationConfigurator{TValue}"/></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For(string controller, string action)
+        public AbstractRemoteValidationConfigurator<TValue> For([AspMvcController]string controller, [AspMvcAction]string action)
         {
             return For(controller, action, Enumerable.Empty<string>());
         }
@@ -144,7 +145,7 @@ namespace MvcExtensions
         /// <param name="action">The name of action</param>
         /// <param name="areaName">The name of area</param>
         /// <returns><see cref="AbstractRemoteValidationConfigurator{TValue}"/></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For(string controller, string action, string areaName)
+        public AbstractRemoteValidationConfigurator<TValue> For([AspMvcController]string controller, [AspMvcAction]string action, [AspMvcArea]string areaName)
         {
             return For(controller, action, areaName, Enumerable.Empty<string>());
         }
@@ -156,7 +157,7 @@ namespace MvcExtensions
         /// <param name="action">The name of action</param>
         /// <param name="additionalFields">The additional fields</param>
         /// <returns><see cref="AbstractRemoteValidationConfigurator{TValue}"/></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For(string controller, string action, IEnumerable<string> additionalFields)
+        public AbstractRemoteValidationConfigurator<TValue> For([AspMvcController]string controller, [AspMvcAction]string action, IEnumerable<string> additionalFields)
         {
             return For(controller, action, null, additionalFields);
         }
@@ -169,7 +170,7 @@ namespace MvcExtensions
         /// <param name="areaName">The name of area</param>
         /// <param name="additionalFields">The additional fields</param>
         /// <returns><see cref="AbstractRemoteValidationConfigurator{TValue}"/></returns>
-        public AbstractRemoteValidationConfigurator<TValue> For(string controller, string action, string areaName, IEnumerable<string> additionalFields)
+        public AbstractRemoteValidationConfigurator<TValue> For([AspMvcController]string controller, [AspMvcAction]string action, [AspMvcArea]string areaName, IEnumerable<string> additionalFields)
         {
             CreateRemoteValidation(controller, action, areaName, null, additionalFields);
             return this;
@@ -202,7 +203,7 @@ namespace MvcExtensions
             return name.Length > 1 ? char.ToUpperInvariant(name[0]) + name.Substring(1) : name.ToUpper(CultureInfo.CurrentCulture);
         }
 
-        private void CreateRemoteValidation<TController, TParam>(Expression<Func<TController, Func<TParam, ActionResult>>> action, string areaName, string routeName, IEnumerable<string> additionalFields)
+        private void CreateRemoteValidation<TController, TParam>(Expression<Func<TController, Func<TParam, ActionResult>>> action, [AspMvcArea]string areaName, string routeName, IEnumerable<string> additionalFields)
             where TController : IController
         {
             var controller = typeof(TController).Name.Replace("Controller", string.Empty);
@@ -219,7 +220,7 @@ namespace MvcExtensions
             CreateRemoteValidation(controller, actionName, areaName, routeName, additionalFields);
         }
 
-        private void CreateRemoteValidation(string controller, string action, string areaName, string routeName, IEnumerable<string> additionalFields)
+        private void CreateRemoteValidation(string controller, [AspMvcAction]string action, string areaName, string routeName, IEnumerable<string> additionalFields)
         {
             var self = Core.ModelMetadataItemBuilder;
             var validation = self.Item.GetValidationOrCreateNew<RemoteValidationMetadata>();

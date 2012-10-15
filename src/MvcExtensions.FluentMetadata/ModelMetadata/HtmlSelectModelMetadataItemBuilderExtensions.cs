@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Extensions for <see cref="ModelMetadataItemBuilder{TValue}"/> which add AsDropDownList and AsListBox methods 
@@ -58,7 +59,7 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel, string template)
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return self.AsDropDownList(viewDataKey, () => optionLabel, template);
         }
@@ -71,7 +72,7 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel, string template)
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return HtmlSelect(self, template, viewDataKey, optionLabel);
         }
@@ -94,7 +95,7 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string template)
+        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return HtmlSelect(self, template, viewDataKey, null);
         }
