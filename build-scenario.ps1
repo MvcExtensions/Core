@@ -102,17 +102,21 @@ task Tests -depends Init {
 }
 
 task MergeAnnotations -depends Build {
-    #& $ilmerge 
-    
-    $projects | ForEach-Object {
-        $f = $_
-        & "$ilmerge" /v4 /t:library /internalize /keyfile:"$sources\SharedFiles\MvcExtensions.snk" /out:"$sources\$f\bin\$configuration\$f.m.dll" "$sources\$f\bin\$configuration\$f.dll" "$sources\$f\bin\$configuration\JetBrains.Annotations.dll" 
-        
-        @("dll", "pdb") | ForEach-Object {
-            Remove-Item "$sources\$f\bin\$configuration\$f.$_" 
-            Rename-Item "$sources\$f\bin\$configuration\$f.m.$_" "$f.$_" 
-        }
-    }
+	$projects | ForEach-Object {
+		$f = $_
+		$out = "$sources\$f\bin\$configuration\merged"
+		if (!(Test-Path "$out")) {
+			New-Item "$out" -type Directory
+		}
+
+		& "$ilmerge" /v4 /t:library /internalize /keyfile:"$sources\SharedFiles\MvcExtensions.snk" /out:"$out\$f.dll" "$sources\$f\bin\$configuration\$f.dll" "$sources\$f\bin\$configuration\JetBrains.Annotations.dll" 
+
+		@("dll", "pdb") | ForEach-Object {
+			Remove-Item "$sources\$f\bin\$configuration\$f.$_" 
+			Move-Item "$out\$f.$_" "$sources\$f\bin\$configuration\$f.$_"
+		}
+		Remove-Item "$out" -Recurse
+	}
 }
 
 task Deploy -depends Deploy-Zip, Deploy-Nuget  
