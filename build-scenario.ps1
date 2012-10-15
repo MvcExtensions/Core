@@ -5,6 +5,7 @@ properties {
 		$buildNumber = "3.0.0"
 	}
 	$projectDir = Resolve-Path "."
+    $sources = "$projectDir\src"
 	$solution = "$projectDir\MvcExtensions.sln"
 	$configuration = "Debug"
 	$artifactPath = "$projectDir\Drops"
@@ -16,11 +17,12 @@ properties {
 	$referencePath = "$projectDir\References"
 	$coverageRunner = "$projectDir\build\PartCover\partcover.exe"
 	$styleCop = "$projectDir\build\StyleCop\StyleCopCLI.exe"
+    $ilmerge = "$projectDir\build\ILMerge\ILMerge.exe"
 }
 
 task default -depends Full
 
-task Full -depends Init, Clean, StyleCop, Simian, Build, FxCop, Tests, Deploy
+task Full -depends Init, Clean, StyleCop, Simian, Build, MergeAnnotations, FxCop, Tests, Deploy
 
 task Init {
 	if(-not(Test-Path $artifactPath)) {
@@ -45,13 +47,13 @@ task Simian {
 		& "$projectDir\Build\Simian\simian-2.2.24.exe" `
 			-formatter=xml:"$out" `
 			-reportDuplicateText+ `
-			"$projectDir\src\$_\**\*.cs"
+			"$sources\$_\**\*.cs"
 	}
 }
 
 task Build {
 	Generate-Assembly-Info `
-        -outputFile "$projectDir\src\SharedFiles\CommonAssemblyInfo.cs" `
+        -outputFile "$sources\SharedFiles\CommonAssemblyInfo.cs" `
         -company "MvcExtensions" `
         -copyright "Copyright &copy; Kazi Manzur Rashid 2009-2012, hazzik 2011-2012" `
         -comVisible "false" `
@@ -70,9 +72,9 @@ task FxCop {
 		$out = "$artifactPath\FxCop$_.xml"
 
 		& "$projectDir\Build\FxCop\FxCopCmd.exe" `
-			/f:"$projectDir\src\$_\bin\$configuration\$_.dll" `
+			/f:"$sources\$_\bin\$configuration\$_.dll" `
 			/d:"$referencePath\AspNetMvc3" `
-			/dic:"$projectDir\src\SharedFiles\CodeAnalysisDictionary.xml" `
+			/dic:"$sources\SharedFiles\CodeAnalysisDictionary.xml" `
 			/o:"$out" `
 			/oxsl:"FxCopReport.xsl" `
 			/to:0 /fo /gac /igc /q
@@ -95,8 +97,22 @@ task CodeCoverage {
 
 task Tests -depends Init {
 	$projects | ForEach-Object {
-		& $xunit "$projectDir\src\$_.Tests\bin\$configuration\$_.Tests.dll" /noshadow /xml $artifactPath\$_.Tests.xunit.xml
+		& $xunit "$sources\$_.Tests\bin\$configuration\$_.Tests.dll" /noshadow /xml $artifactPath\$_.Tests.xunit.xml
 	}
+}
+
+task MergeAnnotations -depends Build {
+    #& $ilmerge 
+    
+    $projects | ForEach-Object {
+        $f = $_
+        & "$ilmerge" /v4 /t:library /internalize /keyfile:"$sources\SharedFiles\MvcExtensions.snk" /out:"$sources\$f\bin\$configuration\$f.m.dll" "$sources\$f\bin\$configuration\$f.dll" "$sources\$f\bin\$configuration\JetBrains.Annotations.dll" 
+        
+        @("dll", "pdb") | ForEach-Object {
+            Remove-Item "$sources\$f\bin\$configuration\$f.$_" 
+            Rename-Item "$sources\$f\bin\$configuration\$f.m.$_" "$f.$_" 
+        }
+    }
 }
 
 task Deploy -depends Deploy-Zip, Deploy-Nuget  
@@ -107,14 +123,14 @@ task Deploy-Zip {
 	$projects | ForEach-Object {
 		$f = $_
 		$files = @("$projectDir\license.txt")
-		Get-ChildItem -Path "$projectDir\src\$f\bin\$configuration" | Where-Object { $_.name -match "$f.*" } | ForEach-Object { $files += $_.FullName }
+		Get-ChildItem -Path "$sources\$f\bin\$configuration" | Where-Object { $_.name -match "$f.*" } | ForEach-Object { $files += $_.FullName }
 		Write-Zip -Path $files -OutputPath "$artifactPath\$f.$semVer.zip" -level 9
 	}
 }
 
 task Deploy-Nuget {
 	$projects | ForEach-Object { 
-		& "${nuget}.exe" pack $projectDir\src\$_\$_.nuspec /basepath $projectDir\src\$_\bin\$configuration /outputdirectory $artifactPath /version $semVer 
+		& "${nuget}.exe" pack $sources\$_\$_.nuspec /basepath $sources\$_\bin\$configuration /outputdirectory $artifactPath /version $semVer 
 	}
 }
 

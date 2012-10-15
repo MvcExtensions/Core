@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
@@ -101,7 +102,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> Template(string value)
+        public ModelMetadataItemBuilder<TValue> Template([AspMvcEditorTemplate, AspMvcDisplayTemplate] string value)
         {
             Item.TemplateName = value;
 
