@@ -164,6 +164,7 @@
     <Compile Include="Helper\RouteValuesHelpers.cs" />
     <Compile Include="ModelBinder\ModelBinderMappingRegistryExtensions.cs" />
     <Compile Include="ModelBinder\ExtendedModelBinderProvider.cs" />
+    <Compile Include="Properties\TypeForwards.cs" />
     <Compile Include="Responders\HtmlResponder.cs" />
     <Compile Include="Responders\IHasResponders.cs" />
     <Compile Include="Responders\IResponder.cs" />
