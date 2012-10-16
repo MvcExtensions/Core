@@ -8,10 +8,12 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="ModelMetadataItemBuilder{TValue}"/>.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class ValueTypeMetadataItemBuilderExtensions
     {
         /// <summary>

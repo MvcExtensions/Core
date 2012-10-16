@@ -9,11 +9,13 @@ namespace MvcExtensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a model validator provider which support fluent registration.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ExtendedModelValidatorProvider : ModelValidatorProvider
     {
         /// <summary>

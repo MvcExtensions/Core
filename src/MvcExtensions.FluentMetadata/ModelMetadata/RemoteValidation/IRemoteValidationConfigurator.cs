@@ -7,10 +7,13 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// Holds ModelMetadataItemBuilder&lt;TValue&gt; class
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public interface IRemoteValidationConfigurator<TValue>
     {
         /// <summary>

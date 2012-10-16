@@ -12,11 +12,13 @@ namespace MvcExtensions
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Linq.Expressions;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a base class that is used to configure metadata of a model fluently.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public abstract class ModelMetadataConfiguration<TModel> : IModelMetadataConfiguration where TModel : class
     {
         private readonly IDictionary<string, ModelMetadataItem> configurations = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);

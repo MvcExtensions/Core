@@ -13,12 +13,14 @@ namespace MvcExtensions
     using System.Globalization;
     using System.Linq.Expressions;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
     using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class to fluently configure metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataItemBuilder<TValue>
     {
         /// <summary>

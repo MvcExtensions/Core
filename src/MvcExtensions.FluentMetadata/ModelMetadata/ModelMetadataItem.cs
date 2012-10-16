@@ -9,10 +9,12 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Defines a base class that is used to store metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataItem
     {
         /// <summary>

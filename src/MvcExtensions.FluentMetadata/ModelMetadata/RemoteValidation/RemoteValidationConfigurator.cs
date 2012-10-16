@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Globalization;
     using System.Linq;
     using System.Linq.Expressions;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
     using JetBrains.Annotations;
 
@@ -19,6 +20,7 @@ namespace MvcExtensions
     /// RemoteValidationConfigurator class implements methods to configure remote validation
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class RemoteValidationConfigurator<TValue> : AbstractRemoteValidationConfigurator<TValue>
     {
         private readonly Func<string> errorMessage;

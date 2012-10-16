@@ -103,6 +103,7 @@
     <Compile Include="Helper\Culture.cs" />
     <Compile Include="Helper\ExpressionVisitorHelper.cs" />
     <Compile Include="Helper\Invariant.cs" />
+    <Compile Include="Helper\KnownAssembly.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="Providers\CompositeModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />

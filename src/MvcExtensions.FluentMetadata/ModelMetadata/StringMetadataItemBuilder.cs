@@ -9,10 +9,12 @@ namespace MvcExtensions
 {
     using System;
     using System.Diagnostics;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="string"/> type.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class StringMetadataItemBuilder
     {
         private static string emailExpression = @"^([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}$";

@@ -10,12 +10,14 @@ namespace MvcExtensions
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents a class to store range validation metadata.
     /// </summary>
     /// <typeparam name="TValueType">The type of the value type.</typeparam>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class RangeValidationMetadata<TValueType> : ModelValidationMetadata
     {
         /// <summary>

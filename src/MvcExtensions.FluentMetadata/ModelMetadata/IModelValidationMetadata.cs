@@ -7,11 +7,13 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents an interface to store validation metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public interface IModelValidationMetadata
     {
         /// <summary>

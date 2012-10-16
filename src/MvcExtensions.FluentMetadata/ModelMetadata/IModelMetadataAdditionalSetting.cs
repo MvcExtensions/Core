@@ -7,9 +7,12 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     /// Represents a marker interface for model metadata additional setting.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public interface IModelMetadataAdditionalSetting
     {
     }

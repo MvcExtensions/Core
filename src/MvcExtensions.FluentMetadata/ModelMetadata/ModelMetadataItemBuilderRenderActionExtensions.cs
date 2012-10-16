@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Mvc.Html;
@@ -17,6 +18,7 @@ namespace MvcExtensions
     /// <summary>
     /// Extensions for <see cref="ModelMetadataItemBuilder{TValue}"/> which add RenderAction methods.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class ModelMetadataItemBuilderRenderActionExtensions
     {
         /// <summary>

@@ -10,10 +10,12 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Defines a class to store all the metadata of the models.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
         private readonly IDictionary<Type, ModelMetadataRegistryItem> mappings = new Dictionary<Type, ModelMetadataRegistryItem>();

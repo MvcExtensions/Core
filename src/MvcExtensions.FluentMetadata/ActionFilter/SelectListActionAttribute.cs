@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
@@ -17,6 +18,7 @@ namespace MvcExtensions
     /// <remarks>This  filter is applicable for child action only.</remarks>
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class SelectListActionAttribute : FilterAttribute, IActionFilter
     {
         private const string DefaultArgumentName = "selected";

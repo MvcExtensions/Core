@@ -9,11 +9,13 @@ namespace MvcExtensions
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents a base class to store validation metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public abstract class ModelValidationMetadata : IModelValidationMetadata
     {
         /// <summary>

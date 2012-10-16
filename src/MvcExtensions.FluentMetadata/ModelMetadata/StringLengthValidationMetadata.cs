@@ -8,11 +8,13 @@
 namespace MvcExtensions
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents a class to store string length validation metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class StringLengthValidationMetadata : ModelValidationMetadata
     {
         /// <summary>

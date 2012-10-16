@@ -3,11 +3,13 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Allow to validate value with delegate based validation
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class DelegateBasedValidator : ModelValidator
     {
         private readonly Func<object, object, bool> validator;

@@ -9,11 +9,13 @@ namespace MvcExtensions
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a class which is used to maintain multiple model validator provider.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class CompositeModelValidatorProvider : ModelValidatorProvider
     {
         /// <summary>

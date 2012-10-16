@@ -7,11 +7,13 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Extensions for <see cref="ModelMetadata"/> and <see cref="ViewDataDictionary"/> which add ability to retrive <see cref="RenderActionSetting"/> 
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class RenderActionSettingExtensions
     {
         /// <summary>

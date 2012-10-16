@@ -1,12 +1,14 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents a class to store custom validation metadata.
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class CustomValidationMetadata<T> : IModelValidationMetadata
         where T : ModelValidator
     {

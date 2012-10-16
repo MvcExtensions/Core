@@ -8,10 +8,12 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Define a class that is used to store the selectable element setting.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataItemSelectableElementSetting : IModelMetadataAdditionalSetting
     {
         /// <summary>

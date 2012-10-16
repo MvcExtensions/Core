@@ -7,11 +7,13 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents a class to store compare validation metadata.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class CompareValidationMetadata : ModelValidationMetadata
     {
         /// <summary>

@@ -7,11 +7,13 @@
 
 namespace MvcExtensions
 {
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Represents RemoteValidationMetadata class
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class RemoteValidationMetadata : ModelValidationMetadata
     {
         /// <summary>

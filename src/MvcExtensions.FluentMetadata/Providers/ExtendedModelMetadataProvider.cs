@@ -11,11 +11,13 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a metadata provider which supports fluent registration.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ExtendedModelMetadataProvider : DataAnnotationsModelMetadataProvider
     {
         private readonly IModelMetadataRegistry registry;

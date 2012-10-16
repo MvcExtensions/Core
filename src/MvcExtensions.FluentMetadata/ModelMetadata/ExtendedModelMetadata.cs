@@ -8,11 +8,13 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
     /// <summary>
     /// Defines a metadata class which supports fluent metadata registration.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ExtendedModelMetadata : ModelMetadata
     {
         /// <summary>

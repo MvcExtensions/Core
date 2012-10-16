@@ -8,9 +8,11 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class RemoteValidationExtensions
     {
         /// <summary>

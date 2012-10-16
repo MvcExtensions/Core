@@ -8,12 +8,14 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Runtime.CompilerServices;
     using System.Web;
     using System.Web.Mvc;
 
     /// <summary>
     /// Define a class that is used to store the render action element setting.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class RenderActionSetting : IModelMetadataAdditionalSetting
     {
         /// <summary>

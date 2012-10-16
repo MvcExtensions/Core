@@ -9,10 +9,12 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     /// Represents an interface to store all the metadata of the models.
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public interface IModelMetadataRegistry
     {
         /// <summary>

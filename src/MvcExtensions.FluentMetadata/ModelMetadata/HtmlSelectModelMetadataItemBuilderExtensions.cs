@@ -9,11 +9,13 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
     using JetBrains.Annotations;
 
     /// <summary>
     /// Extensions for <see cref="ModelMetadataItemBuilder{TValue}"/> which add AsDropDownList and AsListBox methods 
     /// </summary>
+    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public static class HtmlSelectModelMetadataItemBuilderExtensions
     {
         /// <summary>
