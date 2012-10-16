@@ -11,7 +11,7 @@
     <iconUrl>http://gravatar.com/avatar/1e7a6fdfbadc6b803f5539deb6186022?s=512</iconUrl>
     <projectUrl>http://mvcextensions.github.com</projectUrl>
     <dependencies>
-      <dependency id="MvcExtensions.FluentMetadata" version="[3.0, 3.1)" />
+      <dependency id="MvcExtensions.FluentMetadata" version="[3.0.0-a, 3.1)" />
     </dependencies>
   </metadata>
   <files>
