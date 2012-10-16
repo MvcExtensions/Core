@@ -4,10 +4,7 @@ echo Restoring nuget packages
 call nuget install packages.config -o ..\packages
 popd
 
-set msbuild=%windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild
-set configuration=%1
-if "%configuration%" == "" set configuration=Release
+powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& {Import-Module '.\build\Psake'; Import-Module '.\build\Pscx'; invoke-psake .\build-scenario.ps1 %*; remove-module psake; if ($lastexitcode -ne 0) {write-host "ERROR: $lastexitcode" -fore RED; exit $lastexitcode} }" 
 
-%msbuild% MvcExtensions.build /t:Full /p:Configuration=%configuration% /m:2
 
 pause
