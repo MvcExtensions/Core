@@ -17,7 +17,7 @@ properties {
 	$referencePath = "$projectDir\References"
 	$coverageRunner = "$projectDir\build\PartCover\partcover.exe"
 	$styleCop = "$projectDir\build\StyleCop\StyleCopCLI.exe"
-    $ilmerge = "$projectDir\build\ILMerge\ILMerge.exe"
+    $ilmerge = "$projectDir\build\ILRepack\ILRepack.exe"
 }
 
 task default -depends Full

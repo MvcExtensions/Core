@@ -9,6 +9,6 @@ namespace MvcExtensions
 {
     internal static class KnownAssembly
     {
-        public const string MvcExtensions = "MvcExtensions, Version=3.0.0.0, Culture=neutral, PublicKeyToken=ee6190c4449c24bc";
+        public const string MvcExtensions = "MvcExtensions, Version=2.5.0.0, Culture=neutral, PublicKeyToken=ee6190c4449c24bc";
     }
 }
