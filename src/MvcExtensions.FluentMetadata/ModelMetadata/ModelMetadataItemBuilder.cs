@@ -18,10 +18,10 @@ namespace MvcExtensions
     using JetBrains.Annotations;
 
     /// <summary>
-    /// Defines a base class to fluently configure metadata.
+    /// Defines class to fluently configure metadata.
     /// </summary>
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
-    public class ModelMetadataItemBuilder<TValue>
+    public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TValue}"/> class.
@@ -53,6 +53,264 @@ namespace MvcExtensions
             {
                 return this;
             }
+        }
+
+        ModelMetadataItem IModelMetadataItemBuilder<TValue>.Item
+        {
+            get
+            {
+                return Item;
+            }
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayName(Func<string> value)
+        {
+            return DisplayName(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShortDisplayName(string value)
+        {
+            return ShortDisplayName(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShortDisplayName(Func<string> value)
+        {
+            return ShortDisplayName(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Template(string value)
+        {
+            return Template(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Description(string value)
+        {
+            return Description(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Description(Func<string> value)
+        {
+            return Description(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ReadOnly()
+        {
+            return ReadOnly();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Writable()
+        {
+            return Writable();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty)
+        {
+            return Compare(otherProperty);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, string errorMessage)
+        {
+            return Compare(otherProperty, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, Func<string> errorMessage)
+        {
+            return Compare(otherProperty, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            return Compare(otherProperty, errorMessageResourceType, errorMessageResourceName);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required()
+        {
+            return Required();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(string errorMessage)
+        {
+            return Required(errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(Func<string> errorMessage)
+        {
+            return Required(errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(Type errorMessageResourceType, string errorMessageResourceName)
+        {
+            return Required(errorMessageResourceType, errorMessageResourceName);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Optional()
+        {
+            return Optional();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AsHidden()
+        {
+            return AsHidden();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AsHidden(bool hideSurroundingHtml)
+        {
+            return AsHidden(hideSurroundingHtml);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideSurroundingHtml()
+        {
+            return HideSurroundingHtml();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowSurroundingHtml()
+        {
+            return ShowSurroundingHtml();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AllowHtml()
+        {
+            return AllowHtml();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisallowHtml()
+        {
+            return DisallowHtml();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowForDisplay()
+        {
+            return ShowForDisplay();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideForDisplay()
+        {
+            return HideForDisplay();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowForEdit()
+        {
+            return ShowForEdit();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideForEdit()
+        {
+            return HideForEdit();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Show()
+        {
+            return Show();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Hide()
+        {
+            return Hide();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.NullDisplayText(string value)
+        {
+            return NullDisplayText(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.NullDisplayText(Func<string> value)
+        {
+            return NullDisplayText(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Watermark(string value)
+        {
+            return Watermark(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Watermark(Func<string> value)
+        {
+            return Watermark(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Order(int value)
+        {
+            return Order(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayFormat(string format)
+        {
+            return DisplayFormat(format);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayFormat(Func<string> format)
+        {
+            return DisplayFormat(format);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.EditFormat(string format)
+        {
+            return EditFormat(format);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.EditFormat(Func<string> format)
+        {
+            return EditFormat(format);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Format(string value)
+        {
+            return Format(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Format(Func<string> value)
+        {
+            return Format(value);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ApplyFormatInEditMode()
+        {
+            return ApplyFormatInEditMode();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate(Func<TValue, bool> validator, string errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate(Func<TValue, bool> validator, Func<string> errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, bool> validator, string errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>()
+        {
+            return ValidateBy<TValidator>();
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Action<TValidator> configure)
+        {
+            return ValidateBy(configure);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(TValidator validator)
+        {
+            return ValidateBy(validator);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory)
+        {
+            return ValidateBy(factory);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayName(string value)
+        {
+            return DisplayName(value);
         }
 
         /// <summary>

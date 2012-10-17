@@ -9,7 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedFiles", "SharedFiles"
 		src\SharedFiles\CodeAnalysisDictionary.xml = src\SharedFiles\CodeAnalysisDictionary.xml
 		src\SharedFiles\CommonAssemblyInfo.cs = src\SharedFiles\CommonAssemblyInfo.cs
 		license.txt = license.txt
-		MvcExtensions.build = MvcExtensions.build
 		src\SharedFiles\MvcExtensions.snk = src\SharedFiles\MvcExtensions.snk
 	EndProjectSection
 EndProject
