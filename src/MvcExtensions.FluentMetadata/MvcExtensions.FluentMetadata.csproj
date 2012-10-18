@@ -88,6 +88,9 @@
   <ItemGroup>
     <Compile Include="ActionFilter\SelectListActionAttribute.cs" />
     <Compile Include="Conventions\DefaultPropertyMetadataConvention.cs" />
+    <Compile Include="Conventions\ModelConvensions\AcceptorContext.cs" />
+    <Compile Include="Conventions\ModelConvensions\DefaultModelConventionAcceptor.cs" />
+    <Compile Include="Conventions\ModelConvensions\IModelConventionAcceptor.cs" />
     <Compile Include="Conventions\IPropertyMetadataConvention.cs" />
     <Compile Include="Conventions\MetadataMergeExtensions.cs" />
     <Compile Include="ExceptionMessages.Designer.cs">

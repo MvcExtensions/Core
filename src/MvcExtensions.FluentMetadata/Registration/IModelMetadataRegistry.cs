@@ -16,6 +16,12 @@ namespace MvcExtensions
     public interface IModelMetadataRegistry
     {
         /// <summary>
+        /// Register a new convention
+        /// </summary>
+        /// <param name="convention"><see cref="IPropertyMetadataConvention"/> class</param>
+        void RegisterConvention(IPropertyMetadataConvention convention);
+
+        /// <summary>
         /// Registers the model type metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>

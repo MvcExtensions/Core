@@ -45,15 +45,15 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="registerFoundConfiguration">
         /// Register configuration via IoC container. 
-        /// <br/>
-        /// ------------
+        /// <example>
         /// <br/><b>Example:</b>
-        /// <br/>---<br/>
+        /// <br/>
         /// <br/>Autofac:<br/>
         /// .RegisterConfigurationsWithContainer(r => container.RegisterType(r.MetadataConfigurationType).As(r.InterfaceType))
-        /// <br/>---<br/>
+        /// <br/><br/>
         /// Windsor:<br/>
         /// .RegisterConfigurationsWithContainer(r => container.Register(Component.For(r.InterfaceType).ImplementedBy(r.MetadataConfigurationType).LifeStyle.Transient))
+        /// </example>
         /// </param>
         /// <returns></returns>
         public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer(Action<ConfigurationsScanResult> registerFoundConfiguration)
