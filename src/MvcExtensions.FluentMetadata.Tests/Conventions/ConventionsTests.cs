@@ -8,9 +8,11 @@
 namespace MvcExtensions.FluentMetadata.Tests
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Xunit;
 
     public class ConventionsTests
@@ -50,8 +52,8 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             var items = new Dictionary<string, ModelMetadataItem>();
             var metadataItem = new ModelMetadataItem();
-            const int expected = 200;
-            new ModelMetadataItemBuilder<string>(metadataItem).MaximumLength(expected);
+            const int Expected = 200;
+            new ModelMetadataItemBuilder<string>(metadataItem).MaximumLength(Expected);
             items.Add(PropertyName, metadataItem);
 
             registry.RegisterModelProperties(modelType, items);
@@ -62,38 +64,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             // assert
             var val = result.Validations.OfType<StringLengthValidationMetadata>().FirstOrDefault();
             Assert.NotNull(val);
-            Assert.Equal(expected, val.Maximum);
-        }
-
-        [Fact]
-        public void Should_add_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
-        {
-            // arrange
-            registry.ConventionAcceptor = new TestModelConventionAcceptor();
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
-
-            // act
-            var result = registry.GetModelPropertyMetadata(typeof(TestModelWitoutMetadata), PropertyName);
-
-            // assert
-            Assert.NotNull(result);
-            Assert.NotEmpty(result.Validations);
-            Assert.NotNull(result.IsRequired);
-            Assert.True(result.IsRequired.Value);
-        }
-
-        [Fact]
-        public void Should_not_add_conventions_when_no_metadata_convention_is_set_and_it_is_not_accepted_by_model_convensions()
-        {
-            // arrange
-            registry.ConventionAcceptor = new DefaultModelConventionAcceptor();
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
-
-            // act
-            var result = registry.GetModelPropertyMetadata(typeof(TestModelWitoutMetadata), PropertyName);
-
-            // assert
-            Assert.Null(result);
+            Assert.Equal(Expected, val.Maximum);
         }
 
         [Fact]
@@ -112,10 +83,40 @@ namespace MvcExtensions.FluentMetadata.Tests
             Assert.NotNull(result.IsRequired);
             Assert.True(result.IsRequired.Value);
         }
+
+        [Fact]
+        public void Should_not_apply_convention_for_types_that_do_not_have_metadata_configuration()
+        {
+            // arrange
+            registry.ConventionAcceptor = new DefaultModelConventionAcceptor();
+            registry.RegisterConvention(new TestPropertyMetadataConvention());
+
+            // act
+            var result = registry.GetModelPropertyMetadata(modelType, PropertyName);
+
+            // assert
+            Assert.Null(result);
+        }
+        
+        [Fact]
+        public void Should_add_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
+        {
+            // arrange
+            registry.ConventionAcceptor = new TestModelConventionAcceptor();
+            registry.RegisterConvention(new TestPropertyMetadataConvention());
+
+            // act
+            var result = registry.GetModelPropertyMetadata(typeof(TestModelWitoutMetadata), PropertyName);
+
+            // assert
+            Assert.NotNull(result);
+            Assert.NotEmpty(result.Validations);
+            Assert.NotNull(result.IsRequired);
+            Assert.True(result.IsRequired.Value);
+        }
         
         #region Test data
-
-
+        
         #region // regular test for model with metadata
 
         public class DummyModelWithConventions
@@ -191,8 +192,5 @@ namespace MvcExtensions.FluentMetadata.Tests
 
 
         #endregion
-
     }
-
-    
 }

@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2011, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>.
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -17,9 +17,9 @@ namespace MvcExtensions
     /// </summary>
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
-        private readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
         private readonly ICollection<IPropertyMetadataConvention> conventions = new List<IPropertyMetadataConvention>();
         private readonly ConcurrentBag<Type> ignoredClassesCache = new ConcurrentBag<Type>();
+        private readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
         private IModelConventionAcceptor conventionAcceptor = new DefaultModelConventionAcceptor();
 
         /// <summary>
@@ -131,48 +131,6 @@ namespace MvcExtensions
             return item == null ? null : item.PropertiesMetadata;
         }
 
-
-        private ModelMetadataRegistryItem ApplyConvenstionsToOldOrNewItem(Type modelType, ModelMetadataRegistryItem item)
-        {
-            if (item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied)
-            {
-                return item;
-            }
-
-            var context = new AcceptorContext(modelType, item != null);
-            var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
-
-            lock (this)
-            {
-                if (!canAcceptConventions)
-                {
-                    if (item == null)
-                    {
-                        ignoredClassesCache.Add(modelType);
-                    }
-                    else
-                    {
-                        item.IsConventionsApplied = true;
-                    }
-
-                    return item;
-                }
-
-                if (item == null)
-                {
-                    item = new ModelMetadataRegistryItem();
-                }
-                else if (item.IsConventionsApplied)
-                {
-                    return item;
-                }
-
-                ApplyMetadataConvenstions(modelType, item);
-            }
-
-            return item;
-        }
-
         private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
         {
             var properties = modelType.GetProperties();
@@ -211,15 +169,7 @@ namespace MvcExtensions
                     .FirstOrDefault();
             }
 
-            var exists = item != null;
-            item = ApplyConvenstionsToOldOrNewItem(modelType, item);
-
-            if (!exists && item != null)
-            {
-                mappings.TryAdd(modelType, item);
-            }
-
-            return item;
+            return ProcessExistingOrNewModelMetadataRegistryItem(modelType, item);
         }
 
         private ModelMetadataRegistryItem GetOrCreate(Type modelType)
@@ -233,6 +183,60 @@ namespace MvcExtensions
             }
 
             return item;
+        }
+
+        private ModelMetadataRegistryItem ProcessExistingOrNewModelMetadataRegistryItem(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied)
+            {
+                return item;
+            }
+
+            var context = new AcceptorContext(modelType, item != null);
+            var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
+
+            lock (this)
+            {
+                if (!canAcceptConventions)
+                {
+                    ProcessUnacceptedModelType(modelType, item);
+                    return item;
+                }
+
+                if (item == null)
+                {
+                    // try get existing (item can be created by another thread) or create new
+                    item = GetOrCreate(modelType);
+                }
+
+                // ensure convenstion is not applied yet
+                if (item.IsConventionsApplied)
+                {
+                    return item;
+                }
+
+                ApplyMetadataConvenstions(modelType, item);
+            }
+
+            return item;
+        }
+
+        private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (item == null)
+            {
+                // mark item as ignored
+                if (!ignoredClassesCache.Contains(modelType))
+                {
+                    ignoredClassesCache.Add(modelType);
+                }
+            }
+            else
+            {
+                // if we have some metadata item, 
+                // just mark it as processed and do not add any conventions
+                item.IsConventionsApplied = true;
+            }
         }
 
         /// <summary>
