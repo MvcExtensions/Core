@@ -8,11 +8,9 @@
 namespace MvcExtensions.FluentMetadata.Tests
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class ConventionsTests
@@ -28,7 +26,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_add_conventions_when_condition_is_matched()
+        public void Should_apply_conventions_when_condition_is_matched()
         {
             // arrange
             registry.RegisterConvention(new TestPropertyMetadataConvention());
@@ -45,7 +43,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_not_overwrite_existing_metadata_validation()
+        public void Should_apply_overwrite_existing_metadata_validation()
         {
             // arrange
             registry.RegisterConvention(new TestPropertyMetadataConvention());
@@ -99,7 +97,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
         
         [Fact]
-        public void Should_add_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
+        public void Should_apply_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
         {
             // arrange
             registry.ConventionAcceptor = new TestModelConventionAcceptor();

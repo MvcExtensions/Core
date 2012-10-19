@@ -131,30 +131,6 @@ namespace MvcExtensions
             return item == null ? null : item.PropertiesMetadata;
         }
 
-        private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
-        {
-            var properties = modelType.GetProperties();
-            foreach (var convention in conventions)
-            {
-                var metadataConvention = convention;
-                foreach (var pi in properties.Where(metadataConvention.CanBeAccepted))
-                {
-                    ModelMetadataItem metadataItem;
-                    if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
-                    {
-                        metadataItem = new ModelMetadataItem();
-                        item.PropertiesMetadata.Add(pi.Name, metadataItem);
-                    }
-
-                    var conventionMetadata = convention.CreateMetadataRules();
-
-                    conventionMetadata.MergeTo(metadataItem);
-                }
-            }
-
-            item.IsConventionsApplied = true;
-        }
-
         private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
@@ -169,34 +145,33 @@ namespace MvcExtensions
                     .FirstOrDefault();
             }
 
-            return ProcessExistingOrNewModelMetadataRegistryItem(modelType, item);
+            return CheckMetadataAndApplyConvetions(modelType, item);
         }
 
-        private ModelMetadataRegistryItem GetOrCreate(Type modelType)
+        private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions(Type modelType, ModelMetadataRegistryItem item)
         {
-            ModelMetadataRegistryItem item;
-
-            if (!mappings.TryGetValue(modelType, out item))
-            {
-                item = new ModelMetadataRegistryItem();
-                mappings.TryAdd(modelType, item);
-            }
-
-            return item;
-        }
-
-        private ModelMetadataRegistryItem ProcessExistingOrNewModelMetadataRegistryItem(Type modelType, ModelMetadataRegistryItem item)
-        {
-            if (item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied)
+            if (NoNeedToApplyConvetionsFor(modelType, item))
             {
                 return item;
             }
 
-            var context = new AcceptorContext(modelType, item != null);
-            var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
-
             lock (this)
             {
+                if (NoNeedToApplyConvetionsFor(modelType, item))
+                {
+                    return item;
+                }
+
+                ModelMetadataRegistryItem registeredItem;
+                // ensure that conventions were not appied by another thread
+                if (mappings.TryGetValue(modelType, out registeredItem) && registeredItem.IsConventionsApplied)
+                {
+                    return registeredItem;
+                }
+
+                var context = new AcceptorContext(modelType, item != null);
+                var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
+
                 if (!canAcceptConventions)
                 {
                     ProcessUnacceptedModelType(modelType, item);
@@ -221,6 +196,35 @@ namespace MvcExtensions
             return item;
         }
 
+        private bool NoNeedToApplyConvetionsFor(Type modelType, ModelMetadataRegistryItem item)
+        {
+            return item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied;
+        }
+
+        private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
+        {
+            var properties = modelType.GetProperties();
+            foreach (var convention in conventions)
+            {
+                var metadataConvention = convention;
+                foreach (var pi in properties.Where(metadataConvention.CanBeAccepted))
+                {
+                    ModelMetadataItem metadataItem;
+                    if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
+                    {
+                        metadataItem = new ModelMetadataItem();
+                        item.PropertiesMetadata.Add(pi.Name, metadataItem);
+                    }
+
+                    var conventionMetadata = convention.CreateMetadataRules();
+
+                    conventionMetadata.MergeTo(metadataItem);
+                }
+            }
+
+            item.IsConventionsApplied = true;
+        }
+
         private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
         {
             if (item == null)
@@ -237,6 +241,19 @@ namespace MvcExtensions
                 // just mark it as processed and do not add any conventions
                 item.IsConventionsApplied = true;
             }
+        }
+
+        private ModelMetadataRegistryItem GetOrCreate(Type modelType)
+        {
+            ModelMetadataRegistryItem item;
+
+            if (!mappings.TryGetValue(modelType, out item))
+            {
+                item = new ModelMetadataRegistryItem();
+                mappings.TryAdd(modelType, item);
+            }
+
+            return item;
         }
 
         /// <summary>
