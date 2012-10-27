@@ -28,7 +28,7 @@ namespace MvcExtensions
         {
             get
             {
-                return registrar.Registry;
+                return Registrar.Registry;
             }
         }
 
