@@ -218,7 +218,7 @@ namespace MvcExtensions
                         item.PropertiesMetadata.Add(pi.Name, metadataItem);
                     }
 
-                    var conventionMetadata = convention.CreateMetadataRules();
+                    var conventionMetadata = convention.CreateMetadataRules(pi);
 
                     conventionMetadata.MergeTo(metadataItem);
                 }

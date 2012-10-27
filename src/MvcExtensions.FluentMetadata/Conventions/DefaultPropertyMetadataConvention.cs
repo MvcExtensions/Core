@@ -19,6 +19,8 @@ namespace MvcExtensions
         /// <summary>
         /// Verifies that conventions can be applied to the given property
         /// </summary>
+        /// <param name="propertyInfo">Target property information</param>
+        /// <returns>true - if metadata can be accepted; otherwise, false</returns>
         public bool CanBeAccepted(PropertyInfo propertyInfo)
         {
             return propertyInfo.PropertyType == typeof(T) && CanBeAcceptedCore(propertyInfo);
@@ -27,8 +29,9 @@ namespace MvcExtensions
         /// <summary>
         /// Creates a set of model metadata rules
         /// </summary>
+        /// <param name="propertyInfo">Target property information</param>
         /// <returns>A instance of <see cref="ModelMetadataItem"/></returns>
-        public ModelMetadataItem CreateMetadataRules()
+        public ModelMetadataItem CreateMetadataRules(PropertyInfo propertyInfo)
         {
             var builder = new ModelMetadataItemBuilder<T>(new ModelMetadataItem());
             CreateMetadataRulesCore(builder);
