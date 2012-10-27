@@ -20,7 +20,18 @@ namespace MvcExtensions
     {
         private static ModelMetadataRegistrar registrar;
         private static bool registredWithContainer;
-        
+
+        /// <summary>
+        /// Current momel metadata registry
+        /// </summary>
+        public static IModelMetadataRegistry Registry
+        {
+            get
+            {
+                return registrar.Registry;
+            }
+        }
+
         /// <summary>
         /// Instance of <see cref="ModelMetadataRegistrar"/> type
         /// </summary>
@@ -33,11 +44,45 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Allows to set custom <see cref="IModelMetadataRegistry"/> implementation
+        /// Allows to define custom factory to contruct model metadata configuration classes
         /// </summary>
-        public static void SetModelMetadataRegistry(IModelMetadataRegistry registry)
+        /// <param name="configurationFactory">A factory to instantiate <see cref="IModelMetadataConfiguration"/> classes</param>
+        public static IRegistrar ConstructMetadataUsing(Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
         {
-            Registrar.Registry = registry;
+            Invariant.IsNotNull(configurationFactory, "configurationFactory");
+            return Registrar.ConstructMetadataUsing(configurationFactory);
+        }
+
+        /// <summary>
+        /// Set factory to DependencyResolver
+        /// </summary>
+        public static IRegistrar ConstructMetadataUsingDependencyResolver()
+        {
+            return ConstructMetadataUsing(() => DependencyResolver.Current.GetServices<IModelMetadataConfiguration>());
+        }
+
+        /// <summary>
+        /// Registers metadata provider and model metadata configuration classes
+        /// </summary>
+        public static void Register()
+        {
+            if (!Registrar.ConfigurationFactoryDefined)
+            {
+                if (registredWithContainer)
+                {
+                    ConstructMetadataUsingDependencyResolver();
+                }
+                else
+                {
+                    Registrar.ConstructMetadataUsing(
+                        () =>
+                        ConfigurationsScanner
+                            .GetMetadataClasses(From.AllAssemblies())
+                            .Select(s => (IModelMetadataConfiguration)Activator.CreateInstance(s.MetadataConfigurationType)));
+                }
+            }
+
+            Registrar.Register();
         }
 
         /// <summary>
@@ -78,7 +123,8 @@ namespace MvcExtensions
         /// .RegisterConfigurationsWithContainer(r => container.Register(Component.For(r.InterfaceType).ImplementedBy(r.MetadataConfigurationType).LifeStyle.Transient))
         /// </param>
         /// <returns></returns>
-        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer(IEnumerable<Assembly> forTypesInAssembly, Action<ConfigurationsScanResult> registerFoundConfiguration)
+        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer(
+            IEnumerable<Assembly> forTypesInAssembly, Action<ConfigurationsScanResult> registerFoundConfiguration)
         {
             Invariant.IsNotNull(forTypesInAssembly, "forTypesInAssembly");
             Invariant.IsNotNull(registerFoundConfiguration, "registerConfigurationWithIoC");
@@ -91,45 +137,11 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Allows to define custom factory to contruct model metadata configuration classes
+        /// Allows to set custom <see cref="IModelMetadataRegistry"/> implementation
         /// </summary>
-        /// <param name="configurationFactory">A factory to instantiate <see cref="IModelMetadataConfiguration"/> classes</param>
-        public static IRegistrar ConstructMetadataUsing(Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
+        public static void SetModelMetadataRegistry(IModelMetadataRegistry registry)
         {
-            Invariant.IsNotNull(configurationFactory, "configurationFactory");
-            return Registrar.ConstructMetadataUsing(configurationFactory);
-        }
-
-        /// <summary>
-        /// Set factory to DependencyResolver
-        /// </summary>
-        public static IRegistrar ConstructMetadataUsingDependencyResolver()
-        {
-            return ConstructMetadataUsing(() => DependencyResolver.Current.GetServices<IModelMetadataConfiguration>());
-        }
-        
-        /// <summary>
-        /// Registers metadata provider and model metadata configuration classes
-        /// </summary>
-        public static void Register()
-        {
-            if (!Registrar.ConfigurationFactoryDefined)
-            {
-                if (registredWithContainer)
-                {
-                    ConstructMetadataUsingDependencyResolver();
-                }
-                else
-                {
-                    Registrar.ConstructMetadataUsing(
-                        () =>
-                        ConfigurationsScanner
-                            .GetMetadataClasses(From.AllAssemblies())
-                            .Select(s => (IModelMetadataConfiguration)Activator.CreateInstance(s.MetadataConfigurationType)));
-                }
-            }
-
-            Registrar.Register();
+            Registrar.Registry = registry;
         }
     }
 }
