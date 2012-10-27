@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
@@ -18,8 +19,11 @@ namespace MvcExtensions
     /// Defines a metadata provider which supports fluent registration.
     /// </summary>
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
-    public class ExtendedModelMetadataProvider : DataAnnotationsModelMetadataProvider
+    public class ExtendedModelMetadataProvider : ConventionalDataAnnotationsModelMetadataProvider
     {
+        internal static readonly Lazy<FluentModelMetadataTransformer> FluentModelMetadataTransformer =
+            new Lazy<FluentModelMetadataTransformer>(() => new FluentModelMetadataTransformer());
+
         private readonly IModelMetadataRegistry registry;
 
         /// <summary>
@@ -45,9 +49,9 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(containerType, "containerType");
 
-            IDictionary<string, ModelMetadataItem> metadataItems = registry.GetModelPropertiesMetadata(containerType);
+            var metadataItems = registry.GetModelPropertiesMetadata(containerType);
 
-            if ((metadataItems == null) || (metadataItems.Count == 0))
+            if (metadataItems == null || metadataItems.Count == 0)
             {
                 return base.GetMetadataForProperties(container, containerType);
             }
@@ -59,9 +63,14 @@ namespace MvcExtensions
                 ModelMetadataItem metadata;
                 metadataItems.TryGetValue(descriptor.Name, out metadata);
 
-                PropertyDescriptor tempDescriptor = descriptor;
+                var tempDescriptor = descriptor;
 
-                ModelMetadata modelMetadata = CreatePropertyMetadata(containerType, tempDescriptor.Name, tempDescriptor.PropertyType, metadata, () => tempDescriptor.GetValue(container));
+                var modelMetadata = CreatePropertyMetadata(
+                    containerType,
+                    tempDescriptor.Name,
+                    tempDescriptor.PropertyType,
+                    metadata,
+                    () => tempDescriptor.GetValue(container));
 
                 list.Add(modelMetadata);
             }
@@ -83,20 +92,25 @@ namespace MvcExtensions
             Invariant.IsNotNull(containerType, "containerType");
             Invariant.IsNotNull(propertyName, "propertyName");
 
-            ModelMetadataItem metadataItem = registry.GetModelPropertyMetadata(containerType, propertyName);
+            var metadataItem = registry.GetModelPropertyMetadata(containerType, propertyName);
 
             if (metadataItem == null)
             {
                 return base.GetMetadataForProperty(modelAccessor, containerType, propertyName);
             }
 
-            PropertyDescriptor propertyDescriptor = TypeDescriptor.GetProperties(containerType)
+            var propertyDescriptor = TypeDescriptor.GetProperties(containerType)
                 .Cast<PropertyDescriptor>()
                 .FirstOrDefault(property => property.Name.Equals(propertyName, StringComparison.OrdinalIgnoreCase));
 
             if (propertyDescriptor == null)
             {
-                throw new ArgumentException(string.Format(Culture.CurrentUI, ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound, containerType.FullName, propertyName));
+                throw new ArgumentException(
+                    string.Format(
+                        CultureInfo.CurrentUICulture,
+                        ExceptionMessages.ThePropertyNameOfTypeCouldNotBeFound,
+                        containerType.FullName,
+                        propertyName));
             }
 
             return CreatePropertyMetadata(containerType, propertyName, propertyDescriptor.PropertyType, metadataItem, modelAccessor);
@@ -110,9 +124,11 @@ namespace MvcExtensions
         /// <returns>The metadata.</returns>
         public override ModelMetadata GetMetadataForType(Func<object> modelAccessor, Type modelType)
         {
-            ModelMetadataItem metadataItem = registry.GetModelMetadata(modelType);
+            var metadataItem = registry.GetModelMetadata(modelType);
 
-            return metadataItem == null ? base.GetMetadataForType(modelAccessor, modelType) : CreateModelMetadata(modelType, modelAccessor, metadataItem);
+            return metadataItem == null
+                       ? base.GetMetadataForType(modelAccessor, modelType)
+                       : CreateModelMetadata(modelType, modelAccessor, metadataItem);
         }
 
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
@@ -197,18 +213,9 @@ namespace MvcExtensions
             {
                 metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
             }
-        }
 
-        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
-        {
-            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
-
-            if (propertyMetadata != null)
-            {
-                Copy(propertyMetadata, modelMetadata);
-            }
-
-            return modelMetadata;
+            FluentModelMetadataTransformer.Value.Transform(metadata);
+            DisplayNameTransformer.Value.Transform(metadata);
         }
 
         private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
@@ -218,6 +225,19 @@ namespace MvcExtensions
             if (metadataItem != null)
             {
                 Copy(metadataItem, modelMetadata);
+            }
+
+            return modelMetadata;
+        }
+
+        private ModelMetadata CreatePropertyMetadata(
+            Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
+
+            if (propertyMetadata != null)
+            {
+                Copy(propertyMetadata, modelMetadata);
             }
 
             return modelMetadata;

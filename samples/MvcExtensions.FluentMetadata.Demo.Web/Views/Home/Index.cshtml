@@ -1,0 +1,81 @@
+﻿@model MvcExtensions.FluentMetadata.Demo.Web.ConventionalDataAnnotationsModel
+
+@{
+    ViewBag.Title = @LocalizedTexts.DataAnnotationsConventionTitle;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table>
+    <tr>
+        <th>@LocalizedTexts.Home_Scenario</th>
+        <th>@LocalizedTexts.Home_ModelProperty</th>
+        <th>@LocalizedTexts.Home_MethodCall</th>
+        <th>@LocalizedTexts.Home_Result</th>
+    </tr>
+    <tr>
+        <td>
+            Using ClassName_PropertyName as the resource key.
+        </td>
+        <td>
+            <pre class="csharpcode">[Required]
+<span class="kwrd">public</span> <span class="kwrd">string</span> FirstName { get; set; }</pre>
+
+        </td>
+        <td>Html.LabelFor(m => m.FirstName)</td>
+        <td>@Html.LabelFor(m => m.FirstName)</td>
+    </tr>
+    <tr>
+        <td>Specifying Resource Key only</td>
+        <td>
+            <pre class="csharpcode"><span>[Required]</span>
+[Display(Name = <span class="str">&quot;LastNameLabel&quot;</span>)]
+<span class="kwrd">public</span> <span class="kwrd">string</span> LastName { get; set; }
+</pre>
+        </td>
+        <td>Html.LabelFor(m => m.LastName)</td>
+        <td>@Html.LabelFor(m => m.LastName)</td>
+    </tr>
+    <tr>
+        <td>Using Property Name as the resource key.</td>
+        <td>
+            <pre class="csharpcode">[Required]
+<span class="kwrd">public</span> <span class="kwrd">string</span> MiddleName { get; set; }</pre>
+        </td>
+        <td>Html.LabelFor(m => m.MiddleName)</td>
+        <td>@Html.LabelFor(m => m.MiddleName)</td>
+    </tr>
+    <tr>
+        <td>Fully conventional, loading value from resource file</td>
+        <td>
+            <pre class="csharpcode"><span class="kwrd">public</span> <span class="kwrd">int</span> Weight { get; set; }</pre>
+        </td>
+        <td>Html.LabelFor(m => m.Weight)</td>
+        <td>@Html.LabelFor(m => m.Weight)</td>
+    </tr>
+    <tr>
+        <td>Fully conventional, no corresponding resource string, pascal case splitting.</td>
+        <td>
+            <pre class="csharpcode"><span class="kwrd">public</span> <span class="kwrd">int</span> AverageAge { get; set; }</pre>
+        </td>
+        <td>Html.LabelFor(m => m.AverageAge)</td>
+        <td>@Html.LabelFor(m => m.AverageAge)</td>
+    </tr>
+    <tr>
+        <td>Using Name as display text fallback</td>
+        <td>
+            <pre class="csharpcode">[Display(Name = <span class="str">&quot;My Height (from DisplayAttribute)&quot;</span>)]
+<span class="kwrd">public</span> <span class="kwrd">int</span> Height { get; set; }</pre>
+        </td>
+        <td>Html.LabelFor(m => m.Height)</td>
+        <td>@Html.LabelFor(m => m.Height)</td>
+    </tr>
+</table>
+
+@using (Html.BeginForm()) {
+    <fieldset>
+        <legend>Validation Demo</legend>
+        @Html.EditorForModel()
+        <input type="submit" />
+    </fieldset>
+}

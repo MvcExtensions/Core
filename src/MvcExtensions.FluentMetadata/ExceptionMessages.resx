@@ -135,4 +135,7 @@
   <data name="InvalidUrlFormat" xml:space="preserve">
     <value>Invalid url format.</value>
   </data>
+  <data name="ResourcePropertyNotStringType" xml:space="preserve">
+    <value>The property '{0}' on resource type '{1}' is not a string type.</value>
+  </data>
 </root>

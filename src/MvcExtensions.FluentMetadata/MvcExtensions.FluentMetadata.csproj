@@ -93,6 +93,12 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActionFilter\SelectListActionAttribute.cs" />
+    <Compile Include="Conventions\DefaultPropertyMetadataConvention.cs" />
+    <Compile Include="Conventions\IPropertyMetadataConvention.cs" />
+    <Compile Include="Conventions\MetadataMergeExtensions.cs" />
+    <Compile Include="Conventions\ModelConvensions\AcceptorContext.cs" />
+    <Compile Include="Conventions\ModelConvensions\DefaultModelConventionAcceptor.cs" />
+    <Compile Include="Conventions\ModelConvensions\IModelConventionAcceptor.cs" />
     <Compile Include="ExceptionMessages.Designer.cs">
       <DependentUpon>ExceptionMessages.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -100,16 +106,27 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helper\AssemblyExtensions.cs" />
-    <Compile Include="Helper\Culture.cs" />
+    <Compile Include="Helper\DisplayAttributeExtensions.cs" />
     <Compile Include="Helper\ExpressionVisitorHelper.cs" />
     <Compile Include="Helper\Invariant.cs" />
     <Compile Include="Helper\KnownAssembly.cs" />
+    <Compile Include="Helper\Maybe.cs" />
+    <Compile Include="Helper\StringUtils.cs" />
+    <Compile Include="Helper\TypeExtensions.cs" />
+    <Compile Include="Localization\ConventionSettings.cs" />
+    <Compile Include="Localization\DisplayAttributeTransformer.cs" />
+    <Compile Include="Localization\DisplayNameTransformer.cs" />
+    <Compile Include="Localization\FluentModelMetadataTransformer.cs" />
+    <Compile Include="Localization\MetadataConventionsAttribute.cs" />
+    <Compile Include="Localization\TransformerCore.cs" />
+    <Compile Include="Localization\ValidationAttributeTransformer.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\IModelMetadataItemBuilder.cs" />
     <Compile Include="Providers\CompositeModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
     <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
+    <Compile Include="Providers\ConventionalDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Providers\ExtendedModelMetadataProvider.cs" />
     <Compile Include="Providers\ExtendedModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\HtmlSelectModelMetadataItemBuilderExtensions.cs" />

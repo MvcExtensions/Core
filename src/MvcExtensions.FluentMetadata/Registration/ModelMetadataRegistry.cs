@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -18,7 +19,37 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
-        private readonly IDictionary<Type, ModelMetadataRegistryItem> mappings = new Dictionary<Type, ModelMetadataRegistryItem>();
+        private readonly ICollection<IPropertyMetadataConvention> conventions = new List<IPropertyMetadataConvention>();
+        private readonly ConcurrentBag<Type> ignoredClassesCache = new ConcurrentBag<Type>();
+        private readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
+        private IModelConventionAcceptor conventionAcceptor = new DefaultModelConventionAcceptor();
+
+        /// <summary>
+        /// Default acceptor for metadata classes
+        /// </summary>
+        public IModelConventionAcceptor ConventionAcceptor
+        {
+            get
+            {
+                return conventionAcceptor;
+            }
+            set
+            {
+                Invariant.IsNotNull(value, "value");
+                conventionAcceptor = value;
+            }
+        }
+
+        /// <summary>
+        /// Register a new convention
+        /// </summary>
+        /// <param name="convention"><see cref="IPropertyMetadataConvention"/> class</param>
+        public virtual void RegisterConvention(IPropertyMetadataConvention convention)
+        {
+            Invariant.IsNotNull(convention, "convention");
+
+            conventions.Add(convention);
+        }
 
         /// <summary>
         /// Registers the model type metadata.
@@ -30,7 +61,7 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItem, "metadataItem");
 
-            ModelMetadataRegistryItem item = GetOrCreate(modelType);
+            var item = GetOrCreate(modelType);
 
             item.ClassMetadata = metadataItem;
         }
@@ -45,11 +76,11 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItems, "metadataItems");
 
-            ModelMetadataRegistryItem item = GetOrCreate(modelType);
+            var item = GetOrCreate(modelType);
 
             item.PropertiesMetadata.Clear();
 
-            foreach (KeyValuePair<string, ModelMetadataItem> pair in metadataItems)
+            foreach (var pair in metadataItems)
             {
                 item.PropertiesMetadata.Add(pair.Key, pair.Value);
             }
@@ -76,7 +107,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            ModelMetadataRegistryItem item = GetModelMetadataRegistryItem(modelType);
+            var item = GetModelMetadataRegistryItem(modelType);
             if (item == null)
             {
                 return null;
@@ -98,8 +129,120 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            ModelMetadataRegistryItem item = GetModelMetadataRegistryItem(modelType);
+            var item = GetModelMetadataRegistryItem(modelType);
             return item == null ? null : item.PropertiesMetadata;
+        }
+
+        private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
+        {
+            Invariant.IsNotNull(modelType, "modelType");
+
+            ModelMetadataRegistryItem item;
+            if (!mappings.TryGetValue(modelType, out item))
+            {
+                item = mappings
+                    .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
+                    .OrderBy(x => x.Key, new TypeInheritanceComparer())
+                    .Select(x => x.Value)
+                    .FirstOrDefault();
+            }
+
+            return CheckMetadataAndApplyConvetions(modelType, item);
+        }
+
+        private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (NoNeedToApplyConvetionsFor(modelType, item))
+            {
+            return item;
+        }
+
+            lock (this)
+        {
+                if (NoNeedToApplyConvetionsFor(modelType, item))
+                {
+                    return item;
+                }
+
+                ModelMetadataRegistryItem registeredItem;
+                // ensure that conventions were not appied by another thread
+                if (mappings.TryGetValue(modelType, out registeredItem) && registeredItem.IsConventionsApplied)
+                {
+                    return registeredItem;
+                }
+
+                var context = new AcceptorContext(modelType, item != null);
+                var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
+
+                if (!canAcceptConventions)
+            {
+                    ProcessUnacceptedModelType(modelType, item);
+                return item;
+            }
+
+                if (item == null)
+                {
+                    // try get existing (item can be created by another thread) or create new
+                    item = GetOrCreate(modelType);
+                }
+
+                // ensure convenstion is not applied yet
+                if (item.IsConventionsApplied)
+                {
+            return item;
+        }
+
+                ApplyMetadataConvenstions(modelType, item);
+            }
+
+            return item;
+        }
+
+        private bool NoNeedToApplyConvetionsFor(Type modelType, ModelMetadataRegistryItem item)
+        {
+            return item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied;
+        }
+
+        private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
+        {
+            var properties = modelType.GetProperties();
+            foreach (var convention in conventions)
+            {
+                var metadataConvention = convention;
+                foreach (var pi in properties.Where(metadataConvention.CanBeAccepted))
+                {
+                    ModelMetadataItem metadataItem;
+                    if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
+                    {
+                        metadataItem = new ModelMetadataItem();
+                        item.PropertiesMetadata.Add(pi.Name, metadataItem);
+                    }
+
+                    var conventionMetadata = convention.CreateMetadataRules();
+
+                    conventionMetadata.MergeTo(metadataItem);
+                }
+            }
+
+            item.IsConventionsApplied = true;
+        }
+
+        private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (item == null)
+            {
+                // mark item as ignored
+                if (!ignoredClassesCache.Contains(modelType))
+                {
+                    ignoredClassesCache.Add(modelType);
+                }
+            }
+            else
+            {
+                // if we have some metadata item, 
+                // just mark it as processed and do not add any conventions
+                item.IsConventionsApplied = true;
+            }
         }
 
         private ModelMetadataRegistryItem GetOrCreate(Type modelType)
@@ -109,41 +252,38 @@ namespace MvcExtensions
             if (!mappings.TryGetValue(modelType, out item))
             {
                 item = new ModelMetadataRegistryItem();
-                mappings.Add(modelType, item);
+                mappings.TryAdd(modelType, item);
             }
 
             return item;
         }
 
-        private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-
-            ModelMetadataRegistryItem item;
-
-            if (mappings.TryGetValue(modelType, out item))
-            {
-                return item;
-            }
-
-            item = mappings
-                .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
-                .OrderBy(x => x.Key, new TypeInheritanceComparer())
-                .Select(x => x.Value)
-                .FirstOrDefault();
-
-            return item;
-        }
-
+        /// <summary>
+        /// Holds metadata configuration information
+        /// </summary>
         private sealed class ModelMetadataRegistryItem
         {
+            /// <summary>
+            /// Creates <see cref="ModelMetadataRegistryItem"/> instance
+            /// </summary>
             public ModelMetadataRegistryItem()
             {
                 PropertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
             }
 
+            /// <summary>
+            /// Holds metadata for class
+            /// </summary>
             public ModelMetadataItem ClassMetadata { get; set; }
 
+            /// <summary>
+            /// Identifies if convensions were applied
+            /// </summary>
+            public bool IsConventionsApplied { get; set; }
+
+            /// <summary>
+            /// Holds metadata for properties
+            /// </summary>
             public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
         }
 
