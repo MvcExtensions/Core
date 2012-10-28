@@ -152,13 +152,13 @@ namespace MvcExtensions
 
         private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions(Type modelType, ModelMetadataRegistryItem item)
         {
-            if (NoNeedToApplyConvetionsFor(modelType, item))
+            if (conventions.Count == 0 || NoNeedToApplyConvetionsFor(modelType, item))
             {
-            return item;
-        }
+                return item;
+            }
 
             lock (this)
-        {
+            {
                 if (NoNeedToApplyConvetionsFor(modelType, item))
                 {
                     return item;
@@ -175,10 +175,10 @@ namespace MvcExtensions
                 var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
 
                 if (!canAcceptConventions)
-            {
+                {
                     ProcessUnacceptedModelType(modelType, item);
-                return item;
-            }
+                    return item;
+                }
 
                 if (item == null)
                 {
@@ -189,8 +189,8 @@ namespace MvcExtensions
                 // ensure convenstion is not applied yet
                 if (item.IsConventionsApplied)
                 {
-            return item;
-        }
+                    return item;
+                }
 
                 ApplyMetadataConvenstions(modelType, item);
             }
@@ -201,6 +201,24 @@ namespace MvcExtensions
         private bool NoNeedToApplyConvetionsFor(Type modelType, ModelMetadataRegistryItem item)
         {
             return item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied;
+        }
+
+        private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
+        {
+            if (item == null)
+            {
+                // mark item as ignored
+                if (!ignoredClassesCache.Contains(modelType))
+                {
+                    ignoredClassesCache.Add(modelType);
+                }
+            }
+            else
+            {
+                // if we have some metadata item, 
+                // just mark it as processed and do not add any conventions
+                item.IsConventionsApplied = true;
+            }
         }
 
         private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
@@ -225,24 +243,6 @@ namespace MvcExtensions
             }
 
             item.IsConventionsApplied = true;
-        }
-
-        private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
-        {
-            if (item == null)
-            {
-                // mark item as ignored
-                if (!ignoredClassesCache.Contains(modelType))
-                {
-                    ignoredClassesCache.Add(modelType);
-                }
-            }
-            else
-            {
-                // if we have some metadata item, 
-                // just mark it as processed and do not add any conventions
-                item.IsConventionsApplied = true;
-            }
         }
 
         private ModelMetadataRegistryItem GetOrCreate(Type modelType)
