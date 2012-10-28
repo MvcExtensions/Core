@@ -5,7 +5,7 @@
 // All other rights reserved.
 #endregion
 
-namespace MvcExtensions.FluentMetadata.Tests.Helper
+namespace MvcExtensions.FluentMetadata.Tests
 {
     using Xunit;
 
