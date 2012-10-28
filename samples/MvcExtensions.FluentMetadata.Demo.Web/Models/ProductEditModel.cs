@@ -34,7 +34,7 @@ namespace MvcExtensions.FluentMetadata.Demo.Web
             Configure(model => model.CategoryId).DisplayName(() => LocalizedTexts.Category)
                 .Required(() => LocalizedTexts.CategoryMustBeSelected)
                 .RenderAction(x => x.Action("Categories", "List"))
-                .NullDisplayText(LocalizedTexts.SelectCategory);
+                .NullDisplayText(() => LocalizedTexts.SelectCategory);
 
             Configure(model => model.SupplierId).DisplayName(() => LocalizedTexts.Supplier)
                 .Required(() => LocalizedTexts.SupplierMustBeSelected)
