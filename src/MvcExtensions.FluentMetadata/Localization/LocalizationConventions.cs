@@ -10,9 +10,9 @@ namespace MvcExtensions
     using System;
 
     /// <summary>
-    /// Holds settings for applying convensions for metadata
+    /// Holds settings that are use to apply convensions for metadata string messages.
     /// </summary>
-    public static class ConventionSettings
+    public static class LocalizationConventions
     {
         private static Type defaultResourceType;
         
@@ -33,7 +33,7 @@ namespace MvcExtensions
                 // if user sets attribute, enable convensions by default
                 if (value != null)
                 {
-                    ConventionsActive = true;
+                    Enabled = true;
                 }
             }
         }
@@ -41,7 +41,7 @@ namespace MvcExtensions
         /// <summary>
         /// MetadataConventionsEnabled
         /// </summary>
-        public static bool ConventionsActive { get; set; }
+        public static bool Enabled { get; set; }
 
         /// <summary>
         /// If true, will require attribute per type or containing assembly. 
@@ -53,7 +53,7 @@ namespace MvcExtensions
         /// </summary>
         internal static Type GetDefaultResourceType(Type containerType)
         {
-            if (!ConventionsActive)
+            if (!Enabled)
             {
                 return null;
             }

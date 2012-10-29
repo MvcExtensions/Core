@@ -17,16 +17,16 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         public DataAnnotationsDisplayConvensionTests()
         {
-            ConventionSettings.ConventionsActive = true;
-            ConventionSettings.RequireConventionAttribute = false;
+            LocalizationConventions.Enabled = true;
+            LocalizationConventions.RequireConventionAttribute = false;
             provider = new ConventionalDataAnnotationsModelMetadataProvider();
         }
 
         public void Dispose()
         {
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = false;
-            ConventionSettings.RequireConventionAttribute = false;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = false;
+            LocalizationConventions.RequireConventionAttribute = false;
         }
 
         [Fact]

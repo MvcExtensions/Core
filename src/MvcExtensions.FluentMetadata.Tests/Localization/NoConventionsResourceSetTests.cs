@@ -15,8 +15,8 @@ namespace MvcExtensions.FluentMetadata.Tests
     {
         public NoConventionsResourceSetTests()
         {
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = true;
         }
 
         [Fact]
@@ -31,8 +31,8 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         public void Dispose()
         {
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = false;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = false;
         }
 
         protected ExtendedModelMetadata CreateMetadata()

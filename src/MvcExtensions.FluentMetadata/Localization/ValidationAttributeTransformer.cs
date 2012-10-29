@@ -24,7 +24,7 @@ namespace MvcExtensions
         /// <param name="defaultResource"> </param>
         public void Transform(ValidationAttribute attr, Type containerType, string propertyName, Type defaultResource)
         {
-            if (!ConventionSettings.ConventionsActive ||
+            if (!LocalizationConventions.Enabled ||
                 (!string.IsNullOrEmpty(attr.ErrorMessage) ||
                  (attr.ErrorMessageResourceType != null && !string.IsNullOrEmpty(attr.ErrorMessageResourceName))))
             {

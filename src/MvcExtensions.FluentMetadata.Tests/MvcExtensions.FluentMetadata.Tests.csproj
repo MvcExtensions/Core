@@ -90,7 +90,7 @@
     <Compile Include="Conventions\MetadataMergeExtensionsTests.cs" />
     <Compile Include="Helper\StringUtilsTests.cs" />
     <Compile Include="Helper\TypeExtensionsTests.cs" />
-    <Compile Include="Localization\ConventionSettingsTests.cs" />
+    <Compile Include="Localization\LocalizationConventionsTests.cs" />
     <Compile Include="Localization\DataAnnotationLocalizationTests.cs" />
     <Compile Include="Localization\DataAnnotationsDisplayConvensionTests.cs" />
     <Compile Include="Localization\FluentConfigurationDisplayConvensionTests.cs" />

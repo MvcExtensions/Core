@@ -113,7 +113,7 @@
     <Compile Include="Helper\Maybe.cs" />
     <Compile Include="Helper\StringUtils.cs" />
     <Compile Include="Helper\TypeExtensions.cs" />
-    <Compile Include="Localization\ConventionSettings.cs" />
+    <Compile Include="Localization\LocalizationConventions.cs" />
     <Compile Include="Localization\DisplayAttributeTransformer.cs" />
     <Compile Include="Localization\DisplayNameTransformer.cs" />
     <Compile Include="Localization\FluentModelMetadataTransformer.cs" />

@@ -30,13 +30,13 @@ namespace MvcExtensions
             Invariant.IsNotNull(metadata, "metadata");
 
             var containerType = metadata.ContainerType;
-            if (!ConventionSettings.ConventionsActive || containerType == null || string.IsNullOrEmpty(metadata.PropertyName))
+            if (!LocalizationConventions.Enabled || containerType == null || string.IsNullOrEmpty(metadata.PropertyName))
             {
                 return;
             }
 
             // flent configuration does not have ResourceType, so get it from type
-            var resourceType = ConventionSettings.GetDefaultResourceType(containerType);
+            var resourceType = LocalizationConventions.GetDefaultResourceType(containerType);
             var propertyName = metadata.PropertyName;
             if (resourceType != null && !string.IsNullOrEmpty(propertyName))
             {

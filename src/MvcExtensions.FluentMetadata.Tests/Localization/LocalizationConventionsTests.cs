@@ -4,65 +4,66 @@
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
 #endregion
+
 namespace MvcExtensions.FluentMetadata.Tests
 {
     using System;
     using MvcExtensions.FluentMetadata.Tests.Resources;
     using Xunit;
 
-    public class ConventionSettingsTests : IDisposable
+    public class LocalizationConventionsTests : IDisposable
     {
-        public ConventionSettingsTests()
+        public LocalizationConventionsTests()
         {
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = false;
-            ConventionSettings.RequireConventionAttribute = false;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = false;
+            LocalizationConventions.RequireConventionAttribute = false;
         }
 
         [Fact]
         public void Should_activate_convenstions_when_resourceType_is_set()
         {
             // arrange
-            ConventionSettings.ConventionsActive = false;
+            LocalizationConventions.Enabled = false;
 
             // act
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
             // assert
-            Assert.True(ConventionSettings.ConventionsActive);
+            Assert.True(LocalizationConventions.Enabled);
         }
 
         [Fact]
         public void Should_not_deactivate_convenstions_when_resourceType_is_set_to_null()
         {
             // arrange
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.Enabled = true;
             // act
-            ConventionSettings.DefaultResourceType = null;
+            LocalizationConventions.DefaultResourceType = null;
             // assert
-            Assert.True(ConventionSettings.ConventionsActive);
+            Assert.True(LocalizationConventions.Enabled);
         }
 
         [Fact]
         public void Should_not_activate_convenstions_when_resourceType_is_set_to_null()
         {
             // arrange
-            ConventionSettings.ConventionsActive = false;
+            LocalizationConventions.Enabled = false;
             // act
-            ConventionSettings.DefaultResourceType = null;
+            LocalizationConventions.DefaultResourceType = null;
             // assert
-            Assert.False(ConventionSettings.ConventionsActive);
+            Assert.False(LocalizationConventions.Enabled);
         }
 
         [Fact]
         public void GetDefaultResourceType_should_return_null_if_convensions_is_not_acivated()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
-            ConventionSettings.ConventionsActive = false;
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
+            LocalizationConventions.Enabled = false;
             Type containerType = typeof(DummyContainer);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.Null(type);
@@ -72,12 +73,12 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void GetDefaultResourceType_should_return_defaultResourceType_if_convensions_is_acivated()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
+            LocalizationConventions.Enabled = true;
             Type containerType = typeof(DummyContainer);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.NotNull(type);
@@ -88,12 +89,12 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void GetDefaultResourceType_should_return_type_from_attributeMetadataConventions()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
+            LocalizationConventions.Enabled = true;
             Type containerType = typeof(DummyContainerWithAttributeAndResourceType);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.NotNull(type);
@@ -104,12 +105,12 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void GetDefaultResourceType_should_return_defaultResourceType_if_metadataConventionsAttribute_has_no_type()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
+            LocalizationConventions.Enabled = true;
             Type containerType = typeof(DummyContainerWithEmptyAttribute);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.NotNull(type);
@@ -120,12 +121,12 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void GetDefaultResourceType_should_return_null_if_defaultResourceType_and_metadataConventionsAttribute_has_no_type()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = true;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = true;
             Type containerType = typeof(DummyContainerWithEmptyAttribute);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.Null(type);
@@ -135,13 +136,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void GetDefaultResourceType_should_return_null_if_metadataConventionsAttribute_has_no_type_and_requireConventionAttribute_is_true()
         {
             // arrange
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = true;
-            ConventionSettings.RequireConventionAttribute = true;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = true;
+            LocalizationConventions.RequireConventionAttribute = true;
             Type containerType = typeof(DummyContainerWithEmptyAttribute);
 
             // act
-            var type = ConventionSettings.GetDefaultResourceType(containerType);
+            var type = LocalizationConventions.GetDefaultResourceType(containerType);
 
             // assert
             Assert.Null(type);
@@ -150,9 +151,9 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         public void Dispose()
         {
-            ConventionSettings.DefaultResourceType = null;
-            ConventionSettings.ConventionsActive = false;
-            ConventionSettings.RequireConventionAttribute = false;
+            LocalizationConventions.DefaultResourceType = null;
+            LocalizationConventions.Enabled = false;
+            LocalizationConventions.RequireConventionAttribute = false;
         }
 
         public class DummyContainer

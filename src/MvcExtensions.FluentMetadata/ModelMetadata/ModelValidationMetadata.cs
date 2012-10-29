@@ -78,7 +78,7 @@ namespace MvcExtensions
                 validationAttribute.ErrorMessageResourceType = ErrorMessageResourceType;
                 validationAttribute.ErrorMessageResourceName = ErrorMessageResourceName;
             }
-            else if (ConventionSettings.ConventionsActive)
+            else if (LocalizationConventions.Enabled)
             {
                 // enables support for partial matadata
                 if (ErrorMessageResourceType != null)
@@ -93,7 +93,7 @@ namespace MvcExtensions
 
                 var conventionType = modelMetadata.With(m => m.ContainerType);
                 var propertyName = modelMetadata.With(m => m.PropertyName);
-                var defaultResourceType = ConventionSettings.GetDefaultResourceType(conventionType);
+                var defaultResourceType = LocalizationConventions.GetDefaultResourceType(conventionType);
 
                 var transformer = ConventionalDataAnnotationsModelMetadataProvider.ValidationAttributeTransformer.Value;
                 transformer.Transform(validationAttribute, conventionType, propertyName, defaultResourceType);

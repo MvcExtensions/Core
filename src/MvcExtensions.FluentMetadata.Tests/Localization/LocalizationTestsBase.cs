@@ -24,13 +24,13 @@ namespace MvcExtensions.FluentMetadata.Tests
             Registry = new Mock<IModelMetadataRegistry>();
             Provider = new ExtendedModelMetadataProvider(Registry.Object);
 
-            DefaultConventionsResourceType = ConventionSettings.DefaultResourceType;
-            ConventionSettings.DefaultResourceType = typeof(TestResource);
+            DefaultConventionsResourceType = LocalizationConventions.DefaultResourceType;
+            LocalizationConventions.DefaultResourceType = typeof(TestResource);
         }
 
         public void Dispose()
         {
-            ConventionSettings.DefaultResourceType = DefaultConventionsResourceType;
+            LocalizationConventions.DefaultResourceType = DefaultConventionsResourceType;
         }
 
         protected string GetErrorMessageForAttributeBasedConfigiguredItem<T>(T model, string propertyName)
