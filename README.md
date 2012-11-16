@@ -8,6 +8,11 @@ The one of key features is [fluent model metadata](/MvcExtensions/Core/wiki/Mode
 
 Read more about features on [our wiki](/MvcExtensions/Core/wiki/Home)
 
+Status
+--------------------------------
+Stable version is 2.5.0.
+Current dev version is 3.0.0. [Read more](/MvcExtensions/Core/wiki/Changes-From-2.5-to-3.0) about changes from 2.5.0
+
 Where can I get it?
 --------------------------------
 First, [install NuGet](http://docs.nuget.org/docs/start-here/installing-nuget). Then, install MvcExtensions from the package manager console:
