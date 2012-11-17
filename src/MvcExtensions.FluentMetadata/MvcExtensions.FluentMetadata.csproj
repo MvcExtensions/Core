@@ -143,7 +143,7 @@
     <Compile Include="ModelMetadata\IModelMetadataItemBuilder.cs" />
     <Compile Include="Providers\CompositeModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\DelegateBasedValidatorAttribute.cs" />
+    <Compile Include="ModelMetadata\DelegateBasedModelMetadata.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
     <Compile Include="Providers\ConventionalDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Providers\ExtendedModelMetadataProvider.cs" />

@@ -893,10 +893,11 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(errorMessage, "errorMessage");
 
-            return ValidateBy(() => new DelegateBasedValidatorAttribute((container, value) => validator((TModel)container, (TValue)value))
-                                            {
-                                                ErrorMessage = errorMessage()
-                                            });
+            var validation = Item.GetValidationOrCreateNew<DelegateBasedModelMetadata>();
+            var localValidator = validator;
+            validation.AddValidator(((container, value) => localValidator((TModel)container, (TValue)value)), errorMessage());
+
+            return this;
         }
 
         /// <summary>
