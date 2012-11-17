@@ -77,7 +77,7 @@ namespace MvcExtensions
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public override ValidationAttribute CreateValidationAttribute()
+        protected override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = Area == null && Controller == null
                                 ? new RemoteAttribute(RouteName)

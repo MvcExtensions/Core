@@ -44,7 +44,7 @@ namespace MvcExtensions
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public override ValidationAttribute CreateValidationAttribute()
+        protected override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = new RangeAttribute(UnwrapNullable(typeof(TValueType)), Minimum.ToString(), Maximum.ToString());
             PopulateErrorMessage(attribute);

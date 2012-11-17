@@ -7,9 +7,12 @@
 
 namespace MvcExtensions
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using DataAnnotationsModelValidator = System.Web.Http.Validation.Validators.DataAnnotationsModelValidator;
+    using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
     /// Represents a class to store compare validation metadata.
@@ -27,7 +30,7 @@ namespace MvcExtensions
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public override ValidationAttribute CreateValidationAttribute()
+        protected override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = new CompareAttribute(OtherProperty);
             PopulateErrorMessage(attribute);
@@ -45,5 +48,6 @@ namespace MvcExtensions
             var validationAttribute = (CompareAttribute)CreateValidationAttribute();
             return new DataAnnotationsModelValidator<CompareAttribute>(modelMetadata, context, validationAttribute);
         }
+
     }
 }

@@ -1,4 +1,4 @@
-#region Copyright
+ #region Copyright
 // Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
@@ -21,7 +21,7 @@ namespace MvcExtensions
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public override ValidationAttribute CreateValidationAttribute()
+        protected override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = new RequiredAttribute();
             PopulateErrorMessage(attribute);

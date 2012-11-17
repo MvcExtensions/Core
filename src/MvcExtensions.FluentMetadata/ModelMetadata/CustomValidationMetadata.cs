@@ -1,9 +1,10 @@
 namespace MvcExtensions
 {
     using System;
-    using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
     /// Represents a class to store custom validation metadata.
@@ -45,12 +46,14 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Creates validation attribute
+        /// Creates the WebApi validator.
         /// </summary>
-        /// <returns>Instance of ValidationAttribute type</returns>
-        public ValidationAttribute CreateValidationAttribute()
+        /// <param name="validatorProviders">WebApi validator providers.</param>
+        /// <returns></returns>
+        public System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders)
         {
-            return null;//  new CustomValidationAttribute();
+            // TODO
+            return null;
         }
     }
 }

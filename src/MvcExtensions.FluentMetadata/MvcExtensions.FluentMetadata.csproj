@@ -182,6 +182,8 @@
     <Compile Include="ModelMetadata\ValueTypeMetadataItemBuilderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registration\FluentMetadataConfiguration.cs" />
+    <Compile Include="WebApi\ExtendedModelMetadata.cs" />
+    <Compile Include="WebApi\ExtendedModelMetadataProvider.cs" />
     <Compile Include="WebApi\WebApiValidationProvider.cs" />
   </ItemGroup>
   <ItemGroup>

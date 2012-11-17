@@ -31,7 +31,7 @@ namespace MvcExtensions
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public override ValidationAttribute CreateValidationAttribute()
+        protected override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = new RegularExpressionAttribute(Pattern);
             PopulateErrorMessage(attribute);

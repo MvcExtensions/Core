@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -7,9 +7,10 @@
 
 namespace MvcExtensions
 {
-    using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
     /// Represents an interface to store validation metadata.
@@ -18,7 +19,7 @@ namespace MvcExtensions
     public interface IModelValidationMetadata
     {
         /// <summary>
-        /// Creates the validator.
+        /// Creates the Mvc validator.
         /// </summary>
         /// <param name="metadata">The model metadata.</param>
         /// <param name="context">The context.</param>
@@ -26,9 +27,10 @@ namespace MvcExtensions
         ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context);
 
         /// <summary>
-        /// Creates validation attribute
+        /// Creates the WebApi validator.
         /// </summary>
-        /// <returns>Instance of ValidationAttribute type</returns>
-        ValidationAttribute CreateValidationAttribute();
+        /// <param name="validatorProviders">WebApi validator providers.</param>
+        /// <returns></returns>
+        System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders);
     }
 }

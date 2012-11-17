@@ -8,9 +8,12 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using DataAnnotationsModelValidator = System.Web.Http.Validation.Validators.DataAnnotationsModelValidator;
+    using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
     /// Represents a base class to store validation metadata.
@@ -53,12 +56,30 @@ namespace MvcExtensions
 
             return CreateValidatorCore(metadata, context);
         }
+        
+        /// <summary>
+        /// Creates the validator.
+        /// </summary>
+        /// <returns></returns>
+        public virtual System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders)
+        {
+            var attribute = CreateValidationAttribute();
+            if (attribute == null)
+            {
+                return null;
+            }
+
+            return new DataAnnotationsModelValidator(validatorProviders, attribute);
+        }
 
         /// <summary>
         /// Creates validation attribute
         /// </summary>
         /// <returns>Instance of ValidationAttribute type</returns>
-        public abstract ValidationAttribute CreateValidationAttribute();
+        protected virtual ValidationAttribute CreateValidationAttribute()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Populates the error message from the given metadata.
