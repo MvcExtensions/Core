@@ -13,7 +13,7 @@
     public class ExtendedModelMetadataProvider : ModelMetadataProvider
     {
         private readonly IModelMetadataRegistry registry;
-        private ModelMetadataProvider provider;
+        private readonly ModelMetadataProvider provider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MvcExtensions.WebApi.ExtendedModelMetadataProvider"/> class.

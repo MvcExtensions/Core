@@ -332,7 +332,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <returns></returns>
         IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>()
-            where TValidator : ModelValidator;
+            where TValidator : CustomValidatorAttribute;
 
         /// <summary>
         /// Sets the <typeparamref name="TValidator"/> to validate value.
@@ -341,7 +341,7 @@ namespace MvcExtensions
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
         IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Action<TValidator> configure)
-            where TValidator : ModelValidator;
+            where TValidator : CustomValidatorAttribute;
 
         /// <summary>
         /// Sets the <typeparamref name="TValidator"/> to validate value.
@@ -349,8 +349,8 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="validator">The instance of validator</param>
         /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator) 
-            where TValidator : ModelValidator;
+        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator)
+            where TValidator : CustomValidatorAttribute;
 
         /// <summary>
         /// Sets the <typeparamref name="TValidator"/> to validate value.
@@ -358,7 +358,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="factory">The factory used to build validator</param>
         /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory) 
-            where TValidator : ModelValidator;
+        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<TValidator> factory)
+            where TValidator : CustomValidatorAttribute;
     }
 }

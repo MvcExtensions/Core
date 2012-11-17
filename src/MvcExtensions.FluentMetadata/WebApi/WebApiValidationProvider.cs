@@ -11,17 +11,6 @@ namespace MvcExtensions.WebApi
     using System.Web.Http.Metadata;
     using System.Web.Http.Validation;
 
-    /*
-      Using 
-     * 
-      FluentMetadataConfiguration.Register();
-      config.Services.Insert(typeof(ModelValidatorProvider), 0, new WebApiValidationProvider());
-      var provider = config.Services.GetModelMetadataProvider();
-      config.Services.Replace(typeof(ModelMetadataProvider), 
-            new CompositeModelMetadataProvider(new ExtendedModelMetadataProvider(FluentMetadataConfiguration.Registry), provider));
-  
-     */
-
     /// <summary>
     /// 
     /// </summary>

@@ -312,7 +312,7 @@ namespace MvcExtensions
             return ValidateBy(validator);
         }
 
-        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory)
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Func<TValidator> factory)
         {
             return ValidateBy(factory);
         }
@@ -844,7 +844,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>()
-            where TValidator : ModelValidator
+            where TValidator : CustomValidatorAttribute
         {
             return ValidateBy<TValidator>(v => { });
         }
@@ -856,7 +856,7 @@ namespace MvcExtensions
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Action<TValidator> configure)
-            where TValidator : ModelValidator
+            where TValidator : CustomValidatorAttribute
         {
             return ValidateBy(CreateFactory<TValidator>(), configure);
         }
@@ -867,10 +867,10 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="validator">The instance of validator</param>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator) 
-            where TValidator : ModelValidator
+        public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator)
+            where TValidator : CustomValidatorAttribute
         {
-            return ValidateBy((m, c) => validator);
+            return ValidateBy(() => validator);
         }
 
         /// <summary>
@@ -879,8 +879,8 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="factory">The factory used to build validator</param>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory) 
-            where TValidator : ModelValidator
+        public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<TValidator> factory)
+            where TValidator : CustomValidatorAttribute
         {
             return ValidateBy(factory, v => { });
         }
@@ -893,7 +893,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(errorMessage, "errorMessage");
 
-            return ValidateBy((m, c) => new DelegateBasedValidator(m, c, (container, value) => validator((TModel)container, (TValue)value))
+            return ValidateBy(() => new DelegateBasedValidatorAttribute((container, value) => validator((TModel)container, (TValue)value))
                                             {
                                                 ErrorMessage = errorMessage()
                                             });
@@ -906,13 +906,13 @@ namespace MvcExtensions
         /// <param name="factory">The factory used to build validator</param>
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
-        protected virtual ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
-            where TValidator : ModelValidator
+        protected virtual ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<TValidator> factory, Action<TValidator> configure) 
+            where TValidator : CustomValidatorAttribute
         {
             var validation = Item.GetValidationOrCreateNew<CustomValidationMetadata<TValidator>>();
             
             validation.Factory = factory;
-            validation.Configure = configure;
+            validation.ConfigureValidator = configure;
 
             return this;
         }
@@ -957,22 +957,17 @@ namespace MvcExtensions
             return This;
         }
 
-        private static Func<ModelMetadata, ControllerContext, TValidator> CreateFactory<TValidator>() where TValidator : ModelValidator
+        private static Func<TValidator> CreateFactory<TValidator>() where TValidator : CustomValidatorAttribute
         {
             var validatorType = typeof(TValidator);
-            ConstructorInfo constructor = validatorType
-                .GetConstructor(new[] { typeof(ModelMetadata), typeof(ControllerContext) });
+            ConstructorInfo constructor = validatorType.GetConstructor(new Type[]{});
 
             if (constructor == null)
             {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The constructor of {0} that takes an ModelMetadata and ControllerContext as a parameters is not available.", validatorType));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "The constructor of {0} with no parameters is not available.", validatorType));
             }
 
-            var modelMetadata = Expression.Parameter(typeof(ModelMetadata));
-            var controllerContext = Expression.Parameter(typeof(ControllerContext));
-            var @new = Expression.New(constructor, modelMetadata, controllerContext);
-
-            return Expression.Lambda<Func<ModelMetadata, ControllerContext, TValidator>>(@new, modelMetadata, controllerContext).Compile();
+            return Expression.Lambda<Func<TValidator>>(Expression.New(constructor)).Compile();
         }
     }
 }

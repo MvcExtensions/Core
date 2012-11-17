@@ -15,8 +15,6 @@ using MvcExtensions;
 [assembly: TypeForwardedTo(typeof(RemoteValidationExtensions))]
 [assembly: TypeForwardedTo(typeof(RemoteValidationMetadata))]
 [assembly: TypeForwardedTo(typeof(CompareValidationMetadata))]
-[assembly: TypeForwardedTo(typeof(CustomValidationMetadata<>))]
-[assembly: TypeForwardedTo(typeof(DelegateBasedValidator))]
 [assembly: TypeForwardedTo(typeof(ExtendedModelMetadata))]
 [assembly: TypeForwardedTo(typeof(HtmlSelectModelMetadataItemBuilderExtensions))]
 [assembly: TypeForwardedTo(typeof(IModelMetadataAdditionalSetting))]

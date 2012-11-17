@@ -53,6 +53,8 @@ namespace MvcExtensions
         /// <returns>Fluent</returns>
         public IRegistrar ConstructMetadataUsing(Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
         {
+            Invariant.IsNotNull(configurationFactory, "configurationFactory");
+
             getConfigurations = configurationFactory;
             return this;
         }

@@ -1,59 +1,49 @@
 namespace MvcExtensions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Runtime.CompilerServices;
+    using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
-    using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
-    /// Represents a class to store custom validation metadata.
+    /// AbstractCustomValidator
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
-    public class CustomValidationMetadata<T> : IModelValidationMetadata
-        where T : ModelValidator
+    public class CustomValidationMetadata<TValidator> : ModelValidationMetadata where TValidator : CustomValidatorAttribute
     {
         /// <summary>
-        /// The configuration
+        /// The configuration for targer configurator
         /// </summary>
-        public Action<T> Configure
-        {
-            get;
-            set;
-        }
+        public Action<TValidator> ConfigureValidator { get; set; }
 
         /// <summary>
         /// The factory
         /// </summary>
-        public Func<ModelMetadata, ControllerContext, T> Factory
-        {
-            get;
-            set;
-        }
+        public Func<TValidator> Factory { get; set; }
 
         /// <summary>
         /// Creates the validator.
         /// </summary>
-        /// <param name="metadata">The model metadata.</param>
+        /// <param name="modelMetadata">The model metadata.</param>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context)
+        protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var validator = Factory(metadata, context);
-            Configure(validator);
-            return validator;
+            return new DataAnnotationsModelValidator(modelMetadata, context, CreateValidationAttribute());
         }
 
         /// <summary>
-        /// Creates the WebApi validator.
+        /// Creates validation attribute
         /// </summary>
-        /// <param name="validatorProviders">WebApi validator providers.</param>
-        /// <returns></returns>
-        public System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders)
+        /// <returns>Instance of ValidationAttribute type</returns>
+        protected override ValidationAttribute CreateValidationAttribute()
         {
-            // TODO
-            return null;
+            var validator = Factory != null ? Factory() : Activator.CreateInstance<TValidator>();
+            PopulateErrorMessage(validator);
+            if (ConfigureValidator != null)
+            {
+                ConfigureValidator(validator);
+            }
+
+            return validator;
         }
     }
 }

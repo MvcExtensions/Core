@@ -139,10 +139,11 @@
     <Compile Include="Localization\TransformerCore.cs" />
     <Compile Include="Localization\ValidationAttributeTransformer.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
+    <Compile Include="ModelMetadata\CustomValidatorAttribute.cs" />
     <Compile Include="ModelMetadata\IModelMetadataItemBuilder.cs" />
     <Compile Include="Providers\CompositeModelValidatorProvider.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadata.cs" />
-    <Compile Include="ModelMetadata\DelegateBasedValidator.cs" />
+    <Compile Include="ModelMetadata\DelegateBasedValidatorAttribute.cs" />
     <Compile Include="ModelMetadata\ExtendedModelMetadata.cs" />
     <Compile Include="Providers\ConventionalDataAnnotationsModelMetadataProvider.cs" />
     <Compile Include="Providers\ExtendedModelMetadataProvider.cs" />
