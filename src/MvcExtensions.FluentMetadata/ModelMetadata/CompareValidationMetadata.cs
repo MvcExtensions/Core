@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
@@ -23,6 +24,17 @@ namespace MvcExtensions
         public string OtherProperty { get; set; }
 
         /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public override ValidationAttribute CreateValidationAttribute()
+        {
+            var attribute = new CompareAttribute(OtherProperty);
+            PopulateErrorMessage(attribute);
+            return attribute;
+        }
+
+        /// <summary>
         /// Creates the validator.
         /// </summary>
         /// <param name="modelMetadata">The model metadata.</param>
@@ -30,9 +42,8 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var attribute = new CompareAttribute(OtherProperty);
-            PopulateErrorMessage(attribute);
-            return new DataAnnotationsModelValidator<CompareAttribute>(modelMetadata, context, attribute);
+            var validationAttribute = (CompareAttribute)CreateValidationAttribute();
+            return new DataAnnotationsModelValidator<CompareAttribute>(modelMetadata, context, validationAttribute);
         }
     }
 }

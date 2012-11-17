@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
@@ -23,5 +24,11 @@ namespace MvcExtensions
         /// <param name="context">The context.</param>
         /// <returns></returns>
         ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context);
+
+        /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        ValidationAttribute CreateValidationAttribute();
     }
 }

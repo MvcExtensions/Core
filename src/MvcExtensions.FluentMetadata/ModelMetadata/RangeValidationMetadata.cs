@@ -41,6 +41,17 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public override ValidationAttribute CreateValidationAttribute()
+        {
+            var attribute = new RangeAttribute(UnwrapNullable(typeof(TValueType)), Minimum.ToString(), Maximum.ToString());
+            PopulateErrorMessage(attribute);
+            return attribute;
+        }
+
+        /// <summary>
         /// Creates the validator.
         /// </summary>
         /// <param name="modelMetadata">The model metadata.</param>
@@ -48,9 +59,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var attribute = new RangeAttribute(UnwrapNullable(typeof(TValueType)), Minimum.ToString(), Maximum.ToString());
-            PopulateErrorMessage(attribute);
-            return new RangeAttributeAdapter(modelMetadata, context, attribute);
+            return new RangeAttributeAdapter(modelMetadata, context, (RangeAttribute)CreateValidationAttribute());
         }
 
         private static Type UnwrapNullable(Type type)

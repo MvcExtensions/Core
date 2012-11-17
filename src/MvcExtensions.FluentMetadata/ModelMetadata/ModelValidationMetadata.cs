@@ -55,6 +55,12 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public abstract ValidationAttribute CreateValidationAttribute();
+
+        /// <summary>
         /// Populates the error message from the given metadata.
         /// </summary>
         /// <param name="validationAttribute"></param>

@@ -28,6 +28,17 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public override ValidationAttribute CreateValidationAttribute()
+        {
+            var attribute = new RegularExpressionAttribute(Pattern);
+            PopulateErrorMessage(attribute);
+            return attribute;
+        }
+
+        /// <summary>
         /// Creates the validator.
         /// </summary>
         /// <param name="modelMetadata">The model metadata.</param>
@@ -35,9 +46,8 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            var attribute = new RegularExpressionAttribute(Pattern);
-            PopulateErrorMessage(attribute);
-            return new RegularExpressionAttributeAdapter(modelMetadata, context, attribute);
+            
+            return new RegularExpressionAttributeAdapter(modelMetadata, context, (RegularExpressionAttribute)CreateValidationAttribute());
         }
     }
 }

@@ -7,6 +7,7 @@
 
 namespace MvcExtensions
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
@@ -73,12 +74,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Creates the validator.
+        /// Creates validation attribute
         /// </summary>
-        /// <param name="modelMetadata"> The model metadata. </param>
-        /// <param name="context"> The context. </param>
-        /// <returns> </returns>
-        protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public override ValidationAttribute CreateValidationAttribute()
         {
             var attribute = Area == null && Controller == null
                                 ? new RemoteAttribute(RouteName)
@@ -88,7 +87,18 @@ namespace MvcExtensions
             attribute.HttpMethod = HttpMethod;
 
             PopulateErrorMessage(attribute);
-            return new DataAnnotationsModelValidator<RemoteAttribute>(modelMetadata, context, attribute);
+            return attribute;
+        }
+
+        /// <summary>
+        /// Creates the validator.
+        /// </summary>
+        /// <param name="modelMetadata"> The model metadata. </param>
+        /// <param name="context"> The context. </param>
+        /// <returns> </returns>
+        protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
+        {
+            return new DataAnnotationsModelValidator<RemoteAttribute>(modelMetadata, context, (RemoteAttribute)CreateValidationAttribute());
         }
     }
 }

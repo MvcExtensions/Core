@@ -1,6 +1,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
 
@@ -42,5 +43,16 @@ namespace MvcExtensions
             Configure(validator);
             return validator;
         }
+
+        /// <summary>
+        /// Creates validation attribute
+        /// </summary>
+        /// <returns>Instance of ValidationAttribute type</returns>
+        public ValidationAttribute CreateValidationAttribute()
+        {
+            return null; //new CustomValidationAttribute();
+        }
+
+        
     }
 }
