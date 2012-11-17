@@ -50,9 +50,7 @@ namespace MvcExtensions
         /// <returns>Instance of ValidationAttribute type</returns>
         public ValidationAttribute CreateValidationAttribute()
         {
-            return null; //new CustomValidationAttribute();
+            return null;//  new CustomValidationAttribute();
         }
-
-        
     }
 }

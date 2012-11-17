@@ -10,6 +10,7 @@ namespace MvcExtensions.WebApi
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Linq;
     using System.Web.Http.Metadata;
@@ -52,10 +53,14 @@ namespace MvcExtensions.WebApi
                 yield break;
             }
 
-            var attributes = extendedModelMetadata.Metadata.Validations.Select(validationMeta => validationMeta.CreateValidationAttribute());
-            foreach (var attribute in attributes)
+            var validations = extendedModelMetadata.Metadata.Validations;
+            foreach (var validation in validations)
             {
-                yield return new DataAnnotationsModelValidator(validatorProviders, attribute);
+                var attribute = validation.CreateValidationAttribute();
+                if (attribute != null)
+                {
+                    yield return new DataAnnotationsModelValidator(validatorProviders, attribute);
+                }
             }
         }
     }
@@ -74,8 +79,7 @@ namespace MvcExtensions.WebApi
         /// <param name="modelType">Type of the model.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="metadata">Metadata</param>
-        public ExtendedModelMetadata(
-            ModelMetadataProvider provider, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName, ModelMetadataItem metadata)
+        public ExtendedModelMetadata(ModelMetadataProvider provider, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName, ModelMetadataItem metadata)
             : base(provider, containerType, modelAccessor, modelType, propertyName)
         {
             Metadata = metadata;
@@ -87,11 +91,11 @@ namespace MvcExtensions.WebApi
         /// <value>The metadata.</value>
         public ModelMetadataItem Metadata { get; private set; }
     }
-
+    /* 
     /// <summary>
     /// 
     /// </summary>
-    public class CompositeModelMetadataProvider : ModelMetadataProvider
+   public class CompositeModelMetadataProvider : ModelMetadataProvider
     {
         private readonly IEnumerable<ModelMetadataProvider> metadataProviders;
 
@@ -168,7 +172,7 @@ namespace MvcExtensions.WebApi
 
             return new ModelMetadata(this, null, modelAccessor, modelType, null);
         }
-    }
+    }*/
 
     /// <summary>
     /// 
@@ -176,16 +180,19 @@ namespace MvcExtensions.WebApi
     public class ExtendedModelMetadataProvider : ModelMetadataProvider
     {
         private readonly IModelMetadataRegistry registry;
+        private ModelMetadataProvider provider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MvcExtensions.WebApi.ExtendedModelMetadataProvider"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        public ExtendedModelMetadataProvider(IModelMetadataRegistry registry)
+        /// <param name="provider">Fallback ModelValidatorProvider</param>
+        public ExtendedModelMetadataProvider(IModelMetadataRegistry registry, ModelMetadataProvider provider)
         {
             Invariant.IsNotNull(registry, "registry");
 
             this.registry = registry;
+            this.provider = provider;
         }
 
 
@@ -205,7 +212,7 @@ namespace MvcExtensions.WebApi
 
             if (metadataItems == null || metadataItems.Count == 0)
             {
-                return null; //base.GetMetadataForProperties(container, containerType);
+                return provider.GetMetadataForProperties(container, containerType);
             }
 
             IList<ModelMetadata> list = new List<ModelMetadata>();
@@ -248,7 +255,7 @@ namespace MvcExtensions.WebApi
 
             if (metadataItem == null)
             {
-                return null; //base.GetMetadataForProperty(modelAccessor, containerType, propertyName);
+                return provider.GetMetadataForProperty(modelAccessor, containerType, propertyName);
             }
 
             var propertyDescriptor = TypeDescriptor.GetProperties(containerType)
@@ -279,7 +286,7 @@ namespace MvcExtensions.WebApi
             var metadataItem = registry.GetModelMetadata(modelType);
 
             return metadataItem == null
-                       ? null //base.GetMetadataForType(modelAccessor, modelType)
+                       ? provider.GetMetadataForType(modelAccessor, modelType)
                        : CreateModelMetadata(modelType, modelAccessor, metadataItem);
         }
 
@@ -295,14 +302,10 @@ namespace MvcExtensions.WebApi
                 metadata.IsReadOnly = metadataItem.IsReadOnly.Value;
             }
 
-
             if (metadataItem.ConvertEmptyStringToNull.HasValue)
             {
                 metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
             }
-
-            /*FluentModelMetadataTransformer.Value.Transform(metadata);
-            DisplayNameTransformer.Value.Transform(metadata);*/
         }
 
         private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
