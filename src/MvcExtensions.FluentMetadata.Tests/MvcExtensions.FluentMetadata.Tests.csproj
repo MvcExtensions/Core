@@ -120,9 +120,10 @@
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\CustomValidationMetadataTests.cs" />
-    <Compile Include="ModelMetadata\DelegateBasedModelMetadata\DelegateBasedValidationMetadataTests.cs" />
+    <Compile Include="ModelMetadata\DelegateBasedValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\WebApi\CompareValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\WebApi\CustomValidationMetadataTests.cs" />
+    <Compile Include="ModelMetadata\WebApi\DelegateBasedValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\WebApi\RangeValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\WebApi\RegularExpressionValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\WebApi\RequiredValidationMetadataTests.cs" />

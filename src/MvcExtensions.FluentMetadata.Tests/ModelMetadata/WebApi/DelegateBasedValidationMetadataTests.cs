@@ -5,10 +5,9 @@
 // All other rights reserved.
 #endregion
 
-namespace MvcExtensions.FluentMetadata.Tests
+namespace MvcExtensions.FluentMetadata.Tests.WebApi
 {
     using System.Linq;
-    using System.Web.Mvc;
     using Xunit;
 
     public class DelegateBasedValidationMetadataTests : ValidationMetadataTestsBase
@@ -27,7 +26,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // act
             var validations = builder.Validate<DelegateTestModel>(model => model.Property1 != "1").Item.Validations;
-            var validator = validations.First().CreateValidator(CreateMetadata(), new ControllerContext());
+            var validator = validations.First().CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
@@ -40,19 +39,18 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string PropertyValue = "1";
             const string ErrorMsg = "error";
             var testModel = new DelegateTestModel { Property1 = PropertyValue };
-            var metadata = CreateMetadata();
+            var metadata = CreateMetadata("Property1");
             metadata.Model = PropertyValue;
-            metadata.DisplayName = "Property1";
 
             // act
             var validations = builder.Validate<DelegateTestModel>(model => model.Property1 != PropertyValue, () => ErrorMsg).Item.Validations;
-            var validator = validations.First().CreateValidator(metadata, new ControllerContext());
+            var validator = validations.First().CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotEmpty(validations);
-            Assert.IsType<DelegateBasedModelMetadata.DelegateBasedModelValidator>(validator);
+            Assert.IsType<DelegateBasedModelMetadata.WebApiDelegateBasedModelValidator>(validator);
 
-            var modelValidationResult = validator.Validate(testModel).First();
+            var modelValidationResult = validator.Validate(metadata, testModel).First();
             Assert.Equal(ErrorMsg, modelValidationResult.Message);
         }
 
@@ -63,11 +61,11 @@ namespace MvcExtensions.FluentMetadata.Tests
             builder.Validate<DelegateTestModel>(model => model.Property1 != "1").Validate<DelegateTestModel>(model => model.Property1 != "2");
 
             var metadata = (DelegateBasedModelMetadata)item.Validations.First();
-            var validator = (DelegateBasedModelMetadata.DelegateBasedModelValidator)metadata.CreateValidator(CreateMetadata(), new ControllerContext());
+            var validator = (DelegateBasedModelMetadata.WebApiDelegateBasedModelValidator)metadata.CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
-            Assert.IsType<DelegateBasedModelMetadata.DelegateBasedModelValidator>(validator);
+            Assert.IsType<DelegateBasedModelMetadata.WebApiDelegateBasedModelValidator>(validator);
             Assert.Equal(2, metadata.GetValidatorsCount());
         }
 
@@ -75,14 +73,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_be_able_to_validate_with_two_delegate_based_validators()
         {
             // arrange
-            var extendedModelMetadata = CreateMetadata();
-            builder.Validate<DelegateTestModel>(model => model.Property1 != "1", "1").Validate<DelegateTestModel>(model => model.Property1 != "2", "2");
+            var extendedModelMetadata = CreateMetadata("Property1");
+            builder.Validate<DelegateTestModel>(model => model.Property1 != "1", "1 error").Validate<DelegateTestModel>(model => model.Property1 != "2", "2 error");
 
             var metadata = (DelegateBasedModelMetadata)item.Validations.First();
-            var validator = (DelegateBasedModelMetadata.DelegateBasedModelValidator)metadata.CreateValidator(extendedModelMetadata, new ControllerContext());
+            var validator = (DelegateBasedModelMetadata.WebApiDelegateBasedModelValidator)metadata.CreateWebApiValidator(GetProviders());
 
             Assert.NotNull(validator);
-            Assert.IsType<DelegateBasedModelMetadata.DelegateBasedModelValidator>(validator);
+            Assert.IsType<DelegateBasedModelMetadata.WebApiDelegateBasedModelValidator>(validator);
             Assert.Equal(2, metadata.GetValidatorsCount());
 
             foreach (string valueToValidate in new[] { "1", "2", "3" })
@@ -91,7 +89,9 @@ namespace MvcExtensions.FluentMetadata.Tests
                 extendedModelMetadata.Model = valueToValidate;
 
                 // act
-                var result = validator.Validate(delegateTestModel).FirstOrDefault();
+                var result = validator.Validate(extendedModelMetadata, delegateTestModel).FirstOrDefault();
+
+                // assert
                 if (valueToValidate == "3")
                 {
                     Assert.Null(result);
@@ -99,7 +99,9 @@ namespace MvcExtensions.FluentMetadata.Tests
                 else
                 {
                     Assert.NotNull(result);
-                    Assert.Equal(valueToValidate, result.Message);
+                    // ReSharper disable PossibleNullReferenceException
+                    Assert.Equal(valueToValidate + " error", result.Message);
+                    // ReSharper restore PossibleNullReferenceException
                 }
             }
         }

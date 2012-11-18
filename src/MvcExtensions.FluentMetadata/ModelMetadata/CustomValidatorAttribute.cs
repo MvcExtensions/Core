@@ -11,7 +11,7 @@ namespace MvcExtensions
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
-    /// Serves as the base class for all validation attributes.
+    /// Serves as the base class for all custom validation attributes.
     /// </summary>
     /// <exception cref="T:MvcExtensions.CustomValidatorAttribute">The <see cref="P:System.ComponentModel.DataAnnotations.ValidationAttribute.ErrorMessageResourceType"/> and <see cref="P:System.ComponentModel.DataAnnotations.ValidationAttribute.ErrorMessageResourceName"/> properties for localized error message are set at the same time that the non-localized <see cref="P:System.ComponentModel.DataAnnotations.ValidationAttribute.ErrorMessage"/> property error message is set.</exception>
     public abstract class CustomValidatorAttribute : ValidationAttribute

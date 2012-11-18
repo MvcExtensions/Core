@@ -5,6 +5,9 @@
 // All other rights reserved.
 #endregion
 
+// ReSharper disable Mvc.ControllerNotResolved
+// ReSharper disable Mvc.AreaNotResolved
+// ReSharper disable Mvc.ActionNotResolved
 namespace MvcExtensions.FluentMetadata.Tests
 {
     using System.Web.Mvc;
@@ -66,6 +69,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_be_able_to_set_remote_for_action_with_area()
         {
             const string AreaName = "area";
+
             builder.Remote(c => c.For<DummyController>(x => x.CheckUsername1, AreaName));
 
             var metadata = (RemoteValidationMetadata)item.Validations.First();
@@ -250,3 +254,6 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
     }
 }
+// ReSharper restore Mvc.AreaNotResolved
+// ReSharper restore Mvc.ControllerNotResolved
+// ReSharper restore Mvc.ActionNotResolved

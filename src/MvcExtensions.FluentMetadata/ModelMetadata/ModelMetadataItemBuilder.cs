@@ -785,8 +785,10 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Sets the delegate based custom validation for value.
+        /// Sets the delegate based custom validation for value. 
         /// </summary>
+        /// <param name="validator">Should return "true" if valid; otherwise, "false'.</param>
+        /// <param name="errorMessage">Error message.</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> Validate(Func<TValue, bool> validator, string errorMessage = null)
         {
@@ -800,6 +802,8 @@ namespace MvcExtensions
         /// <summary>
         /// Sets the delegate based custom validation for value.
         /// </summary>
+        /// <param name="validator">Should return "true" if valid; otherwise, "false'.</param>
+        /// <param name="errorMessage">Error message.</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> Validate(Func<TValue, bool> validator, Func<string> errorMessage)
         {
@@ -809,6 +813,8 @@ namespace MvcExtensions
         /// <summary>
         /// Sets the delegate based custom validation for value.
         /// </summary>
+        /// <param name="validator">Should return "true" if valid; otherwise, "false'.</param>
+        /// <param name="errorMessage">Error message.</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, string errorMessage = null)
         {
@@ -822,6 +828,8 @@ namespace MvcExtensions
         /// <summary>
         /// Sets the delegate based custom validation for value.
         /// </summary>
+        /// <param name="validator">Should return "true" if valid; otherwise, "false'.</param>
+        /// <param name="errorMessage">Error message.</param>
         /// <returns></returns>
         public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage)
         {

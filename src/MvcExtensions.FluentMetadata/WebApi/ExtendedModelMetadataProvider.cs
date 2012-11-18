@@ -8,7 +8,7 @@
     using System.Web.Http.Metadata;
 
     /// <summary>
-    /// 
+    /// Custom ModelMetadataProvider for WebApi
     /// </summary>
     public class ExtendedModelMetadataProvider : ModelMetadataProvider
     {
@@ -16,7 +16,7 @@
         private readonly ModelMetadataProvider provider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MvcExtensions.WebApi.ExtendedModelMetadataProvider"/> class.
+        /// Initializes a new instance of the <see cref="T:MvcExtensions.WebApi.ExtendedModelMetadataProvider"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
         /// <param name="provider">Fallback ModelValidatorProvider</param>
@@ -30,12 +30,12 @@
 
 
         /// <summary>
-        /// Gets a <see cref="T:System.Web.Mvc.ModelMetadata"/> object for each property of a model.
+        /// Gets a <see cref="T:System.Web.Http.Metadata.ModelMetadata"/> object for each property of a model.
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="containerType">The type of the container.</param>
         /// <returns>
-        /// A <see cref="T:System.Web.Mvc.ModelMetadata"/> object for each property of a model.
+        /// A <see cref="T:System.Web.Http.Metadata.ModelMetadata"/> object for each property of a model.
         /// </returns>
         public override IEnumerable<ModelMetadata> GetMetadataForProperties(object container, Type containerType)
         {
