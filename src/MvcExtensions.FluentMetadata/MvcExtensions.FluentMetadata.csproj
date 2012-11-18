@@ -185,6 +185,7 @@
     <Compile Include="Registration\FluentMetadataConfiguration.cs" />
     <Compile Include="WebApi\ExtendedModelMetadata.cs" />
     <Compile Include="WebApi\ExtendedModelMetadataProvider.cs" />
+    <Compile Include="WebApi\WebApiCompositeModelValidatorProvider.cs" />
     <Compile Include="WebApi\WebApiValidationProvider.cs" />
   </ItemGroup>
   <ItemGroup>

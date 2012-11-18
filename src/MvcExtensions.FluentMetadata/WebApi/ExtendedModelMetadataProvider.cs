@@ -45,7 +45,7 @@
 
             if (metadataItems == null || metadataItems.Count == 0)
             {
-                return provider.GetMetadataForProperties(container, containerType);
+                return null; //provider.GetMetadataForProperties(container, containerType);
             }
 
             IList<ModelMetadata> list = new List<ModelMetadata>();

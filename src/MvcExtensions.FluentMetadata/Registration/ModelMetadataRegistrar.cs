@@ -13,6 +13,8 @@ namespace MvcExtensions
     using System.Web.Http;
     using System.Web.Mvc;
     using MvcExtensions.WebApi;
+    using DataAnnotationsModelValidatorProvider = System.Web.Http.Validation.Providers.DataAnnotationsModelValidatorProvider;
+    using ModelMetadataProvider = System.Web.Http.Metadata.ModelMetadataProvider;
 
     /// <summary>
     /// Provides a way to register metadata provider and model metadata configuration classes
@@ -64,27 +66,47 @@ namespace MvcExtensions
         /// </summary>
         public void Register()
         {
+            RegisterMetadataConfigurations();
+            RegisterMvcProviders();
+            RegisterWebApiProviders(GlobalConfiguration.Configuration);
+        }
+
+        private void RegisterMetadataConfigurations()
+        {
             var configurations = getConfigurations != null ? getConfigurations().Where(t => t != null) : Enumerable.Empty<IModelMetadataConfiguration>();
 
             foreach (var configuration in configurations)
             {
                 Registry.RegisterModelProperties(configuration.ModelType, configuration.Configurations);
             }
+        }
 
-            IList<ModelValidatorProvider> validatorProviders =
-                new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
+        private void RegisterMvcProviders()
+        {
+            var validatorProviders = new List<ModelValidatorProvider>(ModelValidatorProviders.Providers);
             validatorProviders.Insert(0, new ExtendedModelValidatorProvider());
             var compositeModelValidatorProvider = new CompositeModelValidatorProvider(validatorProviders.ToArray());
 
             ModelMetadataProviders.Current = new ExtendedModelMetadataProvider(Registry);
             ModelValidatorProviders.Providers.Clear();
             ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
+        }
 
-            // configure web api
-            var config = GlobalConfiguration.Configuration;
-            config.Services.Insert(typeof(System.Web.Http.Validation.ModelValidatorProvider), 0, new WebApiValidationProvider());
-            var provider = config.Services.GetModelMetadataProvider();
-            config.Services.Replace(typeof(System.Web.Http.Metadata.ModelMetadataProvider), new WebApi.ExtendedModelMetadataProvider(Registry, provider));
+        private void RegisterWebApiProviders(HttpConfiguration config)
+        {
+            var providers = config.Services.GetModelValidatorProviders().OfType<DataAnnotationsModelValidatorProvider>().ToArray();
+
+            // remove dataannotation providers from list
+            config.Services.RemoveAll(typeof(System.Web.Http.Validation.ModelValidatorProvider), o => o is DataAnnotationsModelValidatorProvider);
+
+            // add WebApiValidationProvider and DataAnnotationsModelValidatorProviders to composite validator
+            var list = new List<System.Web.Http.Validation.ModelValidatorProvider>(providers);
+            list.Insert(0, new WebApiValidationProvider());
+            config.Services.Insert(typeof(System.Web.Http.Validation.ModelValidatorProvider), 0, new WebApiCompositeModelValidatorProvider(list.ToArray()));
+
+            // register MvcExtensions metadata provider
+            var metadataProvider = config.Services.GetModelMetadataProvider();
+            config.Services.Replace(typeof(ModelMetadataProvider), new WebApi.ExtendedModelMetadataProvider(Registry, metadataProvider));
         }
     }
 }

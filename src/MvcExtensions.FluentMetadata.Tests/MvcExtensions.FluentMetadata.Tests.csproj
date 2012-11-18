@@ -154,6 +154,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\TestResource.Designer.cs" />
     <Compile Include="Resources\TestResource2.Designer.cs" />
+    <Compile Include="WebApi\WebApiCompositeModelValidatorProviderTests.cs" />
+    <Compile Include="WebApi\ExtendedModelMetadataProviderTests.cs" />
+    <Compile Include="WebApi\WebApiValidationProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\SharedFiles\MvcExtensions.snk">

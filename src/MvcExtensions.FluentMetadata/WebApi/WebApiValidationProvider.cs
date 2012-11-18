@@ -12,7 +12,7 @@ namespace MvcExtensions.WebApi
     using System.Web.Http.Validation;
 
     /// <summary>
-    /// 
+    /// WebApiValidationProvider
     /// </summary>
     public class WebApiValidationProvider : ModelValidatorProvider
     {
