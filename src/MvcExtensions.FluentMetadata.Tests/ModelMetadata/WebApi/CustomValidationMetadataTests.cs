@@ -5,12 +5,13 @@
 // All other rights reserved.
 #endregion
 
-namespace MvcExtensions.FluentMetadata.Tests
+namespace MvcExtensions.FluentMetadata.Tests.WebApi
 {
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Web.Mvc;
+    using System.Web.Http.Validation;
+    using System.Web.Http.Validation.Validators;
     using Xunit;
 
     public class CustomValidationMetadataTests : ValidationMetadataTestsBase
@@ -30,16 +31,17 @@ namespace MvcExtensions.FluentMetadata.Tests
             // act
             builder.ValidateBy<DummyModelValidatorAttribute>().ValidateBy<DummyModelValidator2Attribute>();
 
-
-            var validator = item.Validations.First().CreateValidator(CreateMetadata(), new ControllerContext());
-            var validator2 = item.Validations.Skip(1).First().CreateValidator(CreateMetadata(), new ControllerContext());
+            var validator = item.Validations.First().CreateWebApiValidator(GetProviders());
+            var validator2 = item.Validations.Skip(1).First().CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
-            Assert.IsType<DataAnnotationsModelValidator<DummyModelValidatorAttribute>>(validator);
+            Assert.IsType<DataAnnotationsModelValidator>(validator);
+            Assert.NotNull(GetAttributeFromValidator<DummyModelValidatorAttribute>(validator));
 
             Assert.NotNull(validator2);
-            Assert.IsType<DataAnnotationsModelValidator<DummyModelValidator2Attribute>>(validator2);
+            Assert.IsType<DataAnnotationsModelValidator>(validator2);
+            Assert.NotNull(GetAttributeFromValidator<DummyModelValidator2Attribute>(validator2));
         }
 
         [Fact]
@@ -47,7 +49,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // act
             var metadata = builder.ValidateBy<DummyModelValidatorAttribute>().Item.Validations.First();
-            var validator = metadata.CreateValidator(CreateMetadata(), new ControllerContext());
+            var validator = metadata.CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
@@ -67,12 +69,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_create_validator_manully()
         {
-            var metadata = CreateMetadata();
-            var context = new ControllerContext();
-
             // act
-            var modelValidationMetadata = builder.ValidateBy(new DummyModelValidatorAttribute()).Item.Validations.First();
-            var validator = modelValidationMetadata.CreateValidator(metadata, context);
+            var metadata = builder.ValidateBy(new DummyModelValidatorAttribute()).Item.Validations.First();
+            var validator = metadata.CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
@@ -81,11 +80,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_create_validator_via_user_factory()
         {
-            var metadata = CreateMetadata();
-            var context = new ControllerContext();
-
             // act
-            var validator = builder.ValidateBy(() => new DummyModelValidatorAttribute()).Item.Validations.First().CreateValidator(metadata, context);
+            var metadata = builder.ValidateBy(() => new DummyModelValidatorAttribute()).Item.Validations.First();
+            var validator = metadata.CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
@@ -95,15 +92,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_be_able_to_create_and_configure_validator()
         {
             // arrange
-            var metadata = CreateMetadata("DummyProp");
-            var context = new ControllerContext();
             const int DummyPropValue = 10;
 
             // act
             var itemBuilder = builder.ValidateBy<DummyConfigureModelValidatorAttribute>(v =>v.DummyProp = DummyPropValue);
 
             var modelValidationMetadata = itemBuilder.Item.Validations.First();
-            var validator = (DataAnnotationsModelValidator)modelValidationMetadata.CreateValidator(metadata, context);
+            var validator = modelValidationMetadata.CreateWebApiValidator(GetProviders());
 
             // assert
             Assert.NotNull(validator);
@@ -122,7 +117,6 @@ namespace MvcExtensions.FluentMetadata.Tests
             const int PropertyValue = 10;
 
             var metadata = CreateMetadata(PropertyName);
-            var context = new ControllerContext();
 
             var itemBuilder = builder.ValidateBy<DummyConfigureModelValidatorAttribute>(
                 v =>
@@ -133,14 +127,14 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             // act
             var modelValidationMetadata = itemBuilder.Item.Validations.First();
-            var validator = modelValidationMetadata.CreateValidator(metadata, context);
-            var result = validator.Validate(new object()).First();
+            var validator = modelValidationMetadata.CreateWebApiValidator(GetProviders());
+            var result = validator.Validate(metadata, new object()).First();
 
             // assert
             Assert.Equal(result.Message, string.Format(Message, PropertyName, PropertyValue));
         }
 
-        private static T GetAttributeFromValidator<T>(ModelValidator validator) where T : CustomValidatorAttribute
+        private static T GetAttributeFromValidator<T>(ModelValidator validator) where  T : CustomValidatorAttribute
         {
             var propertyInfo = validator.GetType().GetProperty("Attribute", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
             if (propertyInfo == null)
