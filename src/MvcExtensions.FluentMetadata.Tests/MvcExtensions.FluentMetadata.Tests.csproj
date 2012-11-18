@@ -100,6 +100,7 @@
     <Compile Include="ModelMetadata\BehaviorTests.cs" />
     <Compile Include="ModelMetadata\BooleanMetadataItemBuilderTests.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadataTests.cs" />
+    <Compile Include="ModelMetadata\CustomValidationMetadataTests.cs" />
     <Compile Include="ModelMetadata\DelegateBasedModelMetadata\DelegateBasedValidationMetadataTests.cs" />
     <Compile Include="Providers\CompositeModelValidatorProviderTests.cs" />
     <Compile Include="Providers\ExtendedModelMetadataProviderTests.cs" />

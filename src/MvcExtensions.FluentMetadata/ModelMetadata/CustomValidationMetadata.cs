@@ -27,7 +27,7 @@ namespace MvcExtensions
         /// <returns></returns>
         protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context)
         {
-            return new DataAnnotationsModelValidator(modelMetadata, context, CreateValidationAttribute());
+            return new DataAnnotationsModelValidator<TValidator>(modelMetadata, context, (TValidator)CreateValidationAttribute());
         }
 
         /// <summary>

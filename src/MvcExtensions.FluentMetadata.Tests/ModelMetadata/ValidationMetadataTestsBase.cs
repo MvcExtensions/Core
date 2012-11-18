@@ -13,11 +13,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public abstract class ValidationMetadataTestsBase
     {
-        protected ExtendedModelMetadata CreateMetadata()
+        protected ExtendedModelMetadata CreateMetadata(string propertyName = "")
         {
             Func<object> accessor = () => new DummyObject();
 
-            return new Mock<ExtendedModelMetadata>(new Mock<ModelMetadataProvider>().Object, GetType(), accessor, typeof(DummyObject), string.Empty, new Mock<ModelMetadataItem>().Object).Object;
+            return new Mock<ExtendedModelMetadata>(new Mock<ModelMetadataProvider>().Object, GetType(), accessor, typeof(DummyObject), propertyName, new Mock<ModelMetadataItem>().Object).Object;
         }
 
         public class DummyObject
