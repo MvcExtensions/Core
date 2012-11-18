@@ -2,7 +2,6 @@ namespace MvcExtensions
 {
     using System;
     using System.ComponentModel;
-    using System.Web.Mvc;
     using JetBrains.Annotations;
 
     /// <summary>

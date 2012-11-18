@@ -14,18 +14,8 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using System.Web.Mvc;
     using JetBrains.Annotations;
 
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public interface IInterface1<T>
-    {
-
-    }
     /// <summary>
     /// Defines class to fluently configure metadata.
     /// </summary>
