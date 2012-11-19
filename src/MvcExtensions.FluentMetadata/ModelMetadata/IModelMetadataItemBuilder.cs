@@ -326,6 +326,18 @@ namespace MvcExtensions
         IModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage);
 
         /// <summary>
+        /// Sets the delegate based custom validation for model and value.
+        /// </summary>
+        /// <returns></returns>
+        IModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, string errorMessage = null);
+
+        /// <summary>
+        /// Sets the delegate based custom validation for model and value.
+        /// </summary>
+        /// <returns></returns>
+        IModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, Func<string> errorMessage);
+
+        /// <summary>
         /// Sets the <typeparamref name="TValidator"/> to validate value.
         /// </summary>
         /// <typeparam name="TValidator">The type of validator</typeparam>

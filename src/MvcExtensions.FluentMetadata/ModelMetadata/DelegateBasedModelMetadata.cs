@@ -1,10 +1,17 @@
+#region Copyright
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>, 2012 AlexBar <abarbashin@gmail.com>.
+// This source is subject to the Microsoft Public License. 
+// See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
+// All other rights reserved.
+#endregion
+
 namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
     using System.Web.Mvc;
+    using ModelValidator = System.Web.Http.Validation.ModelValidator;
     using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
 
     /// <summary>
@@ -23,15 +30,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Returns current count of validators 
-        /// </summary>
-        /// <returns></returns>
-        internal int GetValidatorsCount()
-        {
-            return validators.Count;
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="validate"></param>
@@ -46,56 +44,39 @@ namespace MvcExtensions
         /// <summary>
         /// Creates the validator.
         /// </summary>
-        /// <param name="metadata">The model metadata.</param>
-        /// <param name="context">The context.</param>
         /// <returns></returns>
-        protected override ModelValidator CreateValidatorCore(ExtendedModelMetadata metadata, ControllerContext context)
+        public override ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders)
         {
-            return new DelegateBasedModelValidator(metadata, context, validators);
+            return new WebApiDelegateBasedModelValidator(validatorProviders, validators);
+        }
+
+        /// <summary>
+        /// Returns current count of validators 
+        /// </summary>
+        /// <returns></returns>
+        internal int GetValidatorsCount()
+        {
+            return validators.Count;
         }
 
         /// <summary>
         /// Creates the validator.
         /// </summary>
+        /// <param name="metadata">The model metadata.</param>
+        /// <param name="context">The context.</param>
         /// <returns></returns>
-        public override System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders)
+        protected override System.Web.Mvc.ModelValidator CreateValidatorCore(ExtendedModelMetadata metadata, ControllerContext context)
         {
-            return new WebApiDelegateBasedModelValidator(validatorProviders, validators);
+            return new DelegateBasedModelValidator(metadata, context, validators);
         }
 
 
-        internal sealed class WebApiDelegateBasedModelValidator : System.Web.Http.Validation.ModelValidator
-        {
-            private readonly IList<DelegateBasedValidatorAttribute> attributes;
-
-            public WebApiDelegateBasedModelValidator(IEnumerable<ModelValidatorProvider> validatorProviders, IList<DelegateBasedValidatorAttribute> attributes)
-                : base(validatorProviders)
-            {
-                this.attributes = attributes;
-            }
-
-            public override IEnumerable<System.Web.Http.Validation.ModelValidationResult> Validate(System.Web.Http.Metadata.ModelMetadata metadata, object container)
-            {
-                foreach (DelegateBasedValidatorAttribute attribute in attributes)
-                {
-                    var context = new ValidationContext(container ?? metadata.Model, null, null) { DisplayName = metadata.GetDisplayName() };
-
-                    var result = attribute.GetValidationResult(metadata.Model, context);
-
-                    if (result != null && result != ValidationResult.Success)
-                    {
-                        yield return new System.Web.Http.Validation.ModelValidationResult { Message = result.ErrorMessage };
-                    }
-                }
-            }
-        }
-
-
-        internal sealed class DelegateBasedModelValidator : ModelValidator
+        internal sealed class DelegateBasedModelValidator : System.Web.Mvc.ModelValidator
         {
             private readonly IEnumerable<DelegateBasedValidatorAttribute> attributes;
 
-            public DelegateBasedModelValidator(ModelMetadata metadata, ControllerContext controllerContext, IEnumerable<DelegateBasedValidatorAttribute> attributes)
+            public DelegateBasedModelValidator(
+                ModelMetadata metadata, ControllerContext controllerContext, IEnumerable<DelegateBasedValidatorAttribute> attributes)
                 : base(metadata, controllerContext)
             {
                 this.attributes = attributes;
@@ -103,7 +84,7 @@ namespace MvcExtensions
 
             public override IEnumerable<ModelValidationResult> Validate(object container)
             {
-                foreach (DelegateBasedValidatorAttribute attribute in attributes)
+                foreach (var attribute in attributes)
                 {
                     var context = new ValidationContext(container ?? Metadata.Model, null, null) { DisplayName = Metadata.GetDisplayName() };
 
@@ -116,6 +97,32 @@ namespace MvcExtensions
                 }
             }
         }
+
+        internal sealed class WebApiDelegateBasedModelValidator : ModelValidator
+        {
+            private readonly IList<DelegateBasedValidatorAttribute> attributes;
+
+            public WebApiDelegateBasedModelValidator(IEnumerable<ModelValidatorProvider> validatorProviders, IList<DelegateBasedValidatorAttribute> attributes)
+                : base(validatorProviders)
+            {
+                this.attributes = attributes;
+            }
+
+            public override IEnumerable<System.Web.Http.Validation.ModelValidationResult> Validate(System.Web.Http.Metadata.ModelMetadata metadata, object container)
+            {
+                foreach (var attribute in attributes)
+                {
+                    var context = new ValidationContext(container ?? metadata.Model, null, null) { DisplayName = metadata.GetDisplayName() };
+
+                    var result = attribute.GetValidationResult(metadata.Model, context);
+
+                    if (result != null && result != ValidationResult.Success)
+                    {
+                        yield return new System.Web.Http.Validation.ModelValidationResult { Message = result.ErrorMessage };
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -124,7 +131,7 @@ namespace MvcExtensions
     internal sealed class DelegateBasedValidatorAttribute : CustomValidatorAttribute
     {
         private readonly Func<object, object, bool> validator;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DelegateBasedValidatorAttribute"/> class.
         /// </summary>
@@ -148,4 +155,3 @@ namespace MvcExtensions
         }
     }
 }
-   

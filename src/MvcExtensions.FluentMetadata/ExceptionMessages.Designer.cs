@@ -122,5 +122,14 @@ namespace MvcExtensions {
                 return ResourceManager.GetString("ThePropertyNameOfTypeCouldNotBeFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} value is invalid..
+        /// </summary>
+        internal static string TheValueIsInvalid {
+            get {
+                return ResourceManager.GetString("TheValueIsInvalid", resourceCulture);
+            }
+        }
     }
 }

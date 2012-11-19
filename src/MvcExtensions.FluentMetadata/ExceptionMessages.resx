@@ -138,4 +138,7 @@
   <data name="ResourcePropertyNotStringType" xml:space="preserve">
     <value>The property '{0}' on resource type '{1}' is not a string type.</value>
   </data>
+  <data name="TheValueIsInvalid" xml:space="preserve">
+    <value>The {0} value is invalid.</value>
+  </data>
 </root>

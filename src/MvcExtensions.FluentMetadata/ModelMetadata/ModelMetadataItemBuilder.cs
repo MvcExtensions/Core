@@ -287,6 +287,16 @@ namespace MvcExtensions
             return Validate(validator, errorMessage);
         }
 
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, TValue, bool> validator, string errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, TValue, bool> validator, Func<string> errorMessage)
+        {
+            return Validate(validator, errorMessage);
+        }
+
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>()
         {
             return ValidateBy<TValidator>();
@@ -793,7 +803,7 @@ namespace MvcExtensions
         public ModelMetadataItemBuilder<TValue> Validate(Func<TValue, bool> validator, string errorMessage = null)
         {
             var message = string.IsNullOrEmpty(errorMessage)
-                              ? "The {0} value is invalid."
+                              ? ExceptionMessages.TheValueIsInvalid // "The {0} value is invalid."
                               : errorMessage;
 
             return Validate<object>((container, value) => validator(value), () => message);
@@ -819,7 +829,7 @@ namespace MvcExtensions
         public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, string errorMessage = null)
         {
             var message = string.IsNullOrEmpty(errorMessage)
-                              ? "The {0} value is invalid."
+                              ? ExceptionMessages.TheValueIsInvalid // "The {0} value is invalid."
                               : errorMessage;
 
             return Validate<TModel>((container, value) => validator(container), () => message);
@@ -834,6 +844,34 @@ namespace MvcExtensions
         public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage)
         {
             return Validate<TModel>((container, value) => validator(container), errorMessage);
+        }
+
+        /// <summary>
+        /// Sets the delegate based custom validation for model and value.
+        /// </summary>
+        /// <returns></returns>
+        public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, string errorMessage = null)
+        {
+            var message = string.IsNullOrEmpty(errorMessage)
+                              ? ExceptionMessages.TheValueIsInvalid // "The {0} value is invalid."
+                              : errorMessage;
+
+            return Validate(validator, () => message);
+        }
+
+        /// <summary>
+        /// Sets the delegate based custom validation for model and value.
+        /// </summary>
+        /// <returns></returns>
+        public virtual ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, Func<string> errorMessage)
+        {
+            Invariant.IsNotNull(errorMessage, "errorMessage");
+
+            var validation = Item.GetValidationOrCreateNew<DelegateBasedModelMetadata>();
+            var localValidator = validator;
+            validation.AddValidator(((container, value) => localValidator((TModel)container, (TValue)value)), errorMessage());
+
+            return this;
         }
 
         /// <summary>
@@ -881,21 +919,6 @@ namespace MvcExtensions
             where TValidator : CustomValidatorAttribute
         {
             return ValidateBy(factory, v => { });
-        }
-
-        /// <summary>
-        /// Sets the delegate based custom validation for model and value.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, Func<string> errorMessage)
-        {
-            Invariant.IsNotNull(errorMessage, "errorMessage");
-
-            var validation = Item.GetValidationOrCreateNew<DelegateBasedModelMetadata>();
-            var localValidator = validator;
-            validation.AddValidator(((container, value) => localValidator((TModel)container, (TValue)value)), errorMessage());
-
-            return this;
         }
 
         /// <summary>
