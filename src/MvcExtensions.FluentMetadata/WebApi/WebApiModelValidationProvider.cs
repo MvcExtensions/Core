@@ -12,9 +12,9 @@ namespace MvcExtensions.WebApi
     using System.Web.Http.Validation;
 
     /// <summary>
-    /// WebApiValidationProvider
+    /// WebApiModelValidationProvider
     /// </summary>
-    public class WebApiValidationProvider : ModelValidatorProvider
+    public class WebApiModelValidationProvider : ModelValidatorProvider
     {
         /// <summary>
         /// Gets a list of validators associated with this <see cref="T:System.Web.Http.Validation.ModelValidatorProvider"/>.

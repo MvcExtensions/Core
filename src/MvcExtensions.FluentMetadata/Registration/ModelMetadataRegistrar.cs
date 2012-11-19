@@ -99,9 +99,9 @@ namespace MvcExtensions
             // remove dataannotation providers from list
             config.Services.RemoveAll(typeof(System.Web.Http.Validation.ModelValidatorProvider), o => o is DataAnnotationsModelValidatorProvider);
 
-            // add WebApiValidationProvider and DataAnnotationsModelValidatorProviders to composite validator
+            // add WebApiModelValidationProvider and DataAnnotationsModelValidatorProviders to composite validator
             var list = new List<System.Web.Http.Validation.ModelValidatorProvider>(providers);
-            list.Insert(0, new WebApiValidationProvider());
+            list.Insert(0, new WebApiModelValidationProvider());
             config.Services.Insert(typeof(System.Web.Http.Validation.ModelValidatorProvider), 0, new WebApiCompositeModelValidatorProvider(list.ToArray()));
 
             // register MvcExtensions metadata provider

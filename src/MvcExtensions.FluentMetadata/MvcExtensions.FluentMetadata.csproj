@@ -186,7 +186,7 @@
     <Compile Include="WebApi\ExtendedModelMetadata.cs" />
     <Compile Include="WebApi\ExtendedModelMetadataProvider.cs" />
     <Compile Include="WebApi\WebApiCompositeModelValidatorProvider.cs" />
-    <Compile Include="WebApi\WebApiValidationProvider.cs" />
+    <Compile Include="WebApi\WebApiModelValidationProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExceptionMessages.resx">

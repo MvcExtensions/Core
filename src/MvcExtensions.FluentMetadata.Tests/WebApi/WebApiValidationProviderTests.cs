@@ -15,13 +15,13 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
     using MvcExtensions.WebApi;
     using Xunit;
 
-    public class WebApiValidationProviderProviderTests
+    public class WebApiModelValidationProviderTests
     {
-        private readonly WebApiValidationProvider provider;
+        private readonly WebApiModelValidationProvider provider;
 
-        public WebApiValidationProviderProviderTests()
+        public WebApiModelValidationProviderTests()
         {
-            provider = new WebApiValidationProvider();
+            provider = new WebApiModelValidationProvider();
         }
 
         [Fact]
