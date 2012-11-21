@@ -7,6 +7,7 @@
 #if !MVC_3
 namespace MvcExtensions.FluentMetadata.Tests.WebApi
 {
+    using System.ComponentModel.DataAnnotations;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
@@ -67,17 +68,6 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
         }
 
         [Fact]
-        public void Should_be_able_to_create_validator_manully()
-        {
-            // act
-            var metadata = builder.ValidateBy(new DummyModelValidatorAttribute()).Item.Validations.First();
-            var validator = metadata.CreateWebApiValidator(GetProviders());
-
-            // assert
-            Assert.NotNull(validator);
-        }
-
-        [Fact]
         public void Should_be_able_to_create_validator_via_user_factory()
         {
             // act
@@ -113,6 +103,25 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
         {
             // arrange
             const string PropertyName = "SomePropertyName";
+            const string Message = "The {0} is invalid.";
+            var metadata = CreateMetadata(PropertyName);
+
+            var itemBuilder = builder.ValidateBy(() => new DummyConfigureModelValidatorAttribute(), () => Message);
+
+            // act
+            var modelValidationMetadata = itemBuilder.Item.Validations.First();
+            var validator = modelValidationMetadata.CreateWebApiValidator(GetProviders());
+            var result = validator.Validate(metadata, new object()).First();
+
+            // assert
+            Assert.Equal(result.Message, string.Format(Message, PropertyName));
+        }
+
+        [Fact]
+        public void Should_get_a_valid_error_message_with_custom_configuration()
+        {
+            // arrange
+            const string PropertyName = "SomePropertyName";
             const string Message = "The {0} with value {1} is invalid.";
             const int PropertyValue = 10;
 
@@ -134,7 +143,7 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
             Assert.Equal(result.Message, string.Format(Message, PropertyName, PropertyValue));
         }
 
-        private static T GetAttributeFromValidator<T>(ModelValidator validator) where  T : CustomValidatorAttribute
+        private static T GetAttributeFromValidator<T>(ModelValidator validator) where  T : ValidationAttribute
         {
             var propertyInfo = validator.GetType().GetProperty("Attribute", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
             if (propertyInfo == null)
@@ -172,6 +181,11 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
                 return false;
             }
 
+            /// <summary>
+            /// Custom error formating - adds attribute's property value (of DummyProp)
+            /// </summary>
+            /// <param name="name"></param>
+            /// <returns></returns>
             public override string FormatErrorMessage(string name)
             {
                 return string.Format(CultureInfo.CurrentCulture, ErrorMessageString, name, DummyProp);

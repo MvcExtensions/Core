@@ -342,7 +342,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>()
+        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<string> errorMessage = null)
             where TValidator : CustomValidatorAttribute;
 
         /// <summary>
@@ -350,17 +350,9 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="configure">The configuration</param>
+        /// <param name="errorMessage"></param>
         /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Action<TValidator> configure)
-            where TValidator : CustomValidatorAttribute;
-
-        /// <summary>
-        /// Sets the <typeparamref name="TValidator"/> to validate value.
-        /// </summary>
-        /// <typeparam name="TValidator">The type of validator</typeparam>
-        /// <param name="validator">The instance of validator</param>
-        /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator)
+        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Action<TValidator> configure, Func<string> errorMessage = null)
             where TValidator : CustomValidatorAttribute;
 
         /// <summary>
@@ -368,8 +360,9 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="factory">The factory used to build validator</param>
+        /// <param name="errorMessage"></param>
         /// <returns></returns>
-        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<TValidator> factory)
+        IModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<TValidator> factory, Func<string> errorMessage = null)
             where TValidator : CustomValidatorAttribute;
     }
 }

@@ -65,20 +65,6 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_be_able_to_create_validator_manully()
-        {
-            var metadata = CreateMetadata();
-            var context = new ControllerContext();
-
-            // act
-            var modelValidationMetadata = builder.ValidateBy(new DummyModelValidatorAttribute()).Item.Validations.First();
-            var validator = modelValidationMetadata.CreateValidator(metadata, context);
-
-            // assert
-            Assert.NotNull(validator);
-        }
-
-        [Fact]
         public void Should_be_able_to_create_validator_via_user_factory()
         {
             var metadata = CreateMetadata();
@@ -115,6 +101,26 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         [Fact]
         public void Should_get_a_valid_error_message()
+        {
+            // arrange
+            const string PropertyName = "SomePropertyName";
+            const string Message = "The {0} is invalid.";
+            var context = new ControllerContext();
+            var metadata = CreateMetadata(PropertyName);
+
+            var itemBuilder = builder.ValidateBy(() => new DummyConfigureModelValidatorAttribute(), () => Message);
+
+            // act
+            var modelValidationMetadata = itemBuilder.Item.Validations.First();
+            var validator = modelValidationMetadata.CreateValidator(metadata, context);
+            var result = validator.Validate(new object()).First();
+
+            // assert
+            Assert.Equal(result.Message, string.Format(Message, PropertyName));
+        }
+
+        [Fact]
+        public void Should_get_a_valid_error_message_with_custom_configuration()
         {
             // arrange
             const string PropertyName = "SomePropertyName";
