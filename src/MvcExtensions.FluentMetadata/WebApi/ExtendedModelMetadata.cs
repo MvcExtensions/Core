@@ -1,4 +1,5 @@
-﻿namespace MvcExtensions.WebApi
+﻿#if !MVC_3
+namespace MvcExtensions.WebApi
 {
     using System;
     using System.Web.Http.Metadata;
@@ -30,3 +31,4 @@
         public ModelMetadataItem Metadata { get; private set; }
     }
 }
+#endif

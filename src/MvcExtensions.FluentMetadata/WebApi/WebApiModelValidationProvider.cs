@@ -4,7 +4,7 @@
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
 #endregion
-
+#if !MVC_3
 namespace MvcExtensions.WebApi
 {
     using System.Collections.Generic;
@@ -47,3 +47,4 @@ namespace MvcExtensions.WebApi
         }
     }
 }
+#endif

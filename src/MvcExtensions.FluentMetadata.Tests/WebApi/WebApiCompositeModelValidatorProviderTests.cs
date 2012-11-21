@@ -4,7 +4,7 @@
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
 #endregion
-
+#if !MVC_3
 namespace MvcExtensions.FluentMetadata.Tests.WebApi
 {
     using System;
@@ -71,3 +71,4 @@ namespace MvcExtensions.FluentMetadata.Tests.WebApi
         }
     }
 }
+#endif

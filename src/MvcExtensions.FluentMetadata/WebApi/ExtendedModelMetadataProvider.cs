@@ -1,4 +1,5 @@
-﻿namespace MvcExtensions.WebApi
+﻿#if !MVC_3
+namespace MvcExtensions.WebApi
 {
     using System;
     using System.Collections.Generic;
@@ -167,3 +168,4 @@
         }
     }
 }
+#endif

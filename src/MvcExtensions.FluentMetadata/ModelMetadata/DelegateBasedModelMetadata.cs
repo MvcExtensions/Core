@@ -11,8 +11,10 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
+#if !MVC_3
     using ModelValidator = System.Web.Http.Validation.ModelValidator;
     using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
+#endif
 
     /// <summary>
     /// 
@@ -41,6 +43,7 @@ namespace MvcExtensions
             validators.Add(attribute);
         }
 
+#if !MVC_3
         /// <summary>
         /// Creates the validator.
         /// </summary>
@@ -49,6 +52,7 @@ namespace MvcExtensions
         {
             return new WebApiDelegateBasedModelValidator(validatorProviders, validators);
         }
+#endif
 
         /// <summary>
         /// Returns current count of validators 
@@ -69,7 +73,6 @@ namespace MvcExtensions
         {
             return new DelegateBasedModelValidator(metadata, context, validators);
         }
-
 
         internal sealed class DelegateBasedModelValidator : System.Web.Mvc.ModelValidator
         {
@@ -98,6 +101,7 @@ namespace MvcExtensions
             }
         }
 
+#if !MVC_3
         internal sealed class WebApiDelegateBasedModelValidator : ModelValidator
         {
             private readonly IList<DelegateBasedValidatorAttribute> attributes;
@@ -123,6 +127,8 @@ namespace MvcExtensions
                 }
             }
         }
+#endif
+
     }
 
     /// <summary>

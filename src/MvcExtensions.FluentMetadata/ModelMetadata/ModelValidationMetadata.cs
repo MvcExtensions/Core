@@ -12,8 +12,10 @@ namespace MvcExtensions
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+#if !MVC_3
     using DataAnnotationsModelValidator = System.Web.Http.Validation.Validators.DataAnnotationsModelValidator;
     using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
+#endif
 
     /// <summary>
     /// Represents a base class to store validation metadata.
@@ -56,7 +58,8 @@ namespace MvcExtensions
 
             return CreateValidatorCore(metadata, context);
         }
-        
+
+#if !MVC_3     
         /// <summary>
         /// Creates the validator.
         /// </summary>
@@ -71,6 +74,7 @@ namespace MvcExtensions
 
             return new DataAnnotationsModelValidator(validatorProviders, attribute);
         }
+#endif
 
         /// <summary>
         /// Creates validation attribute

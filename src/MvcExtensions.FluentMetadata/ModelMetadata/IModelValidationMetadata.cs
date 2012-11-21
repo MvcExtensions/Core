@@ -10,7 +10,9 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+#if !MVC_3
     using ModelValidatorProvider = System.Web.Http.Validation.ModelValidatorProvider;
+#endif
 
     /// <summary>
     /// Represents an interface to store validation metadata.
@@ -26,11 +28,14 @@ namespace MvcExtensions
         /// <returns></returns>
         ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context);
 
+#if !MVC_3
         /// <summary>
         /// Creates the WebApi validator.
         /// </summary>
         /// <param name="validatorProviders">WebApi validator providers.</param>
         /// <returns></returns>
         System.Web.Http.Validation.ModelValidator CreateWebApiValidator(IEnumerable<ModelValidatorProvider> validatorProviders);
+#endif
+
     }
 }

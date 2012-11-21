@@ -10,11 +10,15 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+#if !MVC_3
     using System.Web.Http;
+#endif
     using System.Web.Mvc;
+#if !MVC_3
     using MvcExtensions.WebApi;
     using DataAnnotationsModelValidatorProvider = System.Web.Http.Validation.Providers.DataAnnotationsModelValidatorProvider;
     using ModelMetadataProvider = System.Web.Http.Metadata.ModelMetadataProvider;
+#endif
 
     /// <summary>
     /// Provides a way to register metadata provider and model metadata configuration classes
@@ -68,7 +72,9 @@ namespace MvcExtensions
         {
             RegisterMetadataConfigurations();
             RegisterMvcProviders();
+#if !MVC_3
             RegisterWebApiProviders(GlobalConfiguration.Configuration);
+#endif
         }
 
         private void RegisterMetadataConfigurations()
@@ -92,6 +98,7 @@ namespace MvcExtensions
             ModelValidatorProviders.Providers.Add(compositeModelValidatorProvider);
         }
 
+#if !MVC_3
         private void RegisterWebApiProviders(HttpConfiguration config)
         {
             var providers = config.Services.GetModelValidatorProviders().OfType<DataAnnotationsModelValidatorProvider>().ToArray();
@@ -108,5 +115,7 @@ namespace MvcExtensions
             var metadataProvider = config.Services.GetModelMetadataProvider();
             config.Services.Replace(typeof(ModelMetadataProvider), new WebApi.ExtendedModelMetadataProvider(Registry, metadataProvider));
         }
+#endif
+
     }
 }
