@@ -67,7 +67,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             // assert
             Assert.NotNull(validator);
             Assert.IsType<DelegateBasedModelMetadata.DelegateBasedModelValidator>(validator);
-            Assert.Equal(2, metadata.GetValidatorsCount());
+            Assert.Equal(2, metadata.InternalValidators.Count());
         }
 
         [Fact]
@@ -82,7 +82,7 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             Assert.NotNull(validator);
             Assert.IsType<DelegateBasedModelMetadata.DelegateBasedModelValidator>(validator);
-            Assert.Equal(2, metadata.GetValidatorsCount());
+            Assert.Equal(2, metadata.InternalValidators.Count());
 
             foreach (string valueToValidate in new[] { "1", "2", "3" })
             {

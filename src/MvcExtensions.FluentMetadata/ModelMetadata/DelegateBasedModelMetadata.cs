@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
@@ -17,22 +18,30 @@ namespace MvcExtensions
 #endif
 
     /// <summary>
-    /// 
+    /// DelegateBasedModelMetadata
     /// </summary>
     public class DelegateBasedModelMetadata : ModelValidationMetadata
     {
         private readonly IList<DelegateBasedValidatorAttribute> validators;
 
         /// <summary>
-        /// 
+        /// DelegateBasedModelMetadata ctor
         /// </summary>
         public DelegateBasedModelMetadata()
         {
             validators = new List<DelegateBasedValidatorAttribute>();
         }
 
+        internal IEnumerable<DelegateBasedValidatorAttribute> InternalValidators
+        {
+            get
+            {
+                return validators;
+            }
+        }
+
         /// <summary>
-        /// 
+        /// Add delagate validator
         /// </summary>
         /// <param name="validate"></param>
         /// <param name="errorMessage"></param>
@@ -53,15 +62,6 @@ namespace MvcExtensions
             return new WebApiDelegateBasedModelValidator(validatorProviders, validators);
         }
 #endif
-
-        /// <summary>
-        /// Returns current count of validators 
-        /// </summary>
-        /// <returns></returns>
-        internal int GetValidatorsCount()
-        {
-            return validators.Count;
-        }
 
         /// <summary>
         /// Creates the validator.

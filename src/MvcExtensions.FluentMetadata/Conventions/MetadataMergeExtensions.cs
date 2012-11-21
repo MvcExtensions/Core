@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Merges <see cref="ModelMetadataItem"/> classes
@@ -115,6 +116,7 @@ namespace MvcExtensions
             if (metadataFrom.Validations.Count > 0)
             {
                 var types = new HashSet<Type>();
+                // get existing validations 
                 foreach (var metadata in metadataTo.Validations)
                 {
                     var type = metadata.GetType();
@@ -124,13 +126,36 @@ namespace MvcExtensions
                     }
                 }
 
-                //TODO: how about Deleged validation? just rewrite it completely?
-
+                DelegateBasedModelMetadata fromDelegateBasedModelMetadata = null;
                 foreach (var validation in metadataFrom.Validations)
                 {
                     if (!types.Contains(validation.GetType()))
                     {
-                        metadataTo.Validations.Add(validation);
+                        if (validation is DelegateBasedModelMetadata)
+                        {
+                            fromDelegateBasedModelMetadata = (DelegateBasedModelMetadata)validation;
+                        }
+                        else
+                        {
+                            metadataTo.Validations.Add(validation);
+                        }
+                    }
+                }
+
+                if (fromDelegateBasedModelMetadata != null)
+                {
+                    var toDelegateBasedModelMetadata = metadataTo.Validations.OfType<DelegateBasedModelMetadata>().FirstOrDefault();
+                    // no delagate validation found; just add a new one
+                    if (toDelegateBasedModelMetadata == null)
+                    {
+                        metadataTo.Validations.Add(fromDelegateBasedModelMetadata);
+                    }
+                    else
+                    {
+                        foreach (var type in fromDelegateBasedModelMetadata.InternalValidators)
+                        {
+                            
+                        }
                     }
                 }
             }

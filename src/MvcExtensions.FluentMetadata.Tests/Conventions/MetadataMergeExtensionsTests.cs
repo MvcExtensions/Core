@@ -394,6 +394,42 @@ namespace MvcExtensions.FluentMetadata.Tests
             Assert.Equal("val", item.Name);
         }
 
+        [Fact]
+        public void DelagateValidation_should_be_add_if_it_was_not_existed()
+        {
+            // arrange
+            var to = new ModelMetadataItem();
+
+            var from = new ModelMetadataItem();
+            new ModelMetadataItemBuilder<string>(from).Validate(p => true);
+            
+            // act
+            from.MergeTo(to);
+
+            // assert
+            var item = to.GetValidation<DelegateBasedModelMetadata>();
+            Assert.NotNull(item);
+            Assert.Equal(1, item.InternalValidators.Count());
+        }
+
+        [Fact]
+        public void DelagateValidation_should_merge_with_existing_delagates()
+        {
+            // arrange
+            var to = new ModelMetadataItem();
+
+            var from = new ModelMetadataItem();
+            new ModelMetadataItemBuilder<string>(from).Validate(p => true);
+
+            // act
+            from.MergeTo(to);
+
+            // assert
+            var item = to.GetValidation<DelegateBasedModelMetadata>();
+            Assert.NotNull(item);
+            Assert.Equal(1, item.InternalValidators.Count());
+        }
+
         class DummyAdditinalSettings : IModelMetadataAdditionalSetting
         {
             public string Name { get; set; }
