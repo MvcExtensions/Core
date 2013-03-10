@@ -38,8 +38,12 @@ namespace MvcExtensions
         /// <param name="context">The filter context.</param>
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            var result = (ViewResultBase)context.Result;
-            CopyViewDataProperties(context.ParentActionViewContext.ViewData, result.ViewData);
+            //copy view data only if action was completed successfuly
+            if (context.Exception == null)
+            {
+                var result = (ViewResultBase)context.Result;
+                CopyViewDataProperties(context.ParentActionViewContext.ViewData, result.ViewData);
+            }
         }
 
         /// <summary>
