@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Reflection;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="ModelMetadataProvider"/>.
@@ -47,7 +48,8 @@ namespace MvcExtensions
         /// Allows to define custom factory to contruct model metadata configuration classes
         /// </summary>
         /// <param name="configurationFactory">A factory to instantiate <see cref="IModelMetadataConfiguration"/> classes</param>
-        public static IRegistrar ConstructMetadataUsing(Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
+        [NotNull]
+        public static IRegistrar ConstructMetadataUsing([NotNull] Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
         {
             Invariant.IsNotNull(configurationFactory, "configurationFactory");
             return Registrar.ConstructMetadataUsing(configurationFactory);
@@ -56,6 +58,7 @@ namespace MvcExtensions
         /// <summary>
         /// Set factory to DependencyResolver
         /// </summary>
+        [NotNull]
         public static IRegistrar ConstructMetadataUsingDependencyResolver()
         {
             return ConstructMetadataUsing(() => DependencyResolver.Current.GetServices<IModelMetadataConfiguration>());
@@ -101,7 +104,7 @@ namespace MvcExtensions
         /// </example>
         /// </param>
         /// <returns></returns>
-        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer(Action<ConfigurationsScanResult> registerFoundConfiguration)
+        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer([NotNull] Action<ConfigurationsScanResult> registerFoundConfiguration)
         {
             return RegisterEachConfigurationWithContainer(From.AllAssemblies(), registerFoundConfiguration);
         }
@@ -123,8 +126,7 @@ namespace MvcExtensions
         /// .RegisterConfigurationsWithContainer(r => container.Register(Component.For(r.InterfaceType).ImplementedBy(r.MetadataConfigurationType).LifeStyle.Transient))
         /// </param>
         /// <returns></returns>
-        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer(
-            IEnumerable<Assembly> forTypesInAssembly, Action<ConfigurationsScanResult> registerFoundConfiguration)
+        public static ModelMetadataRegistrar RegisterEachConfigurationWithContainer([NotNull] IEnumerable<Assembly> forTypesInAssembly, [NotNull] Action<ConfigurationsScanResult> registerFoundConfiguration)
         {
             Invariant.IsNotNull(forTypesInAssembly, "forTypesInAssembly");
             Invariant.IsNotNull(registerFoundConfiguration, "registerConfigurationWithIoC");

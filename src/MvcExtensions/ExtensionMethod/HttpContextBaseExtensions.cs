@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.IO.Compression;
     using System.Linq;
     using System.Web;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="HttpContextBase"/>.
@@ -22,7 +23,7 @@ namespace MvcExtensions
         /// Compresses the specified instance.
         /// </summary>
         /// <param name="instance">The instance.</param>
-        public static void Compress(this HttpContextBase instance)
+        public static void Compress([NotNull] this HttpContextBase instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -77,7 +78,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="duration">The duration.</param>
-        public static void Cache(this HttpContextBase instance, TimeSpan duration)
+        public static void Cache([NotNull] this HttpContextBase instance, TimeSpan duration)
         {
             Invariant.IsNotNull(instance, "instance");
 

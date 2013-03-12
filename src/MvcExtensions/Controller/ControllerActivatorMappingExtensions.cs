@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{Controller, IControllerActivator}"/>.
@@ -24,7 +25,8 @@ namespace MvcExtensions
         /// <typeparam name="TControllerActivator">The type of the controller activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController, TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController, TControllerActivator>([NotNull] this TypeMappingRegistry<Controller, IControllerActivator> instance)
             where TController : Controller
             where TControllerActivator : IControllerActivator
         {
@@ -43,7 +45,8 @@ namespace MvcExtensions
         /// <typeparam name="TControllerActivator">The type of the controller activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TControllerActivator>([NotNull] this TypeMappingRegistry<Controller, IControllerActivator> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TControllerActivator : IControllerActivator
@@ -67,7 +70,8 @@ namespace MvcExtensions
         /// <typeparam name="TControllerActivator">The type of the action invoker.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TController3, TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TController3, TControllerActivator>([NotNull] this TypeMappingRegistry<Controller, IControllerActivator> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TController3 : Controller
@@ -94,7 +98,8 @@ namespace MvcExtensions
         /// <typeparam name="TControllerActivator">The type of the controller activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TController3, TController4, TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TController1, TController2, TController3, TController4, TControllerActivator>([NotNull] this TypeMappingRegistry<Controller, IControllerActivator> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TController3 : Controller
@@ -120,7 +125,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TControllerActivator>(this TypeMappingRegistry<Controller, IControllerActivator> instance, TypeCatalog typeCatalog) where TControllerActivator : IControllerActivator
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IControllerActivator> Register<TControllerActivator>([NotNull] this TypeMappingRegistry<Controller, IControllerActivator> instance, [NotNull] TypeCatalog typeCatalog) where TControllerActivator : IControllerActivator
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -139,7 +145,7 @@ namespace MvcExtensions
             return instance;
         }
 
-        private static void EnsureControllerTypes(IEnumerable<Type> typeCatalog)
+        private static void EnsureControllerTypes([NotNull] IEnumerable<Type> typeCatalog)
         {
             foreach (Type type in typeCatalog.Where(controllerType => !KnownTypes.ControllerType.IsAssignableFrom(controllerType)))
             {

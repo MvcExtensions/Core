@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="HttpResponseBase"/>.
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <param name="json">The json.</param>
-        public static void WriteJson(this HttpResponseBase instance, string json)
+        public static void WriteJson([NotNull] this HttpResponseBase instance, [NotNull] string json)
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(json, "json");

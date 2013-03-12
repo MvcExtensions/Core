@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a Registry class which holds the list of the task that would be executed when bootstrapping the application.
@@ -33,7 +34,7 @@ namespace MvcExtensions
         /// Gets or sets the tasks.
         /// </summary>
         /// <value>The tasks.</value>
-        public virtual IEnumerable<KeyValuePair<Type, Action<object>>> TaskConfigurations
+        [NotNull] public virtual IEnumerable<KeyValuePair<Type, Action<object>>> TaskConfigurations
         {
             get
             {
@@ -46,6 +47,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <returns></returns>
+        [NotNull]
         public IPerRequestTasksRegistry Include<TTask>() where TTask : PerRequestTask
         {
             return Include<TTask>(null);
@@ -57,6 +59,7 @@ namespace MvcExtensions
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <param name="configure">The configure.</param>
         /// <returns></returns>
+        [NotNull]
         public virtual IPerRequestTasksRegistry Include<TTask>(Action<TTask> configure) where TTask : PerRequestTask
         {
             Action<object> modified = null;

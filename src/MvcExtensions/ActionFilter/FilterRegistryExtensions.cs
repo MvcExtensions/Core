@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="IFilterRegistry"/>.
@@ -27,7 +28,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TFilter>(this IFilterRegistry instance, TypeCatalog typeCatalog)
+        [NotNull]
+        public static IFilterRegistry Register<TFilter>([NotNull] this IFilterRegistry instance, [NotNull] TypeCatalog typeCatalog)
             where TFilter : IMvcFilter
         {
             return Register<TFilter>(instance, typeCatalog, filter => { });
@@ -41,7 +43,8 @@ namespace MvcExtensions
         /// <param name="typeCatalog">The controller types.</param>
         /// <param name="configureFilter">The configure filter action.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TFilter>(this IFilterRegistry instance, TypeCatalog typeCatalog, Action<TFilter> configureFilter)
+        [NotNull]
+        public static IFilterRegistry Register<TFilter>([NotNull] this IFilterRegistry instance, [NotNull] TypeCatalog typeCatalog, [NotNull] Action<TFilter> configureFilter)
             where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(instance, "instance");
@@ -68,7 +71,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TFilter1, TFilter2>(this IFilterRegistry instance, TypeCatalog typeCatalog)
+        [NotNull]
+        public static IFilterRegistry Register<TFilter1, TFilter2>([NotNull] this IFilterRegistry instance, [NotNull] TypeCatalog typeCatalog)
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
         {
@@ -87,7 +91,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance, TypeCatalog typeCatalog)
+        [NotNull]
+        public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3>([NotNull] this IFilterRegistry instance, [NotNull] TypeCatalog typeCatalog)
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
             where TFilter3 : IMvcFilter
@@ -108,7 +113,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The controller types.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance, TypeCatalog typeCatalog)
+        [NotNull]
+        public static IFilterRegistry Register<TFilter1, TFilter2, TFilter3, TFilter4>([NotNull] this IFilterRegistry instance, [NotNull] TypeCatalog typeCatalog)
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
             where TFilter3 : IMvcFilter
@@ -127,7 +133,8 @@ namespace MvcExtensions
         /// <typeparam name="TFilter">The type of the filter.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance)
+        [NotNull]
+        public static IFilterRegistry Register<TController, TFilter>([NotNull] this IFilterRegistry instance)
             where TController : Controller
             where TFilter : IMvcFilter
         {
@@ -142,7 +149,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="configureFilter">The configure filter.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Action<TFilter> configureFilter)
+        [NotNull]
+        public static IFilterRegistry Register<TController, TFilter>([NotNull] this IFilterRegistry instance, [NotNull] Action<TFilter> configureFilter)
             where TController : Controller
             where TFilter : IMvcFilter
         {
@@ -162,7 +170,7 @@ namespace MvcExtensions
         /// <typeparam name="TFilter2">The type of the filter2.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2>(this IFilterRegistry instance)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2>([NotNull] this IFilterRegistry instance)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -181,7 +189,7 @@ namespace MvcExtensions
         /// <typeparam name="TFilter3">The type of the filter3.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>([NotNull] this IFilterRegistry instance)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -202,7 +210,7 @@ namespace MvcExtensions
         /// <typeparam name="TFilter4">The type of the filter4.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>([NotNull] this IFilterRegistry instance)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -222,7 +230,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="action">The controller action method.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Expression<Action<TController>> action)
+        public static IFilterRegistry Register<TController, TFilter>([NotNull] this IFilterRegistry instance, [NotNull] Expression<Action<TController>> action)
             where TController : Controller
             where TFilter : IMvcFilter
         {
@@ -240,7 +248,7 @@ namespace MvcExtensions
         /// <param name="action">The controller action method.</param>
         /// <param name="configureFilter">The configure filter.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter>(this IFilterRegistry instance, Expression<Action<TController>> action, Action<TFilter> configureFilter)
+        public static IFilterRegistry Register<TController, TFilter>([NotNull] this IFilterRegistry instance, [NotNull] Expression<Action<TController>> action, [NotNull] Action<TFilter> configureFilter)
             where TController : Controller
             where TFilter : IMvcFilter
         {
@@ -260,7 +268,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="action">The controller action method.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2>(this IFilterRegistry instance, Expression<Action<TController>> action)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2>([NotNull] this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -280,7 +288,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="action">The controller action method.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>(this IFilterRegistry instance, Expression<Action<TController>> action)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3>([NotNull] this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -302,7 +310,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="action">The controller action method.</param>
         /// <returns></returns>
-        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>(this IFilterRegistry instance, Expression<Action<TController>> action)
+        public static IFilterRegistry Register<TController, TFilter1, TFilter2, TFilter3, TFilter4>([NotNull] this IFilterRegistry instance, Expression<Action<TController>> action)
             where TController : Controller
             where TFilter1 : IMvcFilter
             where TFilter2 : IMvcFilter
@@ -314,7 +322,8 @@ namespace MvcExtensions
             return instance.Register(action, CreateFilterFactories(instance, typeof(TFilter1), typeof(TFilter2), typeof(TFilter3), typeof(TFilter4)).ToArray());
         }
 
-        private static IFilterRegistry Register(IFilterRegistry instance, IEnumerable<Type> typeCatalog, params Type[] filterTypes)
+        [NotNull]
+        private static IFilterRegistry Register([NotNull] IFilterRegistry instance, [NotNull] IEnumerable<Type> typeCatalog, [NotNull] params Type[] filterTypes)
         {
             IList<Type> controllerTypes = typeCatalog.ToList();
 
@@ -328,7 +337,7 @@ namespace MvcExtensions
             return instance;
         }
 
-        private static void EnsureControllerTypes(IEnumerable<Type> typeCatalog)
+        private static void EnsureControllerTypes([NotNull] IEnumerable<Type> typeCatalog)
         {
             foreach (Type controllerType in typeCatalog.Where(controllerType => !KnownTypes.ControllerType.IsAssignableFrom(controllerType)))
             {
@@ -336,12 +345,14 @@ namespace MvcExtensions
             }
         }
 
-        private static IEnumerable<Func<IMvcFilter>> CreateFilterFactories(IFilterRegistry registry, params Type[] filterTypes)
+        [NotNull]
+        private static IEnumerable<Func<IMvcFilter>> CreateFilterFactories([NotNull] IFilterRegistry registry, [NotNull] params Type[] filterTypes)
         {
             return filterTypes.Select(filterType => new Func<IMvcFilter>(() => registry.Container.GetService(filterType) as IMvcFilter)).ToArray();
         }
 
-        private static IEnumerable<Func<IMvcFilter>> CreateAndConfigureFilterFactory<TFilter>(IFilterRegistry registry, Action<TFilter> configureFilter) where TFilter : IMvcFilter
+        [NotNull]
+        private static IEnumerable<Func<IMvcFilter>> CreateAndConfigureFilterFactory<TFilter>([NotNull] IFilterRegistry registry, [NotNull] Action<TFilter> configureFilter) where TFilter : IMvcFilter
         {
             return new List<Func<IMvcFilter>>
                        {

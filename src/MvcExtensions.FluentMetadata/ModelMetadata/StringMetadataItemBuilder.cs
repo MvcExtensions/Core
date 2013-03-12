@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Diagnostics;
     using System.Runtime.CompilerServices;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to fluently configure metadata of a <seealso cref="string"/> type.
@@ -144,7 +145,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> AsEmail(this ModelMetadataItemBuilder<string> self)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> AsEmail([NotNull] this ModelMetadataItemBuilder<string> self)
         {
             self.Template("EmailAddress");
 
@@ -161,7 +163,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> AsHtml(this ModelMetadataItemBuilder<string> self)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> AsHtml([NotNull] this ModelMetadataItemBuilder<string> self)
         {
             return self.Template("Html");
         }
@@ -171,7 +174,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> AsUrl(this ModelMetadataItemBuilder<string> self)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> AsUrl([NotNull] this ModelMetadataItemBuilder<string> self)
         {
             self.Template("Url");
 
@@ -188,7 +192,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> AsMultilineText(this ModelMetadataItemBuilder<string> self)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> AsMultilineText([NotNull] this ModelMetadataItemBuilder<string> self)
         {
             return self.Template("MultilineText");
         }
@@ -198,7 +203,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="self"></param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> AsPassword(this ModelMetadataItemBuilder<string> self)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> AsPassword([NotNull] this ModelMetadataItemBuilder<string> self)
         {
             return self.Template("Password");
         }
@@ -209,7 +215,8 @@ namespace MvcExtensions
         /// <param name="self"></param>
         /// <param name="pattern">The pattern.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> Expression([NotNull] this ModelMetadataItemBuilder<string> self, string pattern)
         {
             return Expression(self, pattern, null, null, null);
         }
@@ -221,7 +228,8 @@ namespace MvcExtensions
         /// <param name="pattern">The pattern.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, string errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> Expression([NotNull] this ModelMetadataItemBuilder<string> self, string pattern, string errorMessage)
         {
             return Expression(self, pattern, () => errorMessage);
         }
@@ -233,7 +241,8 @@ namespace MvcExtensions
         /// <param name="pattern">The pattern.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> Expression([NotNull] this ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage)
         {
             return Expression(self, pattern, errorMessage, null, null);
         }
@@ -246,7 +255,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> Expression(this ModelMetadataItemBuilder<string> self, string pattern, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> Expression([NotNull] this ModelMetadataItemBuilder<string> self, string pattern, Type errorMessageResourceType, string errorMessageResourceName)
         {
             return Expression(self, pattern, null, errorMessageResourceType, errorMessageResourceName);
         }
@@ -257,7 +267,8 @@ namespace MvcExtensions
         /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MaximumLength(this ModelMetadataItemBuilder<string> self, int length)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MaximumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length)
         {
             return MaximumLength(self, length, null, null, null);
         }
@@ -269,7 +280,8 @@ namespace MvcExtensions
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MaximumLength(this ModelMetadataItemBuilder<string> self, int length, string errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MaximumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, string errorMessage)
         {
             return MaximumLength(self, length, () => errorMessage);
         }
@@ -281,7 +293,8 @@ namespace MvcExtensions
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MaximumLength(this ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MaximumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
         {
             return MaximumLength(self, length, errorMessage, null, null);
         }
@@ -294,7 +307,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MaximumLength(this ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MaximumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
         {
             return MaximumLength(self, length, null, errorMessageResourceType, errorMessageResourceName);
         }
@@ -305,7 +319,8 @@ namespace MvcExtensions
         /// <param name="self"></param>
         /// <param name="length">The length.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MinimumLength(this ModelMetadataItemBuilder<string> self, int length)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MinimumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length)
         {
             return MinimumLength(self, length, null, null, null);
         }
@@ -317,7 +332,8 @@ namespace MvcExtensions
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MinimumLength(this ModelMetadataItemBuilder<string> self, int length, string errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MinimumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, string errorMessage)
         {
             return MinimumLength(self, length, () => errorMessage);
         }
@@ -329,7 +345,8 @@ namespace MvcExtensions
         /// <param name="length">The length.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MinimumLength(this ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MinimumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage)
         {
             return MinimumLength(self, length, errorMessage, null, null);
         }
@@ -342,7 +359,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<string> MinimumLength(this ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<string> MinimumLength([NotNull] this ModelMetadataItemBuilder<string> self, int length, Type errorMessageResourceType, string errorMessageResourceName)
         {
             return MinimumLength(self, length, null, errorMessageResourceType, errorMessageResourceName);
         }
@@ -356,7 +374,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        private static ModelMetadataItemBuilder<string> Expression(ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        private static ModelMetadataItemBuilder<string> Expression([NotNull] ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             var regularExpressionValidation = self.Item.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
             
@@ -377,7 +396,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        private static ModelMetadataItemBuilder<string> MaximumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        private static ModelMetadataItemBuilder<string> MaximumLength([NotNull] ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             var stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
@@ -398,7 +418,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        private static ModelMetadataItemBuilder<string> MinimumLength(ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        private static ModelMetadataItemBuilder<string> MinimumLength([NotNull] ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             var stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 

@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to configure <seealso cref="FilterAttribute"/> for <see cref="Controller"/> or action methods.
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ConfigureFiltersBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureFiltersBase(IFilterRegistry registry)
+        protected ConfigureFiltersBase([NotNull] IFilterRegistry registry)
         {
             Invariant.IsNotNull(registry, "registry");
 

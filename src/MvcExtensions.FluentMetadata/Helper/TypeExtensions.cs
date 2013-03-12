@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Globalization;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Extensions for <see cref="Type"/>
@@ -22,7 +23,7 @@ namespace MvcExtensions
         /// <param name="attributeProvider"></param>
         /// <typeparam name="TAttribute"></typeparam>
         /// <returns></returns>
-        public static TAttribute FirstOrDefault<TAttribute>(this ICustomAttributeProvider attributeProvider)
+        public static TAttribute FirstOrDefault<TAttribute>([NotNull] this ICustomAttributeProvider attributeProvider)
             where TAttribute : Attribute
         {
             var attributes = attributeProvider.GetCustomAttributes(typeof(TAttribute), true);
@@ -68,7 +69,7 @@ namespace MvcExtensions
         /// <param name="key"></param>
         /// <returns></returns>
         /// <exception cref="InvalidOperationException"></exception>
-        public static string GetResourceValueByPropertyLookup(this Type resourceType, string key)
+        public static string GetResourceValueByPropertyLookup([NotNull] this Type resourceType, string key)
         {
             if (string.IsNullOrEmpty(key))
             {

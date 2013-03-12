@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to configure mapping between view page activator and view.
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ConfigureViewPageActivatorsBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureViewPageActivatorsBase(TypeMappingRegistry<IView, IViewPageActivator> registry) : base(registry)
+        protected ConfigureViewPageActivatorsBase([NotNull] TypeMappingRegistry<IView, IViewPageActivator> registry) : base(registry)
         {
         }
     }

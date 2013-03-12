@@ -2,6 +2,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Runtime.CompilerServices;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// 
@@ -16,7 +17,8 @@ namespace MvcExtensions
         /// <param name="minimum">The minimum.</param>
         /// <param name="maximum">The maximum.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Range<TValue>(this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum)
             where TValue : IComparable
         {
             return self.Range(minimum, maximum, null, null, null);
@@ -30,7 +32,8 @@ namespace MvcExtensions
         /// <param name="maximum">The maximum.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Range<TValue>(this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, string errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, string errorMessage)
             where TValue : IComparable
         {
             return self.Range(minimum, maximum, () => errorMessage);
@@ -44,7 +47,8 @@ namespace MvcExtensions
         /// <param name="maximum">The maximum.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Range<TValue>(this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Func<string> errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Func<string> errorMessage)
             where TValue : IComparable
         {
             return self.Range(minimum, maximum, errorMessage, null, null);
@@ -59,7 +63,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> Range<TValue>(this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : IComparable
         {
             return self.Range(minimum, maximum, null, errorMessageResourceType, errorMessageResourceName);
@@ -72,7 +77,8 @@ namespace MvcExtensions
         /// <param name="minimum">The minimum.</param>
         /// <param name="maximum">The maximum.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue?> Range<TValue>(this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum)
             where TValue : struct, IComparable 
         {
             return self.Range(minimum, maximum, null, null, null);
@@ -86,7 +92,8 @@ namespace MvcExtensions
         /// <param name="maximum">The maximum.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue?> Range<TValue>(this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, string errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, string errorMessage)
             where TValue : struct, IComparable
         {
             return self.Range(minimum, maximum, () => errorMessage);
@@ -100,7 +107,8 @@ namespace MvcExtensions
         /// <param name="maximum">The maximum.</param>
         /// <param name="errorMessage">The error message.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue?> Range<TValue>(this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Func<string> errorMessage)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Func<string> errorMessage)
             where TValue : struct, IComparable
         {
             return self.Range(minimum, maximum, errorMessage, null, null);
@@ -115,7 +123,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue?> Range<TValue>(this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : struct, IComparable
         {
             return self.Range(minimum, maximum, null, errorMessageResourceType, errorMessageResourceName);
@@ -131,7 +140,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        private static ModelMetadataItemBuilder<TValue> Range<TValue>(this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        private static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : IComparable
         {
             var rangeValidation = self.Item.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();
@@ -155,7 +165,8 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
-        private static ModelMetadataItemBuilder<TValue?> Range<TValue>(this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
+        [NotNull]
+        private static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : struct, IComparable
         {
             var rangeValidation = self.Item.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();

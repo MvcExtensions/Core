@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Holds all configaration types
@@ -33,6 +34,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="assemblies">Assemlies to scan for types</param>
         /// <returns></returns>
+        [NotNull]
         public static ConfigurationsScanner GetMetadataClasses(IEnumerable<Assembly> assemblies)
         {
             if (assemblies == null)
@@ -50,6 +52,7 @@ namespace MvcExtensions
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
+        [NotNull]
         public IEnumerator<ConfigurationsScanResult> GetEnumerator()
         {
             return GetConfigurationTypes().GetEnumerator();
@@ -62,6 +65,7 @@ namespace MvcExtensions
         /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>2</filterpriority>
+        [NotNull]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -70,7 +74,7 @@ namespace MvcExtensions
         /// <summary>
         /// Performs the specified action to all of the assembly scan results.
         /// </summary>
-        public void ForEach(Action<ConfigurationsScanResult> action)
+        public void ForEach([NotNull] Action<ConfigurationsScanResult> action)
         {
             Invariant.IsNotNull(action, "action");
             foreach (var result in this)
@@ -82,12 +86,14 @@ namespace MvcExtensions
         /// <summary>
         /// Perfoms a search for all <see cref="IModelMetadataConfiguration"/> types
         /// </summary>
+        [NotNull]
         public IEnumerable<ConfigurationsScanResult> GetConfigurationTypes()
         {
             return GetConfigurationTypes(types);
         }
 
-        private static IEnumerable<ConfigurationsScanResult> GetConfigurationTypes(IEnumerable<Type> types)
+        [NotNull]
+        private static IEnumerable<ConfigurationsScanResult> GetConfigurationTypes([NotNull] IEnumerable<Type> types)
         {
             var modelMetadataConfigurationType = typeof(IModelMetadataConfiguration);
             return types

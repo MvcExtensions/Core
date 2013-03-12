@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="ModelMetadataItem"/>.
@@ -23,7 +24,8 @@ namespace MvcExtensions
         /// <param name="item"></param>
         /// <typeparam name="TValidationMetadata"></typeparam>
         /// <returns>Model validation metadata of type <typeparamref name="TValidationMetadata"/></returns>
-        public static TValidationMetadata GetValidationOrCreateNew<TValidationMetadata>(this ModelMetadataItem item)
+        [NotNull]
+        public static TValidationMetadata GetValidationOrCreateNew<TValidationMetadata>([NotNull] this ModelMetadataItem item)
             where TValidationMetadata : class, IModelValidationMetadata, new()
         {
             var validation = item.GetValidation<TValidationMetadata>();
@@ -43,7 +45,8 @@ namespace MvcExtensions
         /// <param name="item"></param>
         /// <typeparam name="TValidationMetadata"></typeparam>
         /// <returns>Model validation metadata of type <typeparamref name="TValidationMetadata"/> or null</returns>
-        public static TValidationMetadata GetValidation<TValidationMetadata>(this ModelMetadataItem item)
+        [CanBeNull]
+        public static TValidationMetadata GetValidation<TValidationMetadata>([NotNull] this ModelMetadataItem item)
             where TValidationMetadata : IModelValidationMetadata
         {
             return item.Validations.OfType<TValidationMetadata>().SingleOrDefault();
@@ -56,7 +59,8 @@ namespace MvcExtensions
         /// <param name="item"></param>
         /// <typeparam name="TSetting"></typeparam>
         /// <returns>Model validation metadata of type <typeparamref name="TSetting"/></returns>
-        public static TSetting GetAdditionalSettingOrCreateNew<TSetting>(this ModelMetadataItem item)
+        [NotNull]
+        public static TSetting GetAdditionalSettingOrCreateNew<TSetting>([NotNull] this ModelMetadataItem item)
             where TSetting : class, IModelMetadataAdditionalSetting, new()
         {
             var setting = item.GetAdditionalSetting<TSetting>();
@@ -76,7 +80,8 @@ namespace MvcExtensions
         /// <param name="item"></param>
         /// <typeparam name="TSetting"></typeparam>
         /// <returns>Model validation metadata of type <typeparamref name="TSetting"/> or null</returns>
-        public static TSetting GetAdditionalSetting<TSetting>(this ModelMetadataItem item)
+        [CanBeNull]
+        public static TSetting GetAdditionalSetting<TSetting>([NotNull] this ModelMetadataItem item)
             where TSetting : IModelMetadataAdditionalSetting
         {
             return item.AdditionalSettings.OfType<TSetting>().FirstOrDefault();

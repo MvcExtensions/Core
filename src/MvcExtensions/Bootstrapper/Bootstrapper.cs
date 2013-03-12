@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class which is used to execute application startup and cleanup tasks.
@@ -29,7 +30,7 @@ namespace MvcExtensions
         /// <param name="buildManager">The build manager.</param>
         /// <param name="bootstrapperTasks">The bootstrapper tasks.</param>
         /// <param name="perRequestTasks">The per request tasks.</param>
-        protected Bootstrapper(IBuildManager buildManager, IBootstrapperTasksRegistry bootstrapperTasks, IPerRequestTasksRegistry perRequestTasks)
+        protected Bootstrapper([NotNull] IBuildManager buildManager, [NotNull] IBootstrapperTasksRegistry bootstrapperTasks, IPerRequestTasksRegistry perRequestTasks)
         {
             Invariant.IsNotNull(buildManager, "buildManager");
             Invariant.IsNotNull(bootstrapperTasks, "bootstrapperTasks");
@@ -146,7 +147,7 @@ namespace MvcExtensions
         /// </summary>
         protected abstract void LoadModules();
 
-        private void Cleanup<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
+        private void Cleanup<TTask>([NotNull] IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
             foreach (var task in tasks.Select(taskConfiguration => (TTask)Adapter.GetService(taskConfiguration.Key)))
             {
@@ -165,7 +166,7 @@ namespace MvcExtensions
             return adapter;
         }
 
-        private void Execute<TTask>(IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
+        private void Execute<TTask>([NotNull] IEnumerable<KeyValuePair<Type, Action<object>>> tasks) where TTask : Task
         {
             var shouldSkip = false;
 
@@ -197,7 +198,7 @@ namespace MvcExtensions
             }
         }
 
-        private void Register(ContainerAdapter adapter)
+        private void Register([NotNull] ContainerAdapter adapter)
         {
             adapter.RegisterInstance(RouteTable.Routes)
                 .RegisterInstance(BuildManager)
@@ -236,7 +237,7 @@ namespace MvcExtensions
             /// Initializes a module and prepares it to handle requests.
             /// </summary>
             /// <param name="context">An <see cref="T:System.Web.HttpApplication"/> that provides access to the methods, properties, and events common to all application objects within an ASP.NET application </param>
-            public void Init(HttpApplication context)
+            public void Init([NotNull] HttpApplication context)
             {
                 lock (lockSync)
                 {

@@ -7,6 +7,8 @@
 
 namespace MvcExtensions
 {
+    using JetBrains.Annotations;
+
     /// <summary>
     /// Defines a class to configure type mapping.
     /// </summary>
@@ -18,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ConfigurableTypeMappingBase{TType1,TType2}"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigurableTypeMappingBase(TypeMappingRegistry<TType1, TType2> registry)
+        protected ConfigurableTypeMappingBase([NotNull] TypeMappingRegistry<TType1, TType2> registry)
         {
             Invariant.IsNotNull(registry, "registry");
 

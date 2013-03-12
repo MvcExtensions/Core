@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Web.Mvc;
     using System.Web.Mvc.Async;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The Default IoC backed <seealso cref="IControllerActivator"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// <param name="container">The container.</param>
         /// <param name="controllerActivatorRegistry">The controller activator registry.</param>
         /// <param name="actionInvokerRegistry">The action invoker registry.</param>
-        public ExtendedControllerActivator(ContainerAdapter container, TypeMappingRegistry<Controller, IControllerActivator> controllerActivatorRegistry, TypeMappingRegistry<Controller, IActionInvoker> actionInvokerRegistry)
+        public ExtendedControllerActivator([NotNull] ContainerAdapter container, [NotNull] TypeMappingRegistry<Controller, IControllerActivator> controllerActivatorRegistry, [NotNull] TypeMappingRegistry<Controller, IActionInvoker> actionInvokerRegistry)
         {
             Invariant.IsNotNull(container, "container");
             Invariant.IsNotNull(controllerActivatorRegistry, "controllerActivatorRegistry");
@@ -70,6 +71,7 @@ namespace MvcExtensions
         /// <param name="requestContext">The request context.</param>
         /// <param name="controllerType">Type of the controller.</param>
         /// <returns></returns>
+        [CanBeNull]
         public virtual IController Create(RequestContext requestContext, Type controllerType)
         {
             if (controllerType == null)

@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Represents a class to store range validation metadata.
@@ -53,7 +54,7 @@ namespace MvcExtensions
             return new RangeAttributeAdapter(modelMetadata, context, attribute);
         }
 
-        private static Type UnwrapNullable(Type type)
+        private static Type UnwrapNullable([NotNull] Type type)
         {
             Invariant.IsNotNull(type, "type");
 
@@ -62,7 +63,7 @@ namespace MvcExtensions
                        : type;
         }
 
-        private static bool IsNullable(Type type)
+        private static bool IsNullable([NotNull] Type type)
         {
             Invariant.IsNotNull(type, "type");
 

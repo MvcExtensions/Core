@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// 
@@ -37,7 +38,7 @@ namespace MvcExtensions
         /// <param name="containerType"></param>
         /// <param name="propertyName"></param>
         /// <param name="defaultResourceType"></param>
-        public void Transform(DisplayAttribute attr, Type containerType, string propertyName, Type defaultResourceType)
+        public void Transform([NotNull] DisplayAttribute attr, [NotNull] Type containerType, string propertyName, Type defaultResourceType)
         {
             Invariant.IsNotNull(attr, "displayAttribute");
 
@@ -59,7 +60,7 @@ namespace MvcExtensions
             attr.GroupName = GetValue(resourceType, attr.GroupName, null, null); // leave original behaviour
         }
 
-        private static string GetValue(Type resourceType, string propertyValue, string key, string propertyName)
+        private static string GetValue([NotNull] Type resourceType, string propertyValue, string key, string propertyName)
         {
             if (propertyValue != null)
             {

@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Reflection;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// ExpressionUtil
@@ -43,6 +44,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
+        [CanBeNull]
         public string GetPropertyName(Expression expression)
         {
             Visit(expression);
@@ -54,6 +56,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
+        [NotNull]
         public string GetFullPropertyName(Expression expression)
         {
             Visit(expression);
@@ -68,7 +71,7 @@ namespace MvcExtensions
         /// The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
         /// </returns>
         /// <param name="node">The expression to visit.</param>
-        protected override Expression VisitMethodCall(MethodCallExpression node)
+        protected override Expression VisitMethodCall([NotNull] MethodCallExpression node)
         {
             if (node.Arguments.Count != 3)
             {
@@ -94,7 +97,8 @@ namespace MvcExtensions
         /// The modified expression, if it or any subexpression was modified; otherwise, returns the original expression.
         /// </returns>
         /// <param name="node">The expression to visit.</param>
-        protected override Expression VisitMember(MemberExpression node)
+        [NotNull]
+        protected override Expression VisitMember([NotNull] MemberExpression node)
         {
             if (node.Member.MemberType == MemberTypes.Property)
             {

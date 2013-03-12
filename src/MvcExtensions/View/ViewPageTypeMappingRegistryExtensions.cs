@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{IView, IViewActivator}"/>.
@@ -24,7 +25,8 @@ namespace MvcExtensions
         /// <typeparam name="TViewPageActivator">The type of the view page activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView, TViewPageActivator>([NotNull] this TypeMappingRegistry<IView, IViewPageActivator> instance)
             where TView : IView
             where TViewPageActivator : IViewPageActivator
         {
@@ -43,7 +45,8 @@ namespace MvcExtensions
         /// <typeparam name="TViewPageActivator">The type of the view page activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TViewPageActivator>([NotNull] this TypeMappingRegistry<IView, IViewPageActivator> instance)
             where TView1 : IView
             where TView2 : IView
             where TViewPageActivator : IViewPageActivator
@@ -67,7 +70,8 @@ namespace MvcExtensions
         /// <typeparam name="TViewPageActivator">The type of the view page activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TViewPageActivator>([NotNull] this TypeMappingRegistry<IView, IViewPageActivator> instance)
             where TView1 : IView
             where TView2 : IView
             where TView3 : IView
@@ -94,7 +98,8 @@ namespace MvcExtensions
         /// <typeparam name="TViewPageActivator">The type of the controller activator.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TView4, TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance)
+        [NotNull]
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TView1, TView2, TView3, TView4, TViewPageActivator>([NotNull] this TypeMappingRegistry<IView, IViewPageActivator> instance)
             where TView1 : IView
             where TView2 : IView
             where TView3 : IView
@@ -120,7 +125,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TViewPageActivator>(this TypeMappingRegistry<IView, IViewPageActivator> instance, TypeCatalog typeCatalog)
+        [NotNull]
+        public static TypeMappingRegistry<IView, IViewPageActivator> Register<TViewPageActivator>([NotNull] this TypeMappingRegistry<IView, IViewPageActivator> instance, [NotNull] TypeCatalog typeCatalog)
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -138,7 +144,7 @@ namespace MvcExtensions
             return instance;
         }
 
-        private static void EnsureViewTypes(IEnumerable<Type> typeCatalog)
+        private static void EnsureViewTypes([NotNull] IEnumerable<Type> typeCatalog)
         {
             foreach (Type type in typeCatalog.Where(viewType => !KnownTypes.ViewType.IsAssignableFrom(viewType)))
             {

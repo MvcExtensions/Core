@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Transforms error message for <see cref="ValidationAttribute"/>. Applies conventions.
@@ -22,7 +23,7 @@ namespace MvcExtensions
         /// <param name="containerType"> </param>
         /// <param name="propertyName"> </param>
         /// <param name="defaultResource"> </param>
-        public void Transform(ValidationAttribute attr, Type containerType, string propertyName, Type defaultResource)
+        public void Transform([NotNull] ValidationAttribute attr, Type containerType, string propertyName, Type defaultResource)
         {
             if (!LocalizationConventions.Enabled ||
                 (!string.IsNullOrEmpty(attr.ErrorMessage) ||

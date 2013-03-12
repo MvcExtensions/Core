@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Globalization;
     using System.Reflection;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Transforms <see cref="ModelMetadata"/> to apply convensions
@@ -25,7 +26,7 @@ namespace MvcExtensions
         /// Tranform <see cref="ModelMetadata"/>
         /// </summary>
         /// <param name="metadata"></param>
-        public void Transform(ModelMetadata metadata)
+        public void Transform([NotNull] ModelMetadata metadata)
         {
             Invariant.IsNotNull(metadata, "metadata");
 
@@ -63,7 +64,7 @@ namespace MvcExtensions
             }
         }
 
-        private static string RetrieveValue(Type resourceType, string key, string propertyName)
+        private static string RetrieveValue([NotNull] Type resourceType, string key, string propertyName)
         {
             return resourceType.GetResourceValueByPropertyLookup(key) ?? resourceType.GetResourceValueByPropertyLookup(propertyName);
         }

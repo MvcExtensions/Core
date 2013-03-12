@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Runtime.CompilerServices;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="ModelMetadataItemBuilder{TValue}"/>.
@@ -21,7 +22,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<decimal> FormatAsCurrency(this ModelMetadataItemBuilder<decimal> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<decimal> FormatAsCurrency([NotNull] this ModelMetadataItemBuilder<decimal> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -33,7 +35,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<decimal?> FormatAsCurrency(this ModelMetadataItemBuilder<decimal?> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<decimal?> FormatAsCurrency([NotNull] this ModelMetadataItemBuilder<decimal?> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -45,7 +48,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<DateTime> FormatAsDateOnly(this ModelMetadataItemBuilder<DateTime> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<DateTime> FormatAsDateOnly([NotNull] this ModelMetadataItemBuilder<DateTime> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -57,7 +61,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<DateTime?> FormatAsDateOnly(this ModelMetadataItemBuilder<DateTime?> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<DateTime?> FormatAsDateOnly([NotNull] this ModelMetadataItemBuilder<DateTime?> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -69,7 +74,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<DateTime> FormatAsTimeOnly(this ModelMetadataItemBuilder<DateTime> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<DateTime> FormatAsTimeOnly([NotNull] this ModelMetadataItemBuilder<DateTime> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -81,7 +87,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<DateTime?> FormatAsTimeOnly(this ModelMetadataItemBuilder<DateTime?> instance)
+        [NotNull]
+        public static ModelMetadataItemBuilder<DateTime?> FormatAsTimeOnly([NotNull] this ModelMetadataItemBuilder<DateTime?> instance)
         {
             Invariant.IsNotNull(instance, "instance");
 

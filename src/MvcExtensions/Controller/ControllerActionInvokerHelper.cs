@@ -10,10 +10,11 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     internal static class ControllerActionInvokerHelper
     {
-        public static void Inject(IServiceInjector container, FilterInfo filters)
+        public static void Inject([NotNull] IServiceInjector container, [NotNull] FilterInfo filters)
         {
             ICollection<object> injectedFilters = new HashSet<object>();
 
@@ -23,12 +24,12 @@ namespace MvcExtensions
             Inject(container, injectedFilters, filters.ExceptionFilters);
         }
 
-        private static bool IsFilterAttribute<TFilter>(TFilter filter)
+        private static bool IsFilterAttribute<TFilter>([NotNull] TFilter filter)
         {
             return KnownTypes.FilterType.IsAssignableFrom(filter.GetType());
         }
 
-        private static void Inject<TFilter>(IServiceInjector container, ICollection<object> injectedFilters, IEnumerable<TFilter> filters) 
+        private static void Inject<TFilter>([NotNull] IServiceInjector container, [NotNull] ICollection<object> injectedFilters, [NotNull] IEnumerable<TFilter> filters) 
             where TFilter : class
         {
             foreach (TFilter filter in filters.Where(filter => !injectedFilters.Contains(filter) && IsFilterAttribute(filter)))

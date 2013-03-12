@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class which is used to hold the general type mapping.
@@ -33,7 +34,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="type1">The type1.</param>
         /// <param name="type2">The type2.</param>
-        public virtual void Register(Type type1, Type type2)
+        public virtual void Register([NotNull] Type type1, [NotNull] Type type2)
         {
             Invariant.IsNotNull(type1, "type1");
             Invariant.IsNotNull(type2, "type2");
@@ -66,7 +67,7 @@ namespace MvcExtensions
             return IsRegistered(type) ? Mappings[type] : null;
         }
 
-        private static void EnsureType(Type parent, Type child, string parameterName)
+        private static void EnsureType([NotNull] Type parent, Type child, string parameterName)
         {
             if (!parent.IsAssignableFrom(child))
             {

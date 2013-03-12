@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="IActionInvoker"/>.
@@ -21,7 +22,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterActionInvokers"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterActionInvokers(ContainerAdapter container)
+        public RegisterActionInvokers([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 

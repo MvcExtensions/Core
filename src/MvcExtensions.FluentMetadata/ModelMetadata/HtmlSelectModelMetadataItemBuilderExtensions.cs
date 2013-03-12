@@ -24,7 +24,8 @@ namespace MvcExtensions
         /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{T}"/>.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
         {
             return self.AsDropDownList(viewDataKey, (Func<string>)null);
         }
@@ -36,7 +37,8 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel)
         {
             return self.AsDropDownList(viewDataKey, () => optionLabel);
         }
@@ -48,7 +50,8 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <param name="optionLabel">The option label.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel)
         {
             return self.AsDropDownList(viewDataKey, optionLabel, "DropDownList");
         }
@@ -61,7 +64,8 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey, string optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return self.AsDropDownList(viewDataKey, () => optionLabel, template);
         }
@@ -74,7 +78,8 @@ namespace MvcExtensions
         /// <param name="optionLabel">The option label.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsDropDownList<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey, Func<string> optionLabel, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return HtmlSelect(self, template, viewDataKey, optionLabel);
         }
@@ -85,7 +90,8 @@ namespace MvcExtensions
         /// <param name="self">The instance.</param>
         /// <param name="viewDataKey">The view data key, the value of the view data key must be a <seealso cref="IEnumerable{SelectListItem}"/>.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey)
         {
             return self.AsListBox(viewDataKey, "ListBox");
         }
@@ -97,12 +103,14 @@ namespace MvcExtensions
         /// <param name="viewDataKey">The view data key.</param>
         /// <param name="template">The template.</param>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>(this ModelMetadataItemBuilder<TValue> self, string viewDataKey, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TValue> AsListBox<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, string viewDataKey, [AspMvcEditorTemplate, AspMvcDisplayTemplate]string template)
         {
             return HtmlSelect(self, template, viewDataKey, null);
         }
 
-        private static ModelMetadataItemBuilder<TValue> HtmlSelect<TValue>(ModelMetadataItemBuilder<TValue> self, string templateName, string viewDataKey, Func<string> optionLabel)
+        [NotNull]
+        private static ModelMetadataItemBuilder<TValue> HtmlSelect<TValue>([NotNull] ModelMetadataItemBuilder<TValue> self, string templateName, string viewDataKey, Func<string> optionLabel)
         {
             var selectableElementSetting = self.Item.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
 

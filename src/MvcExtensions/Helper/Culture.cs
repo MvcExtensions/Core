@@ -9,10 +9,11 @@ namespace MvcExtensions
 {
     using System.Globalization;
     using System.Diagnostics;
+    using JetBrains.Annotations;
 
     internal static class Culture
     {
-        public static CultureInfo Current
+        [NotNull] public static CultureInfo Current
         {
             [DebuggerStepThrough]
             get
@@ -21,7 +22,7 @@ namespace MvcExtensions
             }
         }
 
-        public static CultureInfo CurrentUI
+        [NotNull] public static CultureInfo CurrentUI
         {
             [DebuggerStepThrough]
             get

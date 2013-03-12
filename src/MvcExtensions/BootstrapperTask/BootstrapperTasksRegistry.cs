@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a Registry class which holds the list of the task that would be executed when bootstrapping the application.
@@ -33,7 +34,7 @@ namespace MvcExtensions
         /// Gets or sets the tasks.
         /// </summary>
         /// <value>The tasks.</value>
-        public virtual IEnumerable<KeyValuePair<Type, Action<object>>> TaskConfigurations
+        [NotNull] public virtual IEnumerable<KeyValuePair<Type, Action<object>>> TaskConfigurations
         {
             get
             {
@@ -46,6 +47,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <returns></returns>
+        [NotNull]
         public IBootstrapperTasksRegistry Include<TTask>() where TTask : BootstrapperTask
         {
             return Include<TTask>(null);
@@ -57,6 +59,7 @@ namespace MvcExtensions
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <param name="configure">The configure.</param>
         /// <returns></returns>
+        [NotNull]
         public virtual IBootstrapperTasksRegistry Include<TTask>(Action<TTask> configure) where TTask : BootstrapperTask
         {
             Action<object> modified = null;
@@ -76,6 +79,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TTask">The type of the task.</typeparam>
         /// <returns></returns>
+        [NotNull]
         public virtual IBootstrapperTasksRegistry Exclude<TTask>() where TTask : BootstrapperTask
         {
             Type taskType = typeof(TTask);
@@ -90,7 +94,7 @@ namespace MvcExtensions
             return this;
         }
 
-        private void Include(Type type, Action<object> configure)
+        private void Include([NotNull] Type type, Action<object> configure)
         {
             IEnumerable<Type> requires = type.GetCustomAttributes(typeof(DependsOnAttribute), true)
                                              .Cast<DependsOnAttribute>()

@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used  resolve model binder for a give type.
@@ -20,7 +21,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="modelBinderRegistry">The model binder registry.</param>
-        public ExtendedModelBinderProvider(ContainerAdapter container, TypeMappingRegistry<object, IModelBinder> modelBinderRegistry)
+        public ExtendedModelBinderProvider([NotNull] ContainerAdapter container, [NotNull] TypeMappingRegistry<object, IModelBinder> modelBinderRegistry)
         {
             Invariant.IsNotNull(container, "container");
             Invariant.IsNotNull(modelBinderRegistry, "modelBinderRegistry");
@@ -50,7 +51,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        public virtual IModelBinder GetBinder(Type modelType)
+        public virtual IModelBinder GetBinder([NotNull] Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 

@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Diagnostics;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="IServiceRegistrar"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// <param name="service">The service.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterInstance<TService>(this IServiceRegistrar instance, TService service)
+        public static IServiceRegistrar RegisterInstance<TService>([NotNull] this IServiceRegistrar instance, TService service)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -37,7 +38,7 @@ namespace MvcExtensions
         /// <param name="service">The service.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterInstance(this IServiceRegistrar instance, object service)
+        public static IServiceRegistrar RegisterInstance([NotNull] this IServiceRegistrar instance, [NotNull] object service)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -51,7 +52,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsPerRequest<TImplementation>(this IServiceRegistrar instance) where TImplementation : class
+        public static IServiceRegistrar RegisterAsPerRequest<TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : class
         {
             return RegisterAsPerRequest<TImplementation, TImplementation>(instance);
         }
@@ -64,7 +65,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsPerRequest<TService, TImplementation>(this IServiceRegistrar instance) where TImplementation : TService where TService : class
+        public static IServiceRegistrar RegisterAsPerRequest<TService, TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : TService where TService : class
         {
             return RegisterType<TService, TImplementation>(instance, LifetimeType.PerRequest);
         }
@@ -76,7 +77,7 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsPerRequest(this IServiceRegistrar instance, Type implementationType)
+        public static IServiceRegistrar RegisterAsPerRequest([NotNull] this IServiceRegistrar instance, Type implementationType)
         {
             return RegisterAsPerRequest(instance, implementationType, implementationType);
         }
@@ -89,7 +90,7 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsPerRequest(this IServiceRegistrar instance, Type serviceType, Type implementationType)
+        public static IServiceRegistrar RegisterAsPerRequest([NotNull] this IServiceRegistrar instance, Type serviceType, Type implementationType)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -103,7 +104,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsSingleton<TImplementation>(this IServiceRegistrar instance) where TImplementation : class
+        public static IServiceRegistrar RegisterAsSingleton<TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : class
         {
             return RegisterAsSingleton<TImplementation, TImplementation>(instance);
         }
@@ -116,7 +117,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsSingleton<TService, TImplementation>(this IServiceRegistrar instance) where TImplementation : TService where TService : class
+        public static IServiceRegistrar RegisterAsSingleton<TService, TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : TService where TService : class
         {
             return RegisterType<TService, TImplementation>(instance, LifetimeType.Singleton);
         }
@@ -128,7 +129,7 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsSingleton(this IServiceRegistrar instance, Type implementationType)
+        public static IServiceRegistrar RegisterAsSingleton([NotNull] this IServiceRegistrar instance, Type implementationType)
         {
             return RegisterAsSingleton(instance, implementationType, implementationType);
         }
@@ -141,7 +142,7 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsSingleton(this IServiceRegistrar instance, Type serviceType, Type implementationType)
+        public static IServiceRegistrar RegisterAsSingleton([NotNull] this IServiceRegistrar instance, Type serviceType, Type implementationType)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -155,7 +156,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsTransient<TImplementation>(this IServiceRegistrar instance) where TImplementation : class
+        public static IServiceRegistrar RegisterAsTransient<TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : class
         {
             return RegisterAsTransient<TImplementation, TImplementation>(instance);
         }
@@ -168,7 +169,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsTransient<TService, TImplementation>(this IServiceRegistrar instance) where TImplementation : TService where TService : class
+        public static IServiceRegistrar RegisterAsTransient<TService, TImplementation>([NotNull] this IServiceRegistrar instance) where TImplementation : TService where TService : class
         {
             return RegisterType<TService, TImplementation>(instance, LifetimeType.Transient);
         }
@@ -180,7 +181,7 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsTransient(this IServiceRegistrar instance, Type implementationType)
+        public static IServiceRegistrar RegisterAsTransient([NotNull] this IServiceRegistrar instance, Type implementationType)
         {
             return RegisterAsTransient(instance, implementationType, implementationType);
         }
@@ -193,14 +194,14 @@ namespace MvcExtensions
         /// <param name="implementationType">Type of the implementation.</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IServiceRegistrar RegisterAsTransient(this IServiceRegistrar instance, Type serviceType, Type implementationType)
+        public static IServiceRegistrar RegisterAsTransient([NotNull] this IServiceRegistrar instance, Type serviceType, Type implementationType)
         {
             Invariant.IsNotNull(instance, "instance");
 
             return instance.RegisterType(serviceType, implementationType, LifetimeType.Transient);
         }
 
-        private static IServiceRegistrar RegisterType<TService, TImplementation>(this IServiceRegistrar instance, LifetimeType lifetime) where TImplementation : TService where TService : class
+        private static IServiceRegistrar RegisterType<TService, TImplementation>([NotNull] this IServiceRegistrar instance, LifetimeType lifetime) where TImplementation : TService where TService : class
         {
             Invariant.IsNotNull(instance, "instance");
 

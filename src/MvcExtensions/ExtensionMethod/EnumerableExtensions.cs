@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="IEnumerable{T}"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="action">The action.</param>
         [DebuggerStepThrough]
-        public static void Each<T>(this IEnumerable<T> instance, Action<T> action)
+        public static void Each<T>(this IEnumerable<T> instance, [NotNull] Action<T> action)
         {
             Invariant.IsNotNull(action, "action");
 

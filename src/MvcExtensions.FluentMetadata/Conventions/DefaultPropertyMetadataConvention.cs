@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Default inplementation of <see cref="IPropertyMetadataConvention"/> class. 
@@ -21,7 +22,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="propertyInfo">Target property information</param>
         /// <returns>true - if metadata can be accepted; otherwise, false</returns>
-        public bool CanBeAccepted(PropertyInfo propertyInfo)
+        public bool CanBeAccepted([NotNull] PropertyInfo propertyInfo)
         {
             return propertyInfo.PropertyType == typeof(T) && CanBeAcceptedCore(propertyInfo);
         }

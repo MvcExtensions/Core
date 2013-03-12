@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// <see cref="Assembly"/> class extensions
@@ -24,7 +25,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="assembly">assembly to scan</param>
         /// <returns>List of loadable types</returns>
-        [DebuggerStepThrough]
+        [NotNull,DebuggerStepThrough]
         public static IEnumerable<Type> GetLoadableTypes(this Assembly assembly)
         {
             IEnumerable<Type> types = null;

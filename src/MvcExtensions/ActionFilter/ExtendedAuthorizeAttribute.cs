@@ -56,7 +56,7 @@ namespace MvcExtensions
         /// Handles the unauthorized request.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        protected virtual void HandleUnauthorized(AuthorizationContext filterContext)
+        protected virtual void HandleUnauthorized([NotNull] AuthorizationContext filterContext)
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 
@@ -68,7 +68,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
         /// <returns></returns>
-        protected virtual HttpValidationStatus OnCacheAuthorization(AuthorizationContext filterContext)
+        protected virtual HttpValidationStatus OnCacheAuthorization([NotNull] AuthorizationContext filterContext)
         {
             Invariant.IsNotNull(filterContext, "filterContext");
 
@@ -77,7 +77,7 @@ namespace MvcExtensions
             return authorized ? HttpValidationStatus.Valid : HttpValidationStatus.IgnoreThisRequest;
         }
 
-        private void CacheValidateHandler(HttpContext context, object data, ref HttpValidationStatus validationStatus)
+        private void CacheValidateHandler(HttpContext context, [NotNull] object data, ref HttpValidationStatus validationStatus)
         {
             validationStatus = OnCacheAuthorization((AuthorizationContext)data);
         }

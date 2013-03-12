@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an interface which is used to  indicates the implemented task can ignore types.
@@ -31,6 +32,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TType">The type of the ignore type.</typeparam>
         /// <returns></returns>
+        [CanBeNull]
         public TBootstrapperTask Ignore<TType>() where TType : TIgnoreType
         {
             IgnoredTypes.Add(typeof(TType));

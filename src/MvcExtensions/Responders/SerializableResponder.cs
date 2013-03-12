@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Net;
     using System.Web;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an abstract class for data responder.
@@ -64,9 +65,9 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="model">The model.</param>
         /// <param name="output">The output.</param>
-        protected abstract void WriteTo(object model, TextWriter output);
+        protected abstract void WriteTo(object model, [NotNull] TextWriter output);
 
-        private void BuildResponse(object model, int httpStatusCode, HttpResponseBase response)
+        private void BuildResponse(object model, int httpStatusCode, [NotNull] HttpResponseBase response)
         {
             response.ContentType = ContentType;
             response.StatusCode = httpStatusCode;

@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defined an attribute which is used to mark the depended tasks
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="DependsOnAttribute"/> class.
         /// </summary>
         /// <param name="taskType">Type of the task.</param>
-        public DependsOnAttribute(Type taskType)
+        public DependsOnAttribute([NotNull] Type taskType)
         {
             Invariant.IsNotNull(taskType, "taskType");
 
@@ -35,7 +36,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="DependsOnAttribute"/> class.
         /// </summary>
         /// <param name="typeName">Name of the type.</param>
-        public DependsOnAttribute(string typeName) : this(Type.GetType(typeName, true, true))
+        public DependsOnAttribute([NotNull] string typeName) : this(Type.GetType(typeName, true, true))
         {
         }
 

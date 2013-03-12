@@ -10,8 +10,9 @@
 
 namespace MvcExtensions {
     using System;
-    
-    
+    using JetBrains.Annotations;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -63,7 +64,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; cannot be null..
         /// </summary>
-        internal static string CannotBeNull {
+        [CanBeNull] internal static string CannotBeNull {
             get {
                 return ResourceManager.GetString("CannotBeNull", resourceCulture);
             }
@@ -72,7 +73,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to You cannot include if you have already specified exclude..
         /// </summary>
-        internal static string ExcludeAlreadyExists {
+        [CanBeNull] internal static string ExcludeAlreadyExists {
             get {
                 return ResourceManager.GetString("ExcludeAlreadyExists", resourceCulture);
             }
@@ -81,7 +82,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Incorrect type, it must be descended of &quot;{0}&quot;..
         /// </summary>
-        internal static string IncorrectTypeMustBeDescended {
+        [CanBeNull] internal static string IncorrectTypeMustBeDescended {
             get {
                 return ResourceManager.GetString("IncorrectTypeMustBeDescended", resourceCulture);
             }
@@ -90,7 +91,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; is not a &quot;{1}&quot; type..
         /// </summary>
-        internal static string IsNotATargetType {
+        [CanBeNull] internal static string IsNotATargetType {
             get {
                 return ResourceManager.GetString("IsNotATargetType", resourceCulture);
             }
@@ -99,7 +100,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to This request has been blocked because sensitive information could be disclosed to third party web sites when this is used in a GET request. To allow GET requests, set JsonRequestBehavior to AllowGet..
         /// </summary>
-        internal static string JsonGet {
+        [CanBeNull] internal static string JsonGet {
             get {
                 return ResourceManager.GetString("JsonGet", resourceCulture);
             }
@@ -108,7 +109,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Responder with the same type &quot;{0}&quot; already exists..
         /// </summary>
-        internal static string SameResponderExists {
+        [CanBeNull] internal static string SameResponderExists {
             get {
                 return ResourceManager.GetString("SameResponderExists", resourceCulture);
             }
@@ -117,7 +118,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to The expression must be a valid controller action..
         /// </summary>
-        internal static string TheExpressionMustBeAValidControllerAction {
+        [CanBeNull] internal static string TheExpressionMustBeAValidControllerAction {
             get {
                 return ResourceManager.GetString("TheExpressionMustBeAValidControllerAction", resourceCulture);
             }

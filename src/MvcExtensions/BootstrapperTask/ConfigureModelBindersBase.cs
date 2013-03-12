@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to configure mapping between model binder and model.
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ConfigureModelBindersBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureModelBindersBase(TypeMappingRegistry<object, IModelBinder> registry) : base(registry)
+        protected ConfigureModelBindersBase([NotNull] TypeMappingRegistry<object, IModelBinder> registry) : base(registry)
         {
         }
     }

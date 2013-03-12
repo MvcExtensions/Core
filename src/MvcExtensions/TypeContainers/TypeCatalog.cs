@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class that is used to filter types for one or more assemblies.
@@ -32,7 +33,7 @@ namespace MvcExtensions
         /// <param name="assemblies">The assemblies.</param>
         /// <param name="includeFilters">The include filters.</param>
         /// <param name="excludeFilters">The exclude filters.</param>
-        protected TypeCatalog(IList<Assembly> assemblies, IList<Predicate<Type>> includeFilters, IList<Predicate<Type>> excludeFilters)
+        protected TypeCatalog([NotNull] IList<Assembly> assemblies, IList<Predicate<Type>> includeFilters, IList<Predicate<Type>> excludeFilters)
         {
             Invariant.IsNotNull(assemblies, "assemblies");
             Invariant.IsNotNull(assemblies, "includeFilters");
@@ -82,6 +83,7 @@ namespace MvcExtensions
         /// <returns>
         /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
         /// </returns>
+        [NotNull]
         public IEnumerator<Type> GetEnumerator()
         {
             IEnumerable<Type> filteredTypes = Assemblies.SelectMany(assembly => assembly.GetExportedTypes());
@@ -100,6 +102,7 @@ namespace MvcExtensions
         /// <returns>
         /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
+        [NotNull]
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

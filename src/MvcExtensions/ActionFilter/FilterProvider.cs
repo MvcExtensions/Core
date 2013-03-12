@@ -3,6 +3,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The default filter provider which extract filters from <see cref="IFilterRegistry"/>
@@ -27,6 +28,7 @@ namespace MvcExtensions
         /// The enumerator that contains all the <see cref="T:System.Web.Mvc.IFilterProvider"/> instances in the service locator.
         /// </returns>
         /// <param name="controllerContext">The controller context.</param><param name="actionDescriptor">The action descriptor.</param>
+        [NotNull]
         public IEnumerable<Filter> GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
             return filterRegistry.Items.Where(item => item.IsMatching(controllerContext, actionDescriptor))

@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a metadata provider which supports conventional DataAnnotations model registration.
@@ -32,7 +33,7 @@ namespace MvcExtensions
         /// <param name="modelAccessor">The model accessor.</param>
         /// <param name="modelType">The type of the model.</param>
         /// <param name="propertyName">The name of the property.</param>
-        protected override ModelMetadata CreateMetadata(IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
+        protected override ModelMetadata CreateMetadata([NotNull] IEnumerable<Attribute> attributes, Type containerType, Func<object> modelAccessor, Type modelType, string propertyName)
         {
             List<Attribute> newAttributes = null;
             if (LocalizationConventions.Enabled && containerType != null && !string.IsNullOrEmpty(propertyName))

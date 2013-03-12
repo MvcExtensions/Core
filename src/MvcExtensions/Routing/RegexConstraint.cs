@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System.Text.RegularExpressions;
     using System.Web;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to ensure the URL parameter value must match the provided expression.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegexConstraint"/> class.
         /// </summary>
         /// <param name="expression">The expression.</param>
-        public RegexConstraint(string expression) : this(expression, false)
+        public RegexConstraint([NotNull] string expression) : this(expression, false)
         {
         }
 
@@ -32,7 +33,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <param name="optional">if set to <c>true</c> [optional].</param>
-        public RegexConstraint(string expression, bool optional)
+        public RegexConstraint([NotNull] string expression, bool optional)
         {
             Invariant.IsNotNull(expression, "expression");
 
@@ -51,7 +52,7 @@ namespace MvcExtensions
         /// <param name="values">The values.</param>
         /// <param name="routeDirection">The route direction.</param>
         /// <returns></returns>
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(HttpContextBase httpContext, Route route, [NotNull] string parameterName, [NotNull] RouteValueDictionary values, RouteDirection routeDirection)
         {
             Invariant.IsNotNull(values, "values");
 

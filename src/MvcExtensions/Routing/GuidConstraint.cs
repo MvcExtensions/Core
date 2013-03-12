@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Web;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to ensure the URL parameter value is <seealso cref="Guid"/>.
@@ -43,7 +44,7 @@ namespace MvcExtensions
         /// <param name="values">The values.</param>
         /// <param name="routeDirection">The route direction.</param>
         /// <returns></returns>
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match(HttpContextBase httpContext, Route route, [NotNull] string parameterName, [NotNull] RouteValueDictionary values, RouteDirection routeDirection)
         {
             Invariant.IsNotNull(values, "values");
 

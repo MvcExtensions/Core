@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="ViewDataDictionary"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TValue Get<TValue>(this ViewDataDictionary instance)
+        public static TValue Get<TValue>([NotNull] this ViewDataDictionary instance)
         {
             return Get<TValue>(instance, MakeKey<TValue>());
         }
@@ -35,7 +36,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="key">The key.</param>
         /// <returns></returns>
-        public static TValue Get<TValue>(this ViewDataDictionary instance, string key)
+        public static TValue Get<TValue>([NotNull] this ViewDataDictionary instance, string key)
         {
             return Get(instance, key, default(TValue));
         }
@@ -48,7 +49,7 @@ namespace MvcExtensions
         /// <param name="key">The key.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns></returns>
-        public static TValue Get<TValue>(this ViewDataDictionary instance, string key, TValue defaultValue)
+        public static TValue Get<TValue>([NotNull] this ViewDataDictionary instance, string key, TValue defaultValue)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -61,7 +62,7 @@ namespace MvcExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <param name="value">The value.</param>
-        public static void Set<TValue>(this ViewDataDictionary instance, TValue value)
+        public static void Set<TValue>([NotNull] this ViewDataDictionary instance, TValue value)
         {
             Set(instance, MakeKey<TValue>(), value);
         }
@@ -73,7 +74,7 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="key">The key.</param>
         /// <param name="value">The value.</param>
-        public static void Set<TValue>(this ViewDataDictionary instance, string key, TValue value)
+        public static void Set<TValue>([NotNull] this ViewDataDictionary instance, string key, TValue value)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -88,7 +89,7 @@ namespace MvcExtensions
         /// <returns>
         /// <c>true</c> if [contains] [the specified instance]; otherwise, <c>false</c>.
         /// </returns>
-        public static bool Contains<TValue>(this ViewDataDictionary instance)
+        public static bool Contains<TValue>([NotNull] this ViewDataDictionary instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -100,7 +101,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="instance">The instance.</param>
-        public static bool Remove<TValue>(this ViewDataDictionary instance)
+        public static bool Remove<TValue>([NotNull] this ViewDataDictionary instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -112,7 +113,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static string ToJson(this ViewDataDictionary instance)
+        [NotNull]
+        public static string ToJson([NotNull] this ViewDataDictionary instance)
         {
             return ToJson(instance, null);
         }
@@ -123,7 +125,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="jsonConverters">The json converters.</param>
         /// <returns></returns>
-        public static string ToJson(this ViewDataDictionary instance, IEnumerable<JavaScriptConverter> jsonConverters)
+        [NotNull]
+        public static string ToJson([NotNull] this ViewDataDictionary instance, IEnumerable<JavaScriptConverter> jsonConverters)
         {
             return AsSerializable(instance).ToJson(jsonConverters);
         }
@@ -133,7 +136,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static object AsSerializable(this ViewDataDictionary instance)
+        [NotNull]
+        public static object AsSerializable([NotNull] this ViewDataDictionary instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -151,6 +155,7 @@ namespace MvcExtensions
             return result;
         }
 
+        [NotNull]
         private static string MakeKey<TValue>()
         {
             return typeof(TValue).FullName;

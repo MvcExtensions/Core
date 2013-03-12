@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.ComponentModel;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to fluently build <seealso cref="TypeCatalog"/>.
@@ -28,7 +29,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="TypeCatalogBuilder"/> class.
         /// </summary>
         /// <param name="typeCatalog">The type catalog.</param>
-        public TypeCatalogBuilder(TypeCatalog typeCatalog)
+        public TypeCatalogBuilder([NotNull] TypeCatalog typeCatalog)
         {
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
 
@@ -61,7 +62,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="assemblies">The assemblies.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Add(params Assembly[] assemblies)
+        [NotNull]
+        public TypeCatalogBuilder Add([NotNull] params Assembly[] assemblies)
         {
             Invariant.IsNotNull(assemblies, "assemblies");
 
@@ -81,7 +83,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="assemblyNames">The assembly names.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Add(params string[] assemblyNames)
+        [NotNull]
+        public TypeCatalogBuilder Add([NotNull] params string[] assemblyNames)
         {
             Invariant.IsNotNull(assemblyNames, "assemblyNames");
 
@@ -98,7 +101,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="types">The types.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Include(params Type[] types)
+        [NotNull]
+        public TypeCatalogBuilder Include([NotNull] params Type[] types)
         {
             Invariant.IsNotNull(types, "types");
 
@@ -115,7 +119,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="typeNames">The type names.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Include(params string[] typeNames)
+        [NotNull]
+        public TypeCatalogBuilder Include([NotNull] params string[] typeNames)
         {
             Invariant.IsNotNull(typeNames, "typeNames");
 
@@ -132,7 +137,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Include(Predicate<Type> filter)
+        [NotNull]
+        public TypeCatalogBuilder Include([NotNull] Predicate<Type> filter)
         {
             Invariant.IsNotNull(filter, "filter");
 
@@ -146,7 +152,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="types">The types.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Exclude(params Type[] types)
+        [NotNull]
+        public TypeCatalogBuilder Exclude([NotNull] params Type[] types)
         {
             Invariant.IsNotNull(types, "types");
 
@@ -163,7 +170,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="typeNames">The type names.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Exclude(params string[] typeNames)
+        [NotNull]
+        public TypeCatalogBuilder Exclude([NotNull] params string[] typeNames)
         {
             Invariant.IsNotNull(typeNames, "typeNames");
 
@@ -180,7 +188,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        public TypeCatalogBuilder Exclude(Predicate<Type> filter)
+        [NotNull]
+        public TypeCatalogBuilder Exclude([NotNull] Predicate<Type> filter)
         {
             Invariant.IsNotNull(filter, "filter");
 
@@ -189,7 +198,7 @@ namespace MvcExtensions
             return this;
         }
 
-        private static TypeCatalog ToTypeCatalog(TypeCatalogBuilder builder)
+        private static TypeCatalog ToTypeCatalog([NotNull] TypeCatalogBuilder builder)
         {
             Invariant.IsNotNull(builder, "builder");
 

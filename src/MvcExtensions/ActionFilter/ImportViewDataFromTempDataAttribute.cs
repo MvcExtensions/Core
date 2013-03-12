@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an attribute which is used to copy  the previous viewdata from the tempdata into current viewdata.
@@ -73,7 +74,7 @@ namespace MvcExtensions
             filterContext.Controller.TempData.Remove(Key);
         }
 
-        private void Import(IDictionary<string, object> tempData, ViewDataDictionary currentViewData)
+        private void Import([NotNull] IDictionary<string, object> tempData, [NotNull] ViewDataDictionary currentViewData)
         {
             ViewDataDictionary importingViewData = tempData[Key] as ViewDataDictionary;
 

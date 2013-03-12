@@ -10,8 +10,9 @@
 
 namespace MvcExtensions {
     using System;
-    
-    
+    using JetBrains.Annotations;
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -63,7 +64,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot apply email when there is an active expression..
         /// </summary>
-        internal static string CannotApplyEmailWhenThereIsAnActiveExpression {
+        [CanBeNull] internal static string CannotApplyEmailWhenThereIsAnActiveExpression {
             get {
                 return ResourceManager.GetString("CannotApplyEmailWhenThereIsAnActiveExpression", resourceCulture);
             }
@@ -72,7 +73,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Cannot apply url when there is an active expression..
         /// </summary>
-        internal static string CannotApplyUrlWhenThereIsAnActiveExpression {
+        [CanBeNull] internal static string CannotApplyUrlWhenThereIsAnActiveExpression {
             get {
                 return ResourceManager.GetString("CannotApplyUrlWhenThereIsAnActiveExpression", resourceCulture);
             }
@@ -81,7 +82,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to &quot;{0}&quot; cannot be null..
         /// </summary>
-        internal static string CannotBeNull {
+        [CanBeNull] internal static string CannotBeNull {
             get {
                 return ResourceManager.GetString("CannotBeNull", resourceCulture);
             }
@@ -90,7 +91,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Invalid email address format..
         /// </summary>
-        internal static string InvalidEmailAddressFormat {
+        [CanBeNull] internal static string InvalidEmailAddressFormat {
             get {
                 return ResourceManager.GetString("InvalidEmailAddressFormat", resourceCulture);
             }
@@ -99,7 +100,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to Invalid url format..
         /// </summary>
-        internal static string InvalidUrlFormat {
+        [CanBeNull] internal static string InvalidUrlFormat {
             get {
                 return ResourceManager.GetString("InvalidUrlFormat", resourceCulture);
             }
@@ -108,7 +109,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to The property &apos;{0}&apos; on resource type &apos;{1}&apos; is not a string type..
         /// </summary>
-        internal static string ResourcePropertyNotStringType {
+        [CanBeNull] internal static string ResourcePropertyNotStringType {
             get {
                 return ResourceManager.GetString("ResourcePropertyNotStringType", resourceCulture);
             }
@@ -117,7 +118,7 @@ namespace MvcExtensions {
         /// <summary>
         ///   Looks up a localized string similar to The property {0}.{1} could not be found..
         /// </summary>
-        internal static string ThePropertyNameOfTypeCouldNotBeFound {
+        [CanBeNull] internal static string ThePropertyNameOfTypeCouldNotBeFound {
             get {
                 return ResourceManager.GetString("ThePropertyNameOfTypeCouldNotBeFound", resourceCulture);
             }

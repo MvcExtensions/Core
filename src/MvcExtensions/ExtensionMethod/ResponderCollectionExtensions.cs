@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a static class which contains extension method of <see cref="ResponderCollection"/>.
@@ -21,7 +22,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="format">The format.</param>
         /// <returns></returns>
-        public static IResponder Get(this ResponderCollection instance, string format)
+        [CanBeNull]
+        public static IResponder Get([NotNull] this ResponderCollection instance, string format)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -34,7 +36,8 @@ namespace MvcExtensions
         /// <typeparam name="TResponder">The type of the responder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TResponder Get<TResponder>(this ResponderCollection instance) where TResponder : IResponder
+        [CanBeNull]
+        public static TResponder Get<TResponder>([NotNull] this ResponderCollection instance) where TResponder : IResponder
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -53,7 +56,8 @@ namespace MvcExtensions
         /// <typeparam name="TResponder">The type of the responder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static ResponderCollection Include<TResponder>(this ResponderCollection instance) where TResponder : IResponder, new()
+        [NotNull]
+        public static ResponderCollection Include<TResponder>([NotNull] this ResponderCollection instance) where TResponder : IResponder, new()
         {
             return Include<TResponder>(instance, null);
         }
@@ -65,7 +69,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="configure">The configure.</param>
         /// <returns></returns>
-        public static ResponderCollection Include<TResponder>(this ResponderCollection instance, Action<TResponder> configure) where TResponder : IResponder, new()
+        [NotNull]
+        public static ResponderCollection Include<TResponder>([NotNull] this ResponderCollection instance, Action<TResponder> configure) where TResponder : IResponder, new()
         {
             Invariant.IsNotNull(instance, "instance");
 

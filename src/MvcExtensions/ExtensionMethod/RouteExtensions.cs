@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a static class to register RESTFul routes
@@ -82,7 +83,8 @@ namespace MvcExtensions
         /// <typeparam name="TController">The type of the controller.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static AreaRegistrationContext MapResources<TController>(this AreaRegistrationContext instance) where TController : Controller
+        [NotNull]
+        public static AreaRegistrationContext MapResources<TController>([NotNull] this AreaRegistrationContext instance) where TController : Controller
         {
             Type controllerType = typeof(TController);
             string controllerTypeName = controllerType.Name;
@@ -130,17 +132,17 @@ namespace MvcExtensions
             return listType.IsAssignableFrom(controllerType);
         }
 
-        private static bool SupportsDetails(Type controllerType)
+        private static bool SupportsDetails([NotNull] Type controllerType)
         {
             return ImplementsInterface(controllerType, detailsType);
         }
 
-        private static bool SupportsDestroy(Type controllerType)
+        private static bool SupportsDestroy([NotNull] Type controllerType)
         {
             return ImplementsInterface(controllerType, destroyType);
         }
 
-        private static bool SupportsUpdate(Type controllerType)
+        private static bool SupportsUpdate([NotNull] Type controllerType)
         {
             return ImplementsInterface(controllerType, updateType);
         }
@@ -150,17 +152,19 @@ namespace MvcExtensions
             return createType.IsAssignableFrom(controllerType);
         }
 
-        private static string Url(params string[] arguments)
+        [NotNull]
+        private static string Url([NotNull] params string[] arguments)
         {
             return string.Join("/", arguments).ToLower(CultureInfo.CurrentCulture);
         }
 
-        private static string RouteName(params string[] arguments)
+        [NotNull]
+        private static string RouteName([NotNull] params string[] arguments)
         {
             return string.Join("-", arguments).ToLower(CultureInfo.CurrentUICulture);
         }
 
-        private static bool ImplementsInterface(Type classType, Type interfaceType)
+        private static bool ImplementsInterface([NotNull] Type classType, [NotNull] Type interfaceType)
         {
             IEnumerable<Type> targetInterfaces = classType.GetInterfaces()
                 .Where(type => type.IsGenericType && interfaceType.IsAssignableFrom(type.GetGenericTypeDefinition()));

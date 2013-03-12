@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an attribute which is used to support select list elements
@@ -36,7 +37,7 @@ namespace MvcExtensions
         /// Called by the ASP.NET MVC framework after the action method executes.
         /// </summary>
         /// <param name="context">The filter context.</param>
-        public void OnActionExecuted(ActionExecutedContext context)
+        public void OnActionExecuted([NotNull] ActionExecutedContext context)
         {
             var result = context.Result as ViewResultBase;
             if (result != null)
@@ -49,19 +50,20 @@ namespace MvcExtensions
         /// Called by the ASP.NET MVC framework before the action method executes.
         /// </summary>
         /// <param name="context">The filter context.</param>
-        public void OnActionExecuting(ActionExecutingContext context)
+        public void OnActionExecuting([NotNull] ActionExecutingContext context)
         {
             context.ActionParameters[ArgumentName ?? DefaultArgumentName] = GetSelectedValue(context);
         }
 
-        private static void CopyViewDataProperties(ViewDataDictionary source, ViewDataDictionary destination)
+        private static void CopyViewDataProperties([NotNull] ViewDataDictionary source, [NotNull] ViewDataDictionary destination)
         {
             destination.ModelMetadata = source.ModelMetadata;
             destination.TemplateInfo.FormattedModelValue = source.TemplateInfo.FormattedModelValue;
             destination.TemplateInfo.HtmlFieldPrefix = source.TemplateInfo.HtmlFieldPrefix;
         }
 
-        private static Type ExtractGenericInterface(Type queryType, Type interfaceType)
+        [CanBeNull]
+        private static Type ExtractGenericInterface([NotNull] Type queryType, Type interfaceType)
         {
             Func<Type, bool> predicate =
                 t =>
@@ -82,7 +84,7 @@ namespace MvcExtensions
             return queryType.GetInterfaces().FirstOrDefault(predicate);
         }
 
-        private static object GetAttemptedValue(ViewDataDictionary viewData)
+        private static object GetAttemptedValue([NotNull] ViewDataDictionary viewData)
         {
             ModelState modelState;
             if (viewData.ModelState.TryGetValue(viewData.ModelMetadata.PropertyName, out modelState) && modelState.Value != null)
@@ -93,7 +95,8 @@ namespace MvcExtensions
             return null;
         }
 
-        private static Type GetModelType(Type type)
+        [NotNull]
+        private static Type GetModelType([NotNull] Type type)
         {
             if (type.IsArray || type == typeof(string))
             {
@@ -110,7 +113,7 @@ namespace MvcExtensions
             return elementType.MakeArrayType();
         }
 
-        private static object GetSelectedValue(ControllerContext context)
+        private static object GetSelectedValue([NotNull] ControllerContext context)
         {
             var viewData = context.ParentActionViewContext.ViewData;
             return GetAttemptedValue(viewData) ?? viewData.Model;

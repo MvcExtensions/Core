@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register available <seealso cref="IViewEngine"/>.
@@ -20,7 +21,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterViewEngines"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterViewEngines(ContainerAdapter container)
+        public RegisterViewEngines([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 

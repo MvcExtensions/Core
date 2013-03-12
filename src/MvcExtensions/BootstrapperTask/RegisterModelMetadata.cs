@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="ModelMetadataProvider"/>.
@@ -18,7 +19,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterModelMetadata"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterModelMetadata(ContainerAdapter container)
+        public RegisterModelMetadata([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 

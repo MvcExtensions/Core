@@ -28,7 +28,8 @@ namespace MvcExtensions
         /// <param name="action">The child action which should be rendered.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, Func<HtmlHelper, IHtmlString> action)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, Func<HtmlHelper, IHtmlString> action)
         {
             self.Template("RenderAction");
 
@@ -45,7 +46,8 @@ namespace MvcExtensions
         /// <param name="actionName">The name of the action which should be rendered.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName)
         {
             return RenderAction(self, html => html.Action(actionName));
         }
@@ -58,7 +60,8 @@ namespace MvcExtensions
         /// <param name="controllerName">The name of the controller that contains the action.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName));
         }
@@ -71,7 +74,8 @@ namespace MvcExtensions
         /// <param name="routeValues">An object that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, object routeValues)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, object routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, routeValues));
         }
@@ -85,7 +89,8 @@ namespace MvcExtensions
         /// <param name="routeValues">An object that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, object routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
         }
@@ -98,7 +103,8 @@ namespace MvcExtensions
         /// <param name="routeValues">A dictionary that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, RouteValueDictionary routeValues)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, RouteValueDictionary routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, routeValues));
         }
@@ -112,7 +118,8 @@ namespace MvcExtensions
         /// <param name="routeValues">A dictionary that contains the parameters for a route. You can use <paramref name="routeValues"/> to provide the parameters that are bound to the action method parameters. The <paramref name="routeValues"/> parameter is merged with the original route values and overrides them.</param>
         /// <typeparam name="TModel">Type of the model.</typeparam>
         /// <returns></returns>
-        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, RouteValueDictionary routeValues)
+        [NotNull]
+        public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>([NotNull] this ModelMetadataItemBuilder<TModel> self, [AspMvcAction]string actionName, [AspMvcController]string controllerName, RouteValueDictionary routeValues)
         {
             return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
         }

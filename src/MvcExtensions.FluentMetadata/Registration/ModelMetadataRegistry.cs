@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to store all the metadata of the models.
@@ -44,7 +45,7 @@ namespace MvcExtensions
         /// Register a new convention
         /// </summary>
         /// <param name="convention"><see cref="IPropertyMetadataConvention"/> class</param>
-        public virtual void RegisterConvention(IPropertyMetadataConvention convention)
+        public virtual void RegisterConvention([NotNull] IPropertyMetadataConvention convention)
         {
             Invariant.IsNotNull(convention, "convention");
 
@@ -56,7 +57,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="metadataItem">The metadata.</param>
-        public virtual void RegisterModel(Type modelType, ModelMetadataItem metadataItem)
+        public virtual void RegisterModel([NotNull] Type modelType, [NotNull] ModelMetadataItem metadataItem)
         {
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItem, "metadataItem");
@@ -71,7 +72,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="metadataItems">The metadata dictionary.</param>
-        public virtual void RegisterModelProperties(Type modelType, IDictionary<string, ModelMetadataItem> metadataItems)
+        public virtual void RegisterModelProperties([NotNull] Type modelType, [NotNull] IDictionary<string, ModelMetadataItem> metadataItems)
         {
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItems, "metadataItems");
@@ -91,7 +92,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        public ModelMetadataItem GetModelMetadata(Type modelType)
+        public ModelMetadataItem GetModelMetadata([NotNull] Type modelType)
         {
             var item = GetModelMetadataRegistryItem(modelType);
             return item != null ? item.ClassMetadata : null;
@@ -103,7 +104,7 @@ namespace MvcExtensions
         /// <param name="modelType">Type of the model.</param>
         /// <param name="propertyName">Name of the property.</param>
         /// <returns></returns>
-        public virtual ModelMetadataItem GetModelPropertyMetadata(Type modelType, string propertyName)
+        public virtual ModelMetadataItem GetModelPropertyMetadata([NotNull] Type modelType, string propertyName)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
@@ -125,7 +126,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
-        public virtual IDictionary<string, ModelMetadataItem> GetModelPropertiesMetadata(Type modelType)
+        public virtual IDictionary<string, ModelMetadataItem> GetModelPropertiesMetadata([NotNull] Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
@@ -133,7 +134,7 @@ namespace MvcExtensions
             return item == null ? null : item.PropertiesMetadata;
         }
 
-        private ModelMetadataRegistryItem GetModelMetadataRegistryItem(Type modelType)
+        private ModelMetadataRegistryItem GetModelMetadataRegistryItem([NotNull] Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
@@ -150,7 +151,7 @@ namespace MvcExtensions
             return CheckMetadataAndApplyConvetions(modelType, item);
         }
 
-        private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions(Type modelType, ModelMetadataRegistryItem item)
+        private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions([NotNull] Type modelType, ModelMetadataRegistryItem item)
         {
             if (conventions.Count == 0 || NoNeedToApplyConvetionsFor(modelType, item))
             {
@@ -221,7 +222,7 @@ namespace MvcExtensions
             }
         }
 
-        private void ApplyMetadataConvenstions(Type modelType, ModelMetadataRegistryItem item)
+        private void ApplyMetadataConvenstions([NotNull] Type modelType, [NotNull] ModelMetadataRegistryItem item)
         {
             var properties = modelType.GetProperties();
             foreach (var convention in conventions)
@@ -245,7 +246,7 @@ namespace MvcExtensions
             item.IsConventionsApplied = true;
         }
 
-        private ModelMetadataRegistryItem GetOrCreate(Type modelType)
+        private ModelMetadataRegistryItem GetOrCreate([NotNull] Type modelType)
         {
             ModelMetadataRegistryItem item;
 
@@ -289,7 +290,7 @@ namespace MvcExtensions
 
         private sealed class TypeInheritanceComparer : IComparer<Type>
         {
-            public int Compare(Type x, Type y)
+            public int Compare([NotNull] Type x, Type y)
             {
                 return x == y ? 0 : (x.IsAssignableFrom(y) ? 1 : -1);
             }

@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Reflection;
     using System.Web.Compilation;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Helps with configuration types search
@@ -22,6 +23,7 @@ namespace MvcExtensions
         /// Register configuration types from all assemblies
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public static IEnumerable<Assembly> AllAssemblies()
         {
             return BuildManager.GetReferencedAssemblies().Cast<Assembly>().Where(assembly => !assembly.GlobalAssemblyCache).ToList();
@@ -32,7 +34,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static IEnumerable<Assembly> AssemblyContainingType(Type type)
+        public static IEnumerable<Assembly> AssemblyContainingType([NotNull] Type type)
         {
             Invariant.IsNotNull(type, "type");
             yield return type.Assembly;
@@ -42,6 +44,7 @@ namespace MvcExtensions
         /// Register configuration types from the assembly containing type
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public static IEnumerable<Assembly> AssemblyContainingType<T>()
         {
             return AssemblyContainingType(typeof(T));
@@ -51,6 +54,7 @@ namespace MvcExtensions
         /// Register configuration types from current assembly
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public static IEnumerable<Assembly> ThisAssembly()
         {
             return new[] { Assembly.GetCallingAssembly() };

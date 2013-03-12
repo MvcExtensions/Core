@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{T, IModelBinder}"/>.
@@ -23,7 +24,8 @@ namespace MvcExtensions
         /// <typeparam name="TModelBinder">The type of the model binder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<object, IModelBinder> Register<TModel, TModelBinder>(this TypeMappingRegistry<object, IModelBinder> instance)
+        [NotNull]
+        public static TypeMappingRegistry<object, IModelBinder> Register<TModel, TModelBinder>([NotNull] this TypeMappingRegistry<object, IModelBinder> instance)
             where TModelBinder : IModelBinder
         {
             Invariant.IsNotNull(instance, "instance");
@@ -41,7 +43,8 @@ namespace MvcExtensions
         /// <typeparam name="TModelBinder">The type of the model binder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModelBinder>(this TypeMappingRegistry<object, IModelBinder> instance)
+        [NotNull]
+        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModelBinder>([NotNull] this TypeMappingRegistry<object, IModelBinder> instance)
             where TModelBinder : IModelBinder
         {
             Invariant.IsNotNull(instance, "instance");
@@ -63,7 +66,8 @@ namespace MvcExtensions
         /// <typeparam name="TModelBinder">The type of the model binder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModel3, TModelBinder>(this TypeMappingRegistry<object, IModelBinder> instance)
+        [NotNull]
+        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModel3, TModelBinder>([NotNull] this TypeMappingRegistry<object, IModelBinder> instance)
             where TModelBinder : IModelBinder
         {
             Invariant.IsNotNull(instance, "instance");
@@ -87,7 +91,8 @@ namespace MvcExtensions
         /// <typeparam name="TModelBinder">The type of the model binder.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModel3, TModel4, TModelBinder>(this TypeMappingRegistry<object, IModelBinder> instance)
+        [NotNull]
+        public static TypeMappingRegistry<object, IModelBinder> Register<TModel1, TModel2, TModel3, TModel4, TModelBinder>([NotNull] this TypeMappingRegistry<object, IModelBinder> instance)
             where TModelBinder : IModelBinder
         {
             Invariant.IsNotNull(instance, "instance");
@@ -109,7 +114,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<object, IModelBinder> Register<TModelBinder>(this TypeMappingRegistry<object, IModelBinder> instance, TypeCatalog typeCatalog) where TModelBinder : IModelBinder
+        [NotNull]
+        public static TypeMappingRegistry<object, IModelBinder> Register<TModelBinder>([NotNull] this TypeMappingRegistry<object, IModelBinder> instance, [NotNull] TypeCatalog typeCatalog) where TModelBinder : IModelBinder
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");

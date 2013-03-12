@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a constraint which is used to ensure the RESTFul actions conditions are meet.
@@ -72,7 +73,7 @@ namespace MvcExtensions
         /// <returns>
         /// true if the URL parameter contains a valid value; otherwise, false.
         /// </returns>
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
+        public bool Match([NotNull] HttpContextBase httpContext, Route route, string parameterName, [NotNull] RouteValueDictionary values, RouteDirection routeDirection)
         {
             Invariant.IsNotNull(httpContext, "httpContext");
 
@@ -107,11 +108,13 @@ namespace MvcExtensions
         /// <returns>
         /// A <see cref="System.String"/> that represents this instance.
         /// </returns>
+        [NotNull]
         public override string ToString()
         {
             return string.Join(",", verbs);
         }
 
+        [NotNull]
         private static IEnumerable<string> ConvertToStringList(HttpVerbs verb)
         {
             IList<string> list = new List<string>();
@@ -132,7 +135,7 @@ namespace MvcExtensions
             return list;
         }
 
-        private static bool HasId(IDictionary<string, object> values)
+        private static bool HasId([NotNull] IDictionary<string, object> values)
         {
             if (!values.ContainsKey(IdParameterName))
             {

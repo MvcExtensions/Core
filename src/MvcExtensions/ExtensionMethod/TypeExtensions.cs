@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="Type"/>.
@@ -26,7 +27,7 @@ namespace MvcExtensions
         /// <c>true</c> if parameter less constructor exists; otherwise, <c>false</c>.
         /// </returns>
         [DebuggerStepThrough]
-        public static bool HasDefaultConstructor(this Type instance)
+        public static bool HasDefaultConstructor([NotNull] this Type instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -63,7 +64,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        [NotNull,DebuggerStepThrough]
         public static IEnumerable<Type> PublicTypes(this IEnumerable<Assembly> instance)
         {
             return (instance == null) ?
@@ -76,7 +77,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        [NotNull,DebuggerStepThrough]
         public static IEnumerable<Type> ConcreteTypes(this Assembly instance)
         {
             return (instance == null) ?
@@ -90,7 +91,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        [DebuggerStepThrough]
+        [NotNull,DebuggerStepThrough]
         public static IEnumerable<Type> ConcreteTypes(this IEnumerable<Assembly> instance)
         {
             return (instance == null) ?

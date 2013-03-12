@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Diagnostics;
     using System.Globalization;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a utility class to validate method arguments.
@@ -22,7 +23,7 @@ namespace MvcExtensions
         /// <param name="value">The value.</param>
         /// <param name="parameterName">Name of the parameter.</param>
         [DebuggerStepThrough]
-        public static void IsNotNull(object value, string parameterName)
+        public static void IsNotNull([NotNull] object value, string parameterName)
         {
             if (value == null)
             {

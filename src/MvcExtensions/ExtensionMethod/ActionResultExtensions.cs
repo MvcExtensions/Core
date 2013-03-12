@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a static class which contains extension methods for flash messages.
@@ -22,7 +23,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<RedirectResult> WithFlash(this RedirectResult instance, object arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<RedirectResult> WithFlash([NotNull] this RedirectResult instance, object arguments)
         {
             return Flash(instance, ToDictionary(arguments));
         }
@@ -33,7 +35,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<RedirectResult> WithFlash(this RedirectResult instance, IDictionary<string, string> arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<RedirectResult> WithFlash([NotNull] this RedirectResult instance, [NotNull] IDictionary<string, string> arguments)
         {
             return Flash(instance, arguments);
         }
@@ -44,7 +47,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<RedirectToRouteResult> WithFlash(this RedirectToRouteResult instance, object arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<RedirectToRouteResult> WithFlash([NotNull] this RedirectToRouteResult instance, object arguments)
         {
             return Flash(instance, ToDictionary(arguments));
         }
@@ -55,7 +59,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<RedirectToRouteResult> WithFlash(this RedirectToRouteResult instance, IDictionary<string, string> arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<RedirectToRouteResult> WithFlash([NotNull] this RedirectToRouteResult instance, [NotNull] IDictionary<string, string> arguments)
         {
             return Flash(instance, arguments);
         }
@@ -66,7 +71,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<ViewResult> WithFlash(this ViewResult instance, object arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<ViewResult> WithFlash([NotNull] this ViewResult instance, object arguments)
         {
             return Flash(instance, ToDictionary(arguments));
         }
@@ -77,16 +83,19 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="arguments">The arguments.</param>
         /// <returns></returns>
-        public static WrappedActionResultWithFlash<ViewResult> WithFlash(this ViewResult instance, IDictionary<string, string> arguments)
+        [NotNull]
+        public static WrappedActionResultWithFlash<ViewResult> WithFlash([NotNull] this ViewResult instance, [NotNull] IDictionary<string, string> arguments)
         {
             return Flash(instance, arguments);
         }
 
-        private static WrappedActionResultWithFlash<TActionResult> Flash<TActionResult>(TActionResult instance, IDictionary<string, string> arguments) where TActionResult : ActionResult
+        [NotNull]
+        private static WrappedActionResultWithFlash<TActionResult> Flash<TActionResult>([NotNull] TActionResult instance, [NotNull] IDictionary<string, string> arguments) where TActionResult : ActionResult
         {
             return new WrappedActionResultWithFlash<TActionResult>(instance, arguments);
         }
 
+        [NotNull]
         private static IDictionary<string, string> ToDictionary(object arguments)
         {
             if (arguments == null)

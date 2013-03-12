@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to maintain multiple model validator provider.
@@ -22,7 +23,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="CompositeModelValidatorProvider"/> class.
         /// </summary>
         /// <param name="providers">The providers.</param>
-        public CompositeModelValidatorProvider(params ModelValidatorProvider[] providers)
+        public CompositeModelValidatorProvider([NotNull] params ModelValidatorProvider[] providers)
         {
             Invariant.IsNotNull(providers, "providers");
 
@@ -45,7 +46,8 @@ namespace MvcExtensions
         /// <param name="metadata">The metadata.</param>
         /// <param name="context">The context.</param>
         /// <returns>A list of validators.</returns>
-        public override IEnumerable<ModelValidator> GetValidators(ModelMetadata metadata, ControllerContext context)
+        [NotNull]
+        public override IEnumerable<ModelValidator> GetValidators([NotNull] ModelMetadata metadata, [NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(metadata, "metadata");
             Invariant.IsNotNull(context, "context");

@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an abstract class which is used to respond to controller action.
@@ -85,7 +86,7 @@ namespace MvcExtensions
         /// <returns>
         ///     <c>true</c> if this instance [can respond to action] the specified action; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool CanRespondToAction(string action)
+        public virtual bool CanRespondToAction([NotNull] string action)
         {
             // If Nothing is specified then include all.
             if (!IncludedActions.Any() && !ExcludedActions.Any())
@@ -137,9 +138,9 @@ namespace MvcExtensions
         /// Responds the specified context.
         /// </summary>
         /// <param name="context">The context.</param>
-        public abstract void Respond(ResponderContext context);
+        public abstract void Respond([NotNull] ResponderContext context);
 
-        private static void Copy(IEnumerable<string> source, ICollection<string> destination)
+        private static void Copy(IEnumerable<string> source, [NotNull] ICollection<string> destination)
         {
             if ((source == null) || (!source.Any()))
             {

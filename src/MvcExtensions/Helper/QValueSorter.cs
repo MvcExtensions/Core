@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// A helper class to sort QValue.
@@ -22,6 +23,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="types">The types.</param>
         /// <returns></returns>
+        [NotNull]
         public static IEnumerable<string> Sort(string types) 
         {
             return string.IsNullOrEmpty(types) ?
@@ -35,7 +37,8 @@ namespace MvcExtensions
         /// <param name="types">The types.</param>
         /// <param name="defective">if set to <c>true</c> [defective].</param>
         /// <returns></returns>
-        public static IEnumerable<string> Sort(IEnumerable<string> types, bool defective)
+        [NotNull]
+        public static IEnumerable<string> Sort([NotNull] IEnumerable<string> types, bool defective)
         {
             Invariant.IsNotNull(types, "types");
 
@@ -51,7 +54,7 @@ namespace MvcExtensions
         {
             private const float DefaultValue = 1.0f;
 
-            public TypeWithQValue(string raw, int ordinal)
+            public TypeWithQValue([NotNull] string raw, int ordinal)
             {
                 Name = string.Empty;
                 Value = DefaultValue;
@@ -78,7 +81,7 @@ namespace MvcExtensions
                 private set;
             }
 
-            private void Parse(string raw)
+            private void Parse([NotNull] string raw)
             {
                 string[] parts = raw.Trim().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -112,7 +115,7 @@ namespace MvcExtensions
                 this.defective = defective;
             }
 
-            public int Compare(TypeWithQValue x, TypeWithQValue y)
+            public int Compare([NotNull] TypeWithQValue x, [NotNull] TypeWithQValue y)
             {
                 if (x == null)
                 {

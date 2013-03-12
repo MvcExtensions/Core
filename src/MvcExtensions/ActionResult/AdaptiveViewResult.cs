@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an class which is used to render a view adaptively. If the request is ajax it writes the viewdata in json string; otherwise
@@ -48,7 +49,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="context">The context that the result is executed in.</param>
         /// <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
-        public override void ExecuteResult(ControllerContext context)
+        public override void ExecuteResult([NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(context, "context");
 

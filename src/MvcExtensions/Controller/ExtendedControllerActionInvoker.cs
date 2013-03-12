@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The default <seealso cref="IActionInvoker"/> which supports the fluent filter registration and dependency injection.
@@ -18,7 +19,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ExtendedControllerActionInvoker"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public ExtendedControllerActionInvoker(ContainerAdapter container)
+        public ExtendedControllerActionInvoker([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -41,7 +42,7 @@ namespace MvcExtensions
         /// <param name="controllerContext">The controller context.</param>
         /// <param name="actionDescriptor">The action descriptor.</param>
         /// <returns>Information about the action filters.</returns>
-        protected override FilterInfo GetFilters(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
+        protected override FilterInfo GetFilters([NotNull] ControllerContext controllerContext, [NotNull] ActionDescriptor actionDescriptor)
         {
             Invariant.IsNotNull(controllerContext, "controllerContext");
             Invariant.IsNotNull(actionDescriptor, "actionDescriptor");

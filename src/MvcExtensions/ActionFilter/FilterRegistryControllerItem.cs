@@ -10,6 +10,7 @@ namespace MvcExtensions
     using System;
     using System.Collections.Generic;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to store the <see cref="FilterAttribute"/> factories of <seealso cref="Controller"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="FilterRegistryControllerItem&lt;TController&gt;"/> class.
         /// </summary>
         /// <param name="filters">The filters.</param>
-        public FilterRegistryControllerItem(IEnumerable<Func<IMvcFilter>> filters) 
+        public FilterRegistryControllerItem([NotNull] IEnumerable<Func<IMvcFilter>> filters) 
             : base(filters, FilterScope.Controller)
         {
         }
@@ -38,7 +39,7 @@ namespace MvcExtensions
         /// </returns>
         public override bool IsMatching(ControllerContext controllerContext, ActionDescriptor actionDescriptor)
         {
-            return (controllerContext != null) && controllerType.IsAssignableFrom(controllerContext.Controller.GetType());
+            return (controllerContext != null) && controllerType.IsInstanceOfType(controllerContext.Controller);
         }
     }
 }

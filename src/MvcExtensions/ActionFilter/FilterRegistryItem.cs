@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class to store the <see cref="FilterAttribute"/> factories.
@@ -26,7 +27,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="filters">The filters.</param>
         /// <param name="filterScope"></param>
-        protected FilterRegistryItem(IEnumerable<Func<IMvcFilter>> filters, FilterScope filterScope)
+        protected FilterRegistryItem([NotNull] IEnumerable<Func<IMvcFilter>> filters, FilterScope filterScope)
         {
             Invariant.IsNotNull(filters, "filters");
 
@@ -48,6 +49,7 @@ namespace MvcExtensions
         /// Get the <see cref="Filter"/> metadatas
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public IEnumerable<Filter> BuildFilters()
         {
             return filters.Select(x => x())

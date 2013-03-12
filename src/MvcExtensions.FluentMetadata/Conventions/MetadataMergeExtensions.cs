@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Merges <see cref="ModelMetadataItem"/> classes
@@ -18,7 +19,7 @@ namespace MvcExtensions
         /// <summary>
         /// Merge metadata items
         /// </summary>
-        public static void MergeTo(this ModelMetadataItem metadataFrom, ModelMetadataItem metadataTo)
+        public static void MergeTo([NotNull] this ModelMetadataItem metadataFrom, [NotNull] ModelMetadataItem metadataTo)
         {
             SetMetadataProperties(metadataFrom, metadataTo);
             SyncValidations(metadataFrom, metadataTo);
@@ -110,7 +111,7 @@ namespace MvcExtensions
             }
         }
 
-        private static void SyncValidations(ModelMetadataItem metadataFrom, ModelMetadataItem metadataTo)
+        private static void SyncValidations([NotNull] ModelMetadataItem metadataFrom, [NotNull] ModelMetadataItem metadataTo)
         {
             if (metadataFrom.Validations.Count > 0)
             {
@@ -152,7 +153,7 @@ namespace MvcExtensions
             }
         }
 
-        private static void SyncAdditionalSettings(ModelMetadataItem metadataFrom, ModelMetadataItem metadataTo)
+        private static void SyncAdditionalSettings([NotNull] ModelMetadataItem metadataFrom, [NotNull] ModelMetadataItem metadataTo)
         {
             if (metadataFrom.AdditionalSettings.Count > 0)
             {

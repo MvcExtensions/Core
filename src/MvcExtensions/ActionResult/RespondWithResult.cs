@@ -15,6 +15,7 @@ namespace MvcExtensions
     using System.Net;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an action result which is used to find matching responder.
@@ -107,6 +108,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="viewName">Name of the view.</param>
         /// <returns></returns>
+        [NotNull]
         public RespondWithResult WithView(string viewName)
         {
             return WithView(viewName, null);
@@ -118,6 +120,7 @@ namespace MvcExtensions
         /// <param name="viewName">Name of the view.</param>
         /// <param name="masterName">Name of the master.</param>
         /// <returns></returns>
+        [NotNull]
         public virtual RespondWithResult WithView(string viewName, string masterName)
         {
             responderContext.ViewName = viewName;
@@ -131,6 +134,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns></returns>
+        [NotNull]
         public RespondWithResult WithRedirect(string action)
         {
             return WithRedirect(action, null, null);
@@ -142,6 +146,7 @@ namespace MvcExtensions
         /// <param name="action">The action.</param>
         /// <param name="routeValues">The route values.</param>
         /// <returns></returns>
+        [NotNull]
         public RespondWithResult WithRedirect(string action, object routeValues)
         {
             return WithRedirect(action, null, routeValues);
@@ -153,6 +158,7 @@ namespace MvcExtensions
         /// <param name="action">The action.</param>
         /// <param name="controller">The controller.</param>
         /// <returns></returns>
+        [NotNull]
         public RespondWithResult WithRedirect(string action, string controller)
         {
             return WithRedirect(action, controller, null);
@@ -165,6 +171,7 @@ namespace MvcExtensions
         /// <param name="controller">The controller.</param>
         /// <param name="routeValues">The route values.</param>
         /// <returns></returns>
+        [NotNull]
         public virtual RespondWithResult WithRedirect(string action, string controller, object routeValues)
         {
             responderContext.RedirectAction = action;
@@ -179,6 +186,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="messages">The messages.</param>
         /// <returns></returns>
+        [NotNull]
         public virtual RespondWithResult WithFlash(object messages)
         {
             responderContext.FlashMessages = ToDictionary(messages).ToDictionary(d => d.Key, d => d.Value.ToString());
@@ -190,7 +198,7 @@ namespace MvcExtensions
         /// Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
         /// </summary>
         /// <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
-        public override void ExecuteResult(ControllerContext context)
+        public override void ExecuteResult([NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(context, "context");
 
@@ -214,6 +222,7 @@ namespace MvcExtensions
             responder.Respond(responderContext);
         }
 
+        [NotNull]
         private static IDictionary<string, object> ToDictionary(object arguments)
         {
             if (arguments == null)

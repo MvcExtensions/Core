@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to store the <see cref="FilterAttribute"/> factories of <seealso cref="Controller"/> action method.
@@ -25,7 +26,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="action">The action.</param>
         /// <param name="filters">The filters.</param>
-        public FilterRegistryActionItem(Expression<Action<TController>> action, IEnumerable<Func<IMvcFilter>> filters) 
+        public FilterRegistryActionItem([NotNull] Expression<Action<TController>> action, [NotNull] IEnumerable<Func<IMvcFilter>> filters) 
             : base(filters, FilterScope.Action)
         {
             Invariant.IsNotNull(action, "action");
@@ -62,7 +63,7 @@ namespace MvcExtensions
             return false;
         }
 
-        private static bool IsSameAction(ActionDescriptor descriptor1, ActionDescriptor descriptor2)
+        private static bool IsSameAction([NotNull] ActionDescriptor descriptor1, [NotNull] ActionDescriptor descriptor2)
         {
             ParameterDescriptor[] parameters1 = descriptor1.GetParameters();
             ParameterDescriptor[] parameters2 = descriptor2.GetParameters();

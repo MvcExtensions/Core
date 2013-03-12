@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="TypeMappingRegistry{Controller, IActionInvoker}"/>.
@@ -24,7 +25,8 @@ namespace MvcExtensions
         /// <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController, TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController, TActionInvoker>([NotNull] this TypeMappingRegistry<Controller, IActionInvoker> instance)
             where TController : Controller
             where TActionInvoker : IActionInvoker
         {
@@ -43,7 +45,8 @@ namespace MvcExtensions
         /// <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TActionInvoker>([NotNull] this TypeMappingRegistry<Controller, IActionInvoker> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TActionInvoker : IActionInvoker
@@ -67,7 +70,8 @@ namespace MvcExtensions
         /// <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TController3, TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TController3, TActionInvoker>([NotNull] this TypeMappingRegistry<Controller, IActionInvoker> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TController3 : Controller
@@ -94,7 +98,8 @@ namespace MvcExtensions
         /// <typeparam name="TActionInvoker">The type of the action invoker.</typeparam>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TController3, TController4, TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance)
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TController1, TController2, TController3, TController4, TActionInvoker>([NotNull] this TypeMappingRegistry<Controller, IActionInvoker> instance)
             where TController1 : Controller
             where TController2 : Controller
             where TController3 : Controller
@@ -120,7 +125,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="typeCatalog">The type catalog.</param>
         /// <returns></returns>
-        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TActionInvoker>(this TypeMappingRegistry<Controller, IActionInvoker> instance, TypeCatalog typeCatalog) where TActionInvoker : IActionInvoker
+        [NotNull]
+        public static TypeMappingRegistry<Controller, IActionInvoker> Register<TActionInvoker>([NotNull] this TypeMappingRegistry<Controller, IActionInvoker> instance, [NotNull] TypeCatalog typeCatalog) where TActionInvoker : IActionInvoker
         {
             Invariant.IsNotNull(instance, "instance");
             Invariant.IsNotNull(typeCatalog, "typeCatalog");
@@ -139,7 +145,7 @@ namespace MvcExtensions
             return instance;
         }
 
-        private static void EnsureControllerTypes(IEnumerable<Type> typeCatalog)
+        private static void EnsureControllerTypes([NotNull] IEnumerable<Type> typeCatalog)
         {
             foreach (Type type in typeCatalog.Where(controllerType => !KnownTypes.ControllerType.IsAssignableFrom(controllerType)))
             {

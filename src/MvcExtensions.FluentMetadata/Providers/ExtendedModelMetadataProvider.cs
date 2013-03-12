@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a metadata provider which supports fluent registration.
@@ -30,7 +31,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ExtendedModelMetadataProvider"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        public ExtendedModelMetadataProvider(IModelMetadataRegistry registry)
+        public ExtendedModelMetadataProvider([NotNull] IModelMetadataRegistry registry)
         {
             Invariant.IsNotNull(registry, "registry");
 
@@ -45,7 +46,7 @@ namespace MvcExtensions
         /// <returns>
         /// A <see cref="T:System.Web.Mvc.ModelMetadata"/> object for each property of a model.
         /// </returns>
-        public override IEnumerable<ModelMetadata> GetMetadataForProperties(object container, Type containerType)
+        public override IEnumerable<ModelMetadata> GetMetadataForProperties([NotNull] object container, [NotNull] Type containerType)
         {
             Invariant.IsNotNull(containerType, "containerType");
 
@@ -87,7 +88,7 @@ namespace MvcExtensions
         /// <returns>
         /// The metadata model for the specified property.
         /// </returns>
-        public override ModelMetadata GetMetadataForProperty(Func<object> modelAccessor, Type containerType, string propertyName)
+        public override ModelMetadata GetMetadataForProperty(Func<object> modelAccessor, [NotNull] Type containerType, [NotNull] string propertyName)
         {
             Invariant.IsNotNull(containerType, "containerType");
             Invariant.IsNotNull(propertyName, "propertyName");
@@ -218,6 +219,7 @@ namespace MvcExtensions
             DisplayNameTransformer.Value.Transform(metadata);
         }
 
+        [NotNull]
         private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
         {
             ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
@@ -230,6 +232,7 @@ namespace MvcExtensions
             return modelMetadata;
         }
 
+        [NotNull]
         private ModelMetadata CreatePropertyMetadata(
             Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
         {

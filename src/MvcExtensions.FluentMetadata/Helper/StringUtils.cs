@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Collections.Generic;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// 
@@ -19,6 +20,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="source"></param>
         /// <returns></returns>
+        [ContractAnnotation("\"null=>null\""),CanBeNull]
         public static string SplitUpperCaseToString(this string source)
         {
             if (source == null)
@@ -31,6 +33,7 @@ namespace MvcExtensions
         /// <summary>
         /// Splits upper case word to a array of words
         /// </summary>
+        [NotNull]
         public static string[] SplitUpperCaseToWords(this string source)
         {
             if (source == null)

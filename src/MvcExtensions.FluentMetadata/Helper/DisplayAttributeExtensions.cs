@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.ComponentModel.DataAnnotations;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Extends DisplayAttribute class
@@ -19,6 +20,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="srcAttribute"></param>
         /// <returns></returns>
+        [ContractAnnotation("\"null=>null\""),CanBeNull]
         public static DisplayAttribute Copy(this DisplayAttribute srcAttribute)
         {
             if (srcAttribute == null)

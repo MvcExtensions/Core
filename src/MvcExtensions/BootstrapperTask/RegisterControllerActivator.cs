@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Diagnostics;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="IControllerActivator"/>.
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterControllerActivator"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterControllerActivator(ContainerAdapter container)
+        public RegisterControllerActivator([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 

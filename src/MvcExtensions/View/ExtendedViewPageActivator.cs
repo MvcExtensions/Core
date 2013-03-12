@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to create view.
@@ -20,7 +21,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="container">The container.</param>
         /// <param name="viewActivatorRegistry">The view activator registry.</param>
-        public ExtendedViewPageActivator(ContainerAdapter container, TypeMappingRegistry<IView, IViewPageActivator> viewActivatorRegistry)
+        public ExtendedViewPageActivator([NotNull] ContainerAdapter container, [NotNull] TypeMappingRegistry<IView, IViewPageActivator> viewActivatorRegistry)
         {
             Invariant.IsNotNull(container, "container");
             Invariant.IsNotNull(viewActivatorRegistry, "viewActivatorRegistry");

@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Provides a way to register metadata provider and model metadata configuration classes
@@ -49,6 +50,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="configurationFactory">A factory to instantiate <see cref="IModelMetadataConfiguration"/> classes</param>
         /// <returns>Fluent</returns>
+        [NotNull]
         public IRegistrar ConstructMetadataUsing(Func<IEnumerable<IModelMetadataConfiguration>> configurationFactory)
         {
             getConfigurations = configurationFactory;

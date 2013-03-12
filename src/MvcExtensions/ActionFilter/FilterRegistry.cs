@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The default filter registry which supports fluent registration.
@@ -25,7 +26,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="FilterRegistry"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public FilterRegistry(ContainerAdapter container)
+        public FilterRegistry([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
@@ -63,7 +64,8 @@ namespace MvcExtensions
         /// <typeparam name="TFilter">The type of the filter.</typeparam>
         /// <param name="filters">The filters.</param>
         /// <returns></returns>
-        public virtual IFilterRegistry Register<TController, TFilter>(IEnumerable<Func<TFilter>> filters)
+        [NotNull]
+        public virtual IFilterRegistry Register<TController, TFilter>([NotNull] IEnumerable<Func<TFilter>> filters)
             where TController : Controller where TFilter : IMvcFilter
         {
             Invariant.IsNotNull(filters, "filters");
@@ -84,7 +86,8 @@ namespace MvcExtensions
         /// <param name="action">The action.</param>
         /// <param name="filters">The filters.</param>
         /// <returns></returns>
-        public virtual IFilterRegistry Register<TController, TFilter>(Expression<Action<TController>> action, IEnumerable<Func<TFilter>> filters)
+        [NotNull]
+        public virtual IFilterRegistry Register<TController, TFilter>([NotNull] Expression<Action<TController>> action, [NotNull] IEnumerable<Func<TFilter>> filters)
             where TController : Controller
             where TFilter : IMvcFilter
         {
@@ -99,7 +102,8 @@ namespace MvcExtensions
             return this;
         }
 
-        private static IEnumerable<Func<IMvcFilter>> ConvertFilters<TFilter>(IEnumerable<Func<TFilter>> filters)
+        [NotNull]
+        private static IEnumerable<Func<IMvcFilter>> ConvertFilters<TFilter>([NotNull] IEnumerable<Func<TFilter>> filters)
             where TFilter : IMvcFilter
         {
             return filters.Select(filter => new Func<IMvcFilter>(() => filter() as IMvcFilter));

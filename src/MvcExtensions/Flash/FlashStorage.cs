@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines class which abstract the <see cref="TempDataDictionary"/> for storing flash messages.
@@ -26,7 +27,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="FlashStorage"/> class.
         /// </summary>
         /// <param name="backingStore">The backing store.</param>
-        public FlashStorage(TempDataDictionary backingStore)
+        public FlashStorage([NotNull] TempDataDictionary backingStore)
         {
             if (backingStore == null)
             {

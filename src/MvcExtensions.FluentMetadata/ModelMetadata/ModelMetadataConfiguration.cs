@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Linq.Expressions;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class that is used to configure metadata of a model fluently.
@@ -52,7 +53,8 @@ namespace MvcExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        protected ModelMetadataItemBuilder<TValue> Configure<TValue>(Expression<Func<TModel, TValue>> expression)
+        [NotNull]
+        protected ModelMetadataItemBuilder<TValue> Configure<TValue>([NotNull] Expression<Func<TModel, TValue>> expression)
         {
             return new ModelMetadataItemBuilder<TValue>(Append(expression));
         }
@@ -63,7 +65,8 @@ namespace MvcExtensions
         /// <typeparam name="TValue">The type of the value.</typeparam>
         /// <param name="property">The expression.</param>
         /// <returns></returns>
-        protected ModelMetadataItemBuilder<TValue> Configure<TValue>(string property)
+        [NotNull]
+        protected ModelMetadataItemBuilder<TValue> Configure<TValue>([NotNull] string property)
         {
             return new ModelMetadataItemBuilder<TValue>(Append(property));
         }
@@ -73,7 +76,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="property">The expression.</param>
         /// <returns></returns>
-        protected ModelMetadataItemBuilder<object> Configure(string property)
+        [NotNull]
+        protected ModelMetadataItemBuilder<object> Configure([NotNull] string property)
         {
             return new ModelMetadataItemBuilder<object>(Append(property));
         }
@@ -84,14 +88,16 @@ namespace MvcExtensions
         /// <typeparam name="TType">The type of the type.</typeparam>
         /// <param name="expression">The expression.</param>
         /// <returns></returns>
-        protected virtual ModelMetadataItem Append<TType>(Expression<Func<TModel, TType>> expression)
+        [NotNull]
+        protected virtual ModelMetadataItem Append<TType>([NotNull] Expression<Func<TModel, TType>> expression)
         {
             Invariant.IsNotNull(expression, "expression");
 
             return Append(ExpressionHelper.GetExpressionText(expression));
         }
 
-        private ModelMetadataItem Append(string property)
+        [NotNull]
+        private ModelMetadataItem Append([NotNull] string property)
         {
             Invariant.IsNotNull(property, "property");
 

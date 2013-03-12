@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class to configure mapping between controller activator and controller.
@@ -19,7 +20,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ConfigureActionInvokersBase"/> class.
         /// </summary>
         /// <param name="registry">The registry.</param>
-        protected ConfigureActionInvokersBase(TypeMappingRegistry<Controller, IActionInvoker> registry) : base(registry)
+        protected ConfigureActionInvokersBase([NotNull] TypeMappingRegistry<Controller, IActionInvoker> registry) : base(registry)
         {
         }
     }

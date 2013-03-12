@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System.Diagnostics;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an abstract attribute which is used to transfer data between viewdata and tempdata.
@@ -58,7 +59,7 @@ namespace MvcExtensions
         /// Called before an action method executes.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        public virtual void OnActionExecuting(ActionExecutingContext filterContext)
+        public virtual void OnActionExecuting([NotNull] ActionExecutingContext filterContext)
         {
             // Do nothing, just sleep.
         }
@@ -67,7 +68,7 @@ namespace MvcExtensions
         /// Called after the action method executes.
         /// </summary>
         /// <param name="filterContext">The filter context.</param>
-        public virtual void OnActionExecuted(ActionExecutedContext filterContext)
+        public virtual void OnActionExecuted([NotNull] ActionExecutedContext filterContext)
         {
             // Do nothing, just sleep.
         }

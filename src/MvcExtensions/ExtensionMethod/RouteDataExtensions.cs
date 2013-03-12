@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which contains extension method for <see cref="RouteData"/>.
@@ -19,7 +20,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static string ControllerName(this RouteData instance)
+        [NotNull]
+        public static string ControllerName([NotNull] this RouteData instance)
         {
             Invariant.IsNotNull(instance, "instance");
 
@@ -31,7 +33,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static string ActionName(this RouteData instance)
+        [NotNull]
+        public static string ActionName([NotNull] this RouteData instance)
         {
             Invariant.IsNotNull(instance, "instance");
 

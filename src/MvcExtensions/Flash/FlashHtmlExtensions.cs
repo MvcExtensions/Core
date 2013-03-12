@@ -13,6 +13,7 @@ namespace MvcExtensions
     using System.Web;
     using System.Web.Mvc;
     using System.Xml.Linq;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a static class to render flash messages for <see cref="HtmlHelper"/>.
@@ -26,7 +27,7 @@ namespace MvcExtensions
         /// <param name="tagName">Name of the tag.</param>
         /// <param name="encoded">if set to <c>true</c> [encoded].</param>
         /// <returns></returns>
-        public static IHtmlString Flash(this HtmlHelper instance, string tagName = "p", bool encoded = true)
+        public static IHtmlString Flash([NotNull] this HtmlHelper instance, string tagName = "p", bool encoded = true)
         {
             Invariant.IsNotNull(instance, "instance");
 

@@ -14,6 +14,7 @@ namespace MvcExtensions
     using System.Globalization;
     using System.Linq;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Contains the supported responders
@@ -53,7 +54,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public virtual IResponder FindMatching(ControllerContext context)
+        [CanBeNull]
+        public virtual IResponder FindMatching([NotNull] ControllerContext context)
         {
             if (context == null)
             {
@@ -110,7 +112,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="index">The index.</param>
         /// <param name="item">The item.</param>
-        protected override void SetItem(int index, IResponder item)
+        protected override void SetItem(int index, [NotNull] IResponder item)
         {
             Invariant.IsNotNull(item, "item");
             Type responderType = item.GetType();

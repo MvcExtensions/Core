@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.Collections.Generic;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// The context object when responders are into action.
@@ -29,7 +30,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="redirectRouteValues">The redirect route values.</param>
         /// <param name="flashMessages">The flash messages.</param>
-        protected ResponderContext(RouteValueDictionary redirectRouteValues, IDictionary<string, string> flashMessages)
+        protected ResponderContext([NotNull] RouteValueDictionary redirectRouteValues, [NotNull] IDictionary<string, string> flashMessages)
         {
             if (redirectRouteValues == null)
             {

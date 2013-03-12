@@ -1,6 +1,7 @@
 namespace MvcExtensions
 {
     using System;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Base class for transformers
@@ -13,7 +14,8 @@ namespace MvcExtensions
         /// <param name="containerType">Container type</param>
         /// <param name="propertyName">Property name</param>
         /// <returns></returns>
-        protected static string GetResourceKey(Type containerType, string propertyName)
+        [NotNull]
+        protected static string GetResourceKey([NotNull] Type containerType, string propertyName)
         {
             return String.Format("{0}_{1}", containerType.Name, propertyName);
         }

@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Splits DisplayName attribute by cammel cases
@@ -23,7 +24,7 @@ namespace MvcExtensions
         /// Process display attibute
         /// </summary>
         /// <param name="metadata"></param>
-        public void Transform(ModelMetadata metadata)
+        public void Transform([NotNull] ModelMetadata metadata)
         {
             Invariant.IsNotNull(metadata, "metadata");
 

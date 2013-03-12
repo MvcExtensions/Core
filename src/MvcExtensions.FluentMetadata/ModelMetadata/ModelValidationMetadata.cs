@@ -11,6 +11,7 @@ namespace MvcExtensions
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Represents a base class to store validation metadata.
@@ -44,7 +45,8 @@ namespace MvcExtensions
         /// <param name="metadata">The model metadata.</param>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public ModelValidator CreateValidator(ExtendedModelMetadata metadata, ControllerContext context)
+        [NotNull]
+        public ModelValidator CreateValidator([NotNull] ExtendedModelMetadata metadata, [NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(metadata, "metadata");
             Invariant.IsNotNull(context, "context");
@@ -58,7 +60,7 @@ namespace MvcExtensions
         /// Populates the error message from the given metadata.
         /// </summary>
         /// <param name="validationAttribute"></param>
-        public void PopulateErrorMessage(ValidationAttribute validationAttribute)
+        public void PopulateErrorMessage([NotNull] ValidationAttribute validationAttribute)
         {
             Invariant.IsNotNull(validationAttribute, "validationMetadata");
 
@@ -106,6 +108,7 @@ namespace MvcExtensions
         /// <param name="modelMetadata">The model metadata.</param>
         /// <param name="context">The context.</param>
         /// <returns></returns>
+        [NotNull]
         protected abstract ModelValidator CreateValidatorCore(ExtendedModelMetadata modelMetadata, ControllerContext context);
     }
 }

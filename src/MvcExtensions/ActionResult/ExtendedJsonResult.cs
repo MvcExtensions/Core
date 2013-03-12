@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Web;
     using System.Web.Mvc;
     using System.Web.Script.Serialization;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to return json result.
@@ -49,7 +50,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="context">The context within which the result is executed.</param>
         /// <exception cref="T:System.ArgumentNullException">The <paramref name="context"/> parameter is null.</exception>
-        public override void ExecuteResult(ControllerContext context)
+        public override void ExecuteResult([NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(context, "context");
 

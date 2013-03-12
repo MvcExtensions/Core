@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System.Runtime.CompilerServices;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Extensions for <see cref="ModelMetadata"/> and <see cref="ViewDataDictionary"/> which add ability to retrive <see cref="RenderActionSetting"/> 
@@ -21,6 +22,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelMetadata"> The model metadata </param>
         /// <returns></returns>
+        [NotNull]
         public static RenderActionSetting GetRenderActionSetting(this ModelMetadata modelMetadata)
         {
             var extendedModelMetadata = modelMetadata as ExtendedModelMetadata;
@@ -37,7 +39,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="viewData"> The view data dicionary </param>
         /// <returns></returns>
-        public static RenderActionSetting GetRenderActionSetting(this ViewDataDictionary viewData)
+        [NotNull]
+        public static RenderActionSetting GetRenderActionSetting([NotNull] this ViewDataDictionary viewData)
         {
             Invariant.IsNotNull(viewData, "viewData");
 

@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System.Collections.Generic;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an action result which is used to wrap another action result.
@@ -21,7 +22,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="wrappingResult">The wrapping result.</param>
         /// <param name="flashMessages">The flash messages.</param>
-        public WrappedActionResultWithFlash(TActionResult wrappingResult, IDictionary<string, string> flashMessages)
+        public WrappedActionResultWithFlash([NotNull] TActionResult wrappingResult, [NotNull] IDictionary<string, string> flashMessages)
         {
             Invariant.IsNotNull(wrappingResult, "wrappingResult");
             Invariant.IsNotNull(flashMessages, "flashMessages");
@@ -46,7 +47,7 @@ namespace MvcExtensions
         /// Enables processing of the result of an action method by a custom type that inherits from the <see cref="T:System.Web.Mvc.ActionResult"/> class.
         /// </summary>
         /// <param name="context">The context in which the result is executed. The context information includes the controller, HTTP content, request context, and route data.</param>
-        public override void ExecuteResult(ControllerContext context)
+        public override void ExecuteResult([NotNull] ControllerContext context)
         {
             Invariant.IsNotNull(context, "context");
 

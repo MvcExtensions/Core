@@ -27,7 +27,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TValue}"/> class.
         /// </summary>
         /// <param name="item">The item.</param>
-        public ModelMetadataItemBuilder(ModelMetadataItem item)
+        public ModelMetadataItemBuilder([NotNull] ModelMetadataItem item)
         {
             Invariant.IsNotNull(item, "item");
 
@@ -46,7 +46,7 @@ namespace MvcExtensions
             private set;
         }
 
-        private ModelMetadataItemBuilder<TValue> This
+        [NotNull] private ModelMetadataItemBuilder<TValue> This
         {
             [DebuggerStepThrough]
             get
@@ -63,251 +63,301 @@ namespace MvcExtensions
             }
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayName(Func<string> value)
         {
             return DisplayName(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShortDisplayName(string value)
         {
             return ShortDisplayName(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShortDisplayName(Func<string> value)
         {
             return ShortDisplayName(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Template(string value)
         {
             return Template(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Description(string value)
         {
             return Description(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Description(Func<string> value)
         {
             return Description(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ReadOnly()
         {
             return ReadOnly();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Writable()
         {
             return Writable();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty)
         {
             return Compare(otherProperty);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, string errorMessage)
         {
             return Compare(otherProperty, errorMessage);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, Func<string> errorMessage)
         {
             return Compare(otherProperty, errorMessage);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Compare(string otherProperty, Type errorMessageResourceType, string errorMessageResourceName)
         {
             return Compare(otherProperty, errorMessageResourceType, errorMessageResourceName);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required()
         {
             return Required();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(string errorMessage)
         {
             return Required(errorMessage);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(Func<string> errorMessage)
         {
             return Required(errorMessage);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Required(Type errorMessageResourceType, string errorMessageResourceName)
         {
             return Required(errorMessageResourceType, errorMessageResourceName);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Optional()
         {
             return Optional();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AsHidden()
         {
             return AsHidden();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AsHidden(bool hideSurroundingHtml)
         {
             return AsHidden(hideSurroundingHtml);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideSurroundingHtml()
         {
             return HideSurroundingHtml();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowSurroundingHtml()
         {
             return ShowSurroundingHtml();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.AllowHtml()
         {
             return AllowHtml();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisallowHtml()
         {
             return DisallowHtml();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowForDisplay()
         {
             return ShowForDisplay();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideForDisplay()
         {
             return HideForDisplay();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ShowForEdit()
         {
             return ShowForEdit();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.HideForEdit()
         {
             return HideForEdit();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Show()
         {
             return Show();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Hide()
         {
             return Hide();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.NullDisplayText(string value)
         {
             return NullDisplayText(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.NullDisplayText(Func<string> value)
         {
             return NullDisplayText(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Watermark(string value)
         {
             return Watermark(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Watermark(Func<string> value)
         {
             return Watermark(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Order(int value)
         {
             return Order(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayFormat(string format)
         {
             return DisplayFormat(format);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayFormat(Func<string> format)
         {
             return DisplayFormat(format);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.EditFormat(string format)
         {
             return EditFormat(format);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.EditFormat(Func<string> format)
         {
             return EditFormat(format);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Format(string value)
         {
             return Format(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Format(Func<string> value)
         {
             return Format(value);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ApplyFormatInEditMode()
         {
             return ApplyFormatInEditMode();
         }
 
-        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate(Func<TValue, bool> validator, string errorMessage)
+        [NotNull]
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate([NotNull] Func<TValue, bool> validator, string errorMessage)
         {
             return Validate(validator, errorMessage);
         }
 
-        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate(Func<TValue, bool> validator, Func<string> errorMessage)
+        [NotNull]
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate([NotNull] Func<TValue, bool> validator, [NotNull] Func<string> errorMessage)
         {
             return Validate(validator, errorMessage);
         }
 
-        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, bool> validator, string errorMessage)
+        [NotNull]
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>([NotNull] Func<TModel, bool> validator, string errorMessage)
         {
             return Validate(validator, errorMessage);
         }
 
-        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage)
+        [NotNull]
+        IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.Validate<TModel>([NotNull] Func<TModel, bool> validator, [NotNull] Func<string> errorMessage)
         {
             return Validate(validator, errorMessage);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>()
         {
             return ValidateBy<TValidator>();
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Action<TValidator> configure)
         {
             return ValidateBy(configure);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(TValidator validator)
         {
             return ValidateBy(validator);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory)
         {
             return ValidateBy(factory);
         }
 
+        [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayName(string value)
         {
             return DisplayName(value);
@@ -318,6 +368,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayName(string value)
         {
             return DisplayName(() => value);
@@ -328,6 +379,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayName(Func<string> value)
         {
             Item.DisplayName = value;
@@ -340,6 +392,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ShortDisplayName(string value)
         {
             return ShortDisplayName(() => value);
@@ -350,6 +403,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ShortDisplayName(Func<string> value)
         {
             Item.ShortDisplayName = value;
@@ -362,6 +416,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Template([AspMvcEditorTemplate, AspMvcDisplayTemplate] string value)
         {
             Item.TemplateName = value;
@@ -374,6 +429,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Description(string value)
         {
             return Description(() => value);
@@ -384,6 +440,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Description(Func<string> value)
         {
             Item.Description = value;
@@ -395,6 +452,7 @@ namespace MvcExtensions
         /// Marks the value as read only.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ReadOnly()
         {
             Item.IsReadOnly = true;
@@ -407,6 +465,7 @@ namespace MvcExtensions
         /// value as read only and you want to negate it.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Writable()
         {
             Item.IsReadOnly = false;
@@ -419,6 +478,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="otherProperty">The other property</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Compare(string otherProperty)
         {
             return Compare(otherProperty, null, null, null);
@@ -430,6 +490,7 @@ namespace MvcExtensions
         /// <param name="otherProperty">The other property</param>
         /// <param name="errorMessage">The error message when the value is not specified.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Compare(string otherProperty, string errorMessage)
         {
             return Compare(otherProperty, () => errorMessage);
@@ -441,6 +502,7 @@ namespace MvcExtensions
         /// <param name="otherProperty">The other property</param>
         /// <param name="errorMessage">The error message when the value is not specified.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Compare(string otherProperty, Func<string> errorMessage)
         {
             return Compare(otherProperty, errorMessage, null, null);
@@ -453,6 +515,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <param name="otherProperty">The other property</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Compare(string otherProperty, Type errorMessageResourceType, string errorMessageResourceName)
         {
             return Compare(otherProperty, null, errorMessageResourceType, errorMessageResourceName);
@@ -462,6 +525,7 @@ namespace MvcExtensions
         /// Marks the value as required.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Required()
         {
             return Required(null, null, null);
@@ -472,6 +536,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="errorMessage">The error message when the value is not specified.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Required(string errorMessage)
         {
             return Required(() => errorMessage);
@@ -482,6 +547,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="errorMessage">The error message when the value is not specified.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Required(Func<string> errorMessage)
         {
             return Required(errorMessage, null, null);
@@ -493,6 +559,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Required(Type errorMessageResourceType, string errorMessageResourceName)
         {
             return Required(null, errorMessageResourceType, errorMessageResourceName);
@@ -503,6 +570,7 @@ namespace MvcExtensions
         /// value as required and you want to negate it.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Optional()
         {
             Item.IsRequired = false;
@@ -521,6 +589,7 @@ namespace MvcExtensions
         /// Marks the value to render as hidden input element in edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> AsHidden()
         {
             Item.TemplateName = "HiddenInput";
@@ -533,6 +602,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="hideSurroundingHtml">Indicates whether the value will appear in display mode</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> AsHidden(bool hideSurroundingHtml)
         {
             Item.TemplateName = "HiddenInput";
@@ -545,6 +615,7 @@ namespace MvcExtensions
         /// Hides surrounding HTML.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> HideSurroundingHtml()
         {
             Item.HideSurroundingHtml = true;
@@ -556,6 +627,7 @@ namespace MvcExtensions
         /// Shows surrounding HTML.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowSurroundingHtml()
         {
             Item.HideSurroundingHtml = false;
@@ -567,6 +639,7 @@ namespace MvcExtensions
         /// Disables request validation for property.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> AllowHtml()
         {
             Item.RequestValidationEnabled = false;
@@ -578,6 +651,7 @@ namespace MvcExtensions
         /// Enebles request validation for property.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> DisallowHtml()
         {
             Item.RequestValidationEnabled = true;
@@ -589,6 +663,7 @@ namespace MvcExtensions
         /// Shows the value in display mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowForDisplay()
         {
             Item.ShowForDisplay = true;
@@ -600,6 +675,7 @@ namespace MvcExtensions
         /// Hides the value in display mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> HideForDisplay()
         {
             Item.ShowForDisplay = false;
@@ -611,6 +687,7 @@ namespace MvcExtensions
         /// Shows the value in edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowForEdit()
         {
             Item.ShowForEdit = true;
@@ -622,6 +699,7 @@ namespace MvcExtensions
         /// Hides the value in edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> HideForEdit()
         {
             Item.ShowForEdit = false;
@@ -633,6 +711,7 @@ namespace MvcExtensions
         /// Shows the value in both display and edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Show()
         {
             Item.ShowForDisplay = true;
@@ -645,6 +724,7 @@ namespace MvcExtensions
         /// Hides the value in both display and edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Hide()
         {
             Item.ShowForDisplay = false;
@@ -658,6 +738,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> NullDisplayText(string value)
         {
             return NullDisplayText(() => value);
@@ -668,6 +749,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> NullDisplayText(Func<string> value)
         {
             Item.NullDisplayText = value;
@@ -680,6 +762,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Watermark(string value)
         {
             return Watermark(() => value);
@@ -690,6 +773,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Watermark(Func<string> value)
         {
             Item.Watermark = value;
@@ -702,6 +786,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The order</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Order(int value)
         {
             Item.Order = value;
@@ -713,6 +798,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="format">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayFormat(string format)
         {
             return DisplayFormat(() => format);
@@ -723,6 +809,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="format">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayFormat(Func<string> format)
         {
             Item.DisplayFormat = format;
@@ -735,6 +822,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="format">The format.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> EditFormat(string format)
         {
             return EditFormat(() => format);
@@ -745,6 +833,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="format">The format.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> EditFormat(Func<string> format)
         {
             Item.EditFormat = format;
@@ -757,6 +846,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Format(string value)
         {
             return Format(() => value);
@@ -767,6 +857,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> Format(Func<string> value)
         {
             Item.DisplayFormat = Item.EditFormat = value;
@@ -778,6 +869,7 @@ namespace MvcExtensions
         /// Indicates to apply format in edit mode.
         /// </summary>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ApplyFormatInEditMode()
         {
             Item.ApplyFormatInEditMode = true;
@@ -789,7 +881,8 @@ namespace MvcExtensions
         /// Sets the delegate based custom validation for value.
         /// </summary>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> Validate(Func<TValue, bool> validator, string errorMessage = null)
+        [NotNull]
+        public ModelMetadataItemBuilder<TValue> Validate([NotNull] Func<TValue, bool> validator, string errorMessage = null)
         {
             var message = string.IsNullOrEmpty(errorMessage)
                               ? "The {0} value is invalid."
@@ -802,7 +895,8 @@ namespace MvcExtensions
         /// Sets the delegate based custom validation for value.
         /// </summary>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> Validate(Func<TValue, bool> validator, Func<string> errorMessage)
+        [NotNull]
+        public ModelMetadataItemBuilder<TValue> Validate([NotNull] Func<TValue, bool> validator, [NotNull] Func<string> errorMessage)
         {
             return Validate<object>((container, value) => validator(value), errorMessage);
         }
@@ -811,7 +905,8 @@ namespace MvcExtensions
         /// Sets the delegate based custom validation for value.
         /// </summary>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, string errorMessage = null)
+        [NotNull]
+        public ModelMetadataItemBuilder<TValue> Validate<TModel>([NotNull] Func<TModel, bool> validator, string errorMessage = null)
         {
             var message = string.IsNullOrEmpty(errorMessage)
                               ? "The {0} value is invalid."
@@ -824,7 +919,8 @@ namespace MvcExtensions
         /// Sets the delegate based custom validation for value.
         /// </summary>
         /// <returns></returns>
-        public ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, bool> validator, Func<string> errorMessage)
+        [NotNull]
+        public ModelMetadataItemBuilder<TValue> Validate<TModel>([NotNull] Func<TModel, bool> validator, [NotNull] Func<string> errorMessage)
         {
             return Validate<TModel>((container, value) => validator(container), errorMessage);
         }
@@ -834,6 +930,7 @@ namespace MvcExtensions
         /// </summary>
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>()
             where TValidator : ModelValidator
         {
@@ -846,6 +943,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Action<TValidator> configure)
             where TValidator : ModelValidator
         {
@@ -858,6 +956,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="validator">The instance of validator</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(TValidator validator) 
             where TValidator : ModelValidator
         {
@@ -870,6 +969,7 @@ namespace MvcExtensions
         /// <typeparam name="TValidator">The type of validator</typeparam>
         /// <param name="factory">The factory used to build validator</param>
         /// <returns></returns>
+        [NotNull]
         public ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory) 
             where TValidator : ModelValidator
         {
@@ -880,7 +980,8 @@ namespace MvcExtensions
         /// Sets the delegate based custom validation for model and value.
         /// </summary>
         /// <returns></returns>
-        protected virtual ModelMetadataItemBuilder<TValue> Validate<TModel>(Func<TModel, TValue, bool> validator, Func<string> errorMessage)
+        [NotNull]
+        protected virtual ModelMetadataItemBuilder<TValue> Validate<TModel>([NotNull] Func<TModel, TValue, bool> validator, [NotNull] Func<string> errorMessage)
         {
             Invariant.IsNotNull(errorMessage, "errorMessage");
 
@@ -897,6 +998,7 @@ namespace MvcExtensions
         /// <param name="factory">The factory used to build validator</param>
         /// <param name="configure">The configuration</param>
         /// <returns></returns>
+        [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
             where TValidator : ModelValidator
         {
@@ -915,6 +1017,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
+        [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> Required(Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             Item.IsRequired = true;
@@ -936,6 +1039,7 @@ namespace MvcExtensions
         /// <param name="errorMessageResourceType">Type of the error message resource.</param>
         /// <param name="errorMessageResourceName">Name of the error message resource.</param>
         /// <returns></returns>
+        [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> Compare(string otherProperty, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
             var compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
@@ -948,6 +1052,7 @@ namespace MvcExtensions
             return This;
         }
 
+        [NotNull]
         private static Func<ModelMetadata, ControllerContext, TValidator> CreateFactory<TValidator>() where TValidator : ModelValidator
         {
             var validatorType = typeof(TValidator);

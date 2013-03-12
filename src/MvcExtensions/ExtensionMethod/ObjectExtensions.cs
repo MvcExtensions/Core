@@ -9,6 +9,7 @@ namespace MvcExtensions
 {
     using System.Collections.Generic;
     using System.Web.Script.Serialization;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an static class which contains extension methods of <see cref="object"/>.
@@ -20,7 +21,8 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="instance">The instance.</param>
         /// <returns></returns>
-        public static string ToJson(this object instance)
+        [NotNull]
+        public static string ToJson([NotNull] this object instance)
         {
             return ToJson(instance, null);
         }
@@ -31,7 +33,8 @@ namespace MvcExtensions
         /// <param name="instance">The instance.</param>
         /// <param name="jsonConverters">The json converters.</param>
         /// <returns></returns>
-        public static string ToJson(this object instance, IEnumerable<JavaScriptConverter> jsonConverters)
+        [NotNull]
+        public static string ToJson([NotNull] this object instance, IEnumerable<JavaScriptConverter> jsonConverters)
         {
             Invariant.IsNotNull(instance, "instance");
 

@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a responder which is used to return html.
@@ -84,7 +85,7 @@ namespace MvcExtensions
             (new ViewResult { ViewName = view, ViewData = controller.ViewData, TempData = controller.TempData }).ExecuteResult(controllerContext);
         }
 
-        private static bool RespondToExplicitRedirect(ResponderContext context)
+        private static bool RespondToExplicitRedirect([NotNull] ResponderContext context)
         {
             if (string.IsNullOrWhiteSpace(context.RedirectAction) && string.IsNullOrWhiteSpace(context.RedirectController) && !context.RedirectRouteValues.Any())
             {
@@ -101,7 +102,7 @@ namespace MvcExtensions
             return false;
         }
 
-        private static bool RespondToExplicitView(ResponderContext context)
+        private static bool RespondToExplicitView([NotNull] ResponderContext context)
         {
             if (string.IsNullOrWhiteSpace(context.ViewName) && string.IsNullOrWhiteSpace(context.MasterName))
             {
@@ -123,7 +124,7 @@ namespace MvcExtensions
             return true;
         }
 
-        private static void InjectFlashMessages(ResponderContext context)
+        private static void InjectFlashMessages([NotNull] ResponderContext context)
         {
             if (!context.FlashMessages.Any())
             {

@@ -12,6 +12,7 @@ namespace MvcExtensions
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines an abstract controller which contains  CRUD actions in RESTFul way.
@@ -108,6 +109,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
+        [NotNull]
         protected virtual RespondWithResult RespondWith(object model)
         {
             return new RespondWithResult(model);

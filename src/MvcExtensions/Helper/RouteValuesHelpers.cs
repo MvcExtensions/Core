@@ -15,6 +15,7 @@ namespace MvcExtensions
 {
     using System.Collections.Generic;
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Helper class imported from original asp.net mvc source code.
@@ -30,6 +31,7 @@ namespace MvcExtensions
         /// <param name="routeValues">The route values.</param>
         /// <param name="includeImplicitMvcValues">if set to <c>true</c> [include implicit MVC values].</param>
         /// <returns></returns>
+        [NotNull]
         public static RouteValueDictionary MergeRouteValues(string actionName, string controllerName, RouteValueDictionary implicitRouteValues, RouteValueDictionary routeValues, bool includeImplicitMvcValues)
         {
             // Create a new dictionary containing implicit and auto-generated values
@@ -82,6 +84,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="routeValues">The route values.</param>
         /// <returns></returns>
+        [NotNull]
         public static IEnumerable<KeyValuePair<string, object>> GetRouteValues(IDictionary<string, object> routeValues)
         {
             return (routeValues != null) ? new RouteValueDictionary(routeValues) : new RouteValueDictionary();

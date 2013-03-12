@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System.Web.Routing;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a base class to configure <seealso cref="RouteTable"/>.
@@ -18,7 +19,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterRoutesBase"/> class.
         /// </summary>
         /// <param name="routes">The routes.</param>
-        protected RegisterRoutesBase(RouteCollection routes)
+        protected RegisterRoutesBase([NotNull] RouteCollection routes)
         {
             Invariant.IsNotNull(routes, "routes");
 

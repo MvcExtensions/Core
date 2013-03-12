@@ -3,6 +3,7 @@ namespace MvcExtensions
     using System;
     using System.Diagnostics;
     using System.Web.Mvc;
+    using JetBrains.Annotations;
 
     /// <summary>
     /// Defines a class which is used to register the default <seealso cref="IModelBinderProvider"/>.
@@ -15,7 +16,7 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterModelBinderProvider"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterModelBinderProvider(ContainerAdapter container)
+        public RegisterModelBinderProvider([NotNull] ContainerAdapter container)
         {
             Invariant.IsNotNull(container, "container");
 
