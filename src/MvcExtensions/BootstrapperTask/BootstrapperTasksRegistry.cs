@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2010, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>.
+// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, 2011 - 2012 hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -18,8 +18,9 @@ namespace MvcExtensions
     public class BootstrapperTasksRegistry : IBootstrapperTasksRegistry
     {
         private static readonly IBootstrapperTasksRegistry instance = new BootstrapperTasksRegistry();
-
-        private readonly IList<TaskConfiguration> tasks = new List<TaskConfiguration>();
+        
+        private readonly object lockObject = new object();
+        private readonly IDictionary<Type, Action<object>> tasks = new Dictionary<Type, Action<object>>();
 
         /// <summary>
         /// Gets the singleton instance.
@@ -27,7 +28,10 @@ namespace MvcExtensions
         /// <value>The instance.</value>
         public static IBootstrapperTasksRegistry Current
         {
-            get { return instance; }
+            get
+            {
+                return instance;
+            }
         }
 
         /// <summary>
@@ -38,7 +42,7 @@ namespace MvcExtensions
         {
             get
             {
-                return tasks.Select(configuration => new KeyValuePair<Type, Action<object>>(configuration.TaskType, configuration.Configure));
+                return tasks;
             }
         }
 
@@ -82,42 +86,33 @@ namespace MvcExtensions
         [NotNull]
         public virtual IBootstrapperTasksRegistry Exclude<TTask>() where TTask : BootstrapperTask
         {
-            Type taskType = typeof(TTask);
-
-            IEnumerable<TaskConfiguration> taskConfigurations = tasks.Where(c => c.TaskType == taskType).ToList();
-
-            foreach (TaskConfiguration taskConfiguration in taskConfigurations)
-            {
-                tasks.Remove(taskConfiguration);
-            }
-
+            tasks.Remove(typeof(TTask));
             return this;
         }
 
         private void Include([NotNull] Type type, Action<object> configure)
         {
-            IEnumerable<Type> requires = type.GetCustomAttributes(typeof(DependsOnAttribute), true)
-                                             .Cast<DependsOnAttribute>()
-                                             .Select(a => a.TaskType)
-                                             .Distinct()
-                                             .ToList();
+            var requires = type.GetCustomAttributes(typeof(DependsOnAttribute), true)
+                .Cast<DependsOnAttribute>()
+                .Select(a => a.TaskType)
+                .Distinct()
+                .ToList();
 
-            foreach (Type require in requires)
+            foreach (var require in requires)
             {
                 Include(require, null);
             }
 
-            if (!tasks.Any(c => c.TaskType == type))
+            if (!tasks.ContainsKey(type))
             {
-                tasks.Add(new TaskConfiguration { TaskType = type, Configure = configure });
+                lock (lockObject)
+                {
+                    if (!tasks.ContainsKey(type))
+                    {
+                        tasks.Add(type, configure);
+                    }
+                }
             }
-        }
-
-        private sealed class TaskConfiguration
-        {
-            public Type TaskType { get; set; }
-
-            public Action<object> Configure { get; set; }
         }
     }
 }

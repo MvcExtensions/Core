@@ -37,7 +37,7 @@
 	<s:String x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_TERNARY_EXPR_STYLE/@EntryValue">WRAP_IF_LONG</s:String>
 	<s:Boolean x:Key="/Default/CodeStyle/CSharpUsing/AddImportsToDeepestScope/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderRegionName/@EntryValue">Copyright</s:String>
-	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright (c) 2009 - 2012, Kazi Manzur Rashid &lt;kazimanzurrashid@gmail.com&gt;, 2011 - 2012 hazzik &lt;hazzik@gmail.com&gt;.&#xD;
+	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright (c) 2009 - 2013, Kazi Manzur Rashid &lt;kazimanzurrashid@gmail.com&gt;, 2011 - 2013 hazzik &lt;hazzik@gmail.com&gt;.&#xD;
 This source is subject to the Microsoft Public License. &#xD;
 See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. &#xD;
 All other rights reserved.</s:String>

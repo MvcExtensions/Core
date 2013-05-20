@@ -147,6 +147,7 @@
     <Compile Include="BootstrapperTask\RegisterModelMetadata.cs" />
     <Compile Include="BootstrapperTask\RegisterViewPageActivator.cs" />
     <Compile Include="BootstrapperTask\RegisterViews.cs" />
+    <Compile Include="Bootstrapper\BootstrapperModule.cs" />
     <Compile Include="Controller\ActionController.cs" />
     <Compile Include="Controller\ControllerActivatorMappingExtensions.cs" />
     <Compile Include="Controller\IRESTFulCreate.cs" />
