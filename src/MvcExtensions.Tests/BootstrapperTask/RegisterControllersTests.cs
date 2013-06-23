@@ -7,14 +7,16 @@
 
 namespace MvcExtensions.Tests
 {
+    using System.Web.Http;
+    using System.Web.Http.Dispatcher;
     using System.Web.Mvc;
-
     using Moq;
     using Xunit;
 
     public class RegisterControllersTests
     {
         private readonly Mock<ContainerAdapter> adapter;
+        private readonly Mock<TypeMappingRegistry<ApiController, IHttpControllerActivator>> controllerActivatorRegistry;
 
         public RegisterControllersTests()
         {
@@ -23,6 +25,8 @@ namespace MvcExtensions.Tests
 
             adapter = new Mock<ContainerAdapter>();
             adapter.Setup(a => a.GetService(typeof(IBuildManager))).Returns(buildManager.Object);
+
+            controllerActivatorRegistry = new Mock<TypeMappingRegistry<ApiController, IHttpControllerActivator>>();
         }
 
         [Fact]
@@ -30,7 +34,7 @@ namespace MvcExtensions.Tests
         {
             adapter.Setup(a => a.RegisterType(typeof(DummyController), typeof(DummyController), LifetimeType.Transient)).Verifiable();
 
-            new RegisterControllers(adapter.Object).Execute();
+            new RegisterControllers(adapter.Object, controllerActivatorRegistry.Object).Execute();
 
             adapter.Verify();
         }
@@ -38,7 +42,7 @@ namespace MvcExtensions.Tests
         [Fact]
         public void Should_not_register_controllers_when_controller_exists_in_ignored_list()
         {
-            var registration = new RegisterControllers(adapter.Object);
+            var registration = new RegisterControllers(adapter.Object, controllerActivatorRegistry.Object);
 
             registration.Ignore<DummyController>();
 

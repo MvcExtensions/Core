@@ -9,6 +9,8 @@ namespace MvcExtensions
 {
     using System;
     using System.Linq;
+    using System.Web.Http;
+    using System.Web.Http.Dispatcher;
     using System.Web.Mvc;
 
     /// <summary>
@@ -21,11 +23,14 @@ namespace MvcExtensions
         /// Initializes a new instance of the <see cref="RegisterControllers"/> class.
         /// </summary>
         /// <param name="container">The container.</param>
-        public RegisterControllers(ContainerAdapter container)
+        /// <param name="controllerActivatorRegistry">The container.</param>
+        public RegisterControllers(ContainerAdapter container, TypeMappingRegistry<ApiController, IHttpControllerActivator> controllerActivatorRegistry)
         {
             Invariant.IsNotNull(container, "container");
+            Invariant.IsNotNull(controllerActivatorRegistry, "controllerActivatorRegistry");
 
             Container = container;
+            ControllerActivatorRegistry = controllerActivatorRegistry;
         }
 
         /// <summary>
@@ -35,6 +40,15 @@ namespace MvcExtensions
         protected ContainerAdapter Container
         {
             get;
+            private set;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected TypeMappingRegistry<ApiController, IHttpControllerActivator> ControllerActivatorRegistry
+        {
+            get; 
             private set;
         }
 
@@ -54,7 +68,16 @@ namespace MvcExtensions
                      .Where(filter)
                      .Each(type => Container.RegisterAsTransient(type));
 
+
+            RegistryHttpControllerActivator();
+
             return TaskContinuation.Continue;
+        }
+
+        private void RegistryHttpControllerActivator()
+        {
+            GlobalConfiguration.Configuration.Services.Replace(
+                typeof(IHttpControllerActivator), new ExtendedHttpControllerActivator(Container, ControllerActivatorRegistry));
         }
     }
 }
