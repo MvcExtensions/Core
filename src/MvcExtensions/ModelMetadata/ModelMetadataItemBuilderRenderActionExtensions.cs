@@ -1,5 +1,5 @@
 #region Copyright
-// Copyright (c) 2009 - 2012, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>.
+// Copyright (c) 2009 - 2013, Kazi Manzur Rashid <kazimanzurrashid@gmail.com>, hazzik <hazzik@gmail.com>.
 // This source is subject to the Microsoft Public License. 
 // See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. 
 // All other rights reserved.
@@ -70,7 +70,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, object routeValues)
         {
-            return RenderAction(self, html => html.Action(actionName, routeValues));
+            return RenderAction(self, html => html.Action(actionName, new RouteValueDictionary(routeValues)));
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, string controllerName, object routeValues)
         {
-            return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
+            return RenderAction(self, html => html.Action(actionName, controllerName, new RouteValueDictionary(routeValues)));
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, RouteValueDictionary routeValues)
         {
-            return RenderAction(self, html => html.Action(actionName, routeValues));
+            return RenderAction(self, html => html.Action(actionName, new RouteValueDictionary(routeValues)));
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace MvcExtensions
         /// <returns></returns>
         public static ModelMetadataItemBuilder<TModel> RenderAction<TModel>(this ModelMetadataItemBuilder<TModel> self, string actionName, string controllerName, RouteValueDictionary routeValues)
         {
-            return RenderAction(self, html => html.Action(actionName, controllerName, routeValues));
+            return RenderAction(self, html => html.Action(actionName, controllerName, new RouteValueDictionary(routeValues)));
         }
     }
 }
