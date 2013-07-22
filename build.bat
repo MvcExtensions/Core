@@ -1,10 +1,11 @@
 @echo off
+set psake=packages\psake.4.2.0.1\tools\psake
+
 pushd .nuget
 echo Restoring nuget packages
 call nuget install packages.config -o ..\packages
 popd
 
-powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& {Import-Module '.\build\Psake'; Import-Module '.\build\Pscx'; invoke-psake .\build-scenario.ps1 %*; remove-module psake; if ($lastexitcode -ne 0) {write-host "ERROR: $lastexitcode" -fore RED; exit $lastexitcode} }" 
-
+call %psake% %%*
 
 pause

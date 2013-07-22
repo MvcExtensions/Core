@@ -5,19 +5,19 @@ properties {
 		$buildNumber = "3.0.0"
 	}
 	$projectDir = Resolve-Path "."
-    $sources = "$projectDir\src"
+    	$sources = "$projectDir\src"
 	$solution = "$projectDir\MvcExtensions.sln"
 	$configuration = "Debug"
 	$artifactPath = "$projectDir\Drops"
 	$version = [System.Text.RegularExpressions.Regex]::Match($buildNumber, "\d+.\d+.\d+").ToString() + ".0"
 	$semVer = $buildNumber
-	$xunit = "$projectDir\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.exe"
+	$xunit = Get-Item "$projectDir\packages\xunit.runners.*\tools\xunit.console.clr4.exe"
 	$projects = @("MvcExtensions", "MvcExtensions.FluentMetadata")
 	$nuget = "$projectDir\.nuget\nuget"
 	$referencePath = "$projectDir\References"
 	$coverageRunner = "$projectDir\build\PartCover\partcover.exe"
 	$styleCop = "$projectDir\build\StyleCop\StyleCopCLI.exe"
-    $ilmerge = "$projectDir\build\ILRepack\ILRepack.exe"
+    	$ilmerge = Get-Item "$projectDir\packages\ILRepack.*\tools\ILRepack.exe"
 }
 
 task default -depends Full

@@ -5,6 +5,6 @@ echo "Restoring nuget packages"
 & ".\nuget" install packages.config -o ..\packages
 popd
 
-import-module .\build\Psake\psake.psm1
-invoke-psake .\build-scenario.ps1 $args[0]
+import-module .\packages\Psake.4.2.0.1\tools\psake.psm1
+invoke-psake .\default.ps1 $args[0]
 remove-module psake
