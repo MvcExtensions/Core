@@ -9,3 +9,4 @@ $psm = Get-Item ".\packages\Psake.*\tools\psake.psm1"
 Import-Module "$psm"
 $psake.use_exit_on_error = $true
 Invoke-psake .\default.ps1 $args[0]
+Remove-Module psake
