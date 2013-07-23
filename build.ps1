@@ -5,6 +5,7 @@ echo "Restoring nuget packages"
 & ".\nuget" install packages.config -o ..\packages
 popd
 
-import-module .\packages\Psake.4.2.0.1\tools\psake.psm1
-invoke-psake .\default.ps1 $args
-remove-module psake
+$psm = Get-Item ".\packages\Psake.*\tools\psake.psm1"
+Import-Module "$psm"
+$psake.use_exit_on_error = $true
+Invoke-psake .\default.ps1 $args[0]
