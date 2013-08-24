@@ -65,7 +65,7 @@
         <AssemblyInfo CodeLanguage="CS"
 	        OutputFile="src\SharedFiles\CommonAssemblyInfo.cs"
             AssemblyCompany="MvcExtensions"
-            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2012, hazzik 2011-2012"
+            AssemblyCopyright="Copyright © Kazi Manzur Rashid 2009-2013, hazzik 2011-2013"
             ComVisible="false"
             AssemblyVersion="$(Version)"
             AssemblyFileVersion="$(Version)"

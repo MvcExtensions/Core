@@ -1,11 +1,13 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/CodeInspection/Highlighting/IdentifierHighlightingEnabled/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/SPACE_AFTER_TYPECAST_PARENTHESES/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/CodeStyle/CSharpUsing/AddImportsToDeepestScope/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderRegionName/@EntryValue">Copyright</s:String>
-	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright (c) 2009 - 2011, Kazi Manzur Rashid &lt;kazimanzurrashid@gmail.com&gt;, hazzik &lt;hazzik@gmail.com&gt;.&#xD;
+	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">Copyright (c) 2009 - 2013, Kazi Manzur Rashid &lt;kazimanzurrashid@gmail.com&gt;, hazzik &lt;hazzik@gmail.com&gt;.&#xD;
 This source is subject to the Microsoft Public License. &#xD;
 See http://www.microsoft.com/opensource/licenses.mspx#Ms-PL. &#xD;
 All other rights reserved.</s:String>
-	<s:String x:Key="/Default/CodeStyle/CSharpMemberOrderPattern/CustomPattern/@EntryValue"></s:String>
+	
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/SPACE_BEFORE_TYPEOF_PARENTHESES/@EntryValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/SPACE_WITHIN_SINGLE_LINE_ARRAY_INITIALIZER_BRACES/@EntryValue">True</s:Boolean>
 	<s:Int64 x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/BLANK_LINES_INSIDE_REGION/@EntryValue">0</s:Int64>
@@ -69,5 +71,5 @@ All other rights reserved.</s:String>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=F0AB030ABB2F454FB2631CEE67776D75/Comment/@EntryValue">new [0] -&gt; empty enumerable</s:String>
 	<s:Boolean x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=F0AB030ABB2F454FB2631CEE67776D75/IsReplacePattern/@EntryValue">True</s:Boolean>
 	<s:String x:Key="/Default/PatternsAndTemplates/StructuralSearch/Pattern/=F0AB030ABB2F454FB2631CEE67776D75/ReplacePattern/@EntryValue">System.Linq.Enumerable.Empty&lt;$T$&gt;()</s:String>
-	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">VISIBLE_FILES</s:String>
+	<s:String x:Key="/Default/CodeInspection/Highlighting/AnalysisEnabled/@EntryValue">SOLUTION</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/SolutionSettingsUpgraded/IsUpgraded/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>
