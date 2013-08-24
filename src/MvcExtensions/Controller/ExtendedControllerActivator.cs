@@ -80,7 +80,7 @@ namespace MvcExtensions
             Type activatorType = ControllerActivatorRegistry.Matching(controllerType);
 
             IControllerActivator activator = activatorType != null ?
-                                             (IControllerActivator)Container.GetServices(activatorType) :
+                                             (IControllerActivator)Container.GetService(activatorType) :
                                              null;
 
             Controller controller = activator != null ?

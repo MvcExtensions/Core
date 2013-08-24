@@ -65,7 +65,7 @@ namespace MvcExtensions
             Type activatorType = ViewActivatorRegistry.Matching(type);
 
             IViewPageActivator activator = activatorType != null ?
-                                           Container.GetServices(activatorType) as IViewPageActivator :
+                                           Container.GetService(activatorType) as IViewPageActivator :
                                            null;
 
             object view = activator != null ?
