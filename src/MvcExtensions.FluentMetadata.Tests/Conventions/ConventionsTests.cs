@@ -29,7 +29,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_apply_conventions_when_condition_is_matched()
         {
             // arrange
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
+            registry.RegisterConvention(new TestPropertyModelMetadataConvention());
             registry.RegisterModelProperties(modelType, new Dictionary<string, ModelMetadataItem>());
 
             // act
@@ -46,7 +46,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_apply_overwrite_existing_metadata_validation()
         {
             // arrange
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
+            registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
             var items = new Dictionary<string, ModelMetadataItem>();
             var metadataItem = new ModelMetadataItem();
@@ -69,7 +69,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Should_apply_convenstions_for_inheritance_even_if_it_was_called_for_inherited_class_firstly()
         {
             // arrange
-            registry.RegisterConvention(new InheritanceModelMetadataConvention());
+            registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
             registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, ModelMetadataItem>());
 
             // act
@@ -87,7 +87,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // arrange
             registry.ConventionAcceptor = new DefaultModelConventionAcceptor();
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
+            registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
             // act
             var result = registry.GetModelPropertyMetadata(modelType, PropertyName);
@@ -101,7 +101,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // arrange
             registry.ConventionAcceptor = new TestModelConventionAcceptor();
-            registry.RegisterConvention(new TestPropertyMetadataConvention());
+            registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
             // act
             var result = registry.GetModelPropertyMetadata(typeof(TestModelWitoutMetadata), PropertyName);
@@ -122,14 +122,14 @@ namespace MvcExtensions.FluentMetadata.Tests
             public string Name { get; set; }
         }
 
-        public class TestPropertyMetadataConvention : DefaultPropertyMetadataConvention<string>
+        public class TestPropertyModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
         {
-            protected override bool CanBeAcceptedCore(PropertyInfo propertyInfo)
+            public override bool IsApplicable(PropertyInfo propertyInfo)
             {
                 return propertyInfo.Name == "Name";
             }
 
-            protected override void CreateMetadataRulesCore(ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()
@@ -171,14 +171,14 @@ namespace MvcExtensions.FluentMetadata.Tests
             public string Name2 { get; set; }
         }
 
-        public class InheritanceModelMetadataConvention : DefaultPropertyMetadataConvention<string>
+        public class InheritanceModelModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
         {
-            protected override bool CanBeAcceptedCore(PropertyInfo propertyInfo)
+            protected virtual bool CanBeAcceptedCore(PropertyInfo propertyInfo)
             {
                 return propertyInfo.Name.StartsWith("Name");
             }
 
-            protected override void CreateMetadataRulesCore(ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()

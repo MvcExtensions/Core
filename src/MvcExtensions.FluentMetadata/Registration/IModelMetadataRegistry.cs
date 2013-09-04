@@ -20,8 +20,8 @@ namespace MvcExtensions
         /// <summary>
         /// Register a new convention
         /// </summary>
-        /// <param name="convention"><see cref="IPropertyMetadataConvention"/> class</param>
-        void RegisterConvention(IPropertyMetadataConvention convention);
+        /// <param name="convention"><see cref="IPropertyModelMetadataConvention"/> class</param>
+        void RegisterConvention(IPropertyModelMetadataConvention convention);
 
         /// <summary>
         /// Registers the model type metadata.

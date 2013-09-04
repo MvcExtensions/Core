@@ -12,20 +12,21 @@ namespace MvcExtensions
     /// <summary>
     /// Interface for all convenstions
     /// </summary>
-    public interface IPropertyMetadataConvention
+    public interface IPropertyModelMetadataConvention
     {
         /// <summary>
         /// Verifies that conventions can be applied to the given property
         /// </summary>
         /// <param name="propertyInfo">Target property information</param>
         /// <returns>true - if metadata can be accepted; otherwise, false</returns>
-        bool CanBeAccepted(PropertyInfo propertyInfo);
+        bool IsApplicable(PropertyInfo propertyInfo);
 
         /// <summary>
         /// Creates a set of model metadata rules
         /// </summary>
-        /// <param name="propertyInfo">Target property information</param>
+        /// <param name="property">Target property information</param>
+        /// <param name="item"></param>
         /// <returns>A instance of <see cref="ModelMetadataItem"/></returns>
-        ModelMetadataItem CreateMetadataRules(PropertyInfo propertyInfo);
+        ModelMetadataItem Apply(PropertyInfo property, ModelMetadataItem item);
     }
 }

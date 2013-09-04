@@ -20,7 +20,7 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
-        private readonly ICollection<IPropertyMetadataConvention> conventions = new List<IPropertyMetadataConvention>();
+        private readonly ICollection<IPropertyModelMetadataConvention> conventions = new List<IPropertyModelMetadataConvention>();
         private readonly ConcurrentBag<Type> ignoredClassesCache = new ConcurrentBag<Type>();
         private readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
         private IModelConventionAcceptor conventionAcceptor = new DefaultModelConventionAcceptor();
@@ -44,8 +44,8 @@ namespace MvcExtensions
         /// <summary>
         /// Register a new convention
         /// </summary>
-        /// <param name="convention"><see cref="IPropertyMetadataConvention"/> class</param>
-        public virtual void RegisterConvention([NotNull] IPropertyMetadataConvention convention)
+        /// <param name="convention"><see cref="IPropertyModelMetadataConvention"/> class</param>
+        public virtual void RegisterConvention([NotNull] IPropertyModelMetadataConvention convention)
         {
             Invariant.IsNotNull(convention, "convention");
 
@@ -228,7 +228,7 @@ namespace MvcExtensions
             foreach (var convention in conventions)
             {
                 var metadataConvention = convention;
-                foreach (var pi in properties.Where(metadataConvention.CanBeAccepted))
+                foreach (var pi in properties.Where(metadataConvention.IsApplicable))
                 {
                     ModelMetadataItem metadataItem;
                     if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
@@ -237,9 +237,9 @@ namespace MvcExtensions
                         item.PropertiesMetadata.Add(pi.Name, metadataItem);
                     }
 
-                    var conventionMetadata = convention.CreateMetadataRules(pi);
-
-                    conventionMetadata.MergeTo(metadataItem);
+                    var conventionalItem = new ModelMetadataItem();
+                    convention.Apply(pi, conventionalItem);
+                    conventionalItem.MergeTo(metadataItem);
                 }
             }
 
