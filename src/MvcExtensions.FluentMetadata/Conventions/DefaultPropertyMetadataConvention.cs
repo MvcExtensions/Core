@@ -35,7 +35,7 @@ namespace MvcExtensions
         public ModelMetadataItem CreateMetadataRules(PropertyInfo propertyInfo)
         {
             var builder = new ModelMetadataItemBuilder<T>(new ModelMetadataItem());
-            CreateMetadataRulesCore(builder);
+            CreateMetadataRulesCore(builder, propertyInfo);
             return builder.Item;
         }
 
@@ -47,6 +47,19 @@ namespace MvcExtensions
         /// <summary>
         /// Creates a set of model metadata rules
         /// </summary>
-        protected abstract void CreateMetadataRulesCore(ModelMetadataItemBuilder<T> builder);
+        /// <param name="builder">The model metadata builder</param>
+        protected virtual void CreateMetadataRulesCore(ModelMetadataItemBuilder<T> builder)
+        {
+        }
+
+        /// <summary>
+        /// Creates a set of model metadata rules
+        /// </summary>
+        /// <param name="builder">The model metadata item builder</param>
+        /// <param name="propertyInfo">The property</param>
+        protected virtual void CreateMetadataRulesCore(ModelMetadataItemBuilder<T> builder, PropertyInfo propertyInfo)
+        {
+            CreateMetadataRulesCore(builder);
+        }
     }
 }
