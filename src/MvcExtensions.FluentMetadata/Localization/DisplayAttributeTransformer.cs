@@ -14,7 +14,7 @@ namespace MvcExtensions
     /// <summary>
     /// 
     /// </summary>
-    public class DisplayAttributeTransformer : TransformerCore
+    public class DisplayAttributeTransformer
     {
         /// <summary>
         /// 
@@ -50,7 +50,7 @@ namespace MvcExtensions
 
             // reset resource and manually set values
             attr.ResourceType = null;
-            var resourceKey = GetResourceKey(containerType, propertyName);
+            var resourceKey = ResourceUtil.GetResourceKey(containerType, propertyName);
 
             // retrieve values
             attr.Name = GetValue(resourceType, attr.Name, resourceKey, propertyName);

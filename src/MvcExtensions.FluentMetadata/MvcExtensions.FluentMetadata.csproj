@@ -119,7 +119,7 @@
     <Compile Include="Localization\DisplayNameTransformer.cs" />
     <Compile Include="Localization\FluentModelMetadataTransformer.cs" />
     <Compile Include="Localization\MetadataConventionsAttribute.cs" />
-    <Compile Include="Localization\TransformerCore.cs" />
+    <Compile Include="Localization\ResourceUtil.cs" />
     <Compile Include="Localization\ValidationAttributeTransformer.cs" />
     <Compile Include="ModelMetadata\CompareValidationMetadata.cs" />
     <Compile Include="ModelMetadata\IModelMetadataItemBuilder.cs" />

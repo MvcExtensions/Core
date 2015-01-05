@@ -13,7 +13,7 @@ namespace MvcExtensions
     /// <summary>
     /// Splits DisplayName attribute by cammel cases
     /// </summary>
-    public class DisplayNameTransformer : TransformerCore
+    public class DisplayNameTransformer
     {
         /// <summary>
         /// If true, upper case property name won't be splitted

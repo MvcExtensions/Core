@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// <summary>
     /// Transforms <see cref="ModelMetadata"/> to apply convensions
     /// </summary>
-    public class FluentModelMetadataTransformer : TransformerCore
+    public class FluentModelMetadataTransformer
     {
         private const string DescriptionSuffix = "_Description";
         private const string ShortDisplayNameSuffix = "_ShortName";
@@ -41,7 +41,7 @@ namespace MvcExtensions
             var propertyName = metadata.PropertyName;
             if (resourceType != null && !string.IsNullOrEmpty(propertyName))
             {
-                var key = GetResourceKey(containerType, propertyName);
+                var key = ResourceUtil.GetResourceKey(containerType, propertyName);
                 if (metadata.DisplayName == null)
                 {
                     metadata.DisplayName = RetrieveValue(resourceType, key, propertyName);

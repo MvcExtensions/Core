@@ -14,7 +14,7 @@ namespace MvcExtensions
     /// <summary>
     /// Transforms error message for <see cref="ValidationAttribute"/>. Applies conventions.
     /// </summary>
-    public class ValidationAttributeTransformer : TransformerCore
+    public class ValidationAttributeTransformer
     {
         /// <summary>
         /// 
@@ -40,8 +40,7 @@ namespace MvcExtensions
                 return;
             }
 
-            if (!string.IsNullOrEmpty(attr.ErrorMessageResourceName) &&
-                HasResourceValue(resourceType, attr.ErrorMessageResourceName))
+            if (!string.IsNullOrEmpty(attr.ErrorMessageResourceName) && ResourceUtil.HasResourceValue(resourceType, attr.ErrorMessageResourceName))
             {
                 attr.ErrorMessageResourceType = resourceType;
             }
@@ -52,14 +51,14 @@ namespace MvcExtensions
                 var resouceFound = false;
                 if (containerType != null && propertyName != null)
                 {
-                    resourceKey = string.Format("{0}_{1}", GetResourceKey(containerType, propertyName), attributeName);
-                    resouceFound = HasResourceValue(resourceType, resourceKey);
+                    resourceKey = string.Format("{0}_{1}", ResourceUtil.GetResourceKey(containerType, propertyName), attributeName);
+                    resouceFound = ResourceUtil.HasResourceValue(resourceType, resourceKey);
                 }
 
                 if (!resouceFound)
                 {
                     resourceKey = string.Format("Validation_{0}", attributeName);
-                    resouceFound = HasResourceValue(resourceType, resourceKey);
+                    resouceFound = ResourceUtil.HasResourceValue(resourceType, resourceKey);
                 }
 
                 if (resouceFound)

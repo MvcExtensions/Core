@@ -3,10 +3,7 @@ namespace MvcExtensions
     using System;
     using JetBrains.Annotations;
 
-    /// <summary>
-    /// Base class for transformers
-    /// </summary>
-    public abstract class TransformerCore
+    internal static class ResourceUtil
     {
         /// <summary>
         /// Format Resource key for given <paramref name="containerType"/> and <paramref name="propertyName"/>
@@ -15,7 +12,7 @@ namespace MvcExtensions
         /// <param name="propertyName">Property name</param>
         /// <returns></returns>
         [NotNull]
-        protected static string GetResourceKey([NotNull] Type containerType, string propertyName)
+        public static string GetResourceKey([NotNull] Type containerType, string propertyName)
         {
             return String.Format("{0}_{1}", containerType.Name, propertyName);
         }
@@ -26,7 +23,7 @@ namespace MvcExtensions
         /// <param name="resourceType"></param>
         /// <param name="resourceKey"></param>
         /// <returns></returns>
-        protected static bool HasResourceValue(Type resourceType, string resourceKey)
+        public static bool HasResourceValue(Type resourceType, string resourceKey)
         {
             return resourceType.HasProperty(resourceKey);
         }
