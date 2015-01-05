@@ -14,7 +14,7 @@ namespace MvcExtensions
     /// <summary>
     /// Transforms error message for <see cref="ValidationAttribute"/>. Applies conventions.
     /// </summary>
-    public class ValidationAttributeTransformer
+    public static class ValidationAttributeTransformer
     {
         /// <summary>
         /// 
@@ -23,7 +23,7 @@ namespace MvcExtensions
         /// <param name="containerType"> </param>
         /// <param name="propertyName"> </param>
         /// <param name="defaultResource"> </param>
-        public void Transform([NotNull] ValidationAttribute attr, Type containerType, string propertyName, Type defaultResource)
+        public static void Transform([NotNull] ValidationAttribute attr, Type containerType, string propertyName, Type defaultResource)
         {
             if (!LocalizationConventions.Enabled ||
                 (!string.IsNullOrEmpty(attr.ErrorMessage) ||

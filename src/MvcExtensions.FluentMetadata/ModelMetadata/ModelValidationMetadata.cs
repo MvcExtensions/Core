@@ -97,8 +97,7 @@ namespace MvcExtensions
                 var propertyName = modelMetadata.With(m => m.PropertyName);
                 var defaultResourceType = LocalizationConventions.GetDefaultResourceType(conventionType);
 
-                var transformer = ConventionalDataAnnotationsModelMetadataProvider.ValidationAttributeTransformer.Value;
-                transformer.Transform(validationAttribute, conventionType, propertyName, defaultResourceType);
+                ValidationAttributeTransformer.Transform(validationAttribute, conventionType, propertyName, defaultResourceType);
             }
         }
 

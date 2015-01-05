@@ -22,9 +22,6 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ExtendedModelMetadataProvider : ConventionalDataAnnotationsModelMetadataProvider
     {
-        internal static readonly Lazy<FluentModelMetadataTransformer> FluentModelMetadataTransformer =
-            new Lazy<FluentModelMetadataTransformer>(() => new FluentModelMetadataTransformer());
-
         private readonly IModelMetadataRegistry registry;
 
         /// <summary>
@@ -215,8 +212,8 @@ namespace MvcExtensions
                 metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
             }
 
-            FluentModelMetadataTransformer.Value.Transform(metadata);
-            DisplayNameTransformer.Value.Transform(metadata);
+            FluentModelMetadataTransformer.Transform(metadata);
+            MvcExtensions.DisplayNameTransformer.Transform(metadata);
         }
 
         [NotNull]

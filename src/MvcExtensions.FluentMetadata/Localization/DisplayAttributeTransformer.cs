@@ -14,22 +14,22 @@ namespace MvcExtensions
     /// <summary>
     /// 
     /// </summary>
-    public class DisplayAttributeTransformer
+    public static class DisplayAttributeTransformer
     {
         /// <summary>
         /// 
         /// </summary>
-        protected const string DescriptionSuffix = "_Description";
+        private const string DescriptionSuffix = "_Description";
 
         /// <summary>
         /// 
         /// </summary>
-        protected const string ShortDisplayNameSuffix = "_ShortName";
+        private const string ShortDisplayNameSuffix = "_ShortName";
 
         /// <summary>
         /// 
         /// </summary>
-        protected const string PromptSuffix = "_Prompt";
+        private const string PromptSuffix = "_Prompt";
 
         /// <summary>
         /// 
@@ -38,7 +38,7 @@ namespace MvcExtensions
         /// <param name="containerType"></param>
         /// <param name="propertyName"></param>
         /// <param name="defaultResourceType"></param>
-        public void Transform([NotNull] DisplayAttribute attr, [NotNull] Type containerType, string propertyName, Type defaultResourceType)
+        public static void Transform([NotNull] DisplayAttribute attr, [NotNull] Type containerType, string propertyName, Type defaultResourceType)
         {
             Invariant.IsNotNull(attr, "displayAttribute");
 

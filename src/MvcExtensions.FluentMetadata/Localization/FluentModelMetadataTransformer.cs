@@ -16,7 +16,7 @@ namespace MvcExtensions
     /// <summary>
     /// Transforms <see cref="ModelMetadata"/> to apply convensions
     /// </summary>
-    public class FluentModelMetadataTransformer
+    public static class FluentModelMetadataTransformer
     {
         private const string DescriptionSuffix = "_Description";
         private const string ShortDisplayNameSuffix = "_ShortName";
@@ -26,7 +26,7 @@ namespace MvcExtensions
         /// Tranform <see cref="ModelMetadata"/>
         /// </summary>
         /// <param name="metadata"></param>
-        public void Transform([NotNull] ModelMetadata metadata)
+        public static void Transform([NotNull] ModelMetadata metadata)
         {
             Invariant.IsNotNull(metadata, "metadata");
 
@@ -68,8 +68,5 @@ namespace MvcExtensions
         {
             return resourceType.GetResourceValueByPropertyLookup(key) ?? resourceType.GetResourceValueByPropertyLookup(propertyName);
         }
-
-
-       
     }
 }

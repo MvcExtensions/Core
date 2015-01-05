@@ -18,10 +18,6 @@ namespace MvcExtensions
     /// </summary>
     public class ConventionalDataAnnotationsModelMetadataProvider : DataAnnotationsModelMetadataProvider
     {
-        internal static readonly Lazy<DisplayNameTransformer> DisplayNameTransformer = new Lazy<DisplayNameTransformer>(() => new DisplayNameTransformer());
-        internal static readonly Lazy<ValidationAttributeTransformer> ValidationAttributeTransformer = new Lazy<ValidationAttributeTransformer>(() => new ValidationAttributeTransformer());
-        internal static readonly Lazy<DisplayAttributeTransformer> DisplayAttributeTransformer = new Lazy<DisplayAttributeTransformer>(() => new DisplayAttributeTransformer());
-
         /// <summary>
         /// Gets the metadata for the specified property.
         /// </summary>
@@ -49,7 +45,7 @@ namespace MvcExtensions
                     {
                         if (attribute is ValidationAttribute)
                         {
-                            ValidationAttributeTransformer.Value.Transform((ValidationAttribute)attribute, containerType, propertyName, defaultResourceType);
+                            ValidationAttributeTransformer.Transform((ValidationAttribute)attribute, containerType, propertyName, defaultResourceType);
                             newAttributes.Add(attribute);
                         }
                         else if (attribute is DisplayAttribute)
@@ -65,13 +61,13 @@ namespace MvcExtensions
                     // ensure DisplayAttribute and clone existing
                     displayAttribute = displayAttribute.Copy() ?? new DisplayAttribute();
                   
-                    DisplayAttributeTransformer.Value.Transform(displayAttribute, containerType, propertyName, defaultResourceType);
+                    MvcExtensions.DisplayAttributeTransformer.Transform(displayAttribute, containerType, propertyName, defaultResourceType);
                     newAttributes.Add(displayAttribute);
                 }
             }
 
             var metadata = base.CreateMetadata(newAttributes ?? attributes, containerType, modelAccessor, modelType, propertyName);
-            DisplayNameTransformer.Value.Transform(metadata);
+            DisplayNameTransformer.Transform(metadata);
             return metadata;
         }
     }

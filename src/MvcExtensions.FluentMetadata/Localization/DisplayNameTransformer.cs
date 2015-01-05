@@ -13,7 +13,7 @@ namespace MvcExtensions
     /// <summary>
     /// Splits DisplayName attribute by cammel cases
     /// </summary>
-    public class DisplayNameTransformer
+    public static class DisplayNameTransformer
     {
         /// <summary>
         /// If true, upper case property name won't be splitted
@@ -24,7 +24,7 @@ namespace MvcExtensions
         /// Process display attibute
         /// </summary>
         /// <param name="metadata"></param>
-        public void Transform([NotNull] ModelMetadata metadata)
+        public static void Transform([NotNull] ModelMetadata metadata)
         {
             Invariant.IsNotNull(metadata, "metadata");
 
