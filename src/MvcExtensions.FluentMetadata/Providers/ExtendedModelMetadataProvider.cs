@@ -212,6 +212,11 @@ namespace MvcExtensions
                 metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
             }
 
+            foreach (var item in metadataItem.MetadataAwares)
+            {
+                item.OnMetadataCreated(metadata);
+            }
+
             FluentModelMetadataTransformer.Transform(metadata);
             MvcExtensions.DisplayNameTransformer.Transform(metadata);
         }
@@ -224,6 +229,7 @@ namespace MvcExtensions
             if (metadataItem != null)
             {
                 Copy(metadataItem, modelMetadata);
+                
             }
 
             return modelMetadata;
@@ -238,6 +244,7 @@ namespace MvcExtensions
             if (propertyMetadata != null)
             {
                 Copy(propertyMetadata, modelMetadata);
+                
             }
 
             return modelMetadata;

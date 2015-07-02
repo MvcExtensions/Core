@@ -5,6 +5,8 @@
 // All other rights reserved.
 #endregion
 
+using System.Web.Mvc;
+
 namespace MvcExtensions
 {
     using System.Linq;
@@ -85,6 +87,42 @@ namespace MvcExtensions
             where TSetting : IModelMetadataAdditionalSetting
         {
             return item.AdditionalSettings.OfType<TSetting>().FirstOrDefault();
+        }
+
+
+        /// <summary>
+        /// Returns model  metadataAware of type <typeparamref name="TSetting"/> associated with this <paramref name="item"/>. 
+        /// New model setting will be created if no one is found. 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <typeparam name="TSetting"></typeparam>
+        /// <returns>Model validation metadata of type <typeparamref name="TSetting"/></returns>
+        [NotNull]
+        public static TSetting GetMetadataAwareOrCreateNew<TSetting>([NotNull] this ModelMetadataItem item)
+            where TSetting : class, IMetadataAware, new()
+        {
+            var setting = item.GetMetadataAware<TSetting>();
+
+            if (setting == null)
+            {
+                setting = new TSetting();
+                item.MetadataAwares.Add(setting);
+            }
+
+            return setting;
+        }
+
+        /// <summary>
+        /// Returns model metadataAware of type <typeparamref name="TSetting"/> associated with this <paramref name="item"/> or null. 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <typeparam name="TSetting"></typeparam>
+        /// <returns>Model validation metadata of type <typeparamref name="TSetting"/> or null</returns>
+        [CanBeNull]
+        public static TSetting GetMetadataAware<TSetting>([NotNull] this ModelMetadataItem item)
+            where TSetting : IMetadataAware
+        {
+            return item.MetadataAwares.OfType<TSetting>().FirstOrDefault();
         }
     }
 }
