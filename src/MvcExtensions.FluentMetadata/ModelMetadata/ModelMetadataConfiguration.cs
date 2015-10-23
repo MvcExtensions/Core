@@ -101,6 +101,11 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(property, "property");
 
+            if (configurations.ContainsKey(property))
+            {
+                return configurations[property];
+            }
+
             var item = new ModelMetadataItem();
 
             configurations[property] = item;
