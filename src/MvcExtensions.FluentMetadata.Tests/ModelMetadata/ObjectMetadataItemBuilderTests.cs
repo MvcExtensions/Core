@@ -11,13 +11,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class ObjectMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<object> builder;
 
         public ObjectMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<object>(item);
+            builder = new ModelMetadataItemBuilder<object>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -25,8 +23,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey");
 
-            Assert.Equal("DropDownList", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            Assert.Equal("DropDownList", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.AdditionalSettings);
         }
 
         [Fact]
@@ -34,8 +32,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey", "[Select an option]");
 
-            Assert.Equal("DropDownList", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            Assert.Equal("DropDownList", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.AdditionalSettings);
         }
 
         [Fact]
@@ -43,8 +41,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey", "[Select an option]", "fooTemplate");
 
-            Assert.Equal("fooTemplate", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            Assert.Equal("fooTemplate", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.AdditionalSettings);
         }
 
         [Fact]
@@ -52,8 +50,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsListBox("dummyKey");
 
-            Assert.Equal("ListBox", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            Assert.Equal("ListBox", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.AdditionalSettings);
         }
 
         [Fact]
@@ -61,8 +59,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsListBox("dummyKey", "fooTemplate");
 
-            Assert.Equal("fooTemplate", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            Assert.Equal("fooTemplate", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.AdditionalSettings);
         }
     }
 }

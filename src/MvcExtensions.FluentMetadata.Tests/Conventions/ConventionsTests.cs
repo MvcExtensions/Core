@@ -49,10 +49,10 @@ namespace MvcExtensions.FluentMetadata.Tests
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
             var items = new Dictionary<string, Func<ModelMetadataItem>>();
-            var metadataItem = new ModelMetadataItem();
             const int Expected = 200;
-            new ModelMetadataItemBuilder<string>(metadataItem).MaximumLength(Expected);
-            items.Add(PropertyName, () => metadataItem);
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.MaximumLength(Expected);
+            items.Add(PropertyName, () => builder.Item);
 
             registry.RegisterModelProperties(modelType, items);
 

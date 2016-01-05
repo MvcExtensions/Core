@@ -64,14 +64,6 @@ namespace MvcExtensions
             }
         }
 
-        ModelMetadataItem IModelMetadataItemBuilder<TValue>.Item
-        {
-            get
-            {
-                return Item;
-            }
-        }
-
         [NotNull]
         IModelMetadataItemBuilder<TValue> IModelMetadataItemBuilder<TValue>.DisplayName(Func<string> value)
         {
@@ -1008,6 +1000,15 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Adds an builder action
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddAction(Action<ModelMetadataItem> action)
+        {
+            _actions.Add(action);
+        }
+
+        /// <summary>
         /// Sets the delegate based custom validation for model and value.
         /// </summary>
         /// <returns></returns>
@@ -1081,12 +1082,16 @@ namespace MvcExtensions
         [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> Compare(string otherProperty, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
+            AddAction(
+                m =>
+                {
+                    var compareValidation = m.GetValidationOrCreateNew<CompareValidationMetadata>();
 
-            compareValidation.OtherProperty = otherProperty;
-            compareValidation.ErrorMessage = errorMessage;
-            compareValidation.ErrorMessageResourceType = errorMessageResourceType;
-            compareValidation.ErrorMessageResourceName = errorMessageResourceName;
+                    compareValidation.OtherProperty = otherProperty;
+                    compareValidation.ErrorMessage = errorMessage;
+                    compareValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    compareValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return This;
         }
@@ -1108,11 +1113,6 @@ namespace MvcExtensions
             var @new = Expression.New(constructor, modelMetadata, controllerContext);
 
             return Expression.Lambda<Func<ModelMetadata, ControllerContext, TValidator>>(@new, modelMetadata, controllerContext).Compile();
-        }
-
-        void AddAction(Action<ModelMetadataItem> action)
-        {
-            _actions.Add(action);
         }
     }
 }

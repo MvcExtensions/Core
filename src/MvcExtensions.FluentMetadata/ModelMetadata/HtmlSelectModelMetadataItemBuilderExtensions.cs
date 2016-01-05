@@ -112,16 +112,20 @@ namespace MvcExtensions
         [NotNull]
         private static ModelMetadataItemBuilder<TValue> HtmlSelect<TValue>([NotNull] ModelMetadataItemBuilder<TValue> self, string templateName, string viewDataKey, Func<string> optionLabel)
         {
-            var selectableElementSetting = self.Item.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
+            self.AddAction(
+                m =>
+                {
+                    var selectableElementSetting = m.GetAdditionalSettingOrCreateNew<ModelMetadataItemSelectableElementSetting>();
 
-            selectableElementSetting.ViewDataKey = viewDataKey;
+                    selectableElementSetting.ViewDataKey = viewDataKey;
 
-            if (optionLabel != null)
-            {
-                selectableElementSetting.OptionLabel = optionLabel;
-            }
+                    if (optionLabel != null)
+                    {
+                        selectableElementSetting.OptionLabel = optionLabel;
+                    }
 
-            self.Item.TemplateName = templateName;
+                    m.TemplateName = templateName;
+                });
 
             return self;
         }

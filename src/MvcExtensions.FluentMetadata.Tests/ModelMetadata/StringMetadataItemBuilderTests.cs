@@ -105,16 +105,18 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsEmail();
 
-            Assert.Equal("EmailAddress", builder.Item.TemplateName);
-            Assert.NotEmpty(builder.Item.Validations);
+            var item = builder.Item;
+            Assert.Equal("EmailAddress", item.TemplateName);
+            Assert.NotEmpty(item.Validations);
         }
 
         [Fact]
         public void Setting_as_email_should_throw_exception_when_there_is_an_active_expression_validation()
         {
             builder.AsUrl();
+            builder.AsEmail();
 
-            Assert.Throws<InvalidOperationException>(() => builder.AsEmail());
+            Assert.Throws<InvalidOperationException>(() => builder.Item);
         }
 
         [Fact]
@@ -130,16 +132,18 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsUrl();
 
-            Assert.Equal("Url", builder.Item.TemplateName);
-            Assert.NotEmpty(builder.Item.Validations);
+            var item = builder.Item;
+            Assert.Equal("Url", item.TemplateName);
+            Assert.NotEmpty(item.Validations);
         }
 
         [Fact]
         public void Setting_as_url_should_throw_exception_when_there_is_an_active_expression_validation()
         {
             builder.AsEmail();
+            builder.AsUrl();
 
-            Assert.Throws<InvalidOperationException>(() => builder.AsUrl());
+            Assert.Throws<InvalidOperationException>(() => builder.Item);
         }
 
         [Fact]

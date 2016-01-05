@@ -148,8 +148,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Validation_should_not_removed()
         {
             // arrange
-            var to = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(to).MaximumLength(50);
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.MaximumLength(50);
+            var to = builder.Item;
 
             var from = new ModelMetadataItem();
 
@@ -168,8 +169,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var to = new ModelMetadataItem();
 
-            var from = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(from).MaximumLength(50);
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.MaximumLength(50);
+            var @from = builder.Item;
 
             // act
             from.MergeTo(to);
@@ -184,11 +186,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Validation_should_be_overwritten()
         {
             // arrange
-            var to = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(to).MaximumLength(100);
+            var toBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            toBuilder.MaximumLength(100);
+            var to = toBuilder.Item;
 
-            var from = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(from).MaximumLength(50);
+            var fromBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            fromBuilder.MaximumLength(50);
+            var from = fromBuilder.Item;
 
             // act
             from.MergeTo(to);

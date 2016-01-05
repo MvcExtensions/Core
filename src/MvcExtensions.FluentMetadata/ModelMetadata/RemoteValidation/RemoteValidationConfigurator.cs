@@ -238,17 +238,22 @@ namespace MvcExtensions
         private void CreateRemoteValidation(string controller, [AspMvcAction]string action, string areaName, string routeName, [NotNull] IEnumerable<string> additionalFields)
         {
             var self = Core.ModelMetadataItemBuilder;
-            var validation = self.Item.GetValidationOrCreateNew<RemoteValidationMetadata>();
 
-            validation.ErrorMessage = errorMessage;
-            validation.Action = action;
-            validation.Controller = controller;
-            validation.RouteName = routeName;
-            validation.Area = areaName;
-            validation.AdditionalFields = string.Join(",", additionalFields);
-            validation.HttpMethod = httpMethod;
-            validation.ErrorMessageResourceType = errorMessageResourceType;
-            validation.ErrorMessageResourceName = errorMessageResourceName;
+            self.AddAction(
+                m =>
+                {
+                    var validation = m.GetValidationOrCreateNew<RemoteValidationMetadata>();
+
+                    validation.ErrorMessage = errorMessage;
+                    validation.Action = action;
+                    validation.Controller = controller;
+                    validation.RouteName = routeName;
+                    validation.Area = areaName;
+                    validation.AdditionalFields = string.Join(",", additionalFields);
+                    validation.HttpMethod = httpMethod;
+                    validation.ErrorMessageResourceType = errorMessageResourceType;
+                    validation.ErrorMessageResourceName = errorMessageResourceName;
+                });
         }
     }
 }

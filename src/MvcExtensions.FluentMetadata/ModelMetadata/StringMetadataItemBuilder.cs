@@ -150,10 +150,14 @@ namespace MvcExtensions
         {
             self.Template("EmailAddress");
 
-            if (self.Item.GetValidation<RegularExpressionValidationMetadata>() != null)
-            {
-                throw new InvalidOperationException(ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression);
-            }
+            self.AddAction(
+                m =>
+                {
+                    if (m.GetValidation<RegularExpressionValidationMetadata>() != null)
+                    {
+                        throw new InvalidOperationException(ExceptionMessages.CannotApplyEmailWhenThereIsAnActiveExpression);
+                    }
+                });
 
             return Expression(self, EmailExpression, ((EmailErrorMessageResourceType == null) && string.IsNullOrEmpty(EmailErrorMessageResourceName)) ? () => EmailErrorMessage : (Func<string>)null, EmailErrorMessageResourceType, EmailErrorMessageResourceName);
         }
@@ -179,10 +183,14 @@ namespace MvcExtensions
         {
             self.Template("Url");
 
-            if (self.Item.GetValidation<RegularExpressionValidationMetadata>() != null)
-            {
-                throw new InvalidOperationException(ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression);
-            }
+            self.AddAction(
+                m =>
+                {
+                    if (m.GetValidation<RegularExpressionValidationMetadata>() != null)
+                    {
+                        throw new InvalidOperationException(ExceptionMessages.CannotApplyUrlWhenThereIsAnActiveExpression);
+                    }
+                });
 
             return Expression(self, UrlExpression, ((UrlErrorMessageResourceType == null) && string.IsNullOrEmpty(UrlErrorMessageResourceName)) ? () => UrlErrorMessage : (Func<string>)null, UrlErrorMessageResourceType, UrlErrorMessageResourceName);
         }
@@ -377,12 +385,16 @@ namespace MvcExtensions
         [NotNull]
         private static ModelMetadataItemBuilder<string> Expression([NotNull] ModelMetadataItemBuilder<string> self, string pattern, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var regularExpressionValidation = self.Item.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
-            
-            regularExpressionValidation.Pattern = pattern;
-            regularExpressionValidation.ErrorMessage = errorMessage;
-            regularExpressionValidation.ErrorMessageResourceType = errorMessageResourceType;
-            regularExpressionValidation.ErrorMessageResourceName = errorMessageResourceName;
+            self.AddAction(
+                m =>
+                {
+                    var regularExpressionValidation = m.GetValidationOrCreateNew<RegularExpressionValidationMetadata>();
+
+                    regularExpressionValidation.Pattern = pattern;
+                    regularExpressionValidation.ErrorMessage = errorMessage;
+                    regularExpressionValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    regularExpressionValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return self;
         }
@@ -399,12 +411,16 @@ namespace MvcExtensions
         [NotNull]
         private static ModelMetadataItemBuilder<string> MaximumLength([NotNull] ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+            self.AddAction(
+                m =>
+                {
+                    var stringLengthValidation = m.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
-            stringLengthValidation.Maximum = length;
-            stringLengthValidation.ErrorMessage = errorMessage;
-            stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
-            stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
+                    stringLengthValidation.Maximum = length;
+                    stringLengthValidation.ErrorMessage = errorMessage;
+                    stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return self;
         }
@@ -421,12 +437,16 @@ namespace MvcExtensions
         [NotNull]
         private static ModelMetadataItemBuilder<string> MinimumLength([NotNull] ModelMetadataItemBuilder<string> self, int length, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var stringLengthValidation = self.Item.GetValidationOrCreateNew<StringLengthValidationMetadata>();
+            self.AddAction(
+                m =>
+                {
+                    var stringLengthValidation = m.GetValidationOrCreateNew<StringLengthValidationMetadata>();
 
-            stringLengthValidation.Minimum = length;
-            stringLengthValidation.ErrorMessage = errorMessage;
-            stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
-            stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
+                    stringLengthValidation.Minimum = length;
+                    stringLengthValidation.ErrorMessage = errorMessage;
+                    stringLengthValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    stringLengthValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return self;
         }
