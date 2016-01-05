@@ -22,7 +22,7 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public abstract class ModelMetadataConfiguration<TModel> : IModelMetadataConfiguration where TModel : class
     {
-        private readonly IDictionary<string, Func<ModelMetadataItem>> configurations = new Dictionary<string, Func<ModelMetadataItem>>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, IModelMetadataItemConfigurator> configurations = new Dictionary<string, IModelMetadataItemConfigurator>(StringComparer.OrdinalIgnoreCase);
         private readonly Type modelType = typeof(TModel);
 
         #region IModelMetadataConfiguration Members
@@ -40,7 +40,7 @@ namespace MvcExtensions
         /// Gets the configurations.
         /// </summary>
         /// <value>The configurations.</value>
-        public virtual IDictionary<string, Func<ModelMetadataItem>> Configurations
+        public virtual IDictionary<string, IModelMetadataItemConfigurator> Configurations
         {
             [DebuggerStepThrough, EditorBrowsable(EditorBrowsableState.Never)]
             get { return configurations; }
@@ -62,7 +62,7 @@ namespace MvcExtensions
             Invariant.IsNotNull(property, "property");
 
             var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
-            configurations[property] = () => builder.Item;
+            configurations[property] = builder;
             return builder;
         }
 
@@ -92,7 +92,7 @@ namespace MvcExtensions
             var item = new ModelMetadataItem();
 
             var builder = new ModelMetadataItemBuilder<object>(item);
-            configurations[property] = () => builder.Item;
+            configurations[property] = builder;
             return builder;
         }
 
@@ -100,7 +100,7 @@ namespace MvcExtensions
         {
             var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
 
-            configurations[property] = () => builder.Item;
+            configurations[property] = builder;
 
             return builder;
         }

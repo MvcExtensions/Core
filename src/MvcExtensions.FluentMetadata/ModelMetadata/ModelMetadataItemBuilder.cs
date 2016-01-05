@@ -22,7 +22,7 @@ namespace MvcExtensions
     /// Defines class to fluently configure metadata.
     /// </summary>
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
-    public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>
+    public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>, IModelMetadataItemConfigurator
     {
         readonly IList<Action<ModelMetadataItem>> _actions = new List<Action<ModelMetadataItem>>();
         readonly ModelMetadataItem item;
@@ -47,11 +47,20 @@ namespace MvcExtensions
             [EditorBrowsable(EditorBrowsableState.Never)]
             get
             {
-                foreach (var action in _actions)
-                {
-                    action(item);
-                }
+                ((IModelMetadataItemConfigurator)this).Configure(item);
                 return item;
+            }
+        }
+
+        /// <summary>
+        /// Configures the <see cref="ModelMetadataItem"/>
+        /// </summary>
+        /// <param name="item"></param>
+        void IModelMetadataItemConfigurator.Configure(ModelMetadataItem item)
+        {
+            foreach (var action in _actions)
+            {
+                action(item);
             }
         }
 

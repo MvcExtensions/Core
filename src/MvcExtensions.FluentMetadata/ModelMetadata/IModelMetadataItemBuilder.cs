@@ -8,7 +8,7 @@ namespace MvcExtensions
     /// Defines a contract to fluently configure metadata.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    public interface IModelMetadataItemBuilder<out TValue>
+    public interface IModelMetadataItemBuilder<out TValue> 
     {
         /// <summary>
         /// Sets the Display name.

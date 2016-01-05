@@ -30,7 +30,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // arrange
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
-            registry.RegisterModelProperties(modelType, new Dictionary<string, Func<ModelMetadataItem>>());
+            registry.RegisterModelProperties(modelType, new Dictionary<string, IModelMetadataItemConfigurator>());
 
             // act
             var result = registry.GetModelPropertyMetadata(modelType, PropertyName);
@@ -48,11 +48,11 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
-            var items = new Dictionary<string, Func<ModelMetadataItem>>();
+            var items = new Dictionary<string, IModelMetadataItemConfigurator>();
             const int Expected = 200;
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.MaximumLength(Expected);
-            items.Add(PropertyName, () => builder.Item);
+            items.Add(PropertyName, builder);
 
             registry.RegisterModelProperties(modelType, items);
 
@@ -70,7 +70,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // arrange
             registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
-            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, Func<ModelMetadataItem>>());
+            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, IModelMetadataItemConfigurator>());
 
             // act
             var result = registry.GetModelPropertyMetadata(typeof(InheritedModel), PropertyName);
@@ -87,7 +87,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             // arrange
             registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
-            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, Func<ModelMetadataItem>>());
+            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, IModelMetadataItemConfigurator>());
 
             // act
             var result = registry.GetModelPropertyMetadata(typeof(InheritedModel), "ShouldNotApply");

@@ -35,7 +35,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="metadataItems">The metadata dictionary.</param>
-        void RegisterModelProperties(Type modelType, IDictionary<string, Func<ModelMetadataItem>> metadataItems);
+        void RegisterModelProperties(Type modelType, IDictionary<string, IModelMetadataItemConfigurator> metadataItems);
 
         /// <summary>
         /// Gets the model metadata.

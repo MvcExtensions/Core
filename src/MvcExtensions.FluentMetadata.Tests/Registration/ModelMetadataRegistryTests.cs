@@ -56,10 +56,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_register_model_properties()
         {
-            var properties = new Dictionary<string, Func<ModelMetadataItem>>
+            var properties = new Dictionary<string, IModelMetadataItemConfigurator>
                                  {
-                                     { "foo", new Mock<Func<ModelMetadataItem>>().Object },
-                                     { "bar", new Mock<Func<ModelMetadataItem>>().Object }
+                                     { "foo", new Mock<IModelMetadataItemConfigurator>().Object },
+                                     { "bar", new Mock<IModelMetadataItemConfigurator>().Object }
                                  };
 
             registry.RegisterModelProperties(typeof(object), properties);
@@ -73,9 +73,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact(Skip = "Not releavant")]
         public void Should_be_able_to_get_model_property()
         {
-            var modelMetadata = new Mock<Func<ModelMetadataItem>>();
+            var modelMetadata = new Mock<IModelMetadataItemConfigurator>();
 
-            var properties = new Dictionary<string, Func<ModelMetadataItem>>
+            var properties = new Dictionary<string, IModelMetadataItemConfigurator>
                                  {
                                      { "foo", modelMetadata.Object }
                                  };
