@@ -26,7 +26,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_apply_conventions_when_condition_is_matched()
+        public void Should_apply_conventions_when_condition_is_met()
         {
             // arrange
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
@@ -80,6 +80,20 @@ namespace MvcExtensions.FluentMetadata.Tests
             Assert.NotEmpty(result.Validations);
             Assert.NotNull(result.IsRequired);
             Assert.True(result.IsRequired.Value);
+        }
+
+        [Fact]
+        public void Should_not_apply_convenstions_for_inacceptable_property()
+        {
+            // arrange
+            registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
+            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, ModelMetadataItem>());
+
+            // act
+            var result = registry.GetModelPropertyMetadata(typeof(InheritedModel), "ShouldNotApply");
+
+            // assert
+            Assert.Null(result);
         }
 
         [Fact]
@@ -169,13 +183,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         public class InheritedModel : BaseModel
         {
             public string Name2 { get; set; }
+            public string ShouldNotApply { get; set; }
         }
 
         public class InheritanceModelModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
         {
-            protected virtual bool CanBeAcceptedCore(PropertyInfo propertyInfo)
+            public override bool IsApplicable(PropertyInfo propertyInfo)
             {
-                return propertyInfo.Name.StartsWith("Name");
+                return base.IsApplicable(propertyInfo) && propertyInfo.Name.StartsWith("Name");
             }
 
             protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
