@@ -288,11 +288,14 @@ namespace MvcExtensions
             public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
         }
 
-        private sealed class TypeInheritanceComparer : IComparer<Type>
+        sealed class TypeInheritanceComparer : IComparer<Type>
         {
             public int Compare([NotNull] Type x, Type y)
             {
-                return x == y ? 0 : (x.IsAssignableFrom(y) ? 1 : -1);
+                if (x == y) return 0;
+                if (x.IsAssignableFrom(y)) return 1;
+                if (y.IsAssignableFrom(x)) return -1;
+                return 0;
             }
         }
     }
