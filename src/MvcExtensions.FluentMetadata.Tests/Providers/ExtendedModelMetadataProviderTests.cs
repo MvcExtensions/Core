@@ -78,14 +78,6 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void GetMetadataForType_should_return_metadata_model_type_is_registered()
-        {
-            registry.Setup(r => r.GetModelMetadata(It.IsAny<Type>())).Returns(new Mock<ModelMetadataItem>().Object);
-
-            Assert.NotNull(provider.GetMetadataForType(() => new DummyObject(), typeof(DummyObject)));
-        }
-
-        [Fact]
         public void GetMetadataForType_should_return_metadata_model_type_is_not_registered()
         {
             Assert.NotNull(provider.GetMetadataForType(() => new DummyObject(), typeof(DummyObject)));

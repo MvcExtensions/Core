@@ -33,25 +33,23 @@ namespace MvcExtensions
         /// <param name="property">Target property information</param>
         /// <param name="item"></param>
         /// <returns>A instance of <see cref="ModelMetadataItem"/></returns>
-        public virtual ModelMetadataItem Apply(PropertyInfo property, ModelMetadataItem item)
+        public virtual void Apply(PropertyInfo property, ModelMetadataItem item)
         {
             var builder = new ModelMetadataItemBuilder<T>(item);
-            Apply(property, builder);
-            return Configure(item, builder);
+            Apply(builder);
+            Configure(builder, item);
         }
 
-        static ModelMetadataItem Configure(ModelMetadataItem item, IModelMetadataItemConfigurator configurator)
+        static void Configure(IModelMetadataItemConfigurator builder, ModelMetadataItem item)
         {
-            configurator.Configure(item);
-            return item;
+            builder.Configure(item);
         }
 
         /// <summary>
         /// Creates a set of model metadata rules
         /// </summary>
-        /// <param name="property">The property</param>
         /// <param name="builder">The model metadata item builder</param>
-        protected virtual void Apply(PropertyInfo property, ModelMetadataItemBuilder<T> builder)
+        protected virtual void Apply(ModelMetadataItemBuilder<T> builder)
         {
         }
     }

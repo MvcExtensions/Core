@@ -66,7 +66,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_apply_convenstions_for_inheritance_even_if_it_was_called_for_inherited_class_firstly()
+        public void Should_apply_conventions_for_inheritance_even_if_it_was_called_for_inherited_class_firstly()
         {
             // arrange
             registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
@@ -109,7 +109,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             // assert
             Assert.Null(result);
         }
-        
+
         [Fact]
         public void Should_apply_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
         {
@@ -155,7 +155,7 @@ namespace MvcExtensions.FluentMetadata.Tests
                 return propertyInfo.Name == "Name";
             }
 
-            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()
@@ -205,7 +205,7 @@ namespace MvcExtensions.FluentMetadata.Tests
                 return base.IsApplicable(propertyInfo) && propertyInfo.Name.StartsWith("Name");
             }
 
-            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()

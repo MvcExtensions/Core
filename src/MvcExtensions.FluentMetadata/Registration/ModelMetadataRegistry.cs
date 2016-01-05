@@ -20,10 +20,10 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public class ModelMetadataRegistry : IModelMetadataRegistry
     {
-        private readonly ICollection<IPropertyModelMetadataConvention> conventions = new List<IPropertyModelMetadataConvention>();
-        private readonly ConcurrentBag<Type> ignoredClassesCache = new ConcurrentBag<Type>();
-        private readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
-        private IModelConventionAcceptor conventionAcceptor = new DefaultModelConventionAcceptor();
+        readonly ICollection<IPropertyModelMetadataConvention> conventions = new List<IPropertyModelMetadataConvention>();
+        readonly IDictionary<Type, IModelMetadataConfiguration> configurations = new Dictionary<Type, IModelMetadataConfiguration>();
+        readonly ConcurrentDictionary<Type, ModelMetadataRegistryItem> mappings = new ConcurrentDictionary<Type, ModelMetadataRegistryItem>();
+        IModelConventionAcceptor conventionAcceptor = new DefaultModelConventionAcceptor();
 
         /// <summary>
         /// Default acceptor for metadata classes
@@ -53,32 +53,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Registers the model type metadata.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataItem">The metadata.</param>
-        public virtual void RegisterModel([NotNull] Type modelType, [NotNull] ModelMetadataItem metadataItem)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-            Invariant.IsNotNull(metadataItem, "metadataItem");
-
-            var item = GetOrCreate(modelType);
-
-            item.ClassMetadata = metadataItem;
-        }
-
-        /// <summary>
-        /// Gets the model metadata.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns></returns>
-        public ModelMetadataItem GetModelMetadata([NotNull] Type modelType)
-        {
-            var item = GetModelMetadataRegistryItem(modelType);
-            return item != null ? item.ClassMetadata : null;
-        }
-
-        /// <summary>
         /// Gets the model property metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
@@ -88,17 +62,8 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            var item = GetModelMetadataRegistryItem(modelType);
-            if (item == null)
-            {
-                return null;
-            }
-
-            ModelMetadataItem propertyMetadata;
-
-            return item.PropertiesMetadata.TryGetValue(propertyName, out propertyMetadata)
-                       ? propertyMetadata
-                       : null;
+            var item = mappings.GetOrAdd(modelType, t => CreateModelMetadataRegistryItem(t));
+            return item?.GetPropertyMetadata(propertyName);
         }
 
         /// <summary>
@@ -110,130 +75,59 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            var item = GetModelMetadataRegistryItem(modelType);
-            return item == null ? null : item.PropertiesMetadata;
+            var item = mappings.GetOrAdd(modelType, t => CreateModelMetadataRegistryItem(t));
+            return item?.PropertiesMetadata;
         }
 
-        private ModelMetadataRegistryItem GetModelMetadataRegistryItem([NotNull] Type modelType)
+        private ModelMetadataRegistryItem CreateModelMetadataRegistryItem([NotNull] Type modelType)
         {
             Invariant.IsNotNull(modelType, "modelType");
 
-            ModelMetadataRegistryItem item;
-            if (!mappings.TryGetValue(modelType, out item))
+            IModelMetadataConfiguration configuration;
+
+            if (!configurations.TryGetValue(modelType, out configuration))
             {
-                item = mappings
-                    .Where(registryItem => registryItem.Key.IsAssignableFrom(modelType))
+                configuration = configurations
+                    .Where(kvp => kvp.Key.IsAssignableFrom(modelType))
                     .OrderBy(x => x.Key, new TypeInheritanceComparer())
                     .Select(x => x.Value)
                     .FirstOrDefault();
             }
 
-            return CheckMetadataAndApplyConvetions(modelType, item);
-        }
+            var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(new AcceptorContext(modelType, configuration != null));
 
-        private ModelMetadataRegistryItem CheckMetadataAndApplyConvetions([NotNull] Type modelType, ModelMetadataRegistryItem item)
-        {
-            if (conventions.Count == 0 || NoNeedToApplyConvetionsFor(modelType, item))
+            if (configuration == null && !canAcceptConventions)
             {
-                return item;
+                return null;
             }
 
-            lock (this)
+            var item = new ModelMetadataRegistryItem();
+
+            if (canAcceptConventions)
             {
-                if (NoNeedToApplyConvetionsFor(modelType, item))
+                var properties = modelType.GetProperties();
+                foreach (var convention in conventions)
                 {
-                    return item;
-                }
-
-                ModelMetadataRegistryItem registeredItem;
-                // ensure that conventions were not appied by another thread
-                if (mappings.TryGetValue(modelType, out registeredItem) && registeredItem.IsConventionsApplied)
-                {
-                    return registeredItem;
-                }
-
-                var context = new AcceptorContext(modelType, item != null);
-                var canAcceptConventions = ConventionAcceptor.CanAcceptConventions(context);
-
-                if (!canAcceptConventions)
-                {
-                    ProcessUnacceptedModelType(modelType, item);
-                    return item;
-                }
-
-                if (item == null)
-                {
-                    // try get existing (item can be created by another thread) or create new
-                    item = GetOrCreate(modelType);
-                }
-
-                // ensure convenstion is not applied yet
-                if (item.IsConventionsApplied)
-                {
-                    return item;
-                }
-
-                ApplyMetadataConvenstions(modelType, item);
-            }
-
-            return item;
-        }
-
-        private bool NoNeedToApplyConvetionsFor(Type modelType, ModelMetadataRegistryItem item)
-        {
-            return item == null && ignoredClassesCache.Contains(modelType) || item != null && item.IsConventionsApplied;
-        }
-
-        private void ProcessUnacceptedModelType(Type modelType, ModelMetadataRegistryItem item)
-        {
-            if (item == null)
-            {
-                // mark item as ignored
-                if (!ignoredClassesCache.Contains(modelType))
-                {
-                    ignoredClassesCache.Add(modelType);
-                }
-            }
-            else
-            {
-                // if we have some metadata item, 
-                // just mark it as processed and do not add any conventions
-                item.IsConventionsApplied = true;
-            }
-        }
-
-        private void ApplyMetadataConvenstions([NotNull] Type modelType, [NotNull] ModelMetadataRegistryItem item)
-        {
-            var properties = modelType.GetProperties();
-            foreach (var convention in conventions)
-            {
-                var metadataConvention = convention;
-                foreach (var pi in properties.Where(metadataConvention.IsApplicable))
-                {
-                    ModelMetadataItem metadataItem;
-                    if (!item.PropertiesMetadata.TryGetValue(pi.Name, out metadataItem))
+                    foreach (var pi in properties)
                     {
-                        metadataItem = new ModelMetadataItem();
-                        item.PropertiesMetadata.Add(pi.Name, metadataItem);
+                        if (convention.IsApplicable(pi))
+                        {
+                            var propertyMetadata = item.GetPropertyMetadataOrCreateNew(pi.Name);
+                            convention.Apply(pi, propertyMetadata);
+                        }
                     }
-
-                    var conventionalItem = new ModelMetadataItem();
-                    convention.Apply(pi, conventionalItem);
-                    conventionalItem.MergeTo(metadataItem);
                 }
             }
 
-            item.IsConventionsApplied = true;
-        }
-
-        private ModelMetadataRegistryItem GetOrCreate([NotNull] Type modelType)
-        {
-            ModelMetadataRegistryItem item;
-
-            if (!mappings.TryGetValue(modelType, out item))
+            if (configuration != null)
             {
-                item = new ModelMetadataRegistryItem();
-                mappings.TryAdd(modelType, item);
+                foreach (var pair in configuration.Configurations)
+                {
+                    var name = pair.Key;
+                    var configurator = pair.Value;
+                    var propertyMetadata = item.GetPropertyMetadataOrCreateNew(name);
+                    configurator.Configure(propertyMetadata);
+                }
             }
 
             return item;
@@ -245,27 +139,28 @@ namespace MvcExtensions
         private sealed class ModelMetadataRegistryItem
         {
             /// <summary>
-            /// Creates <see cref="ModelMetadataRegistryItem"/> instance
-            /// </summary>
-            public ModelMetadataRegistryItem()
-            {
-                PropertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
-            }
-
-            /// <summary>
-            /// Holds metadata for class
-            /// </summary>
-            public ModelMetadataItem ClassMetadata { get; set; }
-
-            /// <summary>
-            /// Identifies if convensions were applied
-            /// </summary>
-            public bool IsConventionsApplied { get; set; }
-
-            /// <summary>
             /// Holds metadata for properties
             /// </summary>
-            public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; private set; }
+            public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; } = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+
+            public ModelMetadataItem GetPropertyMetadataOrCreateNew(string name)
+            {
+                ModelMetadataItem propertyMetadata;
+                if (!PropertiesMetadata.TryGetValue(name, out propertyMetadata))
+                {
+                    propertyMetadata = new ModelMetadataItem();
+                    PropertiesMetadata.Add(name, propertyMetadata);
+                }
+
+                return propertyMetadata;
+            }
+
+            public ModelMetadataItem GetPropertyMetadata(string propertyName)
+            {
+                ModelMetadataItem propertyMetadata;
+                PropertiesMetadata.TryGetValue(propertyName, out propertyMetadata);
+                return propertyMetadata;
+            }
         }
 
         sealed class TypeInheritanceComparer : IComparer<Type>
@@ -287,21 +182,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(configuration, "configuration");
 
-            Configure(configuration);
-        }
-
-        void Configure(IModelMetadataConfiguration configuration)
-        {
-            var item = GetOrCreate(configuration.ModelType);
-
-            item.PropertiesMetadata.Clear();
-
-            foreach (var pair in configuration.Configurations)
-            {
-                var value = new ModelMetadataItem();
-                pair.Value.Configure(value);
-                item.PropertiesMetadata.Add(pair.Key, value);
-            }
+            configurations.Add(configuration.ModelType, configuration);
         }
     }
 }

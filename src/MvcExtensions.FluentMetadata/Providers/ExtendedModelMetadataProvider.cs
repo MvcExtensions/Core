@@ -114,21 +114,6 @@ namespace MvcExtensions
             return CreatePropertyMetadata(containerType, propertyName, propertyDescriptor.PropertyType, metadataItem, modelAccessor);
         }
 
-        /// <summary>
-        /// Gets metadata for the specified model accessor and model type.
-        /// </summary>
-        /// <param name="modelAccessor">The model accessor.</param>
-        /// <param name="modelType">They type of the model.</param>
-        /// <returns>The metadata.</returns>
-        public override ModelMetadata GetMetadataForType(Func<object> modelAccessor, Type modelType)
-        {
-            var metadataItem = registry.GetModelMetadata(modelType);
-
-            return metadataItem == null
-                       ? base.GetMetadataForType(modelAccessor, modelType)
-                       : CreateModelMetadata(modelType, modelAccessor, metadataItem);
-        }
-
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
         {
             metadata.ShowForDisplay = metadataItem.ShowForDisplay;
@@ -217,21 +202,7 @@ namespace MvcExtensions
         }
 
         [NotNull]
-        private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
-        {
-            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
-
-            if (metadataItem != null)
-            {
-                Copy(metadataItem, modelMetadata);
-            }
-
-            return modelMetadata;
-        }
-
-        [NotNull]
-        private ModelMetadata CreatePropertyMetadata(
-            Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
+        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
         {
             ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
 
