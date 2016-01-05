@@ -91,7 +91,10 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.Required();
-            var to = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var to = item;
 
             var from = new ModelMetadataItem();
 
@@ -112,7 +115,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.Required();
-            var from = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var from = item;
 
             // act
             from.MergeTo(to);
@@ -129,11 +135,17 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var toBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             toBuilder.Required();
-            var to = toBuilder.Item;
+            var configurator = (IModelMetadataItemConfigurator)toBuilder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var to = item;
 
             var fromBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             fromBuilder.Optional();
-            var @from = fromBuilder.Item;
+            var configurator1 = (IModelMetadataItemConfigurator)fromBuilder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            var @from = item1;
 
             // act
             from.MergeTo(to);
@@ -150,7 +162,10 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.MaximumLength(50);
-            var to = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var to = item1;
 
             var from = new ModelMetadataItem();
 
@@ -171,7 +186,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.MaximumLength(50);
-            var @from = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var @from = item1;
 
             // act
             from.MergeTo(to);
@@ -188,11 +206,17 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var toBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             toBuilder.MaximumLength(100);
-            var to = toBuilder.Item;
+            var configurator = (IModelMetadataItemConfigurator)toBuilder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var to = item1;
 
             var fromBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             fromBuilder.MaximumLength(50);
-            var from = fromBuilder.Item;
+            var configurator1 = (IModelMetadataItemConfigurator)fromBuilder;
+            var item2 = new ModelMetadataItem();
+            configurator1.Configure(item2);
+            var from = item2;
 
             // act
             from.MergeTo(to);

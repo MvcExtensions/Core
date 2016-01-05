@@ -53,9 +53,16 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.Required(() => UserMessage);
-            var metadata = builder.Item.GetValidation<RequiredValidationMetadata>();
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var metadata = item.GetValidation<RequiredValidationMetadata>();
 
-            var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => builder.Item, metadata);
+            var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => {
+                                                                                                         var configurator1 = (IModelMetadataItemConfigurator)builder;
+                                                                                                         var item1 = new ModelMetadataItem();
+                                                                                                         configurator1.Configure(item1);
+                                                                                                         return item1; }, metadata);
 
             Assert.Equal(UserMessage, errorMessage);
         }

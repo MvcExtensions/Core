@@ -37,7 +37,13 @@ namespace MvcExtensions
         {
             var builder = new ModelMetadataItemBuilder<T>(item);
             Apply(property, builder);
-            return builder.Item;
+            return Configure(item, builder);
+        }
+
+        static ModelMetadataItem Configure(ModelMetadataItem item, IModelMetadataItemConfigurator configurator)
+        {
+            configurator.Configure(item);
+            return item;
         }
 
         /// <summary>

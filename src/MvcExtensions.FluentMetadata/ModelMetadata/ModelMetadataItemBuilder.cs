@@ -25,7 +25,6 @@ namespace MvcExtensions
     public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>, IModelMetadataItemConfigurator
     {
         readonly IList<Action<ModelMetadataItem>> _actions = new List<Action<ModelMetadataItem>>();
-        readonly ModelMetadataItem item;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TValue}"/> class.
@@ -34,22 +33,6 @@ namespace MvcExtensions
         public ModelMetadataItemBuilder([NotNull] ModelMetadataItem item)
         {
             Invariant.IsNotNull(item, "item");
-
-            this.item = item;
-        }
-
-        /// <summary>
-        /// Gets the internal item.
-        /// </summary>
-        /// <value>The item.</value>
-        [EditorBrowsable(EditorBrowsableState.Never)] public ModelMetadataItem Item
-        {
-            [EditorBrowsable(EditorBrowsableState.Never)]
-            get
-            {
-                ((IModelMetadataItemConfigurator)this).Configure(item);
-                return item;
-            }
         }
 
         /// <summary>

@@ -23,7 +23,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisplayFormat("{0:d}");
 
-            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.Equal("{0:d}", item.DisplayFormat());
         }
 
         [Fact]
@@ -31,7 +34,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.EditFormat("{0:d}");
 
-            Assert.Equal("{0:d}", builder.Item.EditFormat());
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.Equal("{0:d}", item.EditFormat());
         }
 
         [Fact]
@@ -39,8 +45,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Format("{0:d}");
 
-            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
-            Assert.Equal("{0:d}", builder.Item.EditFormat());
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.Equal("{0:d}", item.DisplayFormat());
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.Equal("{0:d}", item1.EditFormat());
         }
 
         [Fact]
@@ -48,7 +60,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ApplyFormatInEditMode();
 
-            Assert.True(builder.Item.ApplyFormatInEditMode);
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.True(item.ApplyFormatInEditMode);
         }
 
         [Fact]
@@ -56,7 +71,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100);
 
-            Assert.NotEmpty(builder.Item.Validations);
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.NotEmpty(item.Validations);
         }
 
         [Fact]
@@ -64,7 +82,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100, "Value must be between 1 -100");
 
-            Assert.NotEmpty(builder.Item.Validations);
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.NotEmpty(item.Validations);
         }
 
         [Fact]
@@ -72,7 +93,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100, typeof(object), "foo");
 
-            Assert.NotEmpty(builder.Item.Validations);
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            Assert.NotEmpty(item.Validations);
         }
     }
 }

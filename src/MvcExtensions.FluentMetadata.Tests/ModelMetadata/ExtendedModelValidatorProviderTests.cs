@@ -38,7 +38,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.Required().AsEmail();
 
-            var metadata = new ExtendedModelMetadata(new Mock<ModelMetadataProvider>().Object, GetType(), () => new DummyObject(), typeof(DummyObject), string.Empty, builder.Item);
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var metadata = new ExtendedModelMetadata(new Mock<ModelMetadataProvider>().Object, GetType(), () => new DummyObject(), typeof(DummyObject), string.Empty, item);
 
             var validators = provider.GetValidators(metadata, new ControllerContext());
 

@@ -19,7 +19,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsCurrency();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:c}");
             Assert.Equal(item.EditFormat(), "{0:c}");
         }
@@ -31,7 +34,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsCurrency();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:c}");
             Assert.Equal(item.EditFormat(), "{0:c}");
         }
@@ -43,7 +49,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsDateOnly();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:d}");
             Assert.Equal(item.EditFormat(), "{0:d}");
         }
@@ -55,7 +64,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsDateOnly();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:d}");
             Assert.Equal(item.EditFormat(), "{0:d}");
         }
@@ -67,7 +79,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsTimeOnly();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:t}");
             Assert.Equal(item.EditFormat(), "{0:t}");
         }
@@ -79,7 +94,10 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             builder.FormatAsTimeOnly();
 
-            var item = builder.Item;
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:t}");
             Assert.Equal(item.EditFormat(), "{0:t}");
         }
