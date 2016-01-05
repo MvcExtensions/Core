@@ -63,7 +63,8 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
 
             var item = mappings.GetOrAdd(modelType, t => CreateModelMetadataRegistryItem(t));
-            return item?.GetPropertyMetadata(propertyName);
+            if (item != null) return item.GetPropertyMetadata(propertyName);
+            return null;
         }
 
         /// <summary>
@@ -76,7 +77,8 @@ namespace MvcExtensions
             Invariant.IsNotNull(modelType, "modelType");
 
             var item = mappings.GetOrAdd(modelType, t => CreateModelMetadataRegistryItem(t));
-            return item?.PropertiesMetadata;
+            if (item != null) return item.PropertiesMetadata;
+            return null;
         }
 
         private ModelMetadataRegistryItem CreateModelMetadataRegistryItem([NotNull] Type modelType)
@@ -138,10 +140,23 @@ namespace MvcExtensions
         /// </summary>
         private sealed class ModelMetadataRegistryItem
         {
+            readonly IDictionary<string, ModelMetadataItem> propertiesMetadata;
+
+            public ModelMetadataRegistryItem()
+            {
+                propertiesMetadata = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+            }
+
             /// <summary>
             /// Holds metadata for properties
             /// </summary>
-            public IDictionary<string, ModelMetadataItem> PropertiesMetadata { get; } = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+            public IDictionary<string, ModelMetadataItem> PropertiesMetadata
+            {
+                get
+                {
+                    return propertiesMetadata;
+                }
+            }
 
             public ModelMetadataItem GetPropertyMetadataOrCreateNew(string name)
             {

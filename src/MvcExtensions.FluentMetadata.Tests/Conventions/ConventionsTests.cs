@@ -138,14 +138,30 @@ namespace MvcExtensions.FluentMetadata.Tests
 
         public class DummyModelMetadataConfiguration : IModelMetadataConfiguration
         {
+            readonly Type modelType;
+            readonly IDictionary<string, IModelMetadataItemConfigurator> configurations;
+
             public DummyModelMetadataConfiguration(Type modelType, IDictionary<string, IModelMetadataItemConfigurator> configurations)
             {
-                ModelType = modelType;
-                Configurations = configurations;
+                this.modelType = modelType;
+                this.configurations = configurations;
             }
 
-            public Type ModelType { get; }
-            public IDictionary<string, IModelMetadataItemConfigurator> Configurations { get; }
+            public Type ModelType
+            {
+                get
+                {
+                    return modelType;
+                }
+            }
+
+            public IDictionary<string, IModelMetadataItemConfigurator> Configurations
+            {
+                get
+                {
+                    return configurations;
+                }
+            }
         }
 
         public class TestPropertyModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
