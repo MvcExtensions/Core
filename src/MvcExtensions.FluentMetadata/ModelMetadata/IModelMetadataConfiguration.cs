@@ -30,7 +30,7 @@ namespace MvcExtensions
         /// Gets the configurations.
         /// </summary>
         /// <value>The configurations.</value>
-        IDictionary<string, ModelMetadataItem> Configurations
+        IDictionary<string, Func<ModelMetadataItem>> Configurations
         {
             get;
         }

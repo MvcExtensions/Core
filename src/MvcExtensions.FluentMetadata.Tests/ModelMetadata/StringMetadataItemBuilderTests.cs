@@ -12,13 +12,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class StringMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<string> builder;
 
         public StringMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<string>(item);
+            builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -74,7 +72,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisplayFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat());
+            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
         }
 
         [Fact]
@@ -82,7 +80,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.EditFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.EditFormat());
+            Assert.Equal("{0:d}", builder.Item.EditFormat());
         }
 
         [Fact]
@@ -90,8 +88,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Format("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat());
-            Assert.Equal("{0:d}", item.EditFormat());
+            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
+            Assert.Equal("{0:d}", builder.Item.EditFormat());
         }
 
         [Fact]
@@ -99,7 +97,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ApplyFormatInEditMode();
 
-            Assert.True(item.ApplyFormatInEditMode);
+            Assert.True(builder.Item.ApplyFormatInEditMode);
         }
 
         [Fact]
@@ -107,8 +105,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsEmail();
 
-            Assert.Equal("EmailAddress", item.TemplateName);
-            Assert.NotEmpty(item.Validations);
+            Assert.Equal("EmailAddress", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -124,7 +122,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsHtml();
 
-            Assert.Equal("Html", item.TemplateName);
+            Assert.Equal("Html", builder.Item.TemplateName);
         }
 
         [Fact]
@@ -132,8 +130,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsUrl();
 
-            Assert.Equal("Url", item.TemplateName);
-            Assert.NotEmpty(item.Validations);
+            Assert.Equal("Url", builder.Item.TemplateName);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -149,7 +147,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsMultilineText();
 
-            Assert.Equal("MultilineText", item.TemplateName);
+            Assert.Equal("MultilineText", builder.Item.TemplateName);
         }
 
         [Fact]
@@ -157,7 +155,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsPassword();
 
-            Assert.Equal("Password", item.TemplateName);
+            Assert.Equal("Password", builder.Item.TemplateName);
         }
 
         [Fact]
@@ -165,7 +163,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -173,7 +171,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo", "Value must match the pattern");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -181,7 +179,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo", typeof(object), "foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -189,7 +187,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24);
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -197,7 +195,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24, "Value must be less than or equal to 24 characters.");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -205,7 +203,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24, typeof(object), "foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -213,7 +211,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24);
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -221,7 +219,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24, "Value must be grater than or equal to 24 characters.");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -229,7 +227,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24, typeof(object), "foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
     }
 }

@@ -18,7 +18,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void ShouldHaveSameConvertEmptyStringToNull()
         {
             var registryMock = new Mock<IModelMetadataRegistry>();
-            registryMock.Setup(x => x.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(new DummyObjectConfiguration().Configurations);
+            var dictionary = new DummyObjectConfiguration().Configurations.ToDictionary(x => x.Key, x => x.Value());
+            registryMock.Setup(x => x.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(dictionary);
 
             var provider = new ExtendedModelMetadataProvider(registryMock.Object);
             var properties = provider.GetMetadataForProperties(null, typeof(DummyObject)).ToArray();

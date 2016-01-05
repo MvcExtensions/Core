@@ -28,7 +28,11 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void GetMetadataForProperties_should_return_properties_metadata_when_model_type_is_registered()
         {
-            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(new Dictionary<string, ModelMetadataItem> { { "Property1", new Mock<ModelMetadataItem>().Object } });
+            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(
+                new Dictionary<string, ModelMetadataItem>
+                {
+                    { "Property1", new Mock<ModelMetadataItem>().Object }
+                });
 
             var metadata = provider.GetMetadataForProperties(new DummyObject(), typeof(DummyObject));
 
@@ -38,7 +42,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void GetMetadataForProperties_should_return_properties_metadata_when_model_type_is_not_registered()
         {
-            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns((IDictionary<string, ModelMetadataItem>)null);
+            registry.Setup(r => r.GetModelPropertiesMetadata(It.IsAny<Type>())).Returns(default(IDictionary<string, ModelMetadataItem>));
 
             var metadata = provider.GetMetadataForProperties(new DummyObject(), typeof(DummyObject));
 

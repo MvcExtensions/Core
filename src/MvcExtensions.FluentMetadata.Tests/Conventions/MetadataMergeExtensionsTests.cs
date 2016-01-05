@@ -89,8 +89,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredMetadata_should_not_removed()
         {
             // arrange
-            var to = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(to).Required();
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.Required();
+            var to = builder.Item;
 
             var from = new ModelMetadataItem();
 
@@ -109,8 +110,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             var to = new ModelMetadataItem();
 
-            var from = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(from).Required();
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.Required();
+            var from = builder.Item;
 
             // act
             from.MergeTo(to);
@@ -125,11 +127,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredMetadata_should_be_removed_if_it_was_set_as_optional_for_from_metadata()
         {
             // arrange
-            var to = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(to).Required();
+            var toBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            toBuilder.Required();
+            var to = toBuilder.Item;
 
-            var from = new ModelMetadataItem();
-            new ModelMetadataItemBuilder<string>(from).Optional();
+            var fromBuilder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            fromBuilder.Optional();
+            var @from = fromBuilder.Item;
 
             // act
             from.MergeTo(to);

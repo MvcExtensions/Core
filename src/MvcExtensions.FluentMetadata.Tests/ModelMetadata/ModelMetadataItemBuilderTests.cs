@@ -11,13 +11,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class ModelMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<object> builder;
 
         public ModelMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<object>(item);
+            builder = new ModelMetadataItemBuilder<object>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -25,7 +23,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisplayName("foo");
 
-            Assert.Equal("foo", item.DisplayName());
+            Assert.Equal("foo", builder.Item.DisplayName());
         }
 
         [Fact]
@@ -33,13 +31,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Order(123);
 
-            Assert.Equal(123, item.Order);
+            Assert.Equal(123, builder.Item.Order);
         }
 
         [Fact]
         public void Order_is_null_by_default()
         {
-            Assert.Null(item.Order);
+            Assert.Null(builder.Item.Order);
         }
 
         [Fact]
@@ -47,7 +45,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ShortDisplayName("foo");
 
-            Assert.Equal("foo", item.ShortDisplayName());
+            Assert.Equal("foo", builder.Item.ShortDisplayName());
         }
 
         [Fact]
@@ -55,7 +53,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Template("foo");
 
-            Assert.Equal("foo", item.TemplateName);
+            Assert.Equal("foo", builder.Item.TemplateName);
         }
 
         [Fact]
@@ -63,7 +61,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Description("foo");
 
-            Assert.Equal("foo", item.Description());
+            Assert.Equal("foo", builder.Item.Description());
         }
 
         [Fact]
@@ -71,7 +69,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ReadOnly();
 
-            Assert.True(item.IsReadOnly.Value);
+            Assert.True(builder.Item.IsReadOnly.Value);
         }
 
         [Fact]
@@ -79,7 +77,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Writable();
 
-            Assert.False(item.IsReadOnly.Value);
+            Assert.False(builder.Item.IsReadOnly.Value);
         }
 
         [Fact]
@@ -87,7 +85,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Compare("SomeProperty");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -95,7 +93,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Compare("SomeProperty", "Properties must be equal");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -103,7 +101,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Compare("SomeProperty", typeof(object), "foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -111,8 +109,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Required();
 
-            Assert.True(item.IsRequired.Value);
-            Assert.NotEmpty(item.Validations);
+            Assert.True(builder.Item.IsRequired.Value);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -120,8 +118,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Required("Value must be preset");
 
-            Assert.True(item.IsRequired.Value);
-            Assert.NotEmpty(item.Validations);
+            Assert.True(builder.Item.IsRequired.Value);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -129,8 +127,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Required(typeof(object), "foo");
 
-            Assert.True(item.IsRequired.Value);
-            Assert.NotEmpty(item.Validations);
+            Assert.True(builder.Item.IsRequired.Value);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -139,8 +137,8 @@ namespace MvcExtensions.FluentMetadata.Tests
             builder.Required();
             builder.Optional();
 
-            Assert.False(item.IsRequired.Value);
-            Assert.Empty(item.Validations);
+            Assert.False(builder.Item.IsRequired.Value);
+            Assert.Empty(builder.Item.Validations);
         }
 
         [Fact]
@@ -148,7 +146,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsHidden();
 
-            Assert.Equal("HiddenInput", item.TemplateName);
+            Assert.Equal("HiddenInput", builder.Item.TemplateName);
         }
 
         [Fact]
@@ -156,8 +154,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsHidden(true);
 
-            Assert.Equal("HiddenInput", item.TemplateName);
-            Assert.True(item.HideSurroundingHtml.Value);
+            Assert.Equal("HiddenInput", builder.Item.TemplateName);
+            Assert.True(builder.Item.HideSurroundingHtml.Value);
         }
 
         [Fact]
@@ -165,7 +163,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.HideSurroundingHtml();
 
-            Assert.True(item.HideSurroundingHtml.Value);
+            Assert.True(builder.Item.HideSurroundingHtml.Value);
         }
 
         [Fact]
@@ -173,7 +171,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ShowSurroundingHtml();
 
-            Assert.False(item.HideSurroundingHtml.Value);
+            Assert.False(builder.Item.HideSurroundingHtml.Value);
         }
 
         [Fact]
@@ -181,7 +179,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AllowHtml();
 
-            Assert.False(item.RequestValidationEnabled.Value);
+            Assert.False(builder.Item.RequestValidationEnabled.Value);
         }
 
         [Fact]
@@ -189,7 +187,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisallowHtml();
 
-            Assert.True(item.RequestValidationEnabled.Value);
+            Assert.True(builder.Item.RequestValidationEnabled.Value);
         }
 
         [Fact]
@@ -197,7 +195,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ShowForDisplay();
 
-            Assert.True(item.ShowForDisplay);
+            Assert.True(builder.Item.ShowForDisplay);
         }
 
         [Fact]
@@ -205,7 +203,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.HideForDisplay();
 
-            Assert.False(item.ShowForDisplay);
+            Assert.False(builder.Item.ShowForDisplay);
         }
 
         [Fact]
@@ -213,7 +211,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ShowForEdit();
 
-            Assert.True(item.ShowForEdit.Value);
+            Assert.True(builder.Item.ShowForEdit.Value);
         }
 
         [Fact]
@@ -221,7 +219,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.HideForEdit();
 
-            Assert.False(item.ShowForEdit.Value);
+            Assert.False(builder.Item.ShowForEdit.Value);
         }
 
         [Fact]
@@ -229,8 +227,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Show();
 
-            Assert.True(item.ShowForDisplay);
-            Assert.True(item.ShowForEdit.Value);
+            Assert.True(builder.Item.ShowForDisplay);
+            Assert.True(builder.Item.ShowForEdit.Value);
         }
 
         [Fact]
@@ -238,8 +236,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Hide();
 
-            Assert.False(item.ShowForDisplay);
-            Assert.False(item.ShowForEdit.Value);
+            Assert.False(builder.Item.ShowForDisplay);
+            Assert.False(builder.Item.ShowForEdit.Value);
         }
 
         [Fact]
@@ -247,14 +245,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.NullDisplayText("n/a");
 
-            Assert.Equal("n/a", item.NullDisplayText());
+            Assert.Equal("n/a", builder.Item.NullDisplayText());
         }
 
         [Fact]
         public void Should_be_able_to_set_watermark()
         {
             builder.Watermark("enter your value...");
-            Assert.Equal("enter your value...", item.Watermark());
+            Assert.Equal("enter your value...", builder.Item.Watermark());
         }
     }
 }

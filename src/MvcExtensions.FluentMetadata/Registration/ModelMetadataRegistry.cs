@@ -72,7 +72,7 @@ namespace MvcExtensions
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
         /// <param name="metadataItems">The metadata dictionary.</param>
-        public virtual void RegisterModelProperties([NotNull] Type modelType, [NotNull] IDictionary<string, ModelMetadataItem> metadataItems)
+        public virtual void RegisterModelProperties([NotNull] Type modelType, [NotNull] IDictionary<string, Func<ModelMetadataItem>> metadataItems)
         {
             Invariant.IsNotNull(modelType, "modelType");
             Invariant.IsNotNull(metadataItems, "metadataItems");
@@ -83,7 +83,7 @@ namespace MvcExtensions
 
             foreach (var pair in metadataItems)
             {
-                item.PropertiesMetadata.Add(pair.Key, pair.Value);
+                item.PropertiesMetadata.Add(pair.Key, pair.Value());
             }
         }
 

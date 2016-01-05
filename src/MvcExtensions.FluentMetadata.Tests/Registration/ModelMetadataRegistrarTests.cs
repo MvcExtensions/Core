@@ -23,7 +23,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             ModelValidatorProviders.Providers.Clear();
 
             registry = new Mock<IModelMetadataRegistry>();
-            registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
+            registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, Func<ModelMetadataItem>>>()));
         }
 
         public void Dispose()

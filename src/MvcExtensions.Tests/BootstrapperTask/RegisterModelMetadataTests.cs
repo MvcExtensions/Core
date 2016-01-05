@@ -51,7 +51,7 @@ namespace MvcExtensions.Tests
             adapter.Setup(a => a.GetService(typeof(IModelMetadataRegistry))).Returns(registry.Object);
             adapter.Setup(a => a.GetServices(typeof(IModelMetadataConfiguration))).Returns(new[] { configuration });
             
-            registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, ModelMetadataItem>>()));
+            registry.Setup(r => r.RegisterModelProperties(It.IsAny<Type>(), It.IsAny<IDictionary<string, Func<ModelMetadataItem>>>()));
 
             registration.Execute();
 

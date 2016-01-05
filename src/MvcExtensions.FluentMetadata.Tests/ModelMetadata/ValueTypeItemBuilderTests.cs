@@ -11,13 +11,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class ValueTypeItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<int> builder;
 
         public ValueTypeItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<int>(item);
+            builder = new ModelMetadataItemBuilder<int>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -25,7 +23,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisplayFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat());
+            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
         }
 
         [Fact]
@@ -33,7 +31,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.EditFormat("{0:d}");
 
-            Assert.Equal("{0:d}", item.EditFormat());
+            Assert.Equal("{0:d}", builder.Item.EditFormat());
         }
 
         [Fact]
@@ -41,8 +39,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Format("{0:d}");
 
-            Assert.Equal("{0:d}", item.DisplayFormat());
-            Assert.Equal("{0:d}", item.EditFormat());
+            Assert.Equal("{0:d}", builder.Item.DisplayFormat());
+            Assert.Equal("{0:d}", builder.Item.EditFormat());
         }
 
         [Fact]
@@ -50,7 +48,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ApplyFormatInEditMode();
 
-            Assert.True(item.ApplyFormatInEditMode);
+            Assert.True(builder.Item.ApplyFormatInEditMode);
         }
 
         [Fact]
@@ -58,7 +56,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100);
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -66,7 +64,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100, "Value must be between 1 -100");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
 
         [Fact]
@@ -74,7 +72,7 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Range(1, 100, typeof(object), "foo");
 
-            Assert.NotEmpty(item.Validations);
+            Assert.NotEmpty(builder.Item.Validations);
         }
     }
 }
