@@ -53,39 +53,39 @@ namespace MvcExtensions.FluentMetadata.Tests
             Assert.Same(parentMetadata.Object, registry.GetModelMetadata(typeof(Dummy)));
         }
 
-        [Fact]
-        public void Should_be_able_to_register_model_properties()
-        {
-            var properties = new Dictionary<string, IModelMetadataItemConfigurator>
-                                 {
-                                     { "foo", new Mock<IModelMetadataItemConfigurator>().Object },
-                                     { "bar", new Mock<IModelMetadataItemConfigurator>().Object }
-                                 };
+        //[Fact]
+        //public void Should_be_able_to_register_model_properties()
+        //{
+        //    var properties = new Dictionary<string, IModelMetadataItemConfigurator>
+        //                         {
+        //                             { "foo", new Mock<IModelMetadataItemConfigurator>().Object },
+        //                             { "bar", new Mock<IModelMetadataItemConfigurator>().Object }
+        //                         };
 
-            registry.RegisterModelProperties(typeof(object), properties);
+        //    registry.RegisterModelProperties(typeof(object), properties);
 
-            var returndedProperties = registry.GetModelPropertiesMetadata(typeof(object));
+        //    var returndedProperties = registry.GetModelPropertiesMetadata(typeof(object));
 
-            Assert.True(returndedProperties.ContainsKey("foo"));
-            Assert.True(returndedProperties.ContainsKey("bar"));
-        }
+        //    Assert.True(returndedProperties.ContainsKey("foo"));
+        //    Assert.True(returndedProperties.ContainsKey("bar"));
+        //}
 
-        [Fact(Skip = "Not releavant")]
-        public void Should_be_able_to_get_model_property()
-        {
-            var modelMetadata = new Mock<IModelMetadataItemConfigurator>();
+        //[Fact(Skip = "Not releavant")]
+        //public void Should_be_able_to_get_model_property()
+        //{
+        //    var modelMetadata = new Mock<IModelMetadataItemConfigurator>();
 
-            var properties = new Dictionary<string, IModelMetadataItemConfigurator>
-                                 {
-                                     { "foo", modelMetadata.Object }
-                                 };
+        //    var properties = new Dictionary<string, IModelMetadataItemConfigurator>
+        //                         {
+        //                             { "foo", modelMetadata.Object }
+        //                         };
 
-            registry.RegisterModelProperties(typeof(object), properties);
+        //    registry.RegisterModelProperties(typeof(object), properties);
 
-            ModelMetadataItem returnedeMetadata = registry.GetModelPropertyMetadata(typeof(object), "foo");
+        //    ModelMetadataItem returnedeMetadata = registry.GetModelPropertyMetadata(typeof(object), "foo");
 
-            Assert.Same(modelMetadata.Object, returnedeMetadata);
-        }
+        //    Assert.Same(modelMetadata.Object, returnedeMetadata);
+        //}
 
         [Fact]
         public void GetModelPropertyMetadata_should_return_null_when_property_is_not_registered()

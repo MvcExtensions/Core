@@ -23,7 +23,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             provider = new ExtendedModelMetadataProvider(registry);
             metadataConfiguration = new DummyDisplayModelConfiguration();
 
-            registry.RegisterModelProperties(metadataConfiguration.ModelType, metadataConfiguration.Configurations);
+            registry.RegisterConfiguration(metadataConfiguration);
 
             LocalizationConventions.Enabled = true;
             LocalizationConventions.RequireConventionAttribute = false;

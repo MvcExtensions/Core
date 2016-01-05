@@ -68,28 +68,6 @@ namespace MvcExtensions
         }
 
         /// <summary>
-        /// Registers the specified model type properties metadata.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataItems">The metadata dictionary.</param>
-        public virtual void RegisterModelProperties([NotNull] Type modelType, [NotNull] IDictionary<string, IModelMetadataItemConfigurator> metadataItems)
-        {
-            Invariant.IsNotNull(modelType, "modelType");
-            Invariant.IsNotNull(metadataItems, "metadataItems");
-
-            var item = GetOrCreate(modelType);
-
-            item.PropertiesMetadata.Clear();
-
-            foreach (var pair in metadataItems)
-            {
-                var value = new ModelMetadataItem();
-                pair.Value.Configure(value);
-                item.PropertiesMetadata.Add(pair.Key, value);
-            }
-        }
-
-        /// <summary>
         /// Gets the model metadata.
         /// </summary>
         /// <param name="modelType">Type of the model.</param>
@@ -298,6 +276,31 @@ namespace MvcExtensions
                 if (x.IsAssignableFrom(y)) return 1;
                 if (y.IsAssignableFrom(x)) return -1;
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
+        public void RegisterConfiguration(IModelMetadataConfiguration configuration)
+        {
+            Invariant.IsNotNull(configuration, "configuration");
+
+            Configure(configuration);
+        }
+
+        void Configure(IModelMetadataConfiguration configuration)
+        {
+            var item = GetOrCreate(configuration.ModelType);
+
+            item.PropertiesMetadata.Clear();
+
+            foreach (var pair in configuration.Configurations)
+            {
+                var value = new ModelMetadataItem();
+                pair.Value.Configure(value);
+                item.PropertiesMetadata.Add(pair.Key, value);
             }
         }
     }
