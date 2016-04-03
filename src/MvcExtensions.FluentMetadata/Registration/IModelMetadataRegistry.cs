@@ -24,25 +24,10 @@ namespace MvcExtensions
         void RegisterConvention(IPropertyModelMetadataConvention convention);
 
         /// <summary>
-        /// Registers the model type metadata.
+        /// Registers an <see cref="IModelMetadataConfiguration"/>
         /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataItem">The metadata.</param>
-        void RegisterModel(Type modelType, ModelMetadataItem metadataItem);
-
-        /// <summary>
-        /// Registers the specified model type properties metadata.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <param name="metadataItems">The metadata dictionary.</param>
-        void RegisterModelProperties(Type modelType, IDictionary<string, ModelMetadataItem> metadataItems);
-
-        /// <summary>
-        /// Gets the model metadata.
-        /// </summary>
-        /// <param name="modelType">Type of the model.</param>
-        /// <returns></returns>
-        ModelMetadataItem GetModelMetadata(Type modelType);
+        /// <param name="configuration"></param>
+        void RegisterConfiguration(IModelMetadataConfiguration configuration);
 
         /// <summary>
         /// Gets the model property metadata.
@@ -58,5 +43,6 @@ namespace MvcExtensions
         /// <param name="modelType">Type of the model.</param>
         /// <returns></returns>
         IDictionary<string, ModelMetadataItem> GetModelPropertiesMetadata(Type modelType);
+
     }
 }

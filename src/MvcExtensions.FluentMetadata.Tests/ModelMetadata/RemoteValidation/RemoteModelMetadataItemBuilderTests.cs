@@ -13,13 +13,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class RemoteModelMetadataItemBuilderTests
     {
-         private readonly ModelMetadataItem item;
-         private readonly ModelMetadataItemBuilder<string> builder;
+        private readonly ModelMetadataItemBuilder<string> builder;
 
         public RemoteModelMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<string>(item);
+            builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -27,6 +25,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For<DummyController>(x => x.CheckUsername1));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.NotEmpty(item.Validations);
             Assert.IsType<RemoteValidationMetadata>(item.Validations.First());
         }
@@ -37,6 +39,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string HttpMethod = "POST";
             builder.Remote(c => c.HttpMethod(HttpMethod).For<DummyController>(x => x.CheckUsername1));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
             Assert.Equal(metadata.HttpMethod, HttpMethod);
         }
@@ -47,6 +52,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string HttpMethod = "POST";
             builder.Remote(c => c.HttpMethod(HttpMethod));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal(0, item.Validations.Count);
         }
 
@@ -55,6 +63,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For<DummyController>(x => x.CheckUsername1));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);
@@ -68,6 +79,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AreaName = "area";
             builder.Remote(c => c.For<DummyController>(x => x.CheckUsername1, AreaName));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);
@@ -80,6 +94,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For("routeName"));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("routeName", metadata.RouteName);
@@ -90,6 +107,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For("routeName", new[] { "Id", "Id2" }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("routeName", metadata.RouteName);
@@ -103,6 +123,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string Action = "action1";
             builder.Remote(c => c.For(Controller, Action));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal(Controller, metadata.Controller);
@@ -118,6 +141,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AreaName = "area1";
             builder.Remote(c => c.For(Controller, Action, AreaName));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal(Controller, metadata.Controller);
@@ -133,6 +159,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AdditionalFields = "Id2";
             builder.Remote(c => c.For(Controller, Action, new[] { AdditionalFields }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal(Controller, metadata.Controller);
@@ -150,6 +179,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AdditionalField2 = "Id2";
             builder.Remote(c => c.For(Controller, Action, new[] { AdditionalField1, AdditionalField2 }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal(string.Format("{0},{1}", AdditionalField1, AdditionalField2), metadata.AdditionalFields);
@@ -164,6 +196,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AreaName = "area1";
             builder.Remote(c => c.For(Controller, Action, AreaName, new[] { AdditionalFields }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal(Controller, metadata.Controller);
@@ -177,6 +212,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For<DummyController>(a => a.CheckUsername2(null, null)));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);
@@ -190,6 +228,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Remote(c => c.For<DummyController>(a => a.CheckUsername2(null, null), "area"));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);
@@ -205,6 +246,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AdditionalField2 = "Id2";
             builder.Remote(c => c.For<DummyController>(a => a.CheckUsername2(null, null), new[] { AdditionalField1, AdditionalField2 }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);
@@ -220,6 +264,9 @@ namespace MvcExtensions.FluentMetadata.Tests
             const string AdditionalField2 = "Id2";
             builder.Remote(c => c.For<DummyController>(a => a.CheckUsername2(null, null), "area", new[] { AdditionalField1, AdditionalField2 }));
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             var metadata = (RemoteValidationMetadata)item.Validations.First();
 
             Assert.Equal("Dummy", metadata.Controller);

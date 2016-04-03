@@ -27,6 +27,6 @@ namespace MvcExtensions
         /// <param name="property">Target property information</param>
         /// <param name="item"></param>
         /// <returns>A instance of <see cref="ModelMetadataItem"/></returns>
-        ModelMetadataItem Apply(PropertyInfo property, ModelMetadataItem item);
+        void Apply(PropertyInfo property, ModelMetadataItem item);
     }
 }

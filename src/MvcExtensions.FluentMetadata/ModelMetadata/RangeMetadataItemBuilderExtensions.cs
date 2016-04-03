@@ -144,14 +144,18 @@ namespace MvcExtensions
         private static ModelMetadataItemBuilder<TValue> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : IComparable
         {
-            var rangeValidation = self.Item.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();
+            self.AddAction(
+                m =>
+                {
+                    var rangeValidation = m.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();
 
-            rangeValidation.Minimum = minimum;
-            rangeValidation.Maximum = maximum;
-            rangeValidation.ErrorMessage = errorMessage;
-            rangeValidation.ErrorMessageResourceType = errorMessageResourceType;
-            rangeValidation.ErrorMessageResourceName = errorMessageResourceName;
-
+                    rangeValidation.Minimum = minimum;
+                    rangeValidation.Maximum = maximum;
+                    rangeValidation.ErrorMessage = errorMessage;
+                    rangeValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    rangeValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
+ 
             return self;
         }
 
@@ -169,13 +173,17 @@ namespace MvcExtensions
         private static ModelMetadataItemBuilder<TValue?> Range<TValue>([NotNull] this ModelMetadataItemBuilder<TValue?> self, TValue minimum, TValue maximum, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
             where TValue : struct, IComparable
         {
-            var rangeValidation = self.Item.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();
+            self.AddAction(
+                m =>
+                {
+                    var rangeValidation = m.GetValidationOrCreateNew<RangeValidationMetadata<TValue>>();
 
-            rangeValidation.Minimum = minimum;
-            rangeValidation.Maximum = maximum;
-            rangeValidation.ErrorMessage = errorMessage;
-            rangeValidation.ErrorMessageResourceType = errorMessageResourceType;
-            rangeValidation.ErrorMessageResourceName = errorMessageResourceName;
+                    rangeValidation.Minimum = minimum;
+                    rangeValidation.Maximum = maximum;
+                    rangeValidation.ErrorMessage = errorMessage;
+                    rangeValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    rangeValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return self;
         }

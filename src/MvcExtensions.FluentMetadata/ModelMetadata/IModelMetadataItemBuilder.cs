@@ -1,7 +1,6 @@
 namespace MvcExtensions
 {
     using System;
-    using System.ComponentModel;
     using System.Web.Mvc;
     using JetBrains.Annotations;
 
@@ -9,14 +8,8 @@ namespace MvcExtensions
     /// Defines a contract to fluently configure metadata.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
-    public interface IModelMetadataItemBuilder<out TValue>
+    public interface IModelMetadataItemBuilder<out TValue> 
     {
-        /// <summary>
-        /// Gets the internal item.
-        /// </summary>
-        /// <value>The item.</value>
-        [EditorBrowsable(EditorBrowsableState.Never)] ModelMetadataItem Item { [EditorBrowsable(EditorBrowsableState.Never)] get; }
-
         /// <summary>
         /// Sets the Display name.
         /// </summary>

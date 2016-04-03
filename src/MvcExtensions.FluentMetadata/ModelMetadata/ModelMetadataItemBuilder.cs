@@ -8,6 +8,7 @@
 namespace MvcExtensions
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Globalization;
@@ -21,8 +22,10 @@ namespace MvcExtensions
     /// Defines class to fluently configure metadata.
     /// </summary>
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
-    public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>
+    public class ModelMetadataItemBuilder<TValue> : IModelMetadataItemBuilder<TValue>, IModelMetadataItemConfigurator
     {
+        readonly IList<Action<ModelMetadataItem>> _actions = new List<Action<ModelMetadataItem>>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ModelMetadataItemBuilder{TValue}"/> class.
         /// </summary>
@@ -30,20 +33,18 @@ namespace MvcExtensions
         public ModelMetadataItemBuilder([NotNull] ModelMetadataItem item)
         {
             Invariant.IsNotNull(item, "item");
-
-            Item = item;
         }
 
         /// <summary>
-        /// Gets the internal item.
+        /// Configures the <see cref="ModelMetadataItem"/>
         /// </summary>
-        /// <value>The item.</value>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public ModelMetadataItem Item
+        /// <param name="item"></param>
+        void IModelMetadataItemConfigurator.Configure(ModelMetadataItem item)
         {
-            [EditorBrowsable(EditorBrowsableState.Never)]
-            get;
-            private set;
+            foreach (var action in _actions)
+            {
+                action(item);
+            }
         }
 
         [NotNull] private ModelMetadataItemBuilder<TValue> This
@@ -52,14 +53,6 @@ namespace MvcExtensions
             get
             {
                 return this;
-            }
-        }
-
-        ModelMetadataItem IModelMetadataItemBuilder<TValue>.Item
-        {
-            get
-            {
-                return Item;
             }
         }
 
@@ -382,7 +375,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayName(Func<string> value)
         {
-            Item.DisplayName = value;
+            AddAction(m => m.DisplayName = value);
 
             return This;
         }
@@ -406,7 +399,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ShortDisplayName(Func<string> value)
         {
-            Item.ShortDisplayName = value;
+            AddAction(m => m.ShortDisplayName = value);
 
             return This;
         }
@@ -419,7 +412,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Template([AspMvcEditorTemplate, AspMvcDisplayTemplate] string value)
         {
-            Item.TemplateName = value;
+            AddAction(m => m.TemplateName = value);
 
             return This;
         }
@@ -443,7 +436,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Description(Func<string> value)
         {
-            Item.Description = value;
+            AddAction(m => m.Description = value);
 
             return This;
         }
@@ -455,7 +448,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ReadOnly()
         {
-            Item.IsReadOnly = true;
+            AddAction(m => m.IsReadOnly = true);
 
             return This;
         }
@@ -468,7 +461,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Writable()
         {
-            Item.IsReadOnly = false;
+            AddAction(m => m.IsReadOnly = false);
 
             return This;
         }
@@ -573,14 +566,18 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Optional()
         {
-            Item.IsRequired = false;
+            AddAction(
+                m =>
+                {
+                    m.IsRequired = false;
 
-            var requiredValidation = Item.GetValidation<RequiredValidationMetadata>();
+                    var requiredValidation = m.GetValidation<RequiredValidationMetadata>();
 
-            if (requiredValidation != null)
-            {
-                Item.Validations.Remove(requiredValidation);
-            }
+                    if (requiredValidation != null)
+                    {
+                        m.Validations.Remove(requiredValidation);
+                    }
+                });
 
             return This;
         }
@@ -592,7 +589,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> AsHidden()
         {
-            Item.TemplateName = "HiddenInput";
+            AddAction(m => m.TemplateName = "HiddenInput");
 
             return This;
         }
@@ -605,8 +602,12 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> AsHidden(bool hideSurroundingHtml)
         {
-            Item.TemplateName = "HiddenInput";
-            Item.HideSurroundingHtml = hideSurroundingHtml;
+            AddAction(
+                m =>
+                {
+                    m.TemplateName = "HiddenInput";
+                    m.HideSurroundingHtml = hideSurroundingHtml;
+                });
 
             return This;
         }
@@ -618,7 +619,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> HideSurroundingHtml()
         {
-            Item.HideSurroundingHtml = true;
+            AddAction(m => m.HideSurroundingHtml = true);
 
             return This;
         }
@@ -630,7 +631,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowSurroundingHtml()
         {
-            Item.HideSurroundingHtml = false;
+            AddAction(m => m.HideSurroundingHtml = false);
 
             return This;
         }
@@ -642,7 +643,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> AllowHtml()
         {
-            Item.RequestValidationEnabled = false;
+            AddAction(m=> m.RequestValidationEnabled = false);
 
             return This;
         }
@@ -654,7 +655,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> DisallowHtml()
         {
-            Item.RequestValidationEnabled = true;
+            AddAction(m => m.RequestValidationEnabled = true);
 
             return This;
         }
@@ -666,7 +667,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowForDisplay()
         {
-            Item.ShowForDisplay = true;
+            AddAction(m => m.ShowForDisplay = true);
 
             return This;
         }
@@ -678,7 +679,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> HideForDisplay()
         {
-            Item.ShowForDisplay = false;
+            AddAction(m => m.ShowForDisplay = false);
 
             return This;
         }
@@ -690,7 +691,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ShowForEdit()
         {
-            Item.ShowForEdit = true;
+            AddAction(m => m.ShowForEdit = true);
 
             return This;
         }
@@ -702,7 +703,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> HideForEdit()
         {
-            Item.ShowForEdit = false;
+            AddAction(m => m.ShowForEdit = false);
 
             return This;
         }
@@ -714,8 +715,12 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Show()
         {
-            Item.ShowForDisplay = true;
-            Item.ShowForEdit = true;
+            AddAction(
+                m =>
+                {
+                    m.ShowForDisplay = true;
+                    m.ShowForEdit = true;
+                });
 
             return This;
         }
@@ -727,8 +732,12 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Hide()
         {
-            Item.ShowForDisplay = false;
-            Item.ShowForEdit = false;
+            AddAction(
+                m =>
+                {
+                    m.ShowForDisplay = false;
+                    m.ShowForEdit = false;
+                });
 
             return This;
         }
@@ -752,7 +761,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> NullDisplayText(Func<string> value)
         {
-            Item.NullDisplayText = value;
+            AddAction(m => m.NullDisplayText = value);
 
             return This;
         }
@@ -776,7 +785,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Watermark(Func<string> value)
         {
-            Item.Watermark = value;
+            AddAction(m => m.Watermark = value);
 
             return This;
         }
@@ -789,7 +798,8 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Order(int value)
         {
-            Item.Order = value;
+            AddAction(m => m.Order = value);
+
             return This;
         }
 
@@ -812,7 +822,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> DisplayFormat(Func<string> format)
         {
-            Item.DisplayFormat = format;
+            AddAction(m=> m.DisplayFormat = format);
 
             return This;
         }
@@ -836,7 +846,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> EditFormat(Func<string> format)
         {
-            Item.EditFormat = format;
+            AddAction(m=> m.EditFormat = format);
 
             return This;
         }
@@ -860,7 +870,12 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> Format(Func<string> value)
         {
-            Item.DisplayFormat = Item.EditFormat = value;
+            AddAction(
+                m =>
+                {
+                    m.DisplayFormat = value;
+                    m.EditFormat = value;
+                });
 
             return This;
         }
@@ -872,7 +887,7 @@ namespace MvcExtensions
         [NotNull]
         public ModelMetadataItemBuilder<TValue> ApplyFormatInEditMode()
         {
-            Item.ApplyFormatInEditMode = true;
+            AddAction(m=> m.ApplyFormatInEditMode = true);
 
             return This;
         }
@@ -977,6 +992,15 @@ namespace MvcExtensions
         }
 
         /// <summary>
+        /// Adds an builder action
+        /// </summary>
+        /// <param name="action"></param>
+        public void AddAction(Action<ModelMetadataItem> action)
+        {
+            _actions.Add(action);
+        }
+
+        /// <summary>
         /// Sets the delegate based custom validation for model and value.
         /// </summary>
         /// <returns></returns>
@@ -1002,10 +1026,14 @@ namespace MvcExtensions
         protected virtual ModelMetadataItemBuilder<TValue> ValidateBy<TValidator>(Func<ModelMetadata, ControllerContext, TValidator> factory, Action<TValidator> configure) 
             where TValidator : ModelValidator
         {
-            var validation = Item.GetValidationOrCreateNew<CustomValidationMetadata<TValidator>>();
-            
-            validation.Factory = factory;
-            validation.Configure = configure;
+            AddAction(
+                m =>
+                {
+                    var validation = m.GetValidationOrCreateNew<CustomValidationMetadata<TValidator>>();
+
+                    validation.Factory = factory;
+                    validation.Configure = configure;
+                });
 
             return this;
         }
@@ -1020,13 +1048,17 @@ namespace MvcExtensions
         [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> Required(Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            Item.IsRequired = true;
+            AddAction(
+                m =>
+                {
+                    m.IsRequired = true;
 
-            var validation = Item.GetValidationOrCreateNew<RequiredValidationMetadata>();
+                    var validation = m.GetValidationOrCreateNew<RequiredValidationMetadata>();
 
-            validation.ErrorMessage = errorMessage;
-            validation.ErrorMessageResourceType = errorMessageResourceType;
-            validation.ErrorMessageResourceName = errorMessageResourceName;
+                    validation.ErrorMessage = errorMessage;
+                    validation.ErrorMessageResourceType = errorMessageResourceType;
+                    validation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return This;
         }
@@ -1042,12 +1074,16 @@ namespace MvcExtensions
         [NotNull]
         protected virtual ModelMetadataItemBuilder<TValue> Compare(string otherProperty, Func<string> errorMessage, Type errorMessageResourceType, string errorMessageResourceName)
         {
-            var compareValidation = Item.GetValidationOrCreateNew<CompareValidationMetadata>();
+            AddAction(
+                m =>
+                {
+                    var compareValidation = m.GetValidationOrCreateNew<CompareValidationMetadata>();
 
-            compareValidation.OtherProperty = otherProperty;
-            compareValidation.ErrorMessage = errorMessage;
-            compareValidation.ErrorMessageResourceType = errorMessageResourceType;
-            compareValidation.ErrorMessageResourceName = errorMessageResourceName;
+                    compareValidation.OtherProperty = otherProperty;
+                    compareValidation.ErrorMessage = errorMessage;
+                    compareValidation.ErrorMessageResourceType = errorMessageResourceType;
+                    compareValidation.ErrorMessageResourceName = errorMessageResourceName;
+                });
 
             return This;
         }

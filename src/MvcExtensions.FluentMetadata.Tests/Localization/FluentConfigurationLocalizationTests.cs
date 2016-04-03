@@ -25,7 +25,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredValidation_should_use_common_convention_if_it_is_found_but_convension_for_type_does_not_exist()
         {
             const string PropertyName = "LocalizedByCommonPattern";
-            ModelMetadataItem item = metadataConfiguration.Configurations[PropertyName];
+            var item = new ModelMetadataItem();
+            metadataConfiguration.Configurations[PropertyName].Configure(item);
 
             var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => item, item.GetValidation<ModelValidationMetadata>());
 
@@ -36,7 +37,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredValidation_should_use_modeltype_propertyname_attributename_convention_if_it_exists()
         {
             const string PropertyName = "LocalizedByKey";
-            ModelMetadataItem item = metadataConfiguration.Configurations[PropertyName];
+            var item = new ModelMetadataItem();
+            metadataConfiguration.Configurations[PropertyName].Configure(item);
 
             var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => item, item.GetValidation<ModelValidationMetadata>());
 
@@ -51,9 +53,16 @@ namespace MvcExtensions.FluentMetadata.Tests
 
             var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
             builder.Required(() => UserMessage);
-            var metadata = builder.Item.GetValidation<RequiredValidationMetadata>();
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
+            var metadata = item.GetValidation<RequiredValidationMetadata>();
 
-            var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => builder.Item, metadata);
+            var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => {
+                                                                                                         var configurator1 = (IModelMetadataItemConfigurator)builder;
+                                                                                                         var item1 = new ModelMetadataItem();
+                                                                                                         configurator1.Configure(item1);
+                                                                                                         return item1; }, metadata);
 
             Assert.Equal(UserMessage, errorMessage);
         }
@@ -62,7 +71,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredValidation_should_always_use_user_defined_message_from_resource()
         {
             const string PropertyName = "LocalizedByKeyWithCustomMessageForPropertyFromRes";
-            ModelMetadataItem item = metadataConfiguration.Configurations[PropertyName];
+            var item = new ModelMetadataItem();
+            metadataConfiguration.Configurations[PropertyName].Configure(item);
 
             var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => item, item.GetValidation<RequiredValidationMetadata>());
 
@@ -73,7 +83,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredValidation_should_use_specified_resource_and_resourcename_should_be_set_by_convensions()
         {
             const string PropertyName = "PropertyToTestResTypePartialMetadata";
-            ModelMetadataItem item = metadataConfiguration.Configurations[PropertyName];
+            var item = new ModelMetadataItem();
+            metadataConfiguration.Configurations[PropertyName].Configure(item);
 
             var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => item, item.GetValidation<RequiredValidationMetadata>());
 
@@ -84,7 +95,8 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void RequiredValidation_should_use_specified_resourcename_and_resourcetype_should_be_set_from_global_resource()
         {
             const string PropertyName = "PropertyToTestResNamePartialMetadata";
-            ModelMetadataItem item = metadataConfiguration.Configurations[PropertyName];
+            var item = new ModelMetadataItem();
+            metadataConfiguration.Configurations[PropertyName].Configure(item);
 
             var errorMessage = GetErrorMessageForFluentlyConfigiguredItem(model, PropertyName, () => item, item.GetValidation<RequiredValidationMetadata>());
 

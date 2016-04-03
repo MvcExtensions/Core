@@ -66,7 +66,7 @@ namespace MvcExtensions
 
             foreach (var configuration in configurations)
             {
-                Registry.RegisterModelProperties(configuration.ModelType, configuration.Configurations);
+                Registry.RegisterConfiguration(configuration);
             }
 
             IList<ModelValidatorProvider> validatorProviders =

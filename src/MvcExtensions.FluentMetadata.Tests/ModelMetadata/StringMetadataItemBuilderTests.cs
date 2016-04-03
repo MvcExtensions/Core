@@ -12,13 +12,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class StringMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<string> builder;
 
         public StringMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<string>(item);
+            builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -74,6 +72,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.DisplayFormat("{0:d}");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("{0:d}", item.DisplayFormat());
         }
 
@@ -82,6 +83,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.EditFormat("{0:d}");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("{0:d}", item.EditFormat());
         }
 
@@ -90,8 +94,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Format("{0:d}");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("{0:d}", item.DisplayFormat());
-            Assert.Equal("{0:d}", item.EditFormat());
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.Equal("{0:d}", item1.EditFormat());
         }
 
         [Fact]
@@ -99,6 +109,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.ApplyFormatInEditMode();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.True(item.ApplyFormatInEditMode);
         }
 
@@ -107,6 +120,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsEmail();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal("EmailAddress", item.TemplateName);
             Assert.NotEmpty(item.Validations);
         }
@@ -115,8 +132,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Setting_as_email_should_throw_exception_when_there_is_an_active_expression_validation()
         {
             builder.AsUrl();
+            builder.AsEmail();
 
-            Assert.Throws<InvalidOperationException>(() => builder.AsEmail());
+            Assert.Throws<InvalidOperationException>(() => {
+                                                               var configurator = (IModelMetadataItemConfigurator)builder;
+                                                               var item = new ModelMetadataItem();
+                                                               configurator.Configure(item);
+                                                               return item; });
         }
 
         [Fact]
@@ -124,6 +146,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsHtml();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("Html", item.TemplateName);
         }
 
@@ -132,6 +157,10 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsUrl();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal("Url", item.TemplateName);
             Assert.NotEmpty(item.Validations);
         }
@@ -140,8 +169,13 @@ namespace MvcExtensions.FluentMetadata.Tests
         public void Setting_as_url_should_throw_exception_when_there_is_an_active_expression_validation()
         {
             builder.AsEmail();
+            builder.AsUrl();
 
-            Assert.Throws<InvalidOperationException>(() => builder.AsUrl());
+            Assert.Throws<InvalidOperationException>(() => {
+                                                               var configurator = (IModelMetadataItemConfigurator)builder;
+                                                               var item = new ModelMetadataItem();
+                                                               configurator.Configure(item);
+                                                               return item; });
         }
 
         [Fact]
@@ -149,6 +183,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsMultilineText();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("MultilineText", item.TemplateName);
         }
 
@@ -157,6 +194,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsPassword();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("Password", item.TemplateName);
         }
 
@@ -165,6 +205,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -173,6 +216,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo", "Value must match the pattern");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -181,6 +227,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.Expression("foo", typeof(object), "foo");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -189,6 +238,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24);
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -197,6 +249,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24, "Value must be less than or equal to 24 characters.");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -205,6 +260,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MaximumLength(24, typeof(object), "foo");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -213,6 +271,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24);
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -221,6 +282,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24, "Value must be grater than or equal to 24 characters.");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
 
@@ -229,6 +293,9 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.MinimumLength(24, typeof(object), "foo");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.NotEmpty(item.Validations);
         }
     }

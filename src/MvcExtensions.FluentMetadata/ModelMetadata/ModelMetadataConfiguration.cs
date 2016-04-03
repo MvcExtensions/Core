@@ -22,7 +22,7 @@ namespace MvcExtensions
     [TypeForwardedFrom(KnownAssembly.MvcExtensions)]
     public abstract class ModelMetadataConfiguration<TModel> : IModelMetadataConfiguration where TModel : class
     {
-        private readonly IDictionary<string, ModelMetadataItem> configurations = new Dictionary<string, ModelMetadataItem>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, IModelMetadataItemConfigurator> configurations = new Dictionary<string, IModelMetadataItemConfigurator>(StringComparer.OrdinalIgnoreCase);
         private readonly Type modelType = typeof(TModel);
 
         #region IModelMetadataConfiguration Members
@@ -40,7 +40,7 @@ namespace MvcExtensions
         /// Gets the configurations.
         /// </summary>
         /// <value>The configurations.</value>
-        public virtual IDictionary<string, ModelMetadataItem> Configurations
+        public virtual IDictionary<string, IModelMetadataItemConfigurator> Configurations
         {
             [DebuggerStepThrough, EditorBrowsable(EditorBrowsableState.Never)]
             get { return configurations; }
@@ -56,7 +56,12 @@ namespace MvcExtensions
         [NotNull]
         protected ModelMetadataItemBuilder<TValue> Configure<TValue>([NotNull] Expression<Func<TModel, TValue>> expression)
         {
-            return new ModelMetadataItemBuilder<TValue>(Append(expression));
+            Invariant.IsNotNull(expression, "expression");
+
+            string property = ExpressionHelper.GetExpressionText(expression);
+            Invariant.IsNotNull(property, "property");
+
+            return GetOrCreate<TValue>(property);
         }
 
         /// <summary>
@@ -68,7 +73,9 @@ namespace MvcExtensions
         [NotNull]
         protected ModelMetadataItemBuilder<TValue> Configure<TValue>([NotNull] string property)
         {
-            return new ModelMetadataItemBuilder<TValue>(Append(property));
+            Invariant.IsNotNull(property, "property");
+
+            return GetOrCreate<TValue>(property);
         }
 
         /// <summary>
@@ -79,38 +86,21 @@ namespace MvcExtensions
         [NotNull]
         protected ModelMetadataItemBuilder<object> Configure([NotNull] string property)
         {
-            return new ModelMetadataItemBuilder<object>(Append(property));
-        }
-
-        /// <summary>
-        /// Appends the specified configuration.
-        /// </summary>
-        /// <typeparam name="TType">The type of the type.</typeparam>
-        /// <param name="expression">The expression.</param>
-        /// <returns></returns>
-        [NotNull]
-        protected virtual ModelMetadataItem Append<TType>([NotNull] Expression<Func<TModel, TType>> expression)
-        {
-            Invariant.IsNotNull(expression, "expression");
-
-            return Append(ExpressionHelper.GetExpressionText(expression));
-        }
-
-        [NotNull]
-        private ModelMetadataItem Append([NotNull] string property)
-        {
             Invariant.IsNotNull(property, "property");
+            return GetOrCreate<object>(property);
+        }
 
-            if (configurations.ContainsKey(property))
+        private ModelMetadataItemBuilder<TValue> GetOrCreate<TValue>(string property)
+        {
+            if (!configurations.ContainsKey(property))
             {
-                return configurations[property];
+                var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
+
+                configurations[property] = builder;
+                return builder;
             }
 
-            var item = new ModelMetadataItem();
-
-            configurations[property] = item;
-
-            return item;
+            return (ModelMetadataItemBuilder<TValue>)configurations[property];
         }
     }
 }

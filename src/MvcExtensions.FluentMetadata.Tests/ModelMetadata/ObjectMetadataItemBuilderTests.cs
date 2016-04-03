@@ -11,13 +11,11 @@ namespace MvcExtensions.FluentMetadata.Tests
 
     public class ObjectMetadataItemBuilderTests
     {
-        private readonly ModelMetadataItem item;
         private readonly ModelMetadataItemBuilder<object> builder;
 
         public ObjectMetadataItemBuilderTests()
         {
-            item = new ModelMetadataItem();
-            builder = new ModelMetadataItemBuilder<object>(item);
+            builder = new ModelMetadataItemBuilder<object>(new ModelMetadataItem());
         }
 
         [Fact]
@@ -25,8 +23,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("DropDownList", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.NotEmpty(item1.AdditionalSettings);
         }
 
         [Fact]
@@ -34,8 +38,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey", "[Select an option]");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("DropDownList", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.NotEmpty(item1.AdditionalSettings);
         }
 
         [Fact]
@@ -43,8 +53,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsDropDownList("dummyKey", "[Select an option]", "fooTemplate");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("fooTemplate", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.NotEmpty(item1.AdditionalSettings);
         }
 
         [Fact]
@@ -52,8 +68,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsListBox("dummyKey");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("ListBox", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.NotEmpty(item1.AdditionalSettings);
         }
 
         [Fact]
@@ -61,8 +83,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         {
             builder.AsListBox("dummyKey", "fooTemplate");
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item = new ModelMetadataItem();
+            configurator.Configure(item);
             Assert.Equal("fooTemplate", item.TemplateName);
-            Assert.NotEmpty(item.AdditionalSettings);
+            var configurator1 = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator1.Configure(item1);
+            Assert.NotEmpty(item1.AdditionalSettings);
         }
     }
 }

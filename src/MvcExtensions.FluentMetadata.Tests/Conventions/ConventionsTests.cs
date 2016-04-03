@@ -26,11 +26,11 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_apply_conventions_when_condition_is_matched()
+        public void Should_apply_conventions_when_condition_is_met()
         {
             // arrange
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
-            registry.RegisterModelProperties(modelType, new Dictionary<string, ModelMetadataItem>());
+            registry.RegisterConfiguration(new DummyModelMetadataConfiguration(modelType, new Dictionary<string, IModelMetadataItemConfigurator>()));
 
             // act
             var result = registry.GetModelPropertyMetadata(modelType, PropertyName);
@@ -48,13 +48,13 @@ namespace MvcExtensions.FluentMetadata.Tests
             // arrange
             registry.RegisterConvention(new TestPropertyModelMetadataConvention());
 
-            var items = new Dictionary<string, ModelMetadataItem>();
-            var metadataItem = new ModelMetadataItem();
+            var items = new Dictionary<string, IModelMetadataItemConfigurator>();
             const int Expected = 200;
-            new ModelMetadataItemBuilder<string>(metadataItem).MaximumLength(Expected);
-            items.Add(PropertyName, metadataItem);
+            var builder = new ModelMetadataItemBuilder<string>(new ModelMetadataItem());
+            builder.MaximumLength(Expected);
+            items.Add(PropertyName, builder);
 
-            registry.RegisterModelProperties(modelType, items);
+            registry.RegisterConfiguration(new DummyModelMetadataConfiguration(modelType, items));
 
             // act
             var result = registry.GetModelPropertyMetadata(modelType, PropertyName);
@@ -66,11 +66,11 @@ namespace MvcExtensions.FluentMetadata.Tests
         }
 
         [Fact]
-        public void Should_apply_convenstions_for_inheritance_even_if_it_was_called_for_inherited_class_firstly()
+        public void Should_apply_conventions_for_inheritance_even_if_it_was_called_for_inherited_class_firstly()
         {
             // arrange
             registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
-            registry.RegisterModelProperties(typeof(BaseModel), new Dictionary<string, ModelMetadataItem>());
+            registry.RegisterConfiguration(new DummyModelMetadataConfiguration(typeof(BaseModel), new Dictionary<string, IModelMetadataItemConfigurator>()));
 
             // act
             var result = registry.GetModelPropertyMetadata(typeof(InheritedModel), PropertyName);
@@ -80,6 +80,20 @@ namespace MvcExtensions.FluentMetadata.Tests
             Assert.NotEmpty(result.Validations);
             Assert.NotNull(result.IsRequired);
             Assert.True(result.IsRequired.Value);
+        }
+
+        [Fact]
+        public void Should_not_apply_convenstions_for_inacceptable_property()
+        {
+            // arrange
+            registry.RegisterConvention(new InheritanceModelModelMetadataConvention());
+            registry.RegisterConfiguration(new DummyModelMetadataConfiguration(typeof(BaseModel), new Dictionary<string, IModelMetadataItemConfigurator>()));
+
+            // act
+            var result = registry.GetModelPropertyMetadata(typeof(InheritedModel), "ShouldNotApply");
+
+            // assert
+            Assert.Null(result);
         }
 
         [Fact]
@@ -95,7 +109,7 @@ namespace MvcExtensions.FluentMetadata.Tests
             // assert
             Assert.Null(result);
         }
-        
+
         [Fact]
         public void Should_apply_conventions_when_no_metadata_convention_is_set_but_it_is_accepted_by_model_convensions()
         {
@@ -122,6 +136,34 @@ namespace MvcExtensions.FluentMetadata.Tests
             public string Name { get; set; }
         }
 
+        public class DummyModelMetadataConfiguration : IModelMetadataConfiguration
+        {
+            readonly Type modelType;
+            readonly IDictionary<string, IModelMetadataItemConfigurator> configurations;
+
+            public DummyModelMetadataConfiguration(Type modelType, IDictionary<string, IModelMetadataItemConfigurator> configurations)
+            {
+                this.modelType = modelType;
+                this.configurations = configurations;
+            }
+
+            public Type ModelType
+            {
+                get
+                {
+                    return modelType;
+                }
+            }
+
+            public IDictionary<string, IModelMetadataItemConfigurator> Configurations
+            {
+                get
+                {
+                    return configurations;
+                }
+            }
+        }
+
         public class TestPropertyModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
         {
             public override bool IsApplicable(PropertyInfo propertyInfo)
@@ -129,7 +171,7 @@ namespace MvcExtensions.FluentMetadata.Tests
                 return propertyInfo.Name == "Name";
             }
 
-            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()
@@ -169,16 +211,17 @@ namespace MvcExtensions.FluentMetadata.Tests
         public class InheritedModel : BaseModel
         {
             public string Name2 { get; set; }
+            public string ShouldNotApply { get; set; }
         }
 
         public class InheritanceModelModelMetadataConvention : DefaultPropertyModelMetadataConvention<string>
         {
-            protected virtual bool CanBeAcceptedCore(PropertyInfo propertyInfo)
+            public override bool IsApplicable(PropertyInfo propertyInfo)
             {
-                return propertyInfo.Name.StartsWith("Name");
+                return base.IsApplicable(propertyInfo) && propertyInfo.Name.StartsWith("Name");
             }
 
-            protected override void Apply(PropertyInfo property, ModelMetadataItemBuilder<string> builder)
+            protected override void Apply(ModelMetadataItemBuilder<string> builder)
             {
                 builder
                     .Required()

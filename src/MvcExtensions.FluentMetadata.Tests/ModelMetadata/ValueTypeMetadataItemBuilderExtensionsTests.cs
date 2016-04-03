@@ -15,11 +15,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_currency_with_decimal()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<decimal>(item);
+            var builder = new ModelMetadataItemBuilder<decimal>(new ModelMetadataItem());
 
             builder.FormatAsCurrency();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:c}");
             Assert.Equal(item.EditFormat(), "{0:c}");
         }
@@ -27,11 +30,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_currency_with_nullable_decimal()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<decimal?>(item);
+            var builder = new ModelMetadataItemBuilder<decimal?>(new ModelMetadataItem());
 
             builder.FormatAsCurrency();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:c}");
             Assert.Equal(item.EditFormat(), "{0:c}");
         }
@@ -39,11 +45,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_date_with_date_time()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<DateTime>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime>(new ModelMetadataItem());
 
             builder.FormatAsDateOnly();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:d}");
             Assert.Equal(item.EditFormat(), "{0:d}");
         }
@@ -51,11 +60,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_date_with_nullable_date_time()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<DateTime?>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime?>(new ModelMetadataItem());
 
             builder.FormatAsDateOnly();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:d}");
             Assert.Equal(item.EditFormat(), "{0:d}");
         }
@@ -63,11 +75,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_time_with_date_time()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<DateTime>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime>(new ModelMetadataItem());
 
             builder.FormatAsTimeOnly();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:t}");
             Assert.Equal(item.EditFormat(), "{0:t}");
         }
@@ -75,11 +90,14 @@ namespace MvcExtensions.FluentMetadata.Tests
         [Fact]
         public void Should_be_able_to_format_as_time_with_nullable_date_time()
         {
-            var item = new ModelMetadataItem();
-            var builder = new ModelMetadataItemBuilder<DateTime?>(item);
+            var builder = new ModelMetadataItemBuilder<DateTime?>(new ModelMetadataItem());
 
             builder.FormatAsTimeOnly();
 
+            var configurator = (IModelMetadataItemConfigurator)builder;
+            var item1 = new ModelMetadataItem();
+            configurator.Configure(item1);
+            var item = item1;
             Assert.Equal(item.DisplayFormat(), "{0:t}");
             Assert.Equal(item.EditFormat(), "{0:t}");
         }

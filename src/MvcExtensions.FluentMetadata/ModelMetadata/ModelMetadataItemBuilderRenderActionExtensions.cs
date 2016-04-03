@@ -33,8 +33,12 @@ namespace MvcExtensions
         {
             self.Template("RenderAction");
 
-            var settings = self.Item.GetAdditionalSettingOrCreateNew<RenderActionSetting>();
-            settings.Action = action;
+            self.AddAction(
+                m =>
+                {
+                    var settings = m.GetAdditionalSettingOrCreateNew<RenderActionSetting>();
+                    settings.Action = action;
+                });
 
             return self;
         }

@@ -114,21 +114,6 @@ namespace MvcExtensions
             return CreatePropertyMetadata(containerType, propertyName, propertyDescriptor.PropertyType, metadataItem, modelAccessor);
         }
 
-        /// <summary>
-        /// Gets metadata for the specified model accessor and model type.
-        /// </summary>
-        /// <param name="modelAccessor">The model accessor.</param>
-        /// <param name="modelType">They type of the model.</param>
-        /// <returns>The metadata.</returns>
-        public override ModelMetadata GetMetadataForType(Func<object> modelAccessor, Type modelType)
-        {
-            var metadataItem = registry.GetModelMetadata(modelType);
-
-            return metadataItem == null
-                       ? base.GetMetadataForType(modelAccessor, modelType)
-                       : CreateModelMetadata(modelType, modelAccessor, metadataItem);
-        }
-
         private static void Copy(ModelMetadataItem metadataItem, ModelMetadata metadata)
         {
             metadata.ShowForDisplay = metadataItem.ShowForDisplay;
@@ -244,7 +229,6 @@ namespace MvcExtensions
             if (propertyMetadata != null)
             {
                 Copy(propertyMetadata, modelMetadata);
-                
             }
 
             return modelMetadata;
