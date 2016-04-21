@@ -197,12 +197,32 @@ namespace MvcExtensions
                 metadata.ConvertEmptyStringToNull = metadataItem.ConvertEmptyStringToNull.Value;
             }
 
+            foreach (var item in metadataItem.MetadataAwares)
+            {
+                item.OnMetadataCreated(metadata);
+            }
+
             FluentModelMetadataTransformer.Transform(metadata);
             MvcExtensions.DisplayNameTransformer.Transform(metadata);
         }
 
         [NotNull]
-        private ModelMetadata CreatePropertyMetadata(Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
+        private ModelMetadata CreateModelMetadata(Type modelType, Func<object> modelAccessor, ModelMetadataItem metadataItem)
+        {
+            ModelMetadata modelMetadata = new ExtendedModelMetadata(this, null, modelAccessor, modelType, null, metadataItem);
+
+            if (metadataItem != null)
+            {
+                Copy(metadataItem, modelMetadata);
+                
+            }
+
+            return modelMetadata;
+        }
+
+        [NotNull]
+        private ModelMetadata CreatePropertyMetadata(
+            Type containerType, string propertyName, Type propertyType, ModelMetadataItem propertyMetadata, Func<object> modelAccessor)
         {
             ModelMetadata modelMetadata = new ExtendedModelMetadata(this, containerType, modelAccessor, propertyType, propertyName, propertyMetadata);
 

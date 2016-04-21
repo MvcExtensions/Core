@@ -5,6 +5,8 @@
 // All other rights reserved.
 #endregion
 
+using System.Web.Mvc;
+
 namespace MvcExtensions
 {
     using System;
@@ -25,6 +27,7 @@ namespace MvcExtensions
             ShowForDisplay = true;
             Validations = new List<IModelValidationMetadata>();
             AdditionalSettings = new List<IModelMetadataAdditionalSetting>();
+            MetadataAwares = new List<IMetadataAware>();
         }
 
         /// <summary>
@@ -166,6 +169,11 @@ namespace MvcExtensions
             get;
             private set;
         }
+
+        /// <summary>
+        ///  Gets the MetadataAwares 
+        /// </summary>
+        public IList<IMetadataAware> MetadataAwares { get; private set; }
 
         /// <summary>
         /// Gets or sets the order.

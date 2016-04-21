@@ -61,9 +61,7 @@ namespace MvcExtensions
             string property = ExpressionHelper.GetExpressionText(expression);
             Invariant.IsNotNull(property, "property");
 
-            var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
-            configurations[property] = builder;
-            return builder;
+            return GetOrCreate<TValue>(property);
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace MvcExtensions
         {
             Invariant.IsNotNull(property, "property");
 
-            return Create<TValue>(property);
+            return GetOrCreate<TValue>(property);
         }
 
         /// <summary>
@@ -89,20 +87,20 @@ namespace MvcExtensions
         protected ModelMetadataItemBuilder<object> Configure([NotNull] string property)
         {
             Invariant.IsNotNull(property, "property");
-            var item = new ModelMetadataItem();
-
-            var builder = new ModelMetadataItemBuilder<object>(item);
-            configurations[property] = builder;
-            return builder;
+            return GetOrCreate<object>(property);
         }
 
-        private ModelMetadataItemBuilder<TValue> Create<TValue>(string property)
+        private ModelMetadataItemBuilder<TValue> GetOrCreate<TValue>(string property)
         {
-            var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
+            if (!configurations.ContainsKey(property))
+            {
+                var builder = new ModelMetadataItemBuilder<TValue>(new ModelMetadataItem());
 
-            configurations[property] = builder;
+                configurations[property] = builder;
+                return builder;
+            }
 
-            return builder;
+            return (ModelMetadataItemBuilder<TValue>)configurations[property];
         }
     }
 }
